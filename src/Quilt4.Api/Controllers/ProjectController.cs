@@ -1,21 +1,11 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
-using Quilt4.Api.Entities;
+using Quilt4.Api.DataTransfer;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quilt4.Api.Controllers
 {
-    [Route("api/[controller]")]
-    public class UserController : Controller
-    {
-        // POST api/values
-        [HttpPost("Create")]
-        public void Post([FromBody]CreateUserRequest value)
-        {
-        }
-    }
-
     [Route("api/[controller]")]
     public class ProjectController : Controller
     {

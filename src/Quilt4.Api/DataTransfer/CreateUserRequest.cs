@@ -1,10 +1,5 @@
-namespace Quilt4.Api.Entities
+namespace Quilt4.Api.DataTransfer
 {
-    public class Project
-    {
-        public string Name { get; set; }
-    }
-
     public class CreateUserRequest
     {
         public string Username { get; set; }

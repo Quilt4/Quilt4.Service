@@ -14,7 +14,6 @@ namespace Quilt4.Api.Controllers
             _userBusiness = CompositeRoot.Instance.UserBusiness;
         }
 
-        // POST api/values
         [HttpPost("Create")]
         public void Post([FromBody]CreateUserRequest value)
         {

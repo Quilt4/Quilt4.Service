@@ -14,6 +14,13 @@ namespace Quilt4.Api.Repositories
             _users.Add(user.Username, user);
         }
 
+        public User GetUser(string username)
+        {
+            if (!_users.ContainsKey(username))
+                return null;
+            return _users[username];
+        }
+
         public void SaveLoginSession(LoginSession loginSession)
         {
             _loginSession.Add(loginSession.SessionKey, loginSession);

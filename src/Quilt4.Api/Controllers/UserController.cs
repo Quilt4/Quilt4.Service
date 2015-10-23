@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Mvc;
 using Quilt4.Api.DataTransfer;
 using Quilt4.Api.Interfaces;
 
@@ -9,9 +10,9 @@ namespace Quilt4.Api.Controllers
     {
         private readonly IUserBusiness _userBusiness;
 
-        public UserController()
+        public UserController(IUserBusiness userBusiness)
         {
-            _userBusiness = CompositeRoot.Instance.UserBusiness;
+            _userBusiness = userBusiness;
         }
 
         [HttpPost("Create")]

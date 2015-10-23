@@ -1,4 +1,5 @@
-﻿using System.Security.Authentication;
+﻿using System;
+using System.Security.Authentication;
 using Quilt4.Api.Entities;
 using Quilt4.Api.Interfaces;
 
@@ -18,7 +19,7 @@ namespace Quilt4.Api.Business
             var user = _repository.GetUser(username);
 
             if ( user.PasswordHash != password.ToMd5Hash())
-                throw new AuthenticationException();
+                throw new InvalidOperationException();
 
             var sessionKey = RandomUtility.GetRandomString(32);
             var loginSession = new LoginSession(sessionKey);

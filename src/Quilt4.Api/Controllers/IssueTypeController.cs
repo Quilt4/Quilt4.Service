@@ -68,7 +68,7 @@ namespace Quilt4.Api.Controllers
         [HttpGet("{ProjectId}/{ApplicationId}/{VersionId}/{IssueTypeId}")]
         public IssueType Get(string projectId, string applicationId, string versionId, string issueTypeId)
         {
-            return _issueTypes.FirstOrDefault(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId && x.VersionId == issueTypeId);
+            return _issueTypes.FirstOrDefault(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId && x.Id == issueTypeId);
         }
     }
 }

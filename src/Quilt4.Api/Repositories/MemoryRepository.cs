@@ -25,5 +25,10 @@ namespace Quilt4.Api.Repositories
         {
             _loginSession.Add(loginSession.SessionKey, loginSession);
         }
+
+        public string GetPasswordPadding()
+        {
+            return string.Empty; //TODO: Read padding from a setting table in the database.
+        }
     }
 }

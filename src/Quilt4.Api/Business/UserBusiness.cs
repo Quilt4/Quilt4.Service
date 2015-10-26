@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Authentication;
 using Quilt4.Api.Entities;
 using Quilt4.Api.Interfaces;
 
@@ -30,7 +29,7 @@ namespace Quilt4.Api.Business
 
         void IUserBusiness.CreateUser(string username, string email, string password)
         {
-            var user = new User(username, email, password.ToMd5Hash());
+            var user = new User(username, email, (password + _repository.GetPasswordPadding()).ToMd5Hash());
             _repository.SaveUser(user);
         }        
     }

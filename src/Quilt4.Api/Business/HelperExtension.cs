@@ -9,7 +9,6 @@ namespace Quilt4.Api.Business
         public static string ToMd5Hash(this string input)
         {
             var inputBytes = Encoding.UTF8.GetBytes(input);
-            //var inputBytes = Encoding.Default.GetBytes(input);
             var provider = MD5.Create();
             var hash = provider.ComputeHash(inputBytes);
             return hash.Aggregate(string.Empty, (current, b) => current + b.ToString("X2"));

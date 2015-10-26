@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNet.Cors.Core;
 using Microsoft.AspNet.Mvc;
 using Quilt4.Api.DataTransfer;
 
@@ -6,21 +8,46 @@ using Quilt4.Api.DataTransfer;
 
 namespace Quilt4.Api.Controllers
 {
+    [EnableCors("AllowAllOrigins")]
     [Route("api/[controller]")]
     public class ProjectController : Controller
     {
-        // GET: api/values
+        private List<Project> _projects = new List<Project>
+        {
+            new Project
+            {
+                Id = "1",
+                Name = "Eplicta2",
+                Versions = 2,
+                Sessions = 4,
+                Errors = 12,
+                Exceptions = 20,
+                DashboardColor = "red"
+            },
+            new Project
+            {
+                Id = "1",
+                Name = "Florida",
+                Versions = 20,
+                Sessions = 3299,
+                Errors = 1,
+                Exceptions = 2130,
+                DashboardColor = "blue"
+            }
+        };
+
+            // GET: api/values
         [HttpGet]
         public IEnumerable<Project> Get()
         {
-            return new[] { new Project { Name = "Project 1" }, new Project { Name = "Project 2" } };
+            return _projects;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public Project Get(int id)
+        public Project Get(string id)
         {
-            return new Project { Name = "Project " + id };
+            return _projects.FirstOrDefault(x => x.Id == id);
         }
 
         // POST api/values

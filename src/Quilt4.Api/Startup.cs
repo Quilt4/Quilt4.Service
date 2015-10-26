@@ -7,6 +7,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using Quilt4.Api.Business;
 using Quilt4.Api.Interfaces;
 using Quilt4.Api.Repositories;
@@ -23,7 +24,16 @@ namespace Quilt4.Api
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver();
+            }); ;
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin());
+            });
             // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
             // services.AddWebApiConventions();
@@ -35,6 +45,7 @@ namespace Quilt4.Api
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             // Configure the HTTP request pipeline.
             app.UseStaticFiles();
 
@@ -42,6 +53,7 @@ namespace Quilt4.Api
             app.UseMvc();
             // Add the following route for porting Web API 2 controllers.
             // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
+            
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Quilt4.Api.Controllers
                 Name = "Eplicta.MediaMapper.Web",
                 Versions = 2,
                 Sessions = 4,
-                Errors = 12,
-                Exceptions = 20,
+                IssueTypes = 12,
+                Issues = 20,
             },
             new Application
             {
@@ -33,8 +33,8 @@ namespace Quilt4.Api.Controllers
                 Name = "Eplicat.Cruiser.Web",
                 Versions = 3,
                 Sessions = 45,
-                Errors = 1,
-                Exceptions = 18,
+                IssueTypes = 1,
+                Issues = 18,
             },
             new Application
             {
@@ -43,8 +43,8 @@ namespace Quilt4.Api.Controllers
                 Name = "Florida.Web",
                 Versions = 2,
                 Sessions = 4,
-                Errors = 12,
-                Exceptions = 20,
+                IssueTypes = 12,
+                Issues = 20,
             },
             new Application
             {
@@ -53,15 +53,10 @@ namespace Quilt4.Api.Controllers
                 Name = "Florida.Nevada",
                 Versions = 3,
                 Sessions = 45,
-                Errors = 1,
-                Exceptions = 18,
+                IssueTypes = 1,
+                Issues = 18,
             },
         };
-
-        [HttpGet]public IEnumerable<Application> Get()
-        {
-            throw new InvalidOperationException();
-        }
 
         [HttpGet("{ProjectId}")]
         public IEnumerable<Application> Get(string projectId)

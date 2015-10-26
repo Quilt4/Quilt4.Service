@@ -7,6 +7,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Quilt4.Api.Business;
 using Quilt4.Api.Interfaces;
@@ -28,7 +29,8 @@ namespace Quilt4.Api
             {
                 options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
-            }); ;
+                options.SerializerSettings.Converters.Add(new IsoDateTimeConverter());
+            }); 
 
             services.AddCors(options =>
             {

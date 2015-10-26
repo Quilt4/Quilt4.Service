@@ -20,8 +20,8 @@ namespace Quilt4.Api.Controllers
                 Name = "Eplicta2",
                 Versions = 2,
                 Sessions = 4,
-                Errors = 12,
-                Exceptions = 20,
+                IssueTypes = 12,
+                Issues = 20,
                 DashboardColor = "red"
             },
             new Project
@@ -30,8 +30,8 @@ namespace Quilt4.Api.Controllers
                 Name = "Florida",
                 Versions = 20,
                 Sessions = 3299,
-                Errors = 1,
-                Exceptions = 2130,
+                IssueTypes = 1,
+                Issues = 2130,
                 DashboardColor = "blue"
             }
         };

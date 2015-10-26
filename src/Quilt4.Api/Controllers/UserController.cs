@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc;
 using Quilt4.Api.DataTransfer;
 using Quilt4.Api.Interfaces;
 

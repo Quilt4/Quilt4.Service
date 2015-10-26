@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -43,6 +40,8 @@ namespace Quilt4.Api
 
             services.AddTransient<IRepository, MemoryRepository>();
             services.AddTransient<IUserBusiness, UserBusiness>();
+            services.AddTransient<IProjectBusiness, ProjectBusiness>();
+            services.AddTransient<ISettingBusiness, SettingBusiness>();
         }
 
         // Configure is called after ConfigureServices is called.

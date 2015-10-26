@@ -1,4 +1,5 @@
-﻿using Quilt4.Api.Entities;
+﻿using System.Collections.Generic;
+using Quilt4.Api.Entities;
 
 namespace Quilt4.Api.Interfaces
 {
@@ -7,6 +8,9 @@ namespace Quilt4.Api.Interfaces
         void SaveUser(User user);
         User GetUser(string username);
         void SaveLoginSession(LoginSession loginSession);
-        string GetPasswordPadding();
+        T GetSetting<T>(string name);
+        void SetSetting<T>(string name, T value);
+        IEnumerable<Project> GetProjects();
+        void SaveProject(Project project);
     }
 }

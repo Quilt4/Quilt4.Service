@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="TransformXml"
+         AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll"/>
+  
+  <ItemDefinitionGroup>
+    <!-- Set the default value to false here -->
+    <None>
+      <TransformOnBuild>false</TransformOnBuild>
+    </None>    
+    <Content>
+      <TransformOnBuild>false</TransformOnBuild>
+    </Content>    
+    <Resource>
+      <TransformOnBuild>false</TransformOnBuild>
+    </Resource>
+    <EmbeddedResource>
+      <TransformOnBuild>false</TransformOnBuild>
+    </EmbeddedResource>
+    
+    <_FilesToTransform>
+      <IsAppConfig>false</IsAppConfig>
+    </_FilesToTransform>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <TransformAllFilesDependsOn>
+      DiscoverFilesToTransform;
+    </TransformAllFilesDependsOn>
+  </PropertyGroup>
+  <Target Name="TransformAllFiles" DependsOnTargets="$(TransformAllFilesDependsOn)" AfterTargets="Build;_CopyAppConfigFile">
+    <!-- Now we have the item list _FilesToTransformNotAppConfig and _AppConfigToTransform item lists -->
+    <!-- Transform the app.config file -->    
+    <ItemGroup>
+      <_AppConfigTarget Include="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" />
+    </ItemGroup>
+    
+    <PropertyGroup>
+      <_AppConfigDest>@(_AppConfigTarget->'%(FullPath)')</_AppConfigDest>
+    </PropertyGroup>
+
+    <MakeDir Directories="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)')"
+             Condition="Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"/>
+    
+    <TransformXml Source="@(_AppConfigToTransform->'%(FullPath)')"
+                  Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
+                  Destination="$(_AppConfigDest)"
+                  Condition=" Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') " />
+
+    
+    <TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+                  Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
+                  Destination="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')"
+                  Condition=" Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') " />
+  </Target>
+  
+  <Target Name="DiscoverFilesToTransform">
+    <!-- 
+    This will look through items list: None & Content for those
+    with Metadata <TransformOnBuild>True</TransformOnBuild>
+    -->
+    <ItemGroup>
+      <_FilesToTransform Include="@(None);@(Content);@(Resource);@(EmbeddedResource)"
+                         Condition=" '%(TransformOnBuild)' == 'true' "/>
+    </ItemGroup>    
+
+    <PropertyGroup>
+      <_AppConfigFullPath>@(AppConfigWithTargetPath->'%(RootDir)%(Directory)%(Filename)%(Extension)')</_AppConfigFullPath>
+    </PropertyGroup>
+
+    <!-- Now look to see if any of these are the app.config file -->
+    <ItemGroup>
+      <_FilesToTransform Condition=" '%(FullPath)'=='$(_AppConfigFullPath)' ">
+        <IsAppConfig>true</IsAppConfig>
+      </_FilesToTransform>
+    </ItemGroup>
+          
+    <ItemGroup>
+      <_FilesToTransformNotAppConfig Include="@(_FilesToTransform)"
+                                     Condition=" '%(IsAppConfig)'!='true'"/>
+      
+      <_AppConfigToTransform  Include="@(_FilesToTransform)"
+                              Condition=" '%(IsAppConfig)'=='true'"/>
+    </ItemGroup>
+  </Target>
+</Project>

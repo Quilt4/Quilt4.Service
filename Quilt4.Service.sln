@@ -12,12 +12,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Quilt4.Api", "src\Quilt4.Api\Quilt4.Api.xproj", "{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{501DF881-1D23-47D7-8509-00C2987D1127}"
+	ProjectSection(SolutionItems) = preProject
+		Build\AssemblyVersionInfo.cs = Build\AssemblyVersionInfo.cs
+		Build\build.tasks = Build\build.tasks
+		Build\ci.msbuild = Build\ci.msbuild
+		Build\release.msbuild = Build\release.msbuild
+		Build\TransformFiles.targets = Build\TransformFiles.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CI|Any CPU = CI|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.CI|Any CPU.ActiveCfg = CI|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.CI|Any CPU.Build.0 = CI|Any CPU
 		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Release|Any CPU.ActiveCfg = Release|Any CPU

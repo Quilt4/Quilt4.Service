@@ -3609,14 +3609,14 @@
           "lib/DNXCore50/System.Security.Principal.Windows.dll": {}
         }
       },
-      "System.Security.SecureString/4.0.0-beta-23225": {
+      "System.Security.SecureString/4.0.0-beta-23409": {
         "type": "package",
         "dependencies": {
           "System.Resources.ResourceManager": "4.0.0",
           "System.Runtime": "4.0.20",
           "System.Runtime.Handles": "4.0.0",
           "System.Runtime.InteropServices": "4.0.20",
-          "System.Security.Cryptography.Primitives": "4.0.0-beta-23225",
+          "System.Security.Cryptography.Primitives": "4.0.0-beta-23409",
           "System.Threading": "4.0.10"
         },
         "compile": {
@@ -9267,14 +9267,14 @@
           "lib/DNXCore50/System.Security.Principal.Windows.dll": {}
         }
       },
-      "System.Security.SecureString/4.0.0-beta-23225": {
+      "System.Security.SecureString/4.0.0-beta-23409": {
         "type": "package",
         "dependencies": {
           "System.Resources.ResourceManager": "4.0.0",
           "System.Runtime": "4.0.20",
           "System.Runtime.Handles": "4.0.0",
           "System.Runtime.InteropServices": "4.0.20",
-          "System.Security.Cryptography.Primitives": "4.0.0-beta-23225",
+          "System.Security.Cryptography.Primitives": "4.0.0-beta-23409",
           "System.Threading": "4.0.10"
         },
         "compile": {
@@ -11827,14 +11827,14 @@
           "lib/DNXCore50/System.Security.Principal.Windows.dll": {}
         }
       },
-      "System.Security.SecureString/4.0.0-beta-23225": {
+      "System.Security.SecureString/4.0.0-beta-23409": {
         "type": "package",
         "dependencies": {
           "System.Resources.ResourceManager": "4.0.0",
           "System.Runtime": "4.0.20",
           "System.Runtime.Handles": "4.0.0",
           "System.Runtime.InteropServices": "4.0.20",
-          "System.Security.Cryptography.Primitives": "4.0.0-beta-23225",
+          "System.Security.Cryptography.Primitives": "4.0.0-beta-23409",
           "System.Threading": "4.0.10"
         },
         "compile": {
@@ -15939,25 +15939,55 @@
         "System.Security.Principal.Windows.nuspec"
       ]
     },
-    "System.Security.SecureString/4.0.0-beta-23225": {
+    "System.Security.SecureString/4.0.0-beta-23409": {
       "type": "package",
       "serviceable": true,
-      "sha512": "fWZiVly2v05MLJFbtJBwThJmSQAh1slsEUqVxjy/K58RWHN8ar8BNz/1h318eHNd5vcTA7155awMNNMzY/Cbag==",
+      "sha512": "KsuDpUcHXQjLeZ64XwvEHzSQJUKu3W0Z/3MtHQZKR+3DF4Qq/FPHXfbCcB/oBuSITfD90f4T7Slz5O9F7U+ORw==",
       "files": [
+        "lib/DNXCore50/de/System.Security.SecureString.xml",
+        "lib/DNXCore50/es/System.Security.SecureString.xml",
+        "lib/DNXCore50/fr/System.Security.SecureString.xml",
+        "lib/DNXCore50/it/System.Security.SecureString.xml",
+        "lib/DNXCore50/ja/System.Security.SecureString.xml",
+        "lib/DNXCore50/ko/System.Security.SecureString.xml",
+        "lib/DNXCore50/ru/System.Security.SecureString.xml",
         "lib/DNXCore50/System.Security.SecureString.dll",
+        "lib/DNXCore50/System.Security.SecureString.xml",
+        "lib/DNXCore50/zh-hans/System.Security.SecureString.xml",
+        "lib/DNXCore50/zh-hant/System.Security.SecureString.xml",
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
+        "lib/net46/de/System.Security.SecureString.xml",
+        "lib/net46/es/System.Security.SecureString.xml",
+        "lib/net46/fr/System.Security.SecureString.xml",
+        "lib/net46/it/System.Security.SecureString.xml",
+        "lib/net46/ja/System.Security.SecureString.xml",
+        "lib/net46/ko/System.Security.SecureString.xml",
+        "lib/net46/ru/System.Security.SecureString.xml",
         "lib/net46/System.Security.SecureString.dll",
+        "lib/net46/System.Security.SecureString.xml",
+        "lib/net46/zh-hans/System.Security.SecureString.xml",
+        "lib/net46/zh-hant/System.Security.SecureString.xml",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
         "ref/dotnet/System.Security.SecureString.dll",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
+        "ref/net46/de/System.Security.SecureString.xml",
+        "ref/net46/es/System.Security.SecureString.xml",
+        "ref/net46/fr/System.Security.SecureString.xml",
+        "ref/net46/it/System.Security.SecureString.xml",
+        "ref/net46/ja/System.Security.SecureString.xml",
+        "ref/net46/ko/System.Security.SecureString.xml",
+        "ref/net46/ru/System.Security.SecureString.xml",
         "ref/net46/System.Security.SecureString.dll",
+        "ref/net46/System.Security.SecureString.xml",
+        "ref/net46/zh-hans/System.Security.SecureString.xml",
+        "ref/net46/zh-hant/System.Security.SecureString.xml",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
-        "System.Security.SecureString.4.0.0-beta-23225.nupkg",
-        "System.Security.SecureString.4.0.0-beta-23225.nupkg.sha512",
+        "System.Security.SecureString.4.0.0-beta-23409.nupkg",
+        "System.Security.SecureString.4.0.0-beta-23409.nupkg.sha512",
         "System.Security.SecureString.nuspec"
       ]
     },

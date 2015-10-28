@@ -9,12 +9,12 @@ namespace Quilt4.Api.Converters
         {
             return new ProjectResponse
             {
-                Id = item.ProjectId.ToString(),
+                ProjectId = item.ProjectId,
                 Name = item.Name,
-                Versions = item.Versions.Length,
-                Sessions = item.Sessions.Length,
-                IssueTypes = item.IssueTypes.Length,
-                Issues = item.IssueTypes.SelectMany(x => x.Issues).Count(),
+                VersionCount = item.Versions.Length,
+                SessionCount = item.Sessions.Length,
+                IssueTypeCount = item.IssueTypes.Length,
+                IssueCount = item.IssueTypes.SelectMany(x => x.Issues).Count(),
                 DashboardColor = item.DashboardColor,
             };
         }

@@ -23,17 +23,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{501DF881
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		CI|x64 = CI|x64
-		Debug|x64 = Debug|x64
-		Release|x64 = Release|x64
+		CI|Any CPU = CI|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.CI|x64.ActiveCfg = CI|Any CPU
-		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.CI|x64.Build.0 = CI|Any CPU
-		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Debug|x64.Build.0 = Debug|Any CPU
-		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Release|x64.ActiveCfg = Release|Any CPU
-		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Release|x64.Build.0 = Release|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.CI|Any CPU.ActiveCfg = CI|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.CI|Any CPU.Build.0 = CI|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D47B2E24-D5B1-4524-89EF-A2D8ECA85019}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

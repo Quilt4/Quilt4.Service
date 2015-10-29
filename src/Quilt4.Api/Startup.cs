@@ -48,13 +48,10 @@ namespace Quilt4.Api
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //// Configure the HTTP request pipeline.
-            //app.UseStaticFiles();
-
-            //// Add MVC to the request pipeline.
-            //app.UseMvc();
-            //// Add the following route for porting Web API 2 controllers.
-            //// routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
+            app.UseStaticFiles();
+            app.UseIISPlatformHandler();
+            
+            app.UseMvc();
 
             app.Run(async (context) =>
             {

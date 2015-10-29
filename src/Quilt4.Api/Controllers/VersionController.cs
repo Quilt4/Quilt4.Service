@@ -69,13 +69,13 @@ namespace Quilt4.Api.Controllers
         [HttpGet("{ProjectId}/{ApplicationId}")]
         public IEnumerable<Version> Get(string projectId, string applicationId)
         {
-            return _versions.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId);
+            return _versions/*.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId)*/;
         }
 
         [HttpGet("{ProjectId}/{ApplicationId}/{VersionId}")]
         public Version Get(string projectId, string applicationId, string versionId)
         {
-            return _versions.FirstOrDefault(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.Id == versionId);
+            return _versions.FirstOrDefault(/*x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.Id == versionId*/);
         }
     }
 }

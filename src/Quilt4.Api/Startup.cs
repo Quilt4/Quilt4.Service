@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
 using Microsoft.Framework.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -47,28 +45,19 @@ namespace Quilt4.Api
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //// Configure the HTTP request pipeline.
+            //app.UseStaticFiles();
 
-            //Adding delay to every call
-            //For testing loading-panel on the web
-            app.Use(next => async context =>
+            //// Add MVC to the request pipeline.
+            //app.UseMvc();
+            //// Add the following route for porting Web API 2 controllers.
+            //// routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
+
+            app.Run(async (context) =>
             {
-                var rand = new Random(1).Next(5);
-                Console.WriteLine(rand);
-                Thread.Sleep(1000 * rand);
-
-                await next.Invoke(context);
-                
+                await context.Response.WriteAsync("Hello World!");
             });
 
-
-            // Configure the HTTP request pipeline.
-            app.UseStaticFiles();
-
-            // Add MVC to the request pipeline.
-            app.UseMvc();
-            // Add the following route for porting Web API 2 controllers.
-            // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
-            
         }
     }
 }

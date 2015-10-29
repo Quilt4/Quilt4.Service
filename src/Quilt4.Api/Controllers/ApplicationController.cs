@@ -61,13 +61,13 @@ namespace Quilt4.Api.Controllers
         [HttpGet("{ProjectId}")]
         public IEnumerable<Application> Get(string projectId)
         {
-            return _applications.Where(x => x.ProjectId == projectId);
+            return _applications/*.Where(x => x.ProjectId == projectId)*/;
         }
 
         [HttpGet("{ProjectId}/{ApplicationId}")]
         public Application Get(string projectId, string applicationId)
         {
-            return _applications.FirstOrDefault(x => x.ProjectId == projectId && x.Id == applicationId);
+            return _applications.FirstOrDefault(/*x => x.ProjectId == projectId && x.Id == applicationId*/);
         }
     }
 }

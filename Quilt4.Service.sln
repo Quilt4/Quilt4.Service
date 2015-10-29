@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{501DF881-1D23-47D7-8509-00C2987D1127}"
 	ProjectSection(SolutionItems) = preProject
 		Build\AssemblyVersionInfo.cs = Build\AssemblyVersionInfo.cs
+		Build\build.cmd = Build\build.cmd
 		Build\build.tasks = Build\build.tasks
 		Build\ci.msbuild = Build\ci.msbuild
 		Build\release.msbuild = Build\release.msbuild

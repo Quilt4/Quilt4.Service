@@ -27,6 +27,7 @@ namespace Quilt4.Api.Controllers
             return new LoginResponse
             {
                 SessionKey = login.SessionKey,
+                SharedSecret = login.SharedSecret,
             };
         }
     }

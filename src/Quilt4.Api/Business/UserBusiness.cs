@@ -23,7 +23,8 @@ namespace Quilt4.Api.Business
                 throw new InvalidOperationException("Provided password is invalid.");
 
             var sessionKey = RandomUtility.GetRandomString(32);
-            var loginSession = new LoginSession(sessionKey);
+            var sharedSecret = RandomUtility.GetRandomString(64); //TODO: Can I crate a public/private encryption key-pair here?
+            var loginSession = new LoginSession(sessionKey, sharedSecret);
             //TODO: Generate a secret that can be used for encryption
             _repository.SaveLoginSession(loginSession);
             return loginSession;

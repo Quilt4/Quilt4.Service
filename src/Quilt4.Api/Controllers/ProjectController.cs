@@ -25,11 +25,11 @@ namespace Quilt4.Api.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<ProjectResponse> Get()
+        public IEnumerable<ProjectInfo> Get()
         {
             //TODO: Get username from header
             //TODO: Check that the call is valid
-            var projects = _projectBusiness.GetProjects(string.Empty).Select(x => x.ToProjectResponse());
+            var projects = _projectBusiness.GetProjects(string.Empty).Select(x => x.ToProjectInfo());
             return projects;
         }
 

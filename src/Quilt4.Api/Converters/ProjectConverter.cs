@@ -5,9 +5,9 @@ namespace Quilt4.Api.Converters
 {
     public static class ProjectConverter
     {
-        public static ProjectResponse ToProjectResponse(this Entities.Project item)
+        public static ProjectInfo ToProjectInfo(this Entities.Project item)
         {
-            return new ProjectResponse
+            return new ProjectInfo
             {
                 ProjectId = item.ProjectId,
                 Name = item.Name,
@@ -16,6 +16,20 @@ namespace Quilt4.Api.Converters
                 IssueTypeCount = item.IssueTypes.Length,
                 IssueCount = item.IssueTypes.SelectMany(x => x.Issues).Count(),
                 DashboardColor = item.DashboardColor,
+            };
+        }
+
+        public static ProjectResponse ToProjectResponse(this Entities.Project item)
+        {
+            return new ProjectResponse
+            {
+                //ProjectId = item.ProjectId,
+                Name = item.Name,
+                //VersionCount = item.Versions.Length,
+                //SessionCount = item.Sessions.Length,
+                //IssueTypeCount = item.IssueTypes.Length,
+                //IssueCount = item.IssueTypes.SelectMany(x => x.Issues).Count(),
+                //DashboardColor = item.DashboardColor,
             };
         }
     }

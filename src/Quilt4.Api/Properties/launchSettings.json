@@ -10,7 +10,6 @@
     },
     "web": {
       "commandName": "web",
-      "launchBrowser": true,
       "launchUrl": "/api/project"
     }
   }

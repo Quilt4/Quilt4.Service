@@ -47,20 +47,6 @@ namespace Quilt4.Api
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-            //Adding delay to every call
-            //For testing loading-panel on the web
-            app.Use(next => async context =>
-            {
-                var rand = new Random(1).Next(5);
-                Console.WriteLine(rand);
-                Thread.Sleep(1000 * rand);
-
-                await next.Invoke(context);
-                
-            });
-
-
             // Configure the HTTP request pipeline.
             app.UseStaticFiles();
 

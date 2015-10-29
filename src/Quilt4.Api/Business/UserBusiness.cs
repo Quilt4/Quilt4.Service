@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Quilt4.Api.Entities;
 using Quilt4.Api.Interfaces;
 
@@ -21,6 +22,38 @@ namespace Quilt4.Api.Business
 
             if ( user.PasswordHash != password.ToMd5Hash(_settingBusiness.GetPasswordPadding()))
                 throw new InvalidOperationException("Provided password is invalid.");
+
+            //TODO: The task here is to generate a private-public keypair.
+
+            //var parameters = new CspParameters();
+            //parameters.
+            //parameters.KeyContainerName = "MyContainer";
+            //var provider = new RSACryptoServiceProvider(parameters);
+
+            var rsaProvider = new RSACryptoServiceProvider(2048);
+            var publicKey = rsaProvider.ToXmlString(false);
+            var privateKey = rsaProvider.ToXmlString(true);
+            
+            //var blob1 = myRSA.ExportCspBlob(true);
+            //var b1 = GetString(blob1);
+            //var blob2 = myRSA.ExportCspBlob(false);
+            //var b2 = GetString(blob2);
+
+            //var xport = myRSA.ExportParameters(true);
+            //var m = xport.Modulus;
+            //var x = xport.Exponent;
+            //var enc = myRSA.Encrypt(GetBytes("ABC"), false);
+            //myRSA.Decrypt(enc, false);
+            //myRSA.SignData()
+
+            //var xxx = ExportPublicKeyToPEMFormat(myRSA);
+
+            //CspParameters parameters = new CspParameters();
+
+            //parameters.KeyContainerName = "MyContainer";
+            //RSACryptoServiceProvider obj = new RSACryptoServiceProvider(parameters);
+            //byte[] a = Generic.RSAEncrypt(ByteConverter.GetBytes(s[0]),
+            //                              obj.ExportParameters(false), false);
 
             var sessionKey = RandomUtility.GetRandomString(32);
             var sharedSecret = RandomUtility.GetRandomString(64); //TODO: Can I crate a public/private encryption key-pair here?

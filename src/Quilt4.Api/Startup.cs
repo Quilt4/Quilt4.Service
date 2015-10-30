@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -16,9 +11,6 @@ namespace Quilt4.Api
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
-        {
-        }
 
         // This method gets called by a runtime.
         // Use this method to add services to the container
@@ -46,7 +38,7 @@ namespace Quilt4.Api
         }
 
         // Configure is called after ConfigureServices is called.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseStaticFiles();
             

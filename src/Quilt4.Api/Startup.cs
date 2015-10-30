@@ -49,7 +49,6 @@ namespace Quilt4.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseStaticFiles();
-            app.UseIISPlatformHandler();
             
             app.UseMvc();
 

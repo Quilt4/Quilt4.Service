@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -11,9 +15,7 @@ namespace Quilt4.Api
 {
     public class Startup
     {
-
-        // This method gets called by a runtime.
-        // Use this method to add services to the container
+        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddJsonOptions(options =>
@@ -21,15 +23,12 @@ namespace Quilt4.Api
                 options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.Converters.Add(new IsoDateTimeConverter());
-            }); 
+            });
 
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin());
             });
-            // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
-            // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
-            // services.AddWebApiConventions();
 
             services.AddTransient<IRepository, MemoryRepository>();
             services.AddTransient<IUserBusiness, UserBusiness>();
@@ -37,18 +36,9 @@ namespace Quilt4.Api
             services.AddTransient<ISettingBusiness, SettingBusiness>();
         }
 
-        // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app)
         {
-            app.UseStaticFiles();
-            
             app.UseMvc();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
-
         }
     }
 }

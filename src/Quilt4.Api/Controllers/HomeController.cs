@@ -10,6 +10,7 @@ namespace Quilt4.Api.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("[controller]")]
         // GET: /<controller>/
         public IActionResult Index()
         {

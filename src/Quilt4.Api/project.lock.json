@@ -732,28 +732,6 @@
           "lib/dnx451/Microsoft.AspNet.Server.Kestrel.dll": {}
         }
       },
-      "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Http.Extensions": "1.0.0-beta8",
-          "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta8",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta8"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "mscorlib",
-          "System",
-          "System.Core"
-        ],
-        "compile": {
-          "lib/dnx451/Microsoft.AspNet.StaticFiles.dll": {}
-        },
-        "runtime": {
-          "lib/dnx451/Microsoft.AspNet.StaticFiles.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
         "type": "package",
         "dependencies": {
@@ -2063,22 +2041,6 @@
         },
         "runtime": {
           "lib/dnxcore50/Microsoft.AspNet.Server.Kestrel.dll": {}
-        }
-      },
-      "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Http.Extensions": "1.0.0-beta8",
-          "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta8",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta8"
-        },
-        "compile": {
-          "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll": {}
-        },
-        "runtime": {
-          "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll": {}
         }
       },
       "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
@@ -4192,28 +4154,6 @@
           "runtimes/win7-x86/native/libuv.dll": {}
         }
       },
-      "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Http.Extensions": "1.0.0-beta8",
-          "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta8",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta8"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "mscorlib",
-          "System",
-          "System.Core"
-        ],
-        "compile": {
-          "lib/dnx451/Microsoft.AspNet.StaticFiles.dll": {}
-        },
-        "runtime": {
-          "lib/dnx451/Microsoft.AspNet.StaticFiles.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
         "type": "package",
         "dependencies": {
@@ -5636,28 +5576,6 @@
           "runtimes/win7-x64/native/libuv.dll": {}
         }
       },
-      "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Http.Extensions": "1.0.0-beta8",
-          "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta8",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta8"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "mscorlib",
-          "System",
-          "System.Core"
-        ],
-        "compile": {
-          "lib/dnx451/Microsoft.AspNet.StaticFiles.dll": {}
-        },
-        "runtime": {
-          "lib/dnx451/Microsoft.AspNet.StaticFiles.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
         "type": "package",
         "dependencies": {
@@ -6970,22 +6888,6 @@
         },
         "native": {
           "runtimes/win7-x86/native/libuv.dll": {}
-        }
-      },
-      "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Http.Extensions": "1.0.0-beta8",
-          "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta8",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta8"
-        },
-        "compile": {
-          "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll": {}
-        },
-        "runtime": {
-          "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll": {}
         }
       },
       "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
@@ -9363,22 +9265,6 @@
           "runtimes/win7-x64/native/libuv.dll": {}
         }
       },
-      "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta8",
-          "Microsoft.AspNet.Http.Extensions": "1.0.0-beta8",
-          "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta8",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta8"
-        },
-        "compile": {
-          "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll": {}
-        },
-        "runtime": {
-          "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
         "type": "package",
         "dependencies": {
@@ -11656,20 +11542,6 @@
         "runtimes/win7-x64/native/libuv.dll",
         "runtimes/win7-x86/native/libuv.dll",
         "thirdpartynotices.txt"
-      ]
-    },
-    "Microsoft.AspNet.StaticFiles/1.0.0-beta8": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "oI8Lss/NE3v1/cAJIK0XzbdAT772b4bCimiqpzSnYnYUjXhdwXOkXNgvgXWw92q9ZKSAiMkN02YKmt5ZY5EVrA==",
-      "files": [
-        "lib/dnx451/Microsoft.AspNet.StaticFiles.dll",
-        "lib/dnx451/Microsoft.AspNet.StaticFiles.xml",
-        "lib/dnxcore50/Microsoft.AspNet.StaticFiles.dll",
-        "lib/dnxcore50/Microsoft.AspNet.StaticFiles.xml",
-        "Microsoft.AspNet.StaticFiles.1.0.0-beta8.nupkg",
-        "Microsoft.AspNet.StaticFiles.1.0.0-beta8.nupkg.sha512",
-        "Microsoft.AspNet.StaticFiles.nuspec"
       ]
     },
     "Microsoft.AspNet.WebUtilities/1.0.0-beta8": {
@@ -15374,8 +15246,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.AspNet.Server.Kestrel >= 1.0.0-beta8",
-      "Microsoft.AspNet.Mvc >= 6.0.0-beta8",
-      "Microsoft.AspNet.StaticFiles >= 1.0.0-beta8"
+      "Microsoft.AspNet.Mvc >= 6.0.0-beta8"
     ],
     "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": []

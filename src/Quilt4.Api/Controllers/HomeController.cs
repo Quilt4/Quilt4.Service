@@ -10,11 +10,10 @@ namespace Quilt4.Api.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("[controller]")]
-        // GET: /<controller>/
+        [Route("")]
         public IActionResult Index()
         {
-            return Content("It's Working!");
+            return Content("The service is up and running!");
         }
     }
 }

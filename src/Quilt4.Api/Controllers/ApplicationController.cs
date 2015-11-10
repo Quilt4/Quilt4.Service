@@ -36,26 +36,6 @@ namespace Quilt4.Api.Controllers
                 IssueTypes = 1,
                 Issues = 18,
             },
-            new Application
-            {
-                Id = "1",
-                ProjectId = "2",
-                Name = "Florida.Web",
-                Versions = 2,
-                Sessions = 4,
-                IssueTypes = 12,
-                Issues = 20,
-            },
-            new Application
-            {
-                Id = "2",
-                ProjectId = "2",
-                Name = "Florida.Nevada",
-                Versions = 3,
-                Sessions = 45,
-                IssueTypes = 1,
-                Issues = 18,
-            },
         };
 
         [HttpGet("{ProjectId}")]

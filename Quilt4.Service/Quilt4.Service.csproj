@@ -57,6 +57,10 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -66,6 +70,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -93,21 +101,23 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\IssueTypeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
-    <Compile Include="Converters\Application\ApplicationConverter.cs" />
-    <Compile Include="Converters\IssueType\IssueTypeConverter.cs" />
-    <Compile Include="Converters\Issue\IssueConverter.cs" />
-    <Compile Include="Converters\Project\ProjectConverter.cs" />
-    <Compile Include="Converters\Version\VersionConverter.cs" />
-    <Compile Include="DataTransfer\ApplicationResponse.cs" />
-    <Compile Include="DataTransfer\IssueResponse.cs" />
-    <Compile Include="DataTransfer\IssueTypeResponse.cs" />
-    <Compile Include="DataTransfer\ProjectResponse.cs" />
-    <Compile Include="DataTransfer\VersionResponse.cs" />
+    <Compile Include="Converters\DashboardPageConverter.cs" />
+    <Compile Include="Converters\IssueTypePageConverter.cs" />
+    <Compile Include="Converters\ProjectPageConverter.cs" />
+    <Compile Include="Converters\VersionPageConverter.cs" />
+    <Compile Include="DataTransfer\CreateUserRequest.cs" />
+    <Compile Include="DataTransfer\DashboardPageProjectResponse.cs" />
+    <Compile Include="DataTransfer\IssueTypePageIssueTypeResponse.cs" />
+    <Compile Include="DataTransfer\LoginRequest.cs" />
+    <Compile Include="DataTransfer\LoginResponse.cs" />
+    <Compile Include="DataTransfer\ProjectPageProjectResponse.cs" />
+    <Compile Include="DataTransfer\ProjectPageVersionResponse.cs" />
+    <Compile Include="DataTransfer\VersionPageVersionResponse.cs" />
     <Compile Include="Injection\WindsorApplicationInstaller.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Global.asax.cs">
@@ -129,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quil4.Service.Interface\Quil4.Service.Interface.csproj">

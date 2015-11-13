@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using Quil4.Service.Interface.Business;
-using Quilt4.Service.Converters.Project;
+using Quilt4.Service.Converters;
 using Quilt4.Service.DataTransfer;
 
 namespace Quilt4.Service.Controllers
@@ -17,15 +17,18 @@ namespace Quilt4.Service.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ProjectResponse> GetAllProjects()
+        public ProjectPageProjectResponse GetProject(string id)
         {
-            return _projectBusiness.GetProjects(null).ToProjectResponses();
+            return _projectBusiness.GetProject(null, Guid.Parse(id)).ToProjectPageProjectResponse();
         }
 
-        [HttpGet]
-        public ProjectResponse GetProject(string id)
+
+        [Route("api/project/{projectId}/application/{applicationId}/version")]
+        public IEnumerable<ProjectPageVersionResponse> GetVersions(string projectId, string applicationId)
         {
-            return _projectBusiness.GetProject(null, Guid.Parse(id)).ToProjectResponse();
+            return
+                _projectBusiness.GetVersions(null, Guid.Parse(projectId), Guid.Parse(applicationId))
+                    .ToProjectPageVersionResponses();
         }
     }
 }

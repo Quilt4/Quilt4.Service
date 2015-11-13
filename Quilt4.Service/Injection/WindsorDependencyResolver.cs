@@ -6,7 +6,7 @@ using Castle.Windsor;
 
 namespace Quilt4.Service.Injection
 {
-    public class WindsorDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
+    public class WindsorDependencyResolver : IDependencyResolver
     {
         private readonly IWindsorContainer _container;
 

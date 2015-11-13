@@ -14,8 +14,8 @@ namespace Quilt4.Service.Injection
 
         public WindsorDependencyScope(IWindsorContainer container)
         {
-            this._container = container;
-            this._scope = container.BeginScope();
+            _container = container;
+            _scope = container.BeginScope();
         }
 
         public object GetService(Type serviceType)
@@ -24,20 +24,17 @@ namespace Quilt4.Service.Injection
             {
                 return _container.Resolve(serviceType);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return this._container.ResolveAll(serviceType).Cast<object>();
+            return _container.ResolveAll(serviceType).Cast<object>();
         }
 
         public void Dispose()
         {
-            this._scope.Dispose();
+            _scope.Dispose();
         }
     }
 }

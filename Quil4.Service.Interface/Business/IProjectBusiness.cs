@@ -6,7 +6,7 @@ namespace Quil4.Service.Interface.Business
 {
     public interface IProjectBusiness
     {
-        IEnumerable<Project> GetProjects(string userId);
-        Project GetProject(string userId, Guid projectId);
+        ProjectPageProject GetProject(string userId, Guid projectId);
+        IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId);
     }
 }

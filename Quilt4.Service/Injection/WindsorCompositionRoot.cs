@@ -21,7 +21,7 @@ namespace Quilt4.Service.Injection
             Type controllerType)
         {
             var controller =
-                (IHttpController)_container.Resolve(controllerType);
+                (IHttpController) _container.Resolve(controllerType);
 
             request.RegisterForDispose(
                 new Release(

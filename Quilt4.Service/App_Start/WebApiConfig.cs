@@ -1,7 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
 using Castle.Windsor;
+using Newtonsoft.Json.Serialization;
 using Quilt4.Service.Injection;
 
 namespace Quilt4.Service
@@ -11,10 +13,15 @@ namespace Quilt4.Service
         public static void Register(HttpConfiguration config, IWindsorContainer container)
         {
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
 
             MapRoutes(config);
 
             RegisterControllerActivator(container);
+
+            var corsAttr = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(corsAttr);
         }
 
         private static void MapRoutes(HttpConfiguration config)

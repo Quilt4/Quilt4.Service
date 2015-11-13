@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
-    <Compile Include="Issue.cs" />
-    <Compile Include="IssueType.cs" />
-    <Compile Include="Project.cs" />
+    <Compile Include="DashboardPageProject.cs" />
+    <Compile Include="IssueTypePageIssueType.cs" />
+    <Compile Include="LoginSession.cs" />
+    <Compile Include="ProjectPageProject.cs" />
+    <Compile Include="ProjectPageVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Version.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="VersionPageVersion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

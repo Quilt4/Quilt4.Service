@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Http;
-using System.Web.Routing;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
@@ -14,7 +13,6 @@ namespace Quilt4.Service
 
         protected void Application_Start()
         {
-            //GlobalConfiguration.Configure(WebApiConfig.Register);
             ConfigureWindsor(GlobalConfiguration.Configuration);
             GlobalConfiguration.Configure(c => WebApiConfig.Register(c, _container));
         }
@@ -33,7 +31,7 @@ namespace Quilt4.Service
         protected void Application_End()
         {
             _container.Dispose();
-            base.Dispose();
+            Dispose();
         }
     }
 }

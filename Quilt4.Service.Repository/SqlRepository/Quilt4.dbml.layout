@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.5, 8.5" name="Quilt4">
+  <DataContextMoniker Name="/Quilt4DataContext" />
+  <nestedChildShapes>
+    <classShape Id="ea44225c-dd39-4c06-87dd-07037bc9d7d9" absoluteBounds="2.25, 0.875, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/Quilt4DataContext/DashboardPageProject" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8bb325be-816d-4e92-abf4-a3b85e4dd90f" absoluteBounds="2.2650000000000006, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6474d0aa-6d31-401a-a11f-c4432fcf87db" absoluteBounds="2.25, 4.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/Quilt4DataContext/VersionPageVersion" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b43140fd-90f4-4d28-bdee-5bcf89fafccb" absoluteBounds="2.2650000000000006, 5.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ca0bebd6-d6ce-4f94-887a-bd6b7efd280b" absoluteBounds="11.25, 4.75, 2, 2.5401025390625005">
+      <DataClassMoniker Name="/Quilt4DataContext/IssueTypePageIssue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="114845e7-93d2-4dad-810a-402e763c7f68" absoluteBounds="11.265, 5.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="480b2732-5cb7-4d35-94cb-77fec462c1b4" absoluteBounds="9, 4.75, 2, 3.1170068359375005">
+      <DataClassMoniker Name="/Quilt4DataContext/IssueTypePageIssueType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8343d168-1f24-4785-806e-4b419dadba8b" absoluteBounds="9.015, 5.21, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f137dfc8-22de-4e0e-9b3a-028037daf84d" absoluteBounds="9, 0.875, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/Quilt4DataContext/ProjectPageApplication" />
+      <nestedChildShapes>
+        <elementListCompartment Id="890122fd-3b18-4b0a-a429-92139702e9f5" absoluteBounds="9.015, 1.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="be05d7af-2d34-4320-ba70-cd1b4848e1d5" absoluteBounds="6.75, 0.875, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/Quilt4DataContext/ProjectPageProject" />
+      <nestedChildShapes>
+        <elementListCompartment Id="dcc28216-978b-4428-91d0-807ecf16d41e" absoluteBounds="6.7650000000000006, 1.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b3a97085-417c-4e33-85cd-54a8d707bef1" absoluteBounds="11.25, 0.875, 2, 2.5401025390624996">
+      <DataClassMoniker Name="/Quilt4DataContext/ProjectPageVersion" />
+      <nestedChildShapes>
+        <elementListCompartment Id="49984f53-5536-456f-8e34-80b5f93068c1" absoluteBounds="11.265, 1.335, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3f2c0ecc-3192-48fd-a8b5-801c98030dc9" absoluteBounds="4.5, 4.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/Quilt4DataContext/VersionPageIssueType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d2c0ca6c-41e3-4244-a434-6a22d085d5fc" absoluteBounds="4.5150000000000006, 5.2100000000000009, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

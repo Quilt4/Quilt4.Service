@@ -7,8 +7,8 @@
     <ProjectGuid>{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Quil4.Service.Interface</RootNamespace>
-    <AssemblyName>Quil4.Service.Interface</AssemblyName>
+    <RootNamespace>Quilt4.Service.Interface</RootNamespace>
+    <AssemblyName>Quilt4.Service.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

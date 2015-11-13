@@ -26,6 +26,11 @@ namespace Quilt4.Service.Repository.MemoryRepository
             throw new NotImplementedException();
         }
 
+        public T GetSetting<T>(string name, T defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetSetting<T>(string name, T value)
         {
             throw new NotImplementedException();

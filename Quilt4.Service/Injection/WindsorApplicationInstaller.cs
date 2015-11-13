@@ -23,7 +23,6 @@ namespace Quilt4.Service.Injection
                     .WithService.DefaultInterfaces()
                     .LifestyleTransient());
 
-
             //Register controllers
             container.Register(Classes.FromThisAssembly()
                 .BasedOn<ApiController>()

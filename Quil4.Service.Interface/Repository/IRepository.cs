@@ -8,6 +8,7 @@ namespace Quil4.Service.Interface.Repository
         User GetUser(string username);
         void SaveLoginSession(LoginSession loginSession);
         T GetSetting<T>(string name);
+        T GetSetting<T>(string name, T defaultValue);
         void SetSetting<T>(string name, T value);
     }
 }

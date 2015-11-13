@@ -63,9 +63,9 @@
     <Compile Include="VersionBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Quil4.Service.Interface\Quil4.Service.Interface.csproj">
+    <ProjectReference Include="..\Quil4.Service.Interface\Quilt4.Service.Interface.csproj">
       <Project>{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}</Project>
-      <Name>Quil4.Service.Interface</Name>
+      <Name>Quilt4.Service.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">
       <Project>{2806EE69-F5CB-4D21-87C1-EEA837B034AE}</Project>

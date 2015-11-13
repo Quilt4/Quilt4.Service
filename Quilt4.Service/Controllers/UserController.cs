@@ -24,10 +24,11 @@ namespace Quilt4.Service.Controllers
         [Route("api/user/login")]
         public LoginResponse Post([FromBody]LoginRequest value)
         {
-            var login = _userBusiness.Login(value.Username, value.Password);
+            var loginSession = _userBusiness.Login(value.Username, value.Password, value.PublicSessionKey);
             return new LoginResponse
             {
-                SessionKey = login.SessionKey,
+                PublicSessionKey = loginSession.PublicKey,
+                PrivateSessionKey = loginSession.PrivateKey,
             };
         }
     }

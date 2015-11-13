@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Quil4.Service.Interface.Business;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
@@ -16,16 +17,25 @@ namespace Quilt4.Service.Business
             _repository = repository;
         }
 
-        public LoginSession Login(string username, string password)
+        public LoginSession Login(string username, string password, string publicKey)
         {
             var user = _repository.GetUser(username);
 
             if (user.PasswordHash != password.ToMd5Hash(_settingBusiness.GetPasswordPadding()))
                 throw new InvalidOperationException("Provided password is invalid.");
 
-            var sessionKey = RandomUtility.GetRandomString(32);
-            var loginSession = new LoginSession(sessionKey);
-            //TODO: Generate a secret that can be used for encryption
+            string privateKey = null;
+            if (string.IsNullOrEmpty(publicKey))
+            {
+                var rsaProvider = new RSACryptoServiceProvider(512);
+                publicKey = rsaProvider.ToXmlString(false);
+                privateKey = rsaProvider.ToXmlString(true);
+
+                //var rp = RSA.Create();
+                //rp.FromXmlString(publicKey);
+            }
+
+            var loginSession = new LoginSession(publicKey, privateKey);
             _repository.SaveLoginSession(loginSession);
             return loginSession;
         }

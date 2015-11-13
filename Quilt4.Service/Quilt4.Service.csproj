@@ -144,12 +144,12 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Quil4.Service.Interface\Quil4.Service.Interface.csproj">
-      <Project>{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}</Project>
-      <Name>Quil4.Service.Interface</Name>
+    <ProjectReference Include="..\Quil4.Service.Interface\Quilt4.Service.Interface.csproj">
+      <Project>{f05fb9c6-6fe8-4483-a1e8-5e651b9c55f3}</Project>
+      <Name>Quilt4.Service.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quilt4.Service.Business\Quilt4.Service.Business.csproj">
-      <Project>{AE1AC354-ED1D-43ED-B4AC-048E6727F7DD}</Project>
+      <Project>{ae1ac354-ed1d-43ed-b4ac-048e6727f7dd}</Project>
       <Name>Quilt4.Service.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">

@@ -9,5 +9,6 @@ namespace Quil4.Service.Interface.Repository
         void SaveLoginSession(LoginSession loginSession);
         T GetSetting<T>(string name);
         void SetSetting<T>(string name, T value);
+        int GetNextTicket(string clientToken, string name, string version, string type);
     }
 }

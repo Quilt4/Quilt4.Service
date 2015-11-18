@@ -92,4 +92,123 @@
       <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.Application" Member="Applications">
+    <Type Name="Application">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Application_Version" Member="Versions" ThisKey="Id" OtherKey="ApplicationId" Type="Version" />
+      <Association Name="Project_Application" Member="Project" ThisKey="ProjectId" OtherKey="Id" Type="Project" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Issue" Member="Issues">
+    <Type Name="Issue">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IssueTypeId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ClientCreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Enviroment" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="SessionId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="MachineId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserDataId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Issue_IssueData" Member="IssueDatas" ThisKey="Id" OtherKey="IssueId" Type="IssueData" />
+      <Association Name="IssueType_Issue" Member="IssueType" ThisKey="IssueTypeId" OtherKey="Id" Type="IssueType" IsForeignKey="true" />
+      <Association Name="Machine_Issue" Member="Machine" ThisKey="MachineId" OtherKey="Id" Type="Machine" IsForeignKey="true" />
+      <Association Name="Session_Issue" Member="Session" ThisKey="SessionId" OtherKey="Id" Type="Session" IsForeignKey="true" />
+      <Association Name="UserData_Issue" Member="UserData" ThisKey="UserDataId" OtherKey="Id" Type="UserData" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.IssueData" Member="IssueDatas">
+    <Type Name="IssueData">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IssueId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Issue_IssueData" Member="Issue" ThisKey="IssueId" OtherKey="Id" Type="Issue" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.IssueType" Member="IssueTypes">
+    <Type Name="IssueType">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VersionId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="StackTrace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="IssueType_Issue" Member="Issues" ThisKey="Id" OtherKey="IssueTypeId" Type="Issue" />
+      <Association Name="Version_IssueType" Member="Version" ThisKey="VersionId" OtherKey="Id" Type="Version" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Machine" Member="Machines">
+    <Type Name="Machine">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Fingerprint" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Machine_Issue" Member="Issues" ThisKey="Id" OtherKey="MachineId" Type="Issue" />
+      <Association Name="Machine_MachineData" Member="MachineDatas" ThisKey="Id" OtherKey="MachineId" Type="MachineData" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MachineData" Member="MachineDatas">
+    <Type Name="MachineData">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MachineId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Machine_MachineData" Member="Machine" ThisKey="MachineId" OtherKey="Id" Type="Machine" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Project" Member="Projects">
+    <Type Name="Project">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DashboardColor" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="ClientToken" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Project_Application" Member="Applications" ThisKey="Id" OtherKey="ProjectId" Type="Application" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Session" Member="Sessions">
+    <Type Name="Session">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClientStartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ServerStartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ClientEndTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ServerEndTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CallerIp" Type="System.String" DbType="NVarChar(45) NOT NULL" CanBeNull="false" />
+      <Association Name="Session_Issue" Member="Issues" ThisKey="Id" OtherKey="SessionId" Type="Issue" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserData" Member="UserDatas">
+    <Type Name="UserData">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Fingerprint" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="UserData_Issue" Member="Issues" ThisKey="Id" OtherKey="UserDataId" Type="Issue" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Version" Member="Versions">
+    <Type Name="Version">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Version" Member="Version1" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="SupportToolkitVersion" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="Id" OtherKey="VersionId" Type="IssueType" />
+      <Association Name="Application_Version" Member="Application" ThisKey="ApplicationId" OtherKey="Id" Type="Application" IsForeignKey="true" />
+    </Type>
+  </Table>
 </Database>

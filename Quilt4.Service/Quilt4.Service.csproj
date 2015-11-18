@@ -101,6 +101,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ClientApi\IssueController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\IssueTypeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Converters\DashboardPageConverter.cs" />
     <Compile Include="Converters\IssueTypePageConverter.cs" />
     <Compile Include="Converters\ProjectPageConverter.cs" />
+    <Compile Include="Converters\RegisterIssueConverter.cs" />
     <Compile Include="Converters\VersionPageConverter.cs" />
     <Compile Include="DataTransfer\CreateUserRequest.cs" />
     <Compile Include="DataTransfer\DashboardPageProjectResponse.cs" />
@@ -117,6 +119,8 @@
     <Compile Include="DataTransfer\LoginResponse.cs" />
     <Compile Include="DataTransfer\ProjectPageProjectResponse.cs" />
     <Compile Include="DataTransfer\ProjectPageVersionResponse.cs" />
+    <Compile Include="DataTransfer\RegisterIssueRequest.cs" />
+    <Compile Include="DataTransfer\RegisterIssueResponse.cs" />
     <Compile Include="DataTransfer\VersionPageVersionResponse.cs" />
     <Compile Include="Injection\WindsorApplicationInstaller.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

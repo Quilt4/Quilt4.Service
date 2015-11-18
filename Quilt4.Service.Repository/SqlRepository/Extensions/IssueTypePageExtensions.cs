@@ -31,7 +31,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
         }
 
         public static IEnumerable<Entity.IssueTypePageIssue> ToIssueTypePageIssues(
-            this IEnumerable<IssueTypePageIssue> items)
+            this IQueryable<IssueTypePageIssue> items)
         {
             return items?.Select(x => x.ToIssueTypePageIssue());
         }
@@ -47,7 +47,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
                 Time = item.Time,
                 User = item.IssueUser,
                 Enviroment = item.Enviroment,
-                Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(item.Data)
+                Data = JsonConvert.DeserializeObject<IDictionary<string, string>>(item.Data)
             };
         }
     }

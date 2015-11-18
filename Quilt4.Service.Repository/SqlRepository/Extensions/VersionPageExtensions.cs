@@ -24,7 +24,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
         }
 
         public static IEnumerable<Entity.VersionPageIssueType> ToVersionPageIssueTypes(
-            this IEnumerable<VersionPageIssueType> items)
+            this IQueryable<VersionPageIssueType> items)
         {
             return items?.Select(x => x.ToVersionPageIssueType());
         }

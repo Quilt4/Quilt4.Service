@@ -30,5 +30,10 @@ namespace Quilt4.Service.Repository.MemoryRepository
         {
             throw new NotImplementedException();
         }
+
+        public int GetNextTicket(string clientToken, string name, string version, string type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

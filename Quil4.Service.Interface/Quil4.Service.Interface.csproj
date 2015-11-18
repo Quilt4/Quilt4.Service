@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\IDashboardBusiness.cs" />
+    <Compile Include="Business\IIssueBusiness.cs" />
     <Compile Include="Business\IProjectBusiness.cs" />
     <Compile Include="Business\IIssueTypeBusiness.cs" />
     <Compile Include="Business\ISettingBusiness.cs" />

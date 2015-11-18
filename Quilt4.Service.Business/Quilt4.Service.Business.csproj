@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DashboardBusiness.cs" />
     <Compile Include="HelperExtension.cs" />
+    <Compile Include="IssueBusiness.cs" />
     <Compile Include="IssueTypeBusiness.cs" />
     <Compile Include="ProjectBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

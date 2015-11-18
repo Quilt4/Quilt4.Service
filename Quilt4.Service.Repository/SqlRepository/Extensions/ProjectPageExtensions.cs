@@ -20,7 +20,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
         }
 
         public static IEnumerable<Entity.ProjectPageApplication> ToProjectPageApplications(
-            this IEnumerable<ProjectPageApplication> items)
+            this IQueryable<ProjectPageApplication> items)
         {
             return items?.Select(x => x.ToProjectPageApplication());
         }

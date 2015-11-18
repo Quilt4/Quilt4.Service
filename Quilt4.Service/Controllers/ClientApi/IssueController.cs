@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Http;
 using Newtonsoft.Json;
 using Quil4.Service.Interface.Business;
@@ -26,7 +27,7 @@ namespace Quilt4.Service.Controllers.ClientApi
             try
             {
                 var data = GetData(request);
-                var registerIssueResponse = _issueBusiness.RegisterIssue(data.ToRegisterIssueRequestEntity()).ToRegisterIssueResponse();
+                var registerIssueResponse = _issueBusiness.RegisterIssue(data.ToRegisterIssueRequestEntity(HttpContext.Current.Request.UserHostAddress)).ToRegisterIssueResponse();
 
                 return registerIssueResponse;
             }

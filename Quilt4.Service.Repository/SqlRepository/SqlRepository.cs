@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Quil4.Service.Interface.Repository;
@@ -32,29 +33,361 @@ namespace Quilt4.Service.Repository.SqlRepository
         {
             throw new NotImplementedException();
         }
-
+        
         public int GetNextTicket(string clientToken, string applicationName, string applicationVersion, string type, string level, string message, string stackTrace)
         {
-            using (var context = new Quilt4DataContext())
+            using (var context = GetDataContext())
             {
                 var project = context.Projects.Single(x => x.ClientToken == clientToken);
 
-                var application = project.Applications.Single(x => x.Name == applicationName);
+                var application = project.Applications.SingleOrDefault(x => x.Name == applicationName);
 
-                var version = application.Versions.Single(x => x.Version1 == applicationVersion);
-
-                var issueType =
-                    version.IssueTypes.SingleOrDefault(
-                        x => x.Type == type && x.Level == level && x.Message == message && x.StackTrace == stackTrace);
+                var version = application?.Versions.SingleOrDefault(x => x.Version1 == applicationVersion);
+                
+                var issueType = version?.IssueTypes.SingleOrDefault(
+                    x =>
+                        x.Type == type && x.Level == level && x.Message == message && x.StackTrace == stackTrace);
 
                 if (issueType != null)
                     return issueType.Ticket;
 
-                var latestTicket =
-                    project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes).Max(z => z.Ticket);
+                var allIssues = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes);
 
-                return latestTicket + 1;
+                if (allIssues.Any())
+                    return allIssues.Max(x => x.Ticket) + 1;
+
+                return 1;
             }
+        }
+
+        public Guid? GetProjectId(string clientToken)
+        {
+            using (var context = GetDataContext())
+            {
+                var project = context.Projects.SingleOrDefault(x => x.ClientToken == clientToken);
+
+                return project?.Id;
+            }
+        }
+
+        public Guid SaveApplication(Guid projectId, string name)
+        {
+            using (var context = GetDataContext())
+            {
+                var application = context.Applications.SingleOrDefault(x => x.ProjectId == projectId && x.Name == name);
+
+                if (application != null)
+                {
+                    //Update application?
+
+                    return application.Id;
+                }
+
+                var newApplication = new Application
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectId = projectId,
+                    Name = name,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now,
+                };
+
+                context.Applications.InsertOnSubmit(newApplication);
+                context.SubmitChanges();
+
+                return newApplication.Id;
+            }
+        }
+
+        public Guid SaveVersion(Guid applicaitonId, string version, string supportToolkitNameVersion)
+        {
+            using (var context = GetDataContext())
+            {
+                var existingVersion =
+                    context.Versions.SingleOrDefault(x => x.ApplicationId == applicaitonId && x.Version1 == version);
+
+                if (existingVersion != null)
+                {
+                    //Update version?
+
+                    return existingVersion.Id;
+                }
+
+                var newVersion = new Version
+                {
+                    Id = Guid.NewGuid(),
+                    ApplicationId = applicaitonId,
+                    Version1 = version,
+                    SupportToolkitVersion = supportToolkitNameVersion,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
+                };
+
+                context.Versions.InsertOnSubmit(newVersion);
+                context.SubmitChanges();
+
+                return newVersion.Id;
+            }
+        }
+
+        public Guid SaveIssueType(Guid versionId, int ticket, string type, string issueLevel, string message, string stackTrace)
+        {
+            using (var context = GetDataContext())
+            {
+                var issueType = context.IssueTypes.SingleOrDefault(x => x.VersionId.Equals(versionId) && x.Type.Equals(type) && x.Level.Equals(issueLevel) && x.Message.Equals(message) && (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
+
+                if (issueType != null)
+                {
+                    //Update issueType?
+
+                    return issueType.Id;
+                }
+
+                var newIssueType = new IssueType
+                {
+                    Id = Guid.NewGuid(),
+                    VersionId = versionId,
+                    Ticket = ticket,
+                    Type = type,
+                    Level = issueLevel,
+                    Message = message,
+                    StackTrace = stackTrace,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
+                };
+
+                context.IssueTypes.InsertOnSubmit(newIssueType);
+                context.SubmitChanges();
+
+                return newIssueType.Id;
+            }
+        }
+
+        public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp)
+        {
+            using (var context = GetDataContext())
+            {
+                var session = context.Sessions.SingleOrDefault(x => x.Id == sessionId);
+
+                if (session != null)
+                {
+                    session.ClientEndTime = DateTime.Now;
+                    session.ServerEndTime = DateTime.Now;
+                    context.SubmitChanges();
+
+                    return session.Id;
+                }
+
+                var newSession = new Session
+                {
+                    Id = sessionId,
+                    CallerIp = callerIp,
+                    ClientStartTime = clientStartTime,
+                    ServerStartTime = DateTime.Now,
+                    ServerEndTime = DateTime.Now,
+                    ClientEndTime = clientStartTime
+                };
+
+                context.Sessions.InsertOnSubmit(newSession);
+                context.SubmitChanges();
+
+                return newSession.Id;
+
+            }
+        }
+
+        public Guid SaveUserData(string fingerprint, string userName)
+        {
+            using (var context = GetDataContext())
+            {
+                var userData = context.UserDatas.SingleOrDefault(x => x.Fingerprint == fingerprint);
+
+                if (userData != null)
+                {
+                    if (userData.UserName == userName)
+                        return userData.Id;
+
+                    userData.UserName = userName;
+                    userData.LastUpdateDate = DateTime.Now;
+                    context.SubmitChanges();
+
+                    return userData.Id;
+                }
+
+                var newUserData = new UserData
+                {
+                    Id = Guid.NewGuid(),
+                    Fingerprint = fingerprint,
+                    UserName = userName,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
+                };
+
+                context.UserDatas.InsertOnSubmit(newUserData);
+                context.SubmitChanges();
+
+                return newUserData.Id;
+            }
+        }
+
+        //TODO: Make this method a bit more clean
+        public Guid SaveMachine(string fingerprint, string name, IDictionary<string, string> data)
+        {
+            using (var context = GetDataContext())
+            {
+                var machine = context.Machines.SingleOrDefault(x => x.Fingerprint == fingerprint);
+
+                if (machine != null)
+                {
+                    var needToSubmitChanges = false;
+
+                    if (machine.Name != name)
+                    {
+                        machine.Name = name;
+                        machine.LastUpdateDate = DateTime.Now;
+                        needToSubmitChanges = true;
+                    }
+
+                    //To improve performance ?
+                    var machineDatas = machine.MachineDatas.ToArray();
+
+                    if (data != null)
+                    {
+                        //Add missing and update existing machineDatas
+                        foreach (var d in data)
+                        {
+                            var match = machineDatas.SingleOrDefault(x => x.Name == d.Key);
+
+                            if (match == null)
+                            {
+                                var newMachineData = new MachineData
+                                {
+                                    Id = Guid.NewGuid(),
+                                    MachineId = machine.Id,
+                                    CreationDate = DateTime.Now,
+                                    LastUpdateDate = DateTime.Now,
+                                    Name = d.Key,
+                                    Value = d.Value
+                                };
+
+                                context.MachineDatas.InsertOnSubmit(newMachineData);
+
+                                needToSubmitChanges = true;
+
+                                continue;
+                            }
+
+                            if (match.Value != d.Value)
+                            {
+                                match.Value = d.Value;
+                                match.LastUpdateDate = DateTime.Now;
+
+                                needToSubmitChanges = true;
+                            }
+                        } 
+                    }
+
+                    //Remove old machineDatas
+                    foreach (var machineData in machineDatas)
+                    {
+                        var match = data.SingleOrDefault(x => x.Key == machineData.Name);
+
+                        if (match.Equals(new KeyValuePair<string, string>()))
+                        {
+                            context.MachineDatas.DeleteOnSubmit(machineData);
+                            needToSubmitChanges = true;
+                        }
+                    }
+                    
+
+                    if(needToSubmitChanges)
+                        context.SubmitChanges();
+
+                    return machine.Id;
+                }
+
+                var newMachine = new Machine
+                {
+                    Id = Guid.NewGuid(),
+                    Fingerprint = fingerprint,
+                    Name = name,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
+                };
+
+                context.Machines.InsertOnSubmit(newMachine);
+                
+                if (data != null)
+                {
+                    foreach (var d in data)
+                    {
+                        var machineData = new MachineData
+                        {
+                            Id = Guid.NewGuid(),
+                            MachineId = newMachine.Id,
+                            CreationDate = DateTime.Now,
+                            LastUpdateDate = DateTime.Now,
+                            Name = d.Key,
+                            Value = d.Value
+                        };
+
+                        context.MachineDatas.InsertOnSubmit(machineData);
+                    }
+
+                }
+                
+
+                context.SubmitChanges();
+
+                return newMachine.Id;
+            }
+        }
+
+        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, Guid userDataId, Guid machineId, DateTime clientTime, string environment, IDictionary<string, string> data)
+        {
+            using (var context = GetDataContext())
+            {
+                var issue = new Issue
+                {
+                    Id = issueId,
+                    IssueTypeId = issueTypeId,
+                    ClientCreationDate = clientTime,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now,
+                    Enviroment = environment,
+                    SessionId = sessionId,
+                    MachineId = machineId,
+                    UserDataId = userDataId,
+                };
+
+                context.Issues.InsertOnSubmit(issue);
+
+                if (data != null)
+                {
+                    foreach (var d in data)
+                    {
+                        var issueData = new IssueData
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = d.Key,
+                            Value = d.Value
+                        };
+
+                        context.IssueDatas.InsertOnSubmit(issueData);
+                    }
+
+                }
+               
+
+                context.SubmitChanges();
+
+                return issue.Id;
+            }
+        }
+
+        private static Quilt4DataContext GetDataContext()
+        {
+            return new Quilt4DataContext();
         }
     }
 }

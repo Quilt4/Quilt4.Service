@@ -33,6 +33,7 @@ namespace Quilt4.Service.Entity
         public ApplicationDataRequestEntity Application { get; set; }
         public MachineDataRequestEntity Machine { get; set; }
         public UserDataRequestEntity User { get; set; }
+        public string CallerIp { get; set; }
     }
 
     public class ApplicationDataRequestEntity

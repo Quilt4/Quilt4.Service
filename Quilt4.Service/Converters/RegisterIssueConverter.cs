@@ -18,7 +18,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static RegisterIssueRequestEntity ToRegisterIssueRequestEntity(this RegisterIssueRequest item)
+        public static RegisterIssueRequestEntity ToRegisterIssueRequestEntity(this RegisterIssueRequest item, string callerIp)
         {
             if (item == null)
                 return null;
@@ -26,7 +26,7 @@ namespace Quilt4.Service.Converters
             return new RegisterIssueRequestEntity
             {
                 Id = Guid.Parse(item.Id),
-                Session = item.Session.ToSessionRequestEntity(),
+                Session = item.Session.ToSessionRequestEntity(callerIp),
                 ClientTime = item.ClientTime,
                 Data = item.Data,
                 IssueType = item.IssueType.ToIssueTypeRequestEntity(),
@@ -51,7 +51,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static SessionRequestEntity ToSessionRequestEntity(this SessionRequest item)
+        public static SessionRequestEntity ToSessionRequestEntity(this SessionRequest item, string callerIp)
         {
             if (item == null)
                 return null;
@@ -64,7 +64,8 @@ namespace Quilt4.Service.Converters
                 Environment = item.Environment,
                 Application = item.Application.ToApplicationDataRequestEntity(),
                 Machine = item.Machine.ToMachineDataRequestEntity(),
-                User = item.User.ToUserDataRequestEntity()
+                User = item.User.ToUserDataRequestEntity(),
+                CallerIp = callerIp,
             };
         }
 

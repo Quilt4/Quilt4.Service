@@ -1,0 +1,5 @@
+ALTER TABLE Issue
+DROP COLUMN MachineId 
+
+ALTER TABLE Issue
+DROP COLUMN UserDataId 

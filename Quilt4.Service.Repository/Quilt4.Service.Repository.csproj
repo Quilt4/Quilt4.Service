@@ -56,6 +56,7 @@
     <Compile Include="SqlRepository\Extensions\DashboardProjectExtensions.cs" />
     <Compile Include="SqlRepository\Extensions\IssueTypePageExtensions.cs" />
     <Compile Include="SqlRepository\Extensions\ProjectPageExtensions.cs" />
+    <Compile Include="SqlRepository\Extensions\SessionExtensions.cs" />
     <Compile Include="SqlRepository\Extensions\VersionPageExtensions.cs" />
     <Compile Include="SqlRepository\Quilt4.designer.cs">
       <AutoGen>True</AutoGen>

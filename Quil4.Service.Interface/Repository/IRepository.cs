@@ -16,9 +16,10 @@ namespace Quil4.Service.Interface.Repository
         Guid SaveApplication(Guid projectId, string name);
         Guid SaveVersion(Guid applicaitonId, string version, string supportToolkitNameVersion);
         Guid SaveIssueType(Guid versionId, int ticket, string type, string issueLevel, string message, string stackTrace);
-        Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp);
+        Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp, Guid applicaitonId, Guid versionId, Guid userDataId, Guid machineId, string environment);
         Guid SaveUserData(string fingerprint, string userName);
         Guid SaveMachine(string fingerprint, string name, IDictionary<string, string> data);
-        Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, Guid userDataId, Guid machineId, DateTime clientTime, string environment, IDictionary<string, string> data);
+        Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data);
+        Session GetSession(Guid sessionId);
     }
 }

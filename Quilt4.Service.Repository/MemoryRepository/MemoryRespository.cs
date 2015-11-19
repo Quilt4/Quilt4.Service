@@ -57,7 +57,7 @@ namespace Quilt4.Service.Repository.MemoryRepository
             throw new NotImplementedException();
         }
 
-        public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp)
+        public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp, Guid applicaitonId, Guid versionId, Guid userDataId, Guid machineId, string environment)
         {
             throw new NotImplementedException();
         }
@@ -72,7 +72,12 @@ namespace Quilt4.Service.Repository.MemoryRepository
             throw new NotImplementedException();
         }
 
-        Guid IRepository.SaveIssue(Guid typeId, Guid issueTypeId, Guid sessionId, Guid userDataId, Guid machineId, DateTime clientTime, string environment, IDictionary<string, string> data)
+        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Session GetSession(Guid sessionId)
         {
             throw new NotImplementedException();
         }

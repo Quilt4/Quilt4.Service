@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using Newtonsoft.Json;
@@ -8,28 +12,27 @@ using Quilt4.Service.DataTransfer;
 
 namespace Quilt4.Service.Controllers.ClientApi
 {
-    public class IssueController : ApiController
+    public class SessionController : ApiController
     {
-        private readonly IIssueBusiness _issueBusiness;
-        public IssueController(IIssueBusiness issueBusiness)
+        private readonly ISessionBusiness _sessionBusiness;
+        public SessionController(ISessionBusiness sessionBusiness)
         {
-            _issueBusiness = issueBusiness;
+            _sessionBusiness = sessionBusiness;
         }
 
         [HttpPost]
-        [Route("api/issue/register")]
+        [Route("api/session/register")]
         [AllowAnonymous]
-        public RegisterIssueResponse RegisterIssue([FromBody] object request)
+        public void RegisterSession([FromBody] object request)
         {
             if (request == null)
                 throw new ArgumentNullException("request", "No request object provided.");
 
             try
             {
-                var data = GetData(request).ToRegisterIssueRequestEntity();
-                var registerIssueResponse = _issueBusiness.RegisterIssue(data).ToRegisterIssueResponse();
+                var data = GetData(request).ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
 
-                return registerIssueResponse;
+                _sessionBusiness.RegisterSession(data);
             }
             catch (Exception exception)
             {
@@ -38,14 +41,14 @@ namespace Quilt4.Service.Controllers.ClientApi
             }
         }
 
-        private RegisterIssueRequest GetData(object request)
+        private RegisterSessionRequest GetData(object request)
         {
             var requestString = request.ToString();
 
-            RegisterIssueRequest data;
+            RegisterSessionRequest data;
             try
             {
-                data = JsonConvert.DeserializeObject<RegisterIssueRequest>(requestString);
+                data = JsonConvert.DeserializeObject<RegisterSessionRequest>(requestString);
             }
             catch (Exception exception)
             {

@@ -17,12 +17,7 @@ namespace Quilt4.Service.Business
         {
             lock (SyncRoot)
             {
-                var response = _repository.GetSetting<string>("PasswordPadding");
-                if (string.IsNullOrEmpty(response))
-                {
-                    response = RandomUtility.GetRandomString(20);
-                    _repository.SetSetting("PasswordPadding", response);
-                }
+                var response = _repository.GetSetting("PasswordPadding", RandomUtility.GetRandomString(20));
                 return response;
             }
         }

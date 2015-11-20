@@ -2,11 +2,13 @@
 {
     public class LoginSession
     {
-        public LoginSession(string sessionKey)
+        public LoginSession(string publicKey, string privateKey)
         {
-            SessionKey = sessionKey;
+            PrivateKey = privateKey;
+            PublicKey = publicKey;
         }
 
-        public string SessionKey { get; }
+        public string PublicKey { get; }
+        public string PrivateKey { get; }
     }
 }

@@ -15,7 +15,6 @@ namespace Quilt4.Service.Controllers
             _dashboardBusiness = dashboardBusiness;
         }
 
-
         [Route("api/dashboard/project")]
         public IEnumerable<DashboardPageProjectResponse> GetAllProjects()
         {

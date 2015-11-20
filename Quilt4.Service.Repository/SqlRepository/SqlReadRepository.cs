@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Repository.SqlRepository.Extensions;
@@ -10,7 +11,7 @@ namespace Quilt4.Service.Repository.SqlRepository
     {
         public Entity.ProjectPageProject GetProject(string userId, Guid projectId)
         {
-            using (var context = new Quilt4DataContext())
+            using (var context = GetDataContext())
             {
                 var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectId == projectId);
 
@@ -18,9 +19,16 @@ namespace Quilt4.Service.Repository.SqlRepository
             }
         }
 
+        private Quilt4DataContext GetDataContext()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            return new Quilt4DataContext(connectionString);
+        }
+
         public IEnumerable<Entity.ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId)
         {
-            using (var context = new Quilt4DataContext())
+            using (var context = GetDataContext())
             {
                 return
                     context.ProjectPageVersions.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId)
@@ -30,7 +38,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
         public Entity.VersionPageVersion GetVersion(string userId, Guid projectId, Guid applicationId, Guid versionId)
         {
-            using (var context = new Quilt4DataContext())
+            using (var context = GetDataContext())
             {
                 var versionPageIssueTypes =
                     context.VersionPageIssueTypes.Where(
@@ -46,7 +54,7 @@ namespace Quilt4.Service.Repository.SqlRepository
         public Entity.IssueTypePageIssueType GetIssueType(string userId, Guid projectId, Guid applicationId,
             Guid versionId, Guid issueTypeId)
         {
-            using (var context = new Quilt4DataContext())
+            using (var context = GetDataContext())
             {
                 var issueTypePageIssues =
                     context.IssueTypePageIssues.Where(
@@ -64,7 +72,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
         public IEnumerable<Entity.DashboardPageProject> GetDashboardProjects(string userId)
         {
-            using (var context = new Quilt4DataContext())
+            using (var context = GetDataContext())
             {
                 return context.DashboardPageProjects.ToDashboardProjects().ToArray();
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
@@ -468,7 +469,9 @@ namespace Quilt4.Service.Repository.SqlRepository
 
         private static Quilt4DataContext GetDataContext()
         {
-            return new Quilt4DataContext();
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            return new Quilt4DataContext(connectionString);
         }
     }
 }

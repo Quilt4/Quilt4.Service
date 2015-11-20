@@ -9,8 +9,8 @@
             PasswordHash = passwordHash;
         }
 
-        public string Username { get; }
-        public string Email { get; }
-        public string PasswordHash { get; }
+        public string Username { get; private set; }
+        public string Email { get; private set; }
+        public string PasswordHash { get; private set; }
     }
 }

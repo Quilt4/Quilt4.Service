@@ -81,5 +81,15 @@ namespace Quilt4.Service.Repository.MemoryRepository
         {
             throw new NotImplementedException();
         }
+
+        public Guid CreateProject(string name, string dashboardColor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProject(Guid projectId, string name, string dashboardColor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

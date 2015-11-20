@@ -63,6 +63,7 @@ namespace Quilt4.Service.Business
 
             var issueId = _repository.SaveIssue(request.Id, issueTypeId, session.Id, request.ClientTime, request.Data);
 
+            //Update read tables
             _writeRepository.UpdateDashboardPageProject(projectId);
 
             _writeRepository.UpdateProjectPageProject(projectId);
@@ -72,11 +73,8 @@ namespace Quilt4.Service.Business
             _writeRepository.UpdateVersionPageVersion(projectId, session.ApplicationId, session.VersionId);
             _writeRepository.UpdateVersionPageIssueType(projectId, session.ApplicationId, session.VersionId, issueTypeId);
 
-            _writeRepository.UpdateIssueTypePageIssueType(projectId, session.ApplicationId, session.VersionId,
-                issueTypeId);
-            _writeRepository.UpdateIssueTypePageIssue(projectId, session.ApplicationId, session.VersionId, issueTypeId,
-                issueId);
-            //IssueTypePageIssue
+            _writeRepository.UpdateIssueTypePageIssueType(projectId, session.ApplicationId, session.VersionId, issueTypeId);
+            _writeRepository.UpdateIssueTypePageIssue(projectId, session.ApplicationId, session.VersionId, issueTypeId, issueId);
         }
     }
 }

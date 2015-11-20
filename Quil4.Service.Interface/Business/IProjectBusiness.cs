@@ -8,5 +8,7 @@ namespace Quil4.Service.Interface.Business
     {
         ProjectPageProject GetProject(string userId, Guid projectId);
         IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId);
+        Guid CreateProject(string name, string dashboardColor);
+        Guid UpdateProject(Guid projectId, string name, string dashboardColor);
     }
 }

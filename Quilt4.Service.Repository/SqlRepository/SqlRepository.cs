@@ -403,6 +403,41 @@ namespace Quilt4.Service.Repository.SqlRepository
             }
         }
 
+        public Guid CreateProject(string name, string dashboardColor)
+        {
+            using (var context = GetDataContext())
+            {
+                var project = new Project
+                {
+                    Id = Guid.NewGuid(),
+                    Name = name,
+                    DashboardColor = dashboardColor,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now,
+                    ClientToken = Guid.NewGuid().ToString().Replace("-", "")
+                };
+
+                context.Projects.InsertOnSubmit(project);
+                context.SubmitChanges();
+
+                return project.Id;
+            }
+        }
+
+        public void UpdateProject(Guid projectId, string name, string dashboardColor)
+        {
+            using (var context = GetDataContext())
+            {
+                var project = context.Projects.Single(x => x.Id == projectId);
+
+                project.Name = name;
+                project.DashboardColor = dashboardColor;
+                project.LastUpdateDate = DateTime.Now;
+
+                context.SubmitChanges();
+            }
+        }
+
         private static Quilt4DataContext GetDataContext()
         {
             return new Quilt4DataContext();

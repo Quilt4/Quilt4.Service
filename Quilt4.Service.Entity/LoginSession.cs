@@ -8,7 +8,7 @@
             PublicKey = publicKey;
         }
 
-        public string PublicKey { get; }
-        public string PrivateKey { get; }
+        public string PublicKey { get; private set; }
+        public string PrivateKey { get; private set; }
     }
 }

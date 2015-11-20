@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Quilt4.Service.Entity
 {
@@ -23,5 +24,6 @@ namespace Quilt4.Service.Entity
         public string Level { get; set; }
         public DateTime? LastIssue { get; set; }
         public IEnumerable<string> Enviroments { get; set; }
+        public string Message { get; set; }
     }
 }

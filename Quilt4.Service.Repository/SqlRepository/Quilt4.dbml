@@ -58,13 +58,6 @@
       <Column Name="Versions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.ProjectPageProject" Member="ProjectPageProjects">
-    <Type Name="ProjectPageProject">
-      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="DashboardColor" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.ProjectPageVersion" Member="ProjectPageVersions">
     <Type Name="ProjectPageVersion">
       <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -75,20 +68,6 @@
       <Column Name="IssueTypes" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Issues" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Last" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.VersionPageIssueType" Member="VersionPageIssueTypes">
-    <Type Name="VersionPageIssueType">
-      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ProjectId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="Issues" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastIssue" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
@@ -215,6 +194,29 @@
       <Association Name="Issue_IssueData" Member="IssueDatas" ThisKey="Id" OtherKey="IssueId" Type="IssueData" />
       <Association Name="IssueType_Issue" Member="IssueType" ThisKey="IssueTypeId" OtherKey="Id" Type="IssueType" IsForeignKey="true" />
       <Association Name="Session_Issue" Member="Session" ThisKey="SessionId" OtherKey="Id" Type="Session" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.VersionPageIssueType" Member="VersionPageIssueTypes">
+    <Type Name="VersionPageIssueType">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="VersionId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Issues" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastIssue" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProjectPageProject" Member="ProjectPageProjects">
+    <Type Name="ProjectPageProject">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DashboardColor" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="ClientToken" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

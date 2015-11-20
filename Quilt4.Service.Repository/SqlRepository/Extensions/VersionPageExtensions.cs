@@ -42,7 +42,8 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
                 Issues = item.Issues,
                 Level = item.Level,
                 LastIssue = item.LastIssue,
-                Enviroments = item.Enviroments.Split(';')
+                Enviroments = item.Enviroments.Split(';'),
+                Message = item.Message
             };
         }
     }

@@ -6,6 +6,7 @@ namespace Quilt4.Service.Entity
     {
         public Guid Id { get; set; }
         public string ApplicationName { get; set; }
+        public Guid ApplicationId { get; set; }
         public string Version { get; set; }
         public Guid VersionId { get; set; }
     }

@@ -1,0 +1,17 @@
+DELETE FROM IssueData
+DELETE FROM Issue
+DELETE FROM IssueType
+DELETE FROM Session
+DELETE FROM UserData
+DELETE FROM MachineData
+DELETE FROM Machine
+DELETE FROM Version
+DELETE FROM Application
+DELETE FROM DashboardPageProject
+DELETE FROM ProjectPageProject
+DELETE FROM ProjectPageApplication
+DELETE FROM ProjectPageVersion
+DELETE FROM VersionPageVersion
+DELETE FROM VersionPageIssueType
+DELETE FROM IssueTypePageIssueType
+DELETE FROM IssueTypePageIssue

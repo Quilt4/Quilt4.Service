@@ -17,6 +17,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
             {
                 Id = item.Id,
                 ApplicationName = item.Application.Name,
+                ApplicationId = item.ApplicationId,
                 Version = item.Version.Version1,
                 VersionId = item.VersionId,
             };

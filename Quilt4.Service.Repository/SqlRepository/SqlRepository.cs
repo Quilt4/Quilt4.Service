@@ -377,6 +377,7 @@ namespace Quilt4.Service.Repository.SqlRepository
                         var issueData = new IssueData
                         {
                             Id = Guid.NewGuid(),
+                            IssueId = issueId,
                             Name = d.Key,
                             Value = d.Value
                         };

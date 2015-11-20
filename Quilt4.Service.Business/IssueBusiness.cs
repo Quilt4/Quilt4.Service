@@ -9,9 +9,12 @@ namespace Quilt4.Service.Business
     public class IssueBusiness : IIssueBusiness
     {
         private readonly IRepository _repository;
-        public IssueBusiness(IRepository repository)
+        private readonly IWriteRepository _writeRepository;
+
+        public IssueBusiness(IRepository repository, IWriteRepository writeRepository)
         {
             _repository = repository;
+            _writeRepository = writeRepository;
         }
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
@@ -60,7 +63,20 @@ namespace Quilt4.Service.Business
 
             var issueId = _repository.SaveIssue(request.Id, issueTypeId, session.Id, request.ClientTime, request.Data);
 
-            //TODO: Generate data into "read tables" in db
+            _writeRepository.UpdateDashboardPageProject(projectId);
+
+            _writeRepository.UpdateProjectPageProject(projectId);
+            _writeRepository.UpdateProjectPageApplication(projectId, session.ApplicationId);
+            _writeRepository.UpdateProjectPageVersion(projectId, session.ApplicationId, session.VersionId);
+
+            _writeRepository.UpdateVersionPageVersion(projectId, session.ApplicationId, session.VersionId);
+            _writeRepository.UpdateVersionPageIssueType(projectId, session.ApplicationId, session.VersionId, issueTypeId);
+
+            _writeRepository.UpdateIssueTypePageIssueType(projectId, session.ApplicationId, session.VersionId,
+                issueTypeId);
+            _writeRepository.UpdateIssueTypePageIssue(projectId, session.ApplicationId, session.VersionId, issueTypeId,
+                issueId);
+            //IssueTypePageIssue
         }
     }
 }

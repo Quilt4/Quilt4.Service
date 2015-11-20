@@ -1,0 +1,2 @@
+ALTER TABLE ProjectPageProject
+ADD ClientToken NVARCHAR(50) NOT NULL

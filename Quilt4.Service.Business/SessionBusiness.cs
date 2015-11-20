@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Quil4.Service.Interface.Business;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
@@ -8,10 +9,12 @@ namespace Quilt4.Service.Business
     public class SessionBusiness : ISessionBusiness
     {
         private readonly IRepository _repository;
+        private readonly IWriteRepository _writeRepository;
 
-        public SessionBusiness(IRepository repository)
+        public SessionBusiness(IRepository repository, IWriteRepository writeRepository)
         {
             _repository = repository;
+            _writeRepository = writeRepository;
         }
 
         public void RegisterSession(SessionRequestEntity request)
@@ -54,6 +57,23 @@ namespace Quilt4.Service.Business
             // Add/Update Session
             _repository.SaveSession(request.SessionId, request.ClientStartTime,
                 request.CallerIp, applicaitonId, versionId, userDataId, machineId, request.Environment);
+
+            Task.Factory.StartNew(() => UpdateReadViews(projectId.Value, applicaitonId, versionId));
+        }
+
+        private void UpdateReadViews(Guid projectId, Guid applicaitonId, Guid versionId)
+        {
+            _writeRepository.UpdateDashboardPageProject(projectId);
+
+            _writeRepository.UpdateProjectPageProject(projectId);
+            _writeRepository.UpdateProjectPageApplication(projectId, applicaitonId);
+            _writeRepository.UpdateProjectPageVersion(projectId, applicaitonId, versionId);
+
+            _writeRepository.UpdateVersionPageVersion(projectId, applicaitonId, versionId);
+            //No need to update VersionPageIssueType, nothing has changed at this moment.
+
+            //No need to update IssueTypePageIssueType, nothing has changed at this moment.
+            //No need to update IssueTypePageIssue, nothing has changed at this moment.
         }
     }
 }

@@ -43,7 +43,8 @@ namespace Quilt4.Service.Converters
                 Issues = item.Issues,
                 Level = item.Level,
                 LastIssue = item.LastIssue,
-                Enviroments = item.Enviroments
+                Enviroments = item.Enviroments,
+                Message = item.Message
             };
         }
     }

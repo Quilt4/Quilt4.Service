@@ -23,5 +23,6 @@ namespace Quilt4.Service.DataTransfer
         public string Level { get; set; }
         public DateTime? LastIssue { get; set; }
         public IEnumerable<string> Enviroments { get; set; }
+        public string Message { get; set; }
     }
 }

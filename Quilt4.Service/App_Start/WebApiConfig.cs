@@ -3,6 +3,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
 using Castle.Windsor;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Quilt4.Service.Injection;
 
@@ -15,6 +17,8 @@ namespace Quilt4.Service
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
+
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter());
 
             MapRoutes(config);
 

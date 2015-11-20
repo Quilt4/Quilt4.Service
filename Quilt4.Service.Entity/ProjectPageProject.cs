@@ -8,6 +8,7 @@ namespace Quilt4.Service.Entity
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string DashboardColor { get; set; }
+        public string ClientToken { get; set; }
         public IEnumerable<ProjectPageApplication> Applications { get; set; }
     }
 

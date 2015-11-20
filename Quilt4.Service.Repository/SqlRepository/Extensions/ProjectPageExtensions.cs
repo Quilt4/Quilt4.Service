@@ -15,6 +15,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
                 Id = item.Id,
                 Name = item.Name,
                 DashboardColor = item.DashboardColor,
+                ClientToken = item.ClientToken,
                 Applications = projectPageApplicaitons.ToProjectPageApplications().ToArray()
             };
         }

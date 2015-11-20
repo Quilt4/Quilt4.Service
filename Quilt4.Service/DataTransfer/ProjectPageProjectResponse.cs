@@ -7,6 +7,7 @@ namespace Quilt4.Service.DataTransfer
         public string Id { get; set; }
         public string Name { get; set; }
         public string DashboardColor { get; set; }
+        public string ClientToken { get; set; } 
         public IEnumerable<ProjectPageApplicationResponse> Applications { get; set; }
     }
 

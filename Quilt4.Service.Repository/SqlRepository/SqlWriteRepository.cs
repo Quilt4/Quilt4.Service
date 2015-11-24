@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using Newtonsoft.Json;
-using Quil4.Service.Interface.Repository;
+using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Repository.SqlRepository
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Quilt4.Service.Entity;
 
-namespace Quil4.Service.Interface.Repository
+namespace Quilt4.Service.Interface.Repository
 {
     public interface IRepository
     {
@@ -22,7 +22,7 @@ namespace Quil4.Service.Interface.Repository
         Guid SaveMachine(string fingerprint, string name, IDictionary<string, string> data);
         Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data);
         Session GetSession(Guid sessionId);
-        Guid CreateProject(string name, string dashboardColor);
+        void CreateProject(Guid projectKey, string name, string dashboardColor);
         void UpdateProject(Guid projectId, string name, string dashboardColor);
     }
 }

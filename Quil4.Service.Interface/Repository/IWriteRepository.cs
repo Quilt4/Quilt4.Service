@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Quil4.Service.Interface.Repository
+namespace Quilt4.Service.Interface.Repository
 {
     public interface IWriteRepository
     {

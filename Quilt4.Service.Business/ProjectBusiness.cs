@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Quil4.Service.Interface.Business;
-using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
+using Quilt4.Service.Interface.Business;
+using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Business
 {
@@ -29,14 +29,11 @@ namespace Quilt4.Service.Business
             return _readRepository.GetVersions(userId, projectId, applicationId);
         }
 
-        public Guid CreateProject(string name, string dashboardColor)
+        public void CreateProject(Guid projectKey, string name, string dashboardColor)
         {
-            var projectId =  _repository.CreateProject(name, dashboardColor);
-
-            _writeRepository.UpdateDashboardPageProject(projectId);
-            _writeRepository.UpdateProjectPageProject(projectId);
-
-            return projectId;
+            _repository.CreateProject(projectKey, name, dashboardColor);
+            _writeRepository.UpdateDashboardPageProject(projectKey);
+            _writeRepository.UpdateProjectPageProject(projectKey);
         }
 
         public Guid UpdateProject(Guid projectId, string name, string dashboardColor)

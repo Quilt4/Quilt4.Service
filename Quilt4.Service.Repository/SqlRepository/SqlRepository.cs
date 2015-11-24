@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
+using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Repository.SqlRepository.Extensions;
 
 namespace Quilt4.Service.Repository.SqlRepository
@@ -62,9 +62,9 @@ namespace Quilt4.Service.Repository.SqlRepository
                 _settings.Remove(name);
             _settings.Add(name, value.ToString());
         }
-        
+
         public int GetNextTicket(string clientToken, string applicationName, string applicationVersion, string type,
-            string level, string message, string stackTrace)
+                                 string level, string message, string stackTrace)
         {
             using (var context = GetDataContext())
             {
@@ -76,7 +76,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                 var issueType = version?.IssueTypes.SingleOrDefault(
                     x =>
-                        x.Type == type && x.Level == level && x.Message == message && x.StackTrace == stackTrace);
+                    x.Type == type && x.Level == level && x.Message == message && x.StackTrace == stackTrace);
 
                 if (issueType != null)
                     return issueType.Ticket;
@@ -161,16 +161,16 @@ namespace Quilt4.Service.Repository.SqlRepository
         }
 
         public Guid SaveIssueType(Guid versionId, int ticket, string type, string issueLevel, string message,
-            string stackTrace)
+                                  string stackTrace)
         {
             using (var context = GetDataContext())
             {
                 var issueType =
                     context.IssueTypes.SingleOrDefault(
                         x =>
-                            x.VersionId.Equals(versionId) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
-                            x.Message.Equals(message) &&
-                            (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
+                        x.VersionId.Equals(versionId) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
+                        x.Message.Equals(message) &&
+                        (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
 
                 if (issueType != null)
                 {
@@ -382,8 +382,8 @@ namespace Quilt4.Service.Repository.SqlRepository
             }
         }
 
-        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, 
-            DateTime clientTime,  IDictionary<string, string> data)
+        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId,
+                              DateTime clientTime, IDictionary<string, string> data)
         {
             using (var context = GetDataContext())
             {
@@ -432,13 +432,13 @@ namespace Quilt4.Service.Repository.SqlRepository
             }
         }
 
-        public Guid CreateProject(string name, string dashboardColor)
+        public void CreateProject(Guid projectKey, string name, string dashboardColor)
         {
             using (var context = GetDataContext())
             {
                 var project = new Project
                 {
-                    Id = Guid.NewGuid(),
+                    Id = projectKey,
                     Name = name,
                     DashboardColor = dashboardColor,
                     CreationDate = DateTime.Now,
@@ -448,8 +448,6 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                 context.Projects.InsertOnSubmit(project);
                 context.SubmitChanges();
-
-                return project.Id;
             }
         }
 

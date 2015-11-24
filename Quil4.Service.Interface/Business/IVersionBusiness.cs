@@ -1,7 +1,7 @@
 ﻿using System;
 using Quilt4.Service.Entity;
 
-namespace Quil4.Service.Interface.Business
+namespace Quilt4.Service.Interface.Business
 {
     public interface IVersionBusiness
     {

@@ -60,6 +60,7 @@
     <Compile Include="Business\ISettingBusiness.cs" />
     <Compile Include="Business\IUserBusiness.cs" />
     <Compile Include="Business\IVersionBusiness.cs" />
+    <Compile Include="Business\IWriteBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IReadRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />

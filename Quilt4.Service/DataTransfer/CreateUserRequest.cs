@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Quilt4.Service.DataTransfer
 {
     public class CreateUserRequest

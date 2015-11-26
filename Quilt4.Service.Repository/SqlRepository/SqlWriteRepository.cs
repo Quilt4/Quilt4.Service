@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Transactions;
 using Newtonsoft.Json;
-using Quil4.Service.Interface.Repository;
+using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Repository.SqlRepository
 {
@@ -84,282 +84,267 @@ namespace Quilt4.Service.Repository.SqlRepository
                 context.SubmitChanges();
             }
         }
-
-        public void UpdateProjectPageApplication(Guid projectId, Guid applicaitonId)
+        
+        public void WriteToReadDb()
         {
-            using (var context = GetDataContext())
+            using (var scope = new TransactionScope())
             {
-                var application = context.Applications.Single(x => x.Id == applicaitonId && x.ProjectId == projectId);
-
-                var versions = application.Versions.Count;
-
-                var projectPageApplication =
-                    context.ProjectPageApplications.SingleOrDefault(
-                        x => x.ProjectId == projectId && x.Id == application.Id);
-
-                if (projectPageApplication != null)
+                using (var context = GetDataContext())
                 {
-                    projectPageApplication.Name = application.Name;
-                    projectPageApplication.Versions = versions;
-                }
-                else
-                {
-                    var newProjectPageApplication = new ProjectPageApplication
+                    var issueTypePageIssueIds = context.IssueTypePageIssues.Select(x => x.Id);
+                    var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.Id));
+
+                    foreach (var issue in issuesToUpdate)
                     {
-                        Id = application.Id,
-                        ProjectId = application.ProjectId,
-                        Name = application.Name,
-                        Versions = versions
-                    };
+                        var issueType = issue.IssueType;
+                        var version = issue.IssueType.Version;
+                        var application = issue.IssueType.Version.Application;
+                        var project = issue.IssueType.Version.Application.Project;
+                        var session = issue.Session;
 
-                    context.ProjectPageApplications.InsertOnSubmit(newProjectPageApplication);
+                        AddIssueTypePageIssue(issue, issueType, version, application, project, session, context);
+
+                        AddUpdateIssueTypePageIssueType(context, issueType, version, application, project);
+
+                        AddUpdateVersionPageIssueType(context, issueType, version, application, project);
+
+                        AddUpdateVersionPageVersion(context, version, application, project);
+
+                        AddUpdateProjectPageVersion(context, version, application, project);
+
+                        AddUpdateProjectPageApplication(context, application, project);
+
+                        AddUpdateProjectPageProject(context, project);
+
+                        AddUpdateDashboardPageProject(context, project);
+
+                        context.SubmitChanges();
+                    }
+
                 }
 
-                context.SubmitChanges();
+                scope.Complete();
             }
         }
 
-        public void UpdateProjectPageVersion(Guid projectId, Guid applicaitonId, Guid versionId)
+        private static void AddUpdateDashboardPageProject(Quilt4DataContext context, Project project)
         {
-            using (var context = GetDataContext())
+            var dashboardPageProject = context.DashboardPageProjects.SingleOrDefault(x => x.Id == project.Id);
+
+            var versions = project.Applications.SelectMany(x => x.Versions).Count();
+            var sessions = project.Applications.SelectMany(x => x.Sessions).Count();
+            var issueTypes = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes).Count();
+            var issues = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes).SelectMany(x => x.Issues).Count();
+
+            if (dashboardPageProject != null)
             {
-                var version =
-                    context.Versions.Single(x => x.Id == versionId);
-
-                var sessions = version.Sessions.Count;
-                var issueTypes = version.IssueTypes.Count;
-                var issues = version.IssueTypes.SelectMany(x => x.Issues).Count();
-                var enviroment = version.Sessions.Select(x => x.Enviroment).Distinct();
-                var allIssues = version.IssueTypes.SelectMany(x => x.Issues);
-
-                DateTime? lastIssue;
-                if (allIssues.Any())
-                    lastIssue = allIssues.Max(y => y.CreationDate);
-                else
+                dashboardPageProject.Name = project.Name;
+                dashboardPageProject.DashboardColor = project.DashboardColor;
+                dashboardPageProject.Versions = versions;
+                dashboardPageProject.Sessions = sessions;
+                dashboardPageProject.IssueTypes = issueTypes;
+                dashboardPageProject.Issues = issues;
+            }
+            else
+            {
+                var newDashboardPageProject = new DashboardPageProject
                 {
-                    lastIssue = null;
-                }
+                    Id = project.Id,
+                    Name = project.Name,
+                    DashboardColor = project.DashboardColor,
+                    Versions = versions,
+                    Sessions = sessions,
+                    IssueTypes = issueTypes,
+                    Issues = issues,
+                };
 
-
-                var projectPageVersion =
-                    context.ProjectPageVersions.SingleOrDefault(
-                        x =>
-                            x.ProjectId == projectId && x.ApplicationId == version.ApplicationId &&
-                            x.Id == version.Id);
-
-                if (projectPageVersion != null)
-                {
-                    projectPageVersion.Version = version.Version1;
-                    projectPageVersion.Sessions = sessions;
-                    projectPageVersion.IssueTypes = issueTypes;
-                    projectPageVersion.Issues = issues;
-                    projectPageVersion.Last = lastIssue;
-                    projectPageVersion.Enviroments = string.Join(";", enviroment);
-                }
-                else
-                {
-                    var newProjectPageVersion = new ProjectPageVersion
-                    {
-                        ProjectId = projectId,
-                        ApplicationId = version.ApplicationId,
-                        Id = version.Id,
-                        Version = version.Version1,
-                        Sessions = sessions,
-                        IssueTypes = issueTypes,
-                        Issues = issues,
-                        Last = lastIssue,
-                        Enviroments = string.Join(";", enviroment)
-                    };
-
-                    context.ProjectPageVersions.InsertOnSubmit(newProjectPageVersion);
-                }
-
-                context.SubmitChanges();
+                context.DashboardPageProjects.InsertOnSubmit(newDashboardPageProject);
             }
         }
 
-        public void UpdateVersionPageVersion(Guid projectId, Guid applicaitonId, Guid versionId)
+        private static void AddUpdateProjectPageProject(Quilt4DataContext context, Project project)
         {
-            using (var context = GetDataContext())
+            var projectPageProject = context.ProjectPageProjects.SingleOrDefault(x => x.Id == project.Id);
+
+            if (projectPageProject == null)
             {
-                var project = context.Projects.Single(x => x.Id == projectId);
-
-                var version =
-                    context.Versions.Single(x => x.Id == versionId);
-
-                var versionPageVersion =
-                    context.VersionPageVersions.SingleOrDefault(
-                        x => x.Id == versionId && x.ProjectId == projectId && x.ApplicaitonId == applicaitonId);
-
-                if (versionPageVersion != null)
+                var newProjectPageProject = new ProjectPageProject
                 {
-                    versionPageVersion.ProjectName = project.Name;
-                    versionPageVersion.ApplicationName = version.Application.Name;
-                    versionPageVersion.Version = version.Version1;
-                }
-                else
-                {
-                    var newVersionPageVersion = new VersionPageVersion
-                    {
-                        Id = versionId,
-                        ProjectId = projectId,
-                        ApplicaitonId = applicaitonId,
-                        ProjectName = project.Name,
-                        ApplicationName = version.Application.Name,
-                        Version = version.Version1
-                    };
+                    Id = project.Id,
+                    ClientToken = project.ClientToken,
+                    DashboardColor = project.DashboardColor,
+                    Name = project.Name,
+                };
 
-                    context.VersionPageVersions.InsertOnSubmit(newVersionPageVersion);
-                }
-
-                context.SubmitChanges();
+                context.ProjectPageProjects.InsertOnSubmit(newProjectPageProject);
+            }
+            else
+            {
+                projectPageProject.ClientToken = project.ClientToken;
+                projectPageProject.DashboardColor = project.DashboardColor;
+                projectPageProject.Name = project.Name;
             }
         }
 
-        public void UpdateVersionPageIssueType(Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId)
+        private static void AddUpdateProjectPageApplication(Quilt4DataContext context, Application application, Project project)
         {
-            using (var context = GetDataContext())
+            var projectPageApplication = context.ProjectPageApplications.SingleOrDefault(x => x.Id == application.Id);
+
+            var versions = application.Versions.Count;
+
+            if (projectPageApplication != null)
             {
-                    
-                var issueType = context.IssueTypes.Single(x => x.Id == issueTypeId);
-                var issues = issueType.Issues.Count;
-                var lastIssue = issueType.Issues.Max(x => x.CreationDate);
-                var allEnviroments = issueType.Issues.Select(x => x.Session).Select(y => y.Enviroment).Distinct();
-                var enviroments = string.Join(";", allEnviroments);
-
-                var versionPageIssueType =
-                    context.VersionPageIssueTypes.SingleOrDefault(
-                        x =>
-                            x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId &&
-                            x.Id == issueTypeId);
-
-                if (versionPageIssueType != null)
+                projectPageApplication.Versions = versions;
+            }
+            else
+            {
+                var newProjectPageApplication = new ProjectPageApplication
                 {
-                    versionPageIssueType.Ticket = issueType.Ticket;
-                    versionPageIssueType.Type = issueType.Type;
-                    versionPageIssueType.Level = issueType.Level;
-                    versionPageIssueType.Issues = issues;
-                    versionPageIssueType.LastIssue = lastIssue;
-                    versionPageIssueType.Enviroments = enviroments;
-                    versionPageIssueType.Message = issueType.Message;
-                }
-                else
-                {
-                    var newVersionPageIssueType = new VersionPageIssueType
-                    {
-                        Id = issueTypeId,
-                        ProjectId = projectId,
-                        ApplicationId = applicationId,
-                        VersionId = versionId,
-                        Ticket = issueType.Ticket,
-                        Type = issueType.Type,
-                        Level = issueType.Level,
-                        Issues = issues,
-                        LastIssue = lastIssue,
-                        Enviroments = enviroments,
-                        Message = issueType.Message
-                    };
+                    Id = application.Id,
+                    Name = application.Name,
+                    ProjectId = project.Id,
+                    Versions = versions
+                };
 
-                    context.VersionPageIssueTypes.InsertOnSubmit(newVersionPageIssueType);
-                }
-
-                context.SubmitChanges();
+                context.ProjectPageApplications.InsertOnSubmit(newProjectPageApplication);
             }
         }
 
-        public void UpdateIssueTypePageIssueType(Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId)
+        private static void AddUpdateProjectPageVersion(Quilt4DataContext context, Version version, Application application, Project project)
         {
-            using (var context = GetDataContext())
+            var projectPageVersion = context.ProjectPageVersions.SingleOrDefault(x => x.Id == version.Id);
+
+            var sessions = version.Sessions.Count;
+            var issueTypes = version.IssueTypes.Count;
+            var issues = version.IssueTypes.SelectMany(x => x.Issues).Count();
+            var last = version.IssueTypes.SelectMany(x => x.Issues).Max(x => x.ClientCreationDate);
+            var enviroments = string.Join(";", version.Sessions.Select(x => x.Enviroment).Distinct());
+
+
+            if (projectPageVersion != null)
             {
-                var project = context.Projects.Single(x => x.Id == projectId);
-                var application = context.Applications.Single(x => x.Id == applicationId);
-                var version = context.Versions.Single(x => x.Id == versionId);
-                var issueType = context.IssueTypes.Single(x => x.Id == issueTypeId);
-
-                var issueTypePageIssueType =
-                    context.IssueTypePageIssueTypes.SingleOrDefault(
-                        x =>
-                            x.Id == issueTypeId && x.ProjectId == projectId && x.ApplicationId == applicationId &&
-                            x.VersionId == versionId);
-
-                if (issueTypePageIssueType != null)
+                projectPageVersion.Sessions = sessions;
+                projectPageVersion.IssueTypes = issueTypes;
+                projectPageVersion.Issues = issues;
+                projectPageVersion.Last = last;
+                projectPageVersion.Enviroments = enviroments;
+            }
+            else
+            {
+                var newProjectPageVersion = new ProjectPageVersion
                 {
-                    issueTypePageIssueType.ProjectName = project.Name;
-                    issueTypePageIssueType.ApplicationName = application.Name;
-                    issueTypePageIssueType.Version = version.Version1;
-                    issueTypePageIssueType.Ticket = issueType.Ticket;
-                    issueTypePageIssueType.Type = issueType.Type;
-                    issueTypePageIssueType.Message = issueType.Message;
-                    issueTypePageIssueType.Level = issueType.Level;
-                    issueTypePageIssueType.StackTrace = issueType.StackTrace;
-                }
-                else
-                {
-                    var newIssueTypePageIssueType = new IssueTypePageIssueType
-                    {
-                        Id = issueTypeId,
-                        ProjectId = projectId,
-                        ApplicationId = applicationId,
-                        VersionId = versionId,
-                        ProjectName = project.Name,
-                        ApplicationName = application.Name,
-                        Version = version.Version1,
-                        Ticket = issueType.Ticket,
-                        Type = issueType.Type,
-                        Message = issueType.Message,
-                        Level = issueType.Level,
-                        StackTrace = issueType.StackTrace,
-                    };
-
-                    context.IssueTypePageIssueTypes.InsertOnSubmit(newIssueTypePageIssueType);
-                }
-
-                context.SubmitChanges();
+                    Id = version.Id,
+                    ProjectId = project.Id,
+                    ApplicationId = application.Id,
+                    Version = version.Version1,
+                    Sessions = sessions,
+                    IssueTypes = issueTypes,
+                    Issues = issues,
+                    Last = last,
+                    Enviroments = enviroments,
+                };
+                context.ProjectPageVersions.InsertOnSubmit(newProjectPageVersion);
             }
         }
 
-        public void UpdateIssueTypePageIssue(Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId, Guid issueId)
+        private static void AddUpdateVersionPageVersion(Quilt4DataContext context, Version version, Application application, Project project)
         {
-            using (var context = GetDataContext())
+            var versionPageVersion = context.VersionPageVersions.SingleOrDefault(x => x.Id == version.Id);
+
+            if (versionPageVersion == null)
             {
-                var issue = context.Issues.Single(x => x.Id == issueId);
-
-                var issueTypePageIssue =
-                    context.IssueTypePageIssues.SingleOrDefault(
-                        x =>
-                            x.Id == issueId && x.ProjectId == projectId && x.ApplicationId == applicationId &&
-                            x.VersionId == versionId && x.IssueTypeId == issueTypeId);
-
-                var dataDictionary = JsonConvert.SerializeObject(issue.IssueDatas.ToDictionary(data => data.Name, data => data.Value));
-
-                if (issueTypePageIssue != null)
+                var newVersionPageVersion = new VersionPageVersion
                 {
-                    issueTypePageIssue.Time = issue.CreationDate;
-                    issueTypePageIssue.IssueUser = issue.Session.UserData.UserName;
-                    issueTypePageIssue.Enviroment = issue.Session.Enviroment;
-                    issueTypePageIssue.Data = dataDictionary;
+                    Id = version.Id,
+                    ProjectId = project.Id,
+                    ApplicaitonId = application.Id,
+                    ProjectName = project.Name,
+                    ApplicationName = application.Name,
+                    Version = version.Version1,
+                };
 
-                }
-                else
-                {
-                    var newIssueTypePageIssue = new IssueTypePageIssue
-                    {
-                        Id = issueId,
-                        ProjectId = projectId,
-                        ApplicationId = applicationId,
-                        VersionId = versionId,
-                        IssueTypeId = issueTypeId,
-                        Time = issue.CreationDate,
-                        IssueUser = issue.Session.UserData.UserName,
-                        Enviroment = issue.Session.Enviroment,
-                        Data = dataDictionary,
-                    };
-                    context.IssueTypePageIssues.InsertOnSubmit(newIssueTypePageIssue);
-                }
-
-                context.SubmitChanges();
+                context.VersionPageVersions.InsertOnSubmit(newVersionPageVersion);
             }
+        }
 
+        private static void AddUpdateVersionPageIssueType(Quilt4DataContext context, IssueType issueType, Version version, Application application, Project project)
+        {
+            var versionPageIssueType = context.VersionPageIssueTypes.SingleOrDefault(x => x.Id == issueType.Id);
+            var issueCount = issueType.Issues.Count;
+            var lastIssue = issueType.Issues.Max(x => x.ClientCreationDate);
+            var enviroments = string.Join(";", issueType.Issues.Select(x => x.Session).Select(y => y.Enviroment).Distinct());
+
+            if (versionPageIssueType != null)
+            {
+                versionPageIssueType.Issues = issueCount;
+                versionPageIssueType.LastIssue = lastIssue;
+                versionPageIssueType.Enviroments = enviroments;
+            }
+            else
+            {
+                var newVersionPageIssueType = new VersionPageIssueType
+                {
+                    Id = issueType.Id,
+                    ProjectId = project.Id,
+                    ApplicationId = application.Id,
+                    VersionId = version.Id,
+                    Enviroments = enviroments,
+                    Issues = issueCount,
+                    LastIssue = lastIssue,
+                    Level = issueType.Level,
+                    Message = issueType.Message,
+                    Ticket = issueType.Ticket,
+                    Type = issueType.Type
+                };
+
+                context.VersionPageIssueTypes.InsertOnSubmit(newVersionPageIssueType);
+            }
+        }
+
+        private static void AddUpdateIssueTypePageIssueType(Quilt4DataContext context, IssueType issueType, Version version, Application application, Project project)
+        {
+            var issueTypePageIssueType = context.IssueTypePageIssueTypes.SingleOrDefault(x => x.Id == issueType.Id);
+
+            if (issueTypePageIssueType == null)
+            {
+                var newIssueTypePageIssueType = new IssueTypePageIssueType
+                {
+                    Id = issueType.Id,
+                    ProjectId = project.Id,
+                    ApplicationId = application.Id,
+                    VersionId = version.Id,
+                    ProjectName = project.Name,
+                    ApplicationName = application.Name,
+                    Version = version.Version1,
+                    Level = issueType.Level,
+                    Message = issueType.Message,
+                    StackTrace = issueType.StackTrace,
+                    Ticket = issueType.Ticket,
+                    Type = issueType.Type,
+                };
+
+                context.IssueTypePageIssueTypes.InsertOnSubmit(newIssueTypePageIssueType);
+            }
+        }
+
+        private static void AddIssueTypePageIssue(Issue issue, IssueType issueType, Version version, Application application, Project project, Session session, Quilt4DataContext context)
+        {
+            var dataDictionary = JsonConvert.SerializeObject(issue.IssueDatas.ToDictionary(data => data.Name, data => data.Value));
+
+            var issueTypePageIssue = new IssueTypePageIssue
+            {
+                Id = issue.Id,
+                ProjectId = project.Id, 
+                ApplicationId = application.Id,
+                VersionId = version.Id,
+                IssueTypeId = issueType.Id,
+                Data = dataDictionary,
+                Enviroment = session.Enviroment,
+                IssueUser = session.UserData.UserName,
+                Time = issue.ClientCreationDate
+            };
+
+            context.IssueTypePageIssues.InsertOnSubmit(issueTypePageIssue);
         }
 
         private Quilt4DataContext GetDataContext()

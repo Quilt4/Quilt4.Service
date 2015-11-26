@@ -63,6 +63,7 @@
     <Compile Include="SettingBusiness.cs" />
     <Compile Include="UserBusiness.cs" />
     <Compile Include="VersionBusiness.cs" />
+    <Compile Include="WriteBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quil4.Service.Interface\Quilt4.Service.Interface.csproj">

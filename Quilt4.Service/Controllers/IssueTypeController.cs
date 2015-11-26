@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Web.Http;
 using Quil4.Service.Interface.Business;
 using Quilt4.Service.Converters;
@@ -19,9 +20,16 @@ namespace Quilt4.Service.Controllers
         public IssueTypePageIssueTypeResponse GetIssueType(string projectId, string applicationId, string versionId,
             string issueTypeId)
         {
-            return
-                _issueTypeBusiness.GetIssueType(null, Guid.Parse(projectId), Guid.Parse(applicationId),
+            var sw = new Stopwatch();
+            sw.Start();
+            var zzz = _issueTypeBusiness.GetIssueType(null, Guid.Parse(projectId), Guid.Parse(applicationId),
                     Guid.Parse(versionId), Guid.Parse(issueTypeId)).ToIssueTypePageIssueTypeResponse();
+            Debug.WriteLine(sw.ElapsedMilliseconds);
+
+            return zzz;
+
+
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Transactions;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Repository.SqlRepository.Extensions;
@@ -66,27 +67,21 @@ namespace Quilt4.Service.Repository.SqlRepository
         public int GetNextTicket(string clientToken, string applicationName, string applicationVersion, string type,
             string level, string message, string stackTrace)
         {
-            using (var context = GetDataContext())
+            using (var scope = new TransactionScope())
             {
-                var project = context.Projects.Single(x => x.ClientToken == clientToken);
+                int ticket;
+                using (var context = GetDataContext())
+                {
+                    var project = context.Projects.Single(x => x.ClientToken == clientToken);
 
-                var application = project.Applications.SingleOrDefault(x => x.Name == applicationName);
+                    project.LastTicket++;
+                    context.SubmitChanges();
 
-                var version = application?.Versions.SingleOrDefault(x => x.Version1 == applicationVersion);
+                    ticket = project.LastTicket;
 
-                var issueType = version?.IssueTypes.SingleOrDefault(
-                    x =>
-                        x.Type == type && x.Level == level && x.Message == message && x.StackTrace == stackTrace);
-
-                if (issueType != null)
-                    return issueType.Ticket;
-
-                var allIssues = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes);
-
-                if (allIssues.Any())
-                    return allIssues.Max(x => x.Ticket) + 1;
-
-                return 1;
+                }
+                scope.Complete();
+                return ticket;
             }
         }
 

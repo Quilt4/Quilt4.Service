@@ -63,9 +63,6 @@ namespace Quilt4.Service.Repository.SqlRepository
     partial void InsertMachineData(MachineData instance);
     partial void UpdateMachineData(MachineData instance);
     partial void DeleteMachineData(MachineData instance);
-    partial void InsertProject(Project instance);
-    partial void UpdateProject(Project instance);
-    partial void DeleteProject(Project instance);
     partial void InsertUserData(UserData instance);
     partial void UpdateUserData(UserData instance);
     partial void DeleteUserData(UserData instance);
@@ -84,10 +81,13 @@ namespace Quilt4.Service.Repository.SqlRepository
     partial void InsertProjectPageProject(ProjectPageProject instance);
     partial void UpdateProjectPageProject(ProjectPageProject instance);
     partial void DeleteProjectPageProject(ProjectPageProject instance);
+    partial void InsertProject(Project instance);
+    partial void UpdateProject(Project instance);
+    partial void DeleteProject(Project instance);
     #endregion
 		
 		public Quilt4DataContext() : 
-				base(global::Quilt4.Service.Repository.Properties.Settings.Default.Quilt4ConnectionString, mappingSource)
+				base(global::Quilt4.Service.Repository.Properties.Settings.Default.Quilt4ConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -204,14 +204,6 @@ namespace Quilt4.Service.Repository.SqlRepository
 			}
 		}
 		
-		public System.Data.Linq.Table<Project> Projects
-		{
-			get
-			{
-				return this.GetTable<Project>();
-			}
-		}
-		
 		public System.Data.Linq.Table<UserData> UserDatas
 		{
 			get
@@ -257,6 +249,14 @@ namespace Quilt4.Service.Repository.SqlRepository
 			get
 			{
 				return this.GetTable<ProjectPageProject>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Project> Projects
+		{
+			get
+			{
+				return this.GetTable<Project>();
 			}
 		}
 	}
@@ -2807,216 +2807,6 @@ namespace Quilt4.Service.Repository.SqlRepository
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Project")]
-	public partial class Project : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Id;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastUpdateDate;
-		
-		private string _Name;
-		
-		private string _DashboardColor;
-		
-		private string _ClientToken;
-		
-		private EntitySet<Application> _Applications;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(System.Guid value);
-    partial void OnIdChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastUpdateDateChanging(System.DateTime value);
-    partial void OnLastUpdateDateChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDashboardColorChanging(string value);
-    partial void OnDashboardColorChanged();
-    partial void OnClientTokenChanging(string value);
-    partial void OnClientTokenChanged();
-    #endregion
-		
-		public Project()
-		{
-			this._Applications = new EntitySet<Application>(new Action<Application>(this.attach_Applications), new Action<Application>(this.detach_Applications));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdateDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastUpdateDate
-		{
-			get
-			{
-				return this._LastUpdateDate;
-			}
-			set
-			{
-				if ((this._LastUpdateDate != value))
-				{
-					this.OnLastUpdateDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastUpdateDate = value;
-					this.SendPropertyChanged("LastUpdateDate");
-					this.OnLastUpdateDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DashboardColor", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string DashboardColor
-		{
-			get
-			{
-				return this._DashboardColor;
-			}
-			set
-			{
-				if ((this._DashboardColor != value))
-				{
-					this.OnDashboardColorChanging(value);
-					this.SendPropertyChanging();
-					this._DashboardColor = value;
-					this.SendPropertyChanged("DashboardColor");
-					this.OnDashboardColorChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClientToken", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string ClientToken
-		{
-			get
-			{
-				return this._ClientToken;
-			}
-			set
-			{
-				if ((this._ClientToken != value))
-				{
-					this.OnClientTokenChanging(value);
-					this.SendPropertyChanging();
-					this._ClientToken = value;
-					this.SendPropertyChanged("ClientToken");
-					this.OnClientTokenChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Application", Storage="_Applications", ThisKey="Id", OtherKey="ProjectId")]
-		public EntitySet<Application> Applications
-		{
-			get
-			{
-				return this._Applications;
-			}
-			set
-			{
-				this._Applications.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Applications(Application entity)
-		{
-			this.SendPropertyChanging();
-			entity.Project = this;
-		}
-		
-		private void detach_Applications(Application entity)
-		{
-			this.SendPropertyChanging();
-			entity.Project = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserData")]
 	public partial class UserData : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4701,6 +4491,240 @@ namespace Quilt4.Service.Repository.SqlRepository
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Project")]
+	public partial class Project : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Id;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastUpdateDate;
+		
+		private string _Name;
+		
+		private string _DashboardColor;
+		
+		private string _ClientToken;
+		
+		private int _LastTicket;
+		
+		private EntitySet<Application> _Applications;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(System.Guid value);
+    partial void OnIdChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastUpdateDateChanging(System.DateTime value);
+    partial void OnLastUpdateDateChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDashboardColorChanging(string value);
+    partial void OnDashboardColorChanged();
+    partial void OnClientTokenChanging(string value);
+    partial void OnClientTokenChanged();
+    partial void OnLastTicketChanging(int value);
+    partial void OnLastTicketChanged();
+    #endregion
+		
+		public Project()
+		{
+			this._Applications = new EntitySet<Application>(new Action<Application>(this.attach_Applications), new Action<Application>(this.detach_Applications));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdateDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastUpdateDate
+		{
+			get
+			{
+				return this._LastUpdateDate;
+			}
+			set
+			{
+				if ((this._LastUpdateDate != value))
+				{
+					this.OnLastUpdateDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastUpdateDate = value;
+					this.SendPropertyChanged("LastUpdateDate");
+					this.OnLastUpdateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DashboardColor", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string DashboardColor
+		{
+			get
+			{
+				return this._DashboardColor;
+			}
+			set
+			{
+				if ((this._DashboardColor != value))
+				{
+					this.OnDashboardColorChanging(value);
+					this.SendPropertyChanging();
+					this._DashboardColor = value;
+					this.SendPropertyChanged("DashboardColor");
+					this.OnDashboardColorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClientToken", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string ClientToken
+		{
+			get
+			{
+				return this._ClientToken;
+			}
+			set
+			{
+				if ((this._ClientToken != value))
+				{
+					this.OnClientTokenChanging(value);
+					this.SendPropertyChanging();
+					this._ClientToken = value;
+					this.SendPropertyChanged("ClientToken");
+					this.OnClientTokenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastTicket", DbType="Int NOT NULL")]
+		public int LastTicket
+		{
+			get
+			{
+				return this._LastTicket;
+			}
+			set
+			{
+				if ((this._LastTicket != value))
+				{
+					this.OnLastTicketChanging(value);
+					this.SendPropertyChanging();
+					this._LastTicket = value;
+					this.SendPropertyChanged("LastTicket");
+					this.OnLastTicketChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_Application", Storage="_Applications", ThisKey="Id", OtherKey="ProjectId")]
+		public EntitySet<Application> Applications
+		{
+			get
+			{
+				return this._Applications;
+			}
+			set
+			{
+				this._Applications.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Applications(Application entity)
+		{
+			this.SendPropertyChanging();
+			entity.Project = this;
+		}
+		
+		private void detach_Applications(Application entity)
+		{
+			this.SendPropertyChanging();
+			entity.Project = null;
 		}
 	}
 }

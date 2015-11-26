@@ -54,8 +54,6 @@ namespace Quilt4.Service.Business
 
         private void SaveIssue(RegisterIssueRequestEntity request, int ticket, Guid projectId, Session session)
         {
-
-
             // Add/Update IssueType
             var issueTypeId = _repository.SaveIssueType(session.VersionId, ticket, request.IssueType.Type,
                 request.IssueType.IssueLevel, request.IssueType.Message,

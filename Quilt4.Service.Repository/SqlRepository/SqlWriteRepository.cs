@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Transactions;
 using Newtonsoft.Json;
 using Quil4.Service.Interface.Repository;
 
@@ -219,6 +220,7 @@ namespace Quilt4.Service.Repository.SqlRepository
         {
             using (var context = GetDataContext())
             {
+                    
                 var issueType = context.IssueTypes.Single(x => x.Id == issueTypeId);
                 var issues = issueType.Issues.Count;
                 var lastIssue = issueType.Issues.Max(x => x.CreationDate);
@@ -328,7 +330,6 @@ namespace Quilt4.Service.Repository.SqlRepository
                             x.Id == issueId && x.ProjectId == projectId && x.ApplicationId == applicationId &&
                             x.VersionId == versionId && x.IssueTypeId == issueTypeId);
 
-               
                 var dataDictionary = JsonConvert.SerializeObject(issue.IssueDatas.ToDictionary(data => data.Name, data => data.Value));
 
                 if (issueTypePageIssue != null)
@@ -358,6 +359,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                 context.SubmitChanges();
             }
+
         }
 
         private Quilt4DataContext GetDataContext()

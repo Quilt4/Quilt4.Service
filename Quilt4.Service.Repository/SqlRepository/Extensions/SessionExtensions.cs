@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Quilt4.Service.Repository.SqlRepository.Extensions
+﻿namespace Quilt4.Service.Repository.SqlRepository.Extensions
 {
     public static class SessionExtensions
     {
@@ -19,7 +13,7 @@ namespace Quilt4.Service.Repository.SqlRepository.Extensions
                 ApplicationName = item.Application.Name,
                 ApplicationId = item.ApplicationId,
                 Version = item.Version.Version1,
-                VersionId = item.VersionId,
+                VersionId = item.VersionId
             };
         }
     }

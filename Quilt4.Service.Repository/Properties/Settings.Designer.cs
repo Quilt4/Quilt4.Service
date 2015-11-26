@@ -32,5 +32,15 @@ namespace Quilt4.Service.Repository.Properties {
                 return ((string)(this["Quilt4ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=Quilt4;User ID=sa;Password=Inca12")]
+        public string Quilt4ConnectionString1 {
+            get {
+                return ((string)(this["Quilt4ConnectionString1"]));
+            }
+        }
     }
 }

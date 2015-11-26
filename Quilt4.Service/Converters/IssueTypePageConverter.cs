@@ -26,7 +26,7 @@ namespace Quilt4.Service.Converters
                 Level = item.Level,
                 Message = item.Message,
                 StackTrace = item.StackTrace,
-                Issues = item.Issues.ToIssueTypePageIssueResponses()
+                Issues = item.Issues.ToIssueTypePageIssueResponses().ToArray()
             };
         }
 

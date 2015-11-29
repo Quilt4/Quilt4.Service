@@ -54,7 +54,10 @@
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="DashboardBusiness.cs" />
+    <Compile Include="Handlers\Commands\CommandHandlerBase.cs" />
     <Compile Include="Handlers\Commands\CreateProjectCommandHandler.cs" />
+    <Compile Include="Handlers\Queries\GetProjectsQueryHandler.cs" />
+    <Compile Include="Handlers\Queries\QueryHandlerBase.cs" />
     <Compile Include="HelperExtension.cs" />
     <Compile Include="IssueBusiness.cs" />
     <Compile Include="IssueTypeBusiness.cs" />
@@ -76,9 +79,7 @@
       <Name>Quilt4.Service.Entity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers\Queries\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

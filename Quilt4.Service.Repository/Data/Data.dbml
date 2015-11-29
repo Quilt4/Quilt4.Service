@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Quilt4" Class="DataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="UserId" Type="Project" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Project" Member="Projects">
+    <Type Name="Project">
+      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DashboardColor" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectApiKey" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Project_Application" Member="Applications" ThisKey="ProjectKey" OtherKey="ProjectKey" Type="Application" />
+      <Association Name="User_Project" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Application" Member="Applications">
+    <Type Name="Application">
+      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Application_Version" Member="Versions" ThisKey="ApplicationKey" OtherKey="ApplicationKey" Type="Version" />
+      <Association Name="Application_Session" Member="Sessions" ThisKey="ApplicationKey" OtherKey="ApplicationKey" Type="Session" />
+      <Association Name="Project_Application" Member="Project" ThisKey="ProjectKey" OtherKey="ProjectKey" Type="Project" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Version" Member="Versions">
+    <Type Name="Version">
+      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Version" Member="Version1" Type="System.String" DbType="VarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="SupportToolkitVersion" Type="System.String" DbType="VarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Version_Session" Member="Sessions" ThisKey="VersionKey" OtherKey="VersionKey" Type="Session" />
+      <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="VersionKey" OtherKey="VersionKey" Type="IssueType" />
+      <Association Name="Application_Version" Member="Application" ThisKey="ApplicationKey" OtherKey="ApplicationKey" Type="Application" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Session" Member="Sessions">
+    <Type Name="Session">
+      <Column Name="SessionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClientStartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ServerStartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ClientEndTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ServerEndTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CallerIp" Type="System.String" DbType="NVarChar(45) NOT NULL" CanBeNull="false" />
+      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserDataKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="MachineKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Enviroment" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="Session_Issue" Member="Issues" ThisKey="SessionKey" OtherKey="SessionKey" Type="Issue" />
+      <Association Name="Application_Session" Member="Application" ThisKey="ApplicationKey" OtherKey="ApplicationKey" Type="Application" IsForeignKey="true" />
+      <Association Name="Version_Session" Member="Version" ThisKey="VersionKey" OtherKey="VersionKey" Type="Version" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.IssueType" Member="IssueTypes">
+    <Type Name="IssueType">
+      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="StackTrace" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="IssueType_Issue" Member="Issues" ThisKey="IssueTypeKey" OtherKey="IssueTypeKey" Type="Issue" />
+      <Association Name="Version_IssueType" Member="Version" ThisKey="VersionKey" OtherKey="VersionKey" Type="Version" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Issue" Member="Issues">
+    <Type Name="Issue">
+      <Column Name="IssueKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ClientCreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SessionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="MachineKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserDataKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="IssueType_Issue" Member="IssueType" ThisKey="IssueTypeKey" OtherKey="IssueTypeKey" Type="IssueType" IsForeignKey="true" />
+      <Association Name="Session_Issue" Member="Session" ThisKey="SessionKey" OtherKey="SessionKey" Type="Session" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

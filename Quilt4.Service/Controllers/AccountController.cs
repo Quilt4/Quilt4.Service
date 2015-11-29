@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
@@ -14,6 +15,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Quilt4.Service.Business.Handlers.Commands;
+using Quilt4.Service.Controllers.Project;
 using Quilt4.Service.Models;
 using Quilt4.Service.Providers;
 using Quilt4.Service.Results;
@@ -24,11 +27,13 @@ namespace Quilt4.Service.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private readonly CreateUserCommandHandler _createUserCommandHandler;
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(CreateUserCommandHandler createUserCommandHandler)
         {
+            _createUserCommandHandler = createUserCommandHandler;
         }
 
         public AccountController(ApplicationUserManager userManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
@@ -330,7 +335,20 @@ namespace Quilt4.Service.Controllers
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
+            try
+            {
+                if (result.Succeeded)
+                {
+                    await _createUserCommandHandler.StartHandle(new CrateUserCommandInput(user.UserName));
+                }
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log issue to event log (or other logging service)
+                await UserManager.DeleteAsync(user);
+                throw;
+            }
 
             if (!result.Succeeded)
             {

@@ -1,8 +1,18 @@
 ﻿using System;
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Controllers.Project
 {
+    internal class CrateUserCommandInput : ICrateUserCommandInput
+    {
+        public CrateUserCommandInput(string userName)
+        {
+            UserName = userName;
+        }
+
+        public string UserName { get; }
+    }
+
     internal class CreateProjectCommandInput : ICreateProjectCommandInput
     {
         public CreateProjectCommandInput(string userName, Guid projectKey, string projectName, string dashboardColor)

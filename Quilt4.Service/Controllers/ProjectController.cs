@@ -1,35 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
-using Quilt4.Service.Business.Handlers.Commands;
 using Quilt4.Service.DataTransfer;
 using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Controllers
 {
-    [Authorize]
-    [RoutePrefix("api/Project")]
-    public class CreateProjectController : ApiController
-    {
-        private readonly CreateProjectCommandHandler _handler;
-
-        public CreateProjectController(CreateProjectCommandHandler handler)
-        {
-            _handler = handler;
-        }
-
-        [HttpPost]
-        [Route("Create")]
-        public void CreateProject(CreateProjectRequest request)
-        {
-            if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            if (request.Key == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
-            if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
-
-            _handler.StartHandle(new CreateProjectCommandInput(User.Identity.Name, request.Key, request.Name, request.DashboardColor));
-        }
-    }
-
     [Authorize]
     [RoutePrefix("api/Project")]
     public class ProjectController : ApiController
@@ -41,15 +17,6 @@ namespace Quilt4.Service.Controllers
             _projectBusiness = projectBusiness;
         }
         
-        [HttpGet]
-        [Route("List")]
-        public ProjectPageProjectResponse[] GetProjects()
-        {
-            var projects = _projectBusiness.GetProjects(User.Identity.Name);
-
-            return projects.Select(x => new ProjectPageProjectResponse { Name = x.Name } ).ToArray();
-        }
-
         //[HttpPost]
         //[Route("Create")]
         //public void CreateProject(CreateProjectRequest request)

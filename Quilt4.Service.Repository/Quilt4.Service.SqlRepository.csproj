@@ -7,8 +7,8 @@
     <ProjectGuid>{9B023F8B-855E-409E-8CB9-F2C57F9561BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Quilt4.Service.Repository</RootNamespace>
-    <AssemblyName>Quilt4.Service.Repository</AssemblyName>
+    <RootNamespace>Quilt4.Service.SqlRepository</RootNamespace>
+    <AssemblyName>Quilt4.Service.SqlRepository</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -59,24 +59,36 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
-    <Compile Include="MemoryRepository\MemoryReadRepository.cs" />
-    <Compile Include="MemoryRepository\MemoryWriteRepository.cs" />
+    <Compile Include="Data\ConnectionStringHelper.cs" />
+    <Compile Include="Data\Data.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DataRepository.cs" />
+    <Compile Include="Data\DataRepositoryContext.cs" />
+    <Compile Include="Interface\IReadOnlyContext.cs" />
+    <Compile Include="Interface\IWriteContext.cs" />
+    <Compile Include="Read\ReadOnlyRepositoryContext.cs" />
+    <Compile Include="Read\UpdateReadRepositoryContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SqlRepository\Extensions\DashboardProjectExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\IssueTypePageExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\ProjectPageExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\SessionExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\VersionPageExtensions.cs" />
-    <Compile Include="SqlRepository\Quilt4.designer.cs">
+    <Compile Include="Read\ReadRepository.cs" />
+    <Compile Include="Read\Read.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Quilt4.dbml</DependentUpon>
+      <DependentUpon>Read.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Read\UpdateReadRepository.cs" />
+    <Compile Include="Converter\DashboardProjectExtensions.cs" />
+    <Compile Include="Converter\IssueTypePageExtensions.cs" />
+    <Compile Include="Converter\ProjectPageExtensions.cs" />
+    <Compile Include="Converter\SessionExtensions.cs" />
+    <Compile Include="Converter\VersionPageExtensions.cs" />
     <Compile Include="SqlRepository\RepositoryExtensions.cs" />
     <Compile Include="SqlRepository\SqlReadRepository.cs" />
     <Compile Include="SqlRepository\SqlRepository.cs" />
@@ -94,14 +106,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Data\Data.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Data.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SqlRepository\Quilt4.dbml">
+    <None Include="Read\Read.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>Quilt4.designer.cs</LastGenOutput>
+      <LastGenOutput>Read.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -109,8 +126,13 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SqlRepository\Quilt4.dbml.layout">
-      <DependentUpon>Quilt4.dbml</DependentUpon>
+    <None Include="Data\Data.dbml.layout">
+      <DependentUpon>Data.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Read\Read.dbml.layout">
+      <DependentUpon>Read.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

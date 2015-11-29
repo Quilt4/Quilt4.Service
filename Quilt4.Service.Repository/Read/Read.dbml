@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Quilt4" Class="ReadDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="[Read].UserProject" Member="UserProjects">
+    <Type Name="UserProject">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="User_UserProject" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="DashboardPageProject_UserProject" Member="DashboardPageProject" ThisKey="ProjectId" OtherKey="ProjectId" Type="DashboardPageProject" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="[Read].[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserProject" Member="UserProjects" ThisKey="UserId" OtherKey="UserId" Type="UserProject" />
+    </Type>
+  </Table>
+  <Table Name="[Read].ProjectPageProject" Member="ProjectPageProjects">
+    <Type Name="ProjectPageProject">
+      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DashboardColor" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectApiKey" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="DashboardPageProject_ProjectPageProject" Member="DashboardPageProject" ThisKey="ProjectId" OtherKey="ProjectId" Type="DashboardPageProject" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="[Read].DashboardPageProject" Member="DashboardPageProjects">
+    <Type Name="DashboardPageProject">
+      <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="VersionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SessionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IssueTypeCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IssueCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DashboardColor" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="DashboardPageProject_UserProject" Member="UserProjects" ThisKey="ProjectId" OtherKey="ProjectId" Type="UserProject" />
+      <Association Name="DashboardPageProject_ProjectPageProject" Member="ProjectPageProjects" ThisKey="ProjectId" OtherKey="ProjectId" Type="ProjectPageProject" />
+    </Type>
+  </Table>
+</Database>

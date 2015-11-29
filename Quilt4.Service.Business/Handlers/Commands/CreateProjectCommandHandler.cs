@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Business.Handlers.Commands
 {
-    public abstract class CommandHandlerBase<T>
+    public class CreateUserCommandHandler : CommandHandlerBase<ICrateUserCommandInput>
     {
-        protected abstract void Handle(T input);
+        public CreateUserCommandHandler(IDataRepository repository, IUpdateReadRepository writeRepository)
+            : base(repository, writeRepository)
+        {
+        }
 
-        public Task StartHandle(T input)
-        {            
-            var task = Task.Run(() => Handle(input));
-            return task;
+        protected override void DoHandle(ICrateUserCommandInput input)
+        {
+            Repository.CreateUser(input.UserName);
+            WriteRepository.CreateUser(input.UserName);
         }
     }
 
     public class CreateProjectCommandHandler : CommandHandlerBase<ICreateProjectCommandInput>
     {
-        private readonly IRepository _repository;
-        private readonly IWriteRepository _writeRepository;
-
-        public CreateProjectCommandHandler(IRepository repository, IWriteRepository writeRepository)
+        public CreateProjectCommandHandler(IDataRepository repository, IUpdateReadRepository writeRepository)
+            : base(repository, writeRepository)
         {
-            _repository = repository;
-            _writeRepository = writeRepository;
         }
 
-        protected override void Handle(ICreateProjectCommandInput input)
+        protected override void DoHandle(ICreateProjectCommandInput input)
         {
-            _repository.CreateProject(input.UserName, input.ProjectKey, input.ProjectName, RandomUtility.GetRandomString(32), DateTime.UtcNow, input.DashboardColor ?? "Blue");
-            _writeRepository.UpdateDashboardPageProject(input.ProjectKey);
-            _writeRepository.UpdateProjectPageProject(input.ProjectKey);
+            Repository.CreateProject(input.UserName, input.ProjectKey, input.ProjectName, RandomUtility.GetRandomString(32), DateTime.UtcNow, input.DashboardColor ?? "blue");
+            WriteRepository.UpdateDashboardPageProject(input.ProjectKey);
+            WriteRepository.UpdateProjectPageProject(input.ProjectKey);
         }
     }
 }

@@ -9,10 +9,17 @@ namespace Quilt4.Service.Injection
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            //Repository
+            //Data Repository
             container.Register(
-                Classes.FromAssemblyNamed("Quilt4.Service.Repository")
-                    .InNamespace("Quilt4.Service.Repository.SqlRepository")
+                Classes.FromAssemblyNamed("Quilt4.Service.SqlRepository")
+                    .InNamespace("Quilt4.Service.SqlRepository.Data")
+                    .WithService.DefaultInterfaces()
+                    .LifestyleSingleton());
+
+            //Read Repository
+            container.Register(
+                Classes.FromAssemblyNamed("Quilt4.Service.SqlRepository")
+                    .InNamespace("Quilt4.Service.SqlRepository.Read")
                     .WithService.DefaultInterfaces()
                     .LifestyleSingleton());
 
@@ -27,6 +34,13 @@ namespace Quilt4.Service.Injection
             container.Register(
                 Classes.FromAssemblyNamed("Quilt4.Service.Business")
                     .InNamespace("Quilt4.Service.Business.Handlers.Commands")
+                    .WithService.DefaultInterfaces()
+                    .LifestyleTransient());
+
+            //Query handlers
+            container.Register(
+                Classes.FromAssemblyNamed("Quilt4.Service.Business")
+                    .InNamespace("Quilt4.Service.Business.Handlers.Queries")
                     .WithService.DefaultInterfaces()
                     .LifestyleTransient());
 

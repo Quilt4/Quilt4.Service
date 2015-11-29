@@ -53,6 +53,7 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Business\ICreateProjectCommandInput.cs" />
     <Compile Include="Business\IDashboardBusiness.cs" />
     <Compile Include="Business\IIssueBusiness.cs" />
     <Compile Include="Business\IProjectBusiness.cs" />
@@ -63,8 +64,8 @@
     <Compile Include="Business\IVersionBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IReadRepository.cs" />
-    <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\IWriteRepository.cs" />
+    <Compile Include="Repository\IDataRepository.cs" />
+    <Compile Include="Repository\IUpdateReadRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -16,7 +17,8 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<DashboardPageProject> GetProjects(string userId)
         {
-            return _readRepository.GetDashboardProjects(userId);
+            throw new NotImplementedException();
+            //return _readRepository.GetDashboardProjects(userId);
         }
     }
 }

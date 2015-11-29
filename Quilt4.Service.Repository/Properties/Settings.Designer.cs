@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quilt4.Service.Repository.Properties {
+namespace Quilt4.Service.SqlRepository.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

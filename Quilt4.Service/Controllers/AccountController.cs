@@ -17,6 +17,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Quilt4.Service.Business.Handlers.Commands;
 using Quilt4.Service.Controllers.Project;
+using Quilt4.Service.Controllers.Project.DataTransfer;
+using Quilt4.Service.Controllers.User.DataTransfer;
 using Quilt4.Service.Models;
 using Quilt4.Service.Providers;
 using Quilt4.Service.Results;

@@ -1,6 +1,6 @@
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers.Project
+namespace Quilt4.Service.Controllers.Project.DataTransfer
 {
     internal class GetProjectQueryInput : IGetProjectQueryInput
     {

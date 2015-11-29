@@ -56,6 +56,7 @@
     <Compile Include="DashboardBusiness.cs" />
     <Compile Include="Handlers\Commands\CommandHandlerBase.cs" />
     <Compile Include="Handlers\Commands\CreateProjectCommandHandler.cs" />
+    <Compile Include="Handlers\Commands\CreateUserCommandHandler.cs" />
     <Compile Include="Handlers\Queries\GetProjectsQueryHandler.cs" />
     <Compile Include="Handlers\Queries\QueryHandlerBase.cs" />
     <Compile Include="HelperExtension.cs" />

@@ -4,14 +4,12 @@ namespace Quilt4.Service.Business.Handlers.Queries
 {
     public abstract class QueryHandlerBase<TIn, TOut>
     {
-        private readonly IReadRepository _readRepository;
-
         protected QueryHandlerBase(IReadRepository readRepository)
         {
-            _readRepository = readRepository;
+            ReadRepository = readRepository;
         }
 
-        protected IReadRepository ReadRepository { get { return _readRepository; } }
+        protected IReadRepository ReadRepository { get; }
 
         protected abstract TOut DoHandle(TIn input);
 

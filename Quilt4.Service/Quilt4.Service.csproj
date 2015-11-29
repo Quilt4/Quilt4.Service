@@ -219,15 +219,17 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Project\CreateProjectCommandInput.cs" />
+    <Compile Include="Controllers\User\DataTransfer\CrateUserCommandInput.cs" />
+    <Compile Include="Controllers\Project\DataTransfer\CreateProjectCommandInput.cs" />
     <Compile Include="Controllers\Project\CreateProjectController.cs" />
-    <Compile Include="Controllers\Project\GetProjectQueryInput.cs" />
+    <Compile Include="Controllers\Project\DataTransfer\GetProjectQueryInput.cs" />
+    <Compile Include="DataTransfer\ProjectPageApplicationResponse.cs" />
     <Compile Include="Controllers\Project\GetProjectsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Converters\ProjectPageConverter.cs" />
-    <Compile Include="DataTransfer\ProjectPageProjectResponse.cs" />
+    <Compile Include="Controllers\Project\DataTransfer\ProjectPageProjectResponse.cs" />
     <Compile Include="DataTransfer\ProjectPageVersionResponse.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

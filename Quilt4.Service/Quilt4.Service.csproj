@@ -181,6 +181,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Build\AssemblyVersionInfo.cs">
+      <Link>Properties\AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />

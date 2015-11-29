@@ -7,20 +7,20 @@ namespace Quilt4.Service.Converters
 {
     public static class ProjectPageConverter
     {
-        public static ProjectPageProjectResponse ToProjectPageProjectResponse(this ProjectPageProject item)
-        {
-            if (item == null)
-                return null;
+        //public static ProjectPageProjectResponse ToProjectPageProjectResponse(this ProjectPageProject item)
+        //{
+        //    if (item == null)
+        //        return null;
 
-            return new ProjectPageProjectResponse
-            {
-                Id = item.Id.ToString(),
-                Name = item.Name,
-                DashboardColor = item.DashboardColor,
-                ClientToken = item.ClientToken,
-                Applications = item.Applications.ToProjectPageApplicationResponses().ToArray()
-            };
-        }
+        //    return new ProjectPageProjectResponse
+        //    {
+        //        Id = item.Id.ToString(),
+        //        Name = item.Name,
+        //        DashboardColor = item.DashboardColor,
+        //        ClientToken = item.ClientToken,
+        //        Applications = item.Applications.ToProjectPageApplicationResponses().ToArray()
+        //    };
+        //}
 
         public static IEnumerable<ProjectPageApplicationResponse> ToProjectPageApplicationResponses(
             this IEnumerable<ProjectPageApplication> items)

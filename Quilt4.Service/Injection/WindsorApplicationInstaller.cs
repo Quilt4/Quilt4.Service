@@ -23,6 +23,13 @@ namespace Quilt4.Service.Injection
                     .WithService.DefaultInterfaces()
                     .LifestyleTransient());
 
+            //Command handlers
+            container.Register(
+                Classes.FromAssemblyNamed("Quilt4.Service.Business")
+                    .InNamespace("Quilt4.Service.Business.Handlers.Commands")
+                    .WithService.DefaultInterfaces()
+                    .LifestyleTransient());
+
             //Register controllers
             container.Register(Classes.FromThisAssembly()
                 .BasedOn<ApiController>()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -19,6 +20,19 @@ namespace Quilt4.Service.Business
             _writeRepository = writeRepository;
         }
 
+        //public ICommandHandler<T> GetCommandHandler<T>()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public IEnumerable<ProjectPageProject> GetProjects(string userName)
+        {
+            var response = _readRepository.GetDashboardProjects(userName);
+            var result = response.Select(x => new ProjectPageProject { Name = x.Name });
+            return result;
+        }
+
+        //TODO: Revisit
         public ProjectPageProject GetProject(string userId, Guid projectId)
         {
             return _readRepository.GetProject(userId, projectId);
@@ -27,13 +41,6 @@ namespace Quilt4.Service.Business
         public IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId)
         {
             return _readRepository.GetVersions(userId, projectId, applicationId);
-        }
-
-        public void CreateProject(Guid projectKey, string name, string dashboardColor)
-        {
-            _repository.CreateProject(projectKey, name, dashboardColor);
-            _writeRepository.UpdateDashboardPageProject(projectKey);
-            _writeRepository.UpdateProjectPageProject(projectKey);
         }
 
         public Guid UpdateProject(Guid projectId, string name, string dashboardColor)

@@ -1,14 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Web.Http;
-using Quilt4.Service.Converters;
+using Quilt4.Service.Business.Handlers.Commands;
 using Quilt4.Service.DataTransfer;
-using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/Project")]
+    public class CreateProjectController : ApiController
+    {
+        private readonly CreateProjectCommandHandler _handler;
+
+        public CreateProjectController(CreateProjectCommandHandler handler)
+        {
+            _handler = handler;
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        public void CreateProject(CreateProjectRequest request)
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
+            if (request.Key == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
+            if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
+
+            _handler.StartHandle(new CreateProjectCommandInput(User.Identity.Name, request.Key, request.Name, request.DashboardColor));
+        }
+    }
+
+    [Authorize]
+    [RoutePrefix("api/Project")]
     public class ProjectController : ApiController
     {
         private readonly IProjectBusiness _projectBusiness;
@@ -17,92 +40,54 @@ namespace Quilt4.Service.Controllers
         {
             _projectBusiness = projectBusiness;
         }
-
-        [HttpGet]
-        public ProjectPageProjectResponse GetProject(string id)
-        {
-            return _projectBusiness.GetProject(null, Guid.Parse(id)).ToProjectPageProjectResponse();
-        }
         
         [HttpGet]
+        [Route("List")]
         public ProjectPageProjectResponse[] GetProjects()
         {
-            //TODO: Move this so that it is applied for all calls.
-            AuthenticateCall();
+            var projects = _projectBusiness.GetProjects(User.Identity.Name);
 
-            return new[] { new ProjectPageProjectResponse { Name = "A", } };
+            return projects.Select(x => new ProjectPageProjectResponse { Name = x.Name } ).ToArray();
         }
 
-        [HttpPost]
-        [Route("api/project/create")]
-        public CreateProjectResponse CreateProject(CreateProjectRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request), "No request object provided.");
+        //[HttpPost]
+        //[Route("Create")]
+        //public void CreateProject(CreateProjectRequest request)
+        //{
+        //    if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
+        //    if (request.Key == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
+        //    if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
 
-            //TODO: Move this so that it is applied for all calls.
-            AuthenticateCall(request);
+        //    _projectBusiness.GetCommandHandler<ICreateProjectCommandInput>().Handle(new CreateProjectCommandInput(User.Identity.Name, request.Key, request.Name, request.DashboardColor));
+        //}
 
-            _projectBusiness.CreateProject(request.ProjectKey, request.Name, request.DashboardColor);
+        //[HttpPost]
+        //[Route("api/project/update")]
+        //public UpdateProjectResponse UpdateProject(UpdateProjectRequest request)
+        //{
+        //    if (request == null)
+        //        throw new ArgumentNullException(nameof(request), "No request object provided.");
 
-            return new CreateProjectResponse();
-        }
+        //    _projectBusiness.UpdateProject(Guid.Parse(request.Id), request.Name, request.DashboardColor);
 
-        //TODO: Move this so that it is applied for all calls.
-        private void AuthenticateCall(object request = null)
-        {
-            if (!string.IsNullOrEmpty(Request.Headers.Authorization.Scheme))
-            {
-                var header = Encoding.UTF8.GetString(Convert.FromBase64String(Request.Headers.Authorization.Parameter)).Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                var publicSessionKey = header[0];
-                var messageHash = header[1];
+        //    return new UpdateProjectResponse();
+        //}
 
-                var securityType = (SecurityType)Enum.Parse(typeof(SecurityType), Request.Headers.Authorization.Scheme);
-                switch (securityType)
-                {
-                    case SecurityType.Simple:
-                        //TODO: Compare the URL called and the data provided
-                        var requestedUrl = Request.RequestUri;
-                        //var content = Request.Content.ReadAsStringAsync().Result;
-
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(string.Format("Unknown security type {0}.", securityType));
-                }
-            }
-        }
-
-        [HttpPost]
-        [Route("api/project/update")]
-        public UpdateProjectResponse UpdateProject(UpdateProjectRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request), "No request object provided.");
-
-            _projectBusiness.UpdateProject(Guid.Parse(request.Id), request.Name, request.DashboardColor);
-
-            return new UpdateProjectResponse();
-        }
-
-        [Route("api/project/{projectId}/application/{applicationId}/version")]
-        public IEnumerable<ProjectPageVersionResponse> GetVersions(string projectId, string applicationId)
-        {
-            return _projectBusiness.GetVersions(null, Guid.Parse(projectId), Guid.Parse(applicationId)) .ToProjectPageVersionResponses();
-        }
+        //[Route("api/project/{projectId}/application/{applicationId}/version")]
+        //public IEnumerable<ProjectPageVersionResponse> GetVersions(string projectId, string applicationId)
+        //{
+        //    return _projectBusiness.GetVersions(null, Guid.Parse(projectId), Guid.Parse(applicationId)) .ToProjectPageVersionResponses();
+        //}
     }
 
     //TODO: Move the definition to the toolkit (
-    public class CreateProjectResponse
-    {
-    }
-
     public class UpdateProjectResponse
     {
     }
 
     public class CreateProjectRequest
     {
-        public Guid ProjectKey { get; set; }
+        public Guid Key { get; set; }
         public string Name { get; set; }
         public string DashboardColor { get; set; }
     }

@@ -65,7 +65,7 @@ namespace Quilt4.Service.Repository.SqlRepository
                 {
                     projectPageProject.Name = project.Name;
                     projectPageProject.DashboardColor = project.DashboardColor;
-                    projectPageProject.ClientToken = project.ClientToken;
+                    projectPageProject.ProjectApiKey = project.ProjectApiKey;
                 }
                 else
                 {
@@ -74,7 +74,7 @@ namespace Quilt4.Service.Repository.SqlRepository
                         Id = projectId,
                         Name = project.Name,
                         DashboardColor = project.DashboardColor,
-                        ClientToken = project.ClientToken,
+                        ProjectApiKey = project.ProjectApiKey,
                     };
 
                     context.ProjectPageProjects.InsertOnSubmit(newProjectPageProject);

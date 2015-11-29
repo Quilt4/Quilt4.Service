@@ -1,5 +1,5 @@
 ALTER TABLE Issue
 DROP COLUMN MachineId 
-
+GO
 ALTER TABLE Issue
 DROP COLUMN UserDataId 

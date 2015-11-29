@@ -2,73 +2,73 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Repository.SqlRepository.Extensions;
 
 namespace Quilt4.Service.Repository.SqlRepository
 {
-    //TODO: Persist to SQL Server
     public class SqlRepository : IRepository
     {
-        private static readonly IDictionary<string, string> _settings = new Dictionary<string, string>();
-        private static readonly IDictionary<string, User> _users = new Dictionary<string, User>();
-        private static readonly IDictionary<string, LoginSession> _loginSession = new Dictionary<string, LoginSession>();
-
-        public void SaveUser(User user)
+        public void CreateProject(string userName, Guid projectKey, string name, string projectApiKey, DateTime createDate, string dashboardColor)
         {
-            _users.Add(user.Username, user);
+            using (var context = GetDataContext())
+            {
+                var project = new Project
+                {
+                    Id = projectKey,
+                    Name = name,
+                    DashboardColor = dashboardColor,
+                    CreationDate = createDate,
+                    LastUpdateDate = createDate,
+                    ProjectApiKey = projectApiKey,
+                    UserId = context.GetUserIdByName(userName),
+                };
+
+                context.Projects.InsertOnSubmit(project);
+                context.SubmitChanges();
+            }
         }
 
-        public User GetUser(string username)
-        {
-            if (!_users.ContainsKey(username))
-                return null;
-            return _users[username];
-        }
-
-        public void SaveLoginSession(LoginSession loginSession)
-        {
-            _loginSession.Add(loginSession.PublicKey, loginSession);
-        }
-
+        //TODO: Revisit
         public T GetSetting<T>(string name)
         {
-            if (!_settings.ContainsKey(name))
-            {
-                return default(T);
-            }
+            throw new NotImplementedException();
+            //if (!_settings.ContainsKey(name))
+            //{
+            //    return default(T);
+            //}
 
-            var value = _settings[name];
-            var result = (T)Convert.ChangeType(value, typeof(T));
-            return result;
+            //var value = _settings[name];
+            //var result = (T)Convert.ChangeType(value, typeof(T));
+            //return result;
         }
 
         public T GetSetting<T>(string name, T defaultValue)
         {
-            if (!_settings.ContainsKey(name))
-            {
-                SetSetting(name, defaultValue);
-            }
+            throw new NotImplementedException();
+            //if (!_settings.ContainsKey(name))
+            //{
+            //    SetSetting(name, defaultValue);
+            //}
 
-            var value = _settings[name];
-            var result = (T)Convert.ChangeType(value, typeof(T));
-            return result;
+            //var value = _settings[name];
+            //var result = (T)Convert.ChangeType(value, typeof(T));
+            //return result;
         }
 
         public void SetSetting<T>(string name, T value)
         {
-            if (_settings.ContainsKey(name))
-                _settings.Remove(name);
-            _settings.Add(name, value.ToString());
+            throw new NotImplementedException();
+            //if (_settings.ContainsKey(name))
+            //    _settings.Remove(name);
+            //_settings.Add(name, value.ToString());
         }
 
-        public int GetNextTicket(string clientToken, string applicationName, string applicationVersion, string type,
-                                 string level, string message, string stackTrace)
+        public int GetNextTicket(string projectApiKey, string applicationName, string applicationVersion, string type, string level, string message, string stackTrace)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.Single(x => x.ClientToken == clientToken);
+                var project = context.Projects.Single(x => x.ProjectApiKey == projectApiKey);
 
                 var application = project.Applications.SingleOrDefault(x => x.Name == applicationName);
 
@@ -83,18 +83,21 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                 var allIssues = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes);
 
-                if (allIssues.Any())
-                    return allIssues.Max(x => x.Ticket) + 1;
+                var issueTypes = allIssues as IssueType[] ?? allIssues.ToArray();
+                if (issueTypes.Any())
+                {
+                    return issueTypes.Max(x => x.Ticket) + 1;
+                }
 
                 return 1;
             }
         }
 
-        public Guid? GetProjectId(string clientToken)
+        public Guid? GetProjectId(string projectApiKey)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.SingleOrDefault(x => x.ClientToken == clientToken);
+                var project = context.Projects.SingleOrDefault(x => x.ProjectApiKey == projectApiKey);
 
                 return project?.Id;
             }
@@ -432,25 +435,6 @@ namespace Quilt4.Service.Repository.SqlRepository
             }
         }
 
-        public void CreateProject(Guid projectKey, string name, string dashboardColor)
-        {
-            using (var context = GetDataContext())
-            {
-                var project = new Project
-                {
-                    Id = projectKey,
-                    Name = name,
-                    DashboardColor = dashboardColor,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now,
-                    ClientToken = Guid.NewGuid().ToString().Replace("-", "")
-                };
-
-                context.Projects.InsertOnSubmit(project);
-                context.SubmitChanges();
-            }
-        }
-
         public void UpdateProject(Guid projectId, string name, string dashboardColor)
         {
             using (var context = GetDataContext())
@@ -468,7 +452,6 @@ namespace Quilt4.Service.Repository.SqlRepository
         private static Quilt4DataContext GetDataContext()
         {
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
             return new Quilt4DataContext(connectionString);
         }
     }

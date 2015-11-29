@@ -56,6 +56,8 @@
     <Compile Include="DashboardPageProject.cs" />
     <Compile Include="IssueTypePageIssueType.cs" />
     <Compile Include="LoginSession.cs" />
+    <Compile Include="Project.cs" />
+    <Compile Include="ProjectPageApplication.cs" />
     <Compile Include="ProjectPageProject.cs" />
     <Compile Include="ProjectPageVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Quil4.Service.Interface\Quilt4.Service.Interface.csproj">
+      <Project>{f05fb9c6-6fe8-4483-a1e8-5e651b9c55f3}</Project>
+      <Name>Quilt4.Service.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

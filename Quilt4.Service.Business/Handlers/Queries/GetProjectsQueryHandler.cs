@@ -6,17 +6,17 @@ using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Business.Handlers.Queries
 {
-    public class GetProjectsQueryHandler : QueryHandlerBase<IGetProjectQueryInput, IEnumerable<ProjectPageProject>>
+    public class GetProjectsQueryHandler : QueryHandlerBase<IGetProjectQueryInput, IEnumerable<IProject>>
     {
         public GetProjectsQueryHandler(IReadRepository readRepository)
             : base(readRepository)
         {
         }
 
-        protected override IEnumerable<ProjectPageProject> DoHandle(IGetProjectQueryInput input)
+        protected override IEnumerable<IProject> DoHandle(IGetProjectQueryInput input)
         {
             var response = ReadRepository.GetDashboardProjects(input.UserName);
-            var result = response.Select(x => new ProjectPageProject { Name = x.Name });
+            var result = response.Select(x => new Project(x.ProjectKey, x.Name, x.DashboardColor));
             return result;
         }
     }

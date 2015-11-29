@@ -1,9 +1,7 @@
-﻿using Quilt4.Service.Entity;
-
-namespace Quilt4.Service.Interface.Business
+﻿namespace Quilt4.Service.Interface.Business
 {
     public interface ISessionBusiness
     {
-        void RegisterSession(SessionRequestEntity data);
+        void RegisterSession(ISessionRequestEntity data);
     }
 }

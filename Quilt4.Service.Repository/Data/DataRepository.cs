@@ -39,7 +39,24 @@ namespace Quilt4.Service.SqlRepository.Data
 
                 context.Projects.InsertOnSubmit(project);
                 context.SubmitChanges();
-            });            
+            });
+        }
+
+        public void UpdateProject(string userName, Guid projectKey, string name, DateTime lastUpdateDate, string dashboardColor)
+        {
+            _dataRepositoryContext.Execute(context =>
+            {
+                var project = context.Projects.Single(x => x.ProjectKey == projectKey);
+
+                var userId = context.Users.Single(x => x.UserName == userName).UserId;
+                if (project.User.UserId != userId) throw new InvalidOperationException("The user does not have access to the project.");
+
+                project.Name = name;
+                project.DashboardColor = dashboardColor;
+                project.LastUpdateDate = lastUpdateDate;
+
+                context.SubmitChanges();
+            });
         }
     }
 }

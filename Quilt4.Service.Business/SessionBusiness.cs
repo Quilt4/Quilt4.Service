@@ -17,7 +17,7 @@ namespace Quilt4.Service.Business
             _writeRepository = writeRepository;
         }
 
-        public void RegisterSession(SessionRequestEntity request)
+        public void RegisterSession(ISessionRequestEntity request)
         {
             throw new NotImplementedException();
             //if (request == null) throw new ArgumentNullException("request", "No request object provided.");

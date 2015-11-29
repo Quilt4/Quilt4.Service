@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Quilt4.Service.Entity
 {
     public class ProjectPageProject
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string DashboardColor { get; set; }
-        public string ClientToken { get; set; }
-        public IEnumerable<ProjectPageApplication> Applications { get; set; }
-    }
+        public ProjectPageProject(Guid id, string name, string dashboardColor, string clientToken, ProjectPageApplication[] applications)
+        {
+            Id = id;
+            Name = name;
+            DashboardColor = dashboardColor;
+            ClientToken = clientToken;
+            Applications = applications;
+        }
 
-    public class ProjectPageApplication
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public int Versions { get; set; }
+        public Guid Id { get; }
+        public string Name { get; }
+        public string DashboardColor { get; }
+        public string ClientToken { get; }
+        public ProjectPageApplication[] Applications { get; }
     }
-    
 }

@@ -2,11 +2,10 @@
 
 namespace Quilt4.Service.Interface.Business
 {
-    public interface ICreateProjectCommandInput
+    public interface IProject
     {
-        string UserName { get; }
+        string Name { get; }
         Guid ProjectKey { get; }
-        string ProjectName { get; }
         string DashboardColor { get; }
     }
 }

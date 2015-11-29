@@ -14,7 +14,7 @@ namespace Quilt4.Service.Business
             _readRepository = readRepository;
         }
 
-        public IssueTypePageIssueType GetIssueType(string userId, Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId)
+        public IIssueTypePageIssueType GetIssueType(string userId, Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId)
         {
             //return _readRepository.GetIssueType(userId, projectId, applicationId, versionId, issueTypeId);
             throw new NotImplementedException();

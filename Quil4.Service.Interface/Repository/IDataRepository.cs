@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Quilt4.Service.Entity;
 
 namespace Quilt4.Service.Interface.Repository
 {
@@ -8,6 +6,7 @@ namespace Quilt4.Service.Interface.Repository
     {
         void CreateUser(string userName);
         void CreateProject(string userName, Guid projectKey, string name, string projectApiKey, DateTime createDate, string dashboardColor);
+        void UpdateProject(string userName, Guid projectKey, string name, DateTime lastUpdateDate, string dashboardColor);
 
         ////TODO: Revisit
         ////void SaveUser(User user);
@@ -26,6 +25,5 @@ namespace Quilt4.Service.Interface.Repository
         //Guid SaveMachine(string fingerprint, string name, IDictionary<string, string> data);
         //Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data);
         //Session GetSession(Guid sessionId);
-        //void UpdateProject(Guid projectId, string name, string dashboardColor);
     }
 }

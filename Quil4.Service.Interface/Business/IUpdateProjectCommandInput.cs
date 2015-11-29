@@ -2,7 +2,7 @@
 
 namespace Quilt4.Service.Interface.Business
 {
-    public interface ICreateProjectCommandInput
+    public interface IUpdateProjectCommandInput
     {
         string UserName { get; }
         Guid ProjectKey { get; }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Quilt4.Service.Entity;
+﻿using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Interface.Repository
 {
     public interface IReadRepository
     {
-        DashboardPageProject[] GetDashboardProjects(string userName);
+        IDashboardPageProject[] GetDashboardProjects(string userName);
 
         //TODO: Revisit
         //ProjectPageProject GetProject(string userId, Guid projectId);

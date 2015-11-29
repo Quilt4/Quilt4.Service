@@ -15,7 +15,7 @@ namespace Quilt4.Service.Business
             _readRepository = readRepository;
         }
 
-        public IEnumerable<DashboardPageProject> GetProjects(string userId)
+        public IEnumerable<IDashboardPageProject> GetProjects(string userId)
         {
             throw new NotImplementedException();
             //return _readRepository.GetDashboardProjects(userId);

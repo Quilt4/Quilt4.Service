@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Converter;
 using Quilt4.Service.SqlRepository.Data;
@@ -14,11 +15,15 @@ namespace Quilt4.Service.SqlRepository.Read
             _dataRepositoryContext = dataRepositoryContext;
         }
 
-        public Entity.DashboardPageProject[] GetDashboardProjects(string userName)
+        public IDashboardPageProject[] GetDashboardProjects(string userName)
         {
             var response = _dataRepositoryContext.Execute(context =>
             {
-                return context.DashboardPageProjects.Where(x => x.UserProjects.Any(y => y.User.UserName == userName)).ToDashboardProjects().ToArray();
+                var user = context.Users.Single(x => x.UserName == userName);
+                var projectIds = context.UserProjects.Where(x => x.UserId == user.UserId).Select(x => x.ProjectId).ToArray();
+
+                var result = context.DashboardPageProjects.Where(x => projectIds.Contains(x.ProjectId)).ToDashboardProjects().ToArray();
+                return result;
             });
 
             return response;

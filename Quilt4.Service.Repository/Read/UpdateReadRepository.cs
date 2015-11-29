@@ -30,6 +30,7 @@ namespace Quilt4.Service.SqlRepository.Read
             _dataRepositoryContext.Execute(dataContext =>
             {
                 var project = dataContext.Projects.Single(x => x.ProjectKey == projectKey);
+                var ownerUserName = project.User.UserName;
 
                 _updateReadRepositoryContext.Execute(context =>
                 {
@@ -44,6 +45,10 @@ namespace Quilt4.Service.SqlRepository.Read
 
                         context.DashboardPageProjects.InsertOnSubmit(dashboardProject);
                     }
+                    else
+                    {
+                        context.UserProjects.DeleteAllOnSubmit(context.UserProjects.Where(x => x.ProjectId == dashboardProject.ProjectId));
+                    }
 
                     var versionCount = project.Applications.SelectMany(x => x.Versions).Count();
                     var sessionCount = project.Applications.SelectMany(x => x.Sessions).Count();
@@ -56,6 +61,11 @@ namespace Quilt4.Service.SqlRepository.Read
                     dashboardProject.IssueTypeCount = issueTypeCount;
                     dashboardProject.IssueCount = issueCount;
                     dashboardProject.DashboardColor = project.DashboardColor;
+
+                    context.SubmitChanges();
+
+                    var ownerUserId = context.Users.Single(x => x.UserName == ownerUserName).UserId;
+                    context.UserProjects.InsertOnSubmit(new UserProject { ProjectId = dashboardProject.ProjectId, UserId = ownerUserId });
 
                     context.SubmitChanges();
                 });

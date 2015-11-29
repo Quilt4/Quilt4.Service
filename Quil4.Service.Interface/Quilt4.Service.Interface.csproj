@@ -53,25 +53,30 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Business\ICrateUserCommandInput.cs" />
     <Compile Include="Business\ICreateProjectCommandInput.cs" />
     <Compile Include="Business\IDashboardBusiness.cs" />
+    <Compile Include="Business\IDashboardPageProject.cs" />
+    <Compile Include="Business\IGetProjectQueryInput.cs" />
+    <Compile Include="Business\IGetProjectQueryOutput.cs" />
     <Compile Include="Business\IIssueBusiness.cs" />
+    <Compile Include="Business\IIssueTypePageIssueType.cs" />
+    <Compile Include="Business\IProject.cs" />
     <Compile Include="Business\IProjectBusiness.cs" />
     <Compile Include="Business\IIssueTypeBusiness.cs" />
+    <Compile Include="Business\IRegisterIssueRequestEntity.cs" />
+    <Compile Include="Business\IRegisterIssueResponseEntity.cs" />
     <Compile Include="Business\ISessionBusiness.cs" />
+    <Compile Include="Business\ISessionRequestEntity.cs" />
     <Compile Include="Business\ISettingBusiness.cs" />
+    <Compile Include="Business\IUpdateProjectCommandInput.cs" />
     <Compile Include="Business\IUserBusiness.cs" />
     <Compile Include="Business\IVersionBusiness.cs" />
+    <Compile Include="Business\IVersionPageVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IReadRepository.cs" />
     <Compile Include="Repository\IDataRepository.cs" />
     <Compile Include="Repository\IUpdateReadRepository.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">
-      <Project>{2806EE69-F5CB-4D21-87C1-EEA837B034AE}</Project>
-      <Name>Quilt4.Service.Entity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

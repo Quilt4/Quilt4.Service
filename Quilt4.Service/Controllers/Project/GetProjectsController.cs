@@ -2,7 +2,6 @@ using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Business.Handlers.Queries;
 using Quilt4.Service.Controllers.Project.DataTransfer;
-using Quilt4.Service.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Project
 {
@@ -18,10 +17,11 @@ namespace Quilt4.Service.Controllers.Project
         [HttpGet]
         [Authorize]
         [Route("api/Project/List")]
-        public ProjectPageProjectResponse[] GetProjects()
+        public ProjectResponse[] GetProjects()
         {
             var output = _handler.Handle(new GetProjectQueryInput(User.Identity.Name));
-            return output.Select(x => new ProjectPageProjectResponse { Name = x.Name }).ToArray();
+            var response = output.Select(x => new ProjectResponse { Name = x.Name, ProjectKey = x.ProjectKey, DashboardColor = x.DashboardColor }).ToArray();
+            return response;
         }
     }
 }

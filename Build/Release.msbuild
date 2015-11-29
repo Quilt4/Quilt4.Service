@@ -23,7 +23,7 @@
   </Target>
 
   <Target Name="Build">
-    <MSBuild Projects="..\Quilt4Net.sln" Targets="Build" Properties="Configuration=Release">
+    <MSBuild Projects="..\Quilt4.Service.sln" Targets="Build" Properties="Configuration=Release">
     </MSBuild>
   </Target>
 

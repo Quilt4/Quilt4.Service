@@ -22,8 +22,7 @@ namespace Quilt4.Service.Converters
         //    };
         //}
 
-        public static IEnumerable<ProjectPageApplicationResponse> ToProjectPageApplicationResponses(
-            this IEnumerable<ProjectPageApplication> items)
+        public static IEnumerable<ProjectPageApplicationResponse> ToProjectPageApplicationResponses(this IEnumerable<ProjectPageApplication> items)
         {
             return items?.Select(x => x.ToProjectPageApplicationResponse());
         }

@@ -123,8 +123,8 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Tharga.Quilt4Net, Version=2.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tharga.Quilt4Net.2.0.0.9\lib\portable-net45+win+wpa81+wp80\Tharga.Quilt4Net.dll</HintPath>
+    <Reference Include="Tharga.Quilt4Net, Version=2.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tharga.Quilt4Net.2.0.0.10\lib\portable-net45+win+wpa81+wp80\Tharga.Quilt4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
@@ -228,6 +228,7 @@
     <Compile Include="Controllers\Session\RegisterSessionController.cs" />
     <Compile Include="Controllers\Project\UpdateProjectController.cs" />
     <Compile Include="Controllers\Project\CreateProjectController.cs" />
+    <Compile Include="Converters\RegisterSessionConverter.cs" />
     <Compile Include="DataTransfer\ProjectPageApplicationResponse.cs" />
     <Compile Include="Controllers\Project\GetProjectsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

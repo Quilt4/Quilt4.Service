@@ -20,7 +20,7 @@ namespace Quilt4.Service.Controllers.Project
         [Route("api/Project/List")]
         public ProjectResponse[] GetProjects()
         {
-            var output = _handler.Handle(new GetProjectQueryInput(User.Identity.Name));
+            var output = _handler.Handle(new GetProjectsQueryInput(User.Identity.Name));
             var response = output.Select(x => new ProjectResponse { Name = x.Name, ProjectKey = x.ProjectKey, DashboardColor = x.DashboardColor }).ToArray();
             return response;
         }

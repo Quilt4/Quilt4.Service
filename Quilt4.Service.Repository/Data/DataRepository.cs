@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Quilt4.Service.Interface.Repository;
 
@@ -57,6 +58,41 @@ namespace Quilt4.Service.SqlRepository.Data
 
                 context.SubmitChanges();
             });
+        }
+
+        public Guid? GetProjectKeyByProjectApiKey(string projectApiKey)
+        {
+            var response = _dataRepositoryContext.Execute(context =>
+            {
+                var project = context.Projects.SingleOrDefault(x => x.ProjectApiKey == projectApiKey);
+                return project?.ProjectKey;
+            });
+            return response;
+        }
+
+        public void SaveApplication(Guid applicationKey, Guid projectKey, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveVersion(Guid versionKey, Guid applicaitonKey, string version, string supportToolkitNameVersion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveUserData(Guid userDataKey, string fingerprint, string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveMachine(Guid machineKey, string fingerprint, string name, IDictionary<string, string> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid userDataKey, Guid machineKey, string environment)
+        {
+            throw new NotImplementedException();
         }
     }
 }

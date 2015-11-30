@@ -2,6 +2,14 @@
 
 namespace Quilt4.Service.Interface.Business
 {
+    public interface IProjectPageProject
+    {
+        Guid ProjectKey { get; }
+        string Name { get; }
+        string DashboardColor { get; }
+        string ProjectApiKey { get; }
+    }
+
     public interface IDashboardPageProject
     {
         Guid ProjectKey { get; }

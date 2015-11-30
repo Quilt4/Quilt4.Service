@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Entity
 {
@@ -25,19 +26,19 @@ namespace Quilt4.Service.Entity
         public IssueTypeRequestEntity Inner { get; set; }
     }
 
-    public class SessionRequestEntity
+    public class SessionRequestEntity : IRegisterSessionCommandInput
     {
-        public string ClientToken { get; set; }
-        public Guid SessionId { get; set; }
+        public Guid SessionKey { get; set; }
+        public string ProjectApiKey { get; set; }
         public DateTime ClientStartTime { get; set; }
         public string Environment { get; set; }
-        public ApplicationDataRequestEntity Application { get; set; }
-        public MachineDataRequestEntity Machine { get; set; }
-        public UserDataRequestEntity User { get; set; }
+        public IApplication Application { get; set; }
+        public IMachine Machine { get; set; }
+        public IUser User { get; set; }
         public string CallerIp { get; set; }
     }
 
-    public class ApplicationDataRequestEntity
+    public class ApplicationDataRequestEntity : IApplication
     {
         public string Fingerprint { get; set; }
         public string Name { get; set; }
@@ -46,14 +47,14 @@ namespace Quilt4.Service.Entity
         public DateTime? BuildTime { get; set; }
     }
 
-    public class MachineDataRequestEntity
+    public class MachineDataRequestEntity : IMachine
     {
         public string Fingerprint { get; set; }
         public string Name { get; set; }
         public IDictionary<string, string> Data { get; set; }
     }
 
-    public class UserDataRequestEntity
+    public class UserDataRequestEntity : IUser
     {
         public string Fingerprint { get; set; }
         public string UserName { get; set; }

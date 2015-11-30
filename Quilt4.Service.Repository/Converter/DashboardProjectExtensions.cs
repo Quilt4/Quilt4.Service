@@ -17,7 +17,7 @@ namespace Quilt4.Service.SqlRepository.Converter
             if (item == null)
                 return null;
 
-            return new Quilt4.Service.Entity.DashboardPageProject(item.ProjectKey, item.Name, item.VersionCount, item.SessionCount, item.IssueTypeCount, item.IssueCount, item.DashboardColor);
+            return new Entity.DashboardPageProject(item.ProjectKey, item.Name, item.VersionCount, item.SessionCount, item.IssueTypeCount, item.IssueCount, item.DashboardColor);
         }
     }
 }

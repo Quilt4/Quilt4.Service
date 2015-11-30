@@ -8,5 +8,6 @@ namespace Quilt4.Service.Interface.Business
         Guid ProjectKey { get; }
         string ProjectName { get; }
         string DashboardColor { get; }
+        string ProjectApiKey { get; }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Quilt4.Service.SqlRepository.Data
+namespace Quilt4.Service.SqlRepository.Interface
 {
     internal interface IReadOnlyContext<out TContext>
     {

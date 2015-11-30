@@ -102,5 +102,53 @@ namespace Quilt4.Service.SqlRepository.Read
                 });
             });
         }
+
+        public void UpdateProjectPageApplication(Guid projectKey, Guid applicaitonKey)
+        {
+            _dataRepositoryContext.Execute(dataContext =>
+            {
+                _updateReadRepositoryContext.Execute(context =>
+                {
+                    //                var application = context.Applications.Single(x => x.Id == applicaitonId && x.ProjectId == projectId);
+
+                    //                var versions = application.Versions.Count;
+
+                    //                var projectPageApplication =
+                    //                    context.ProjectPageApplications.SingleOrDefault(
+                    //                        x => x.ProjectId == projectId && x.Id == application.Id);
+
+                    //                if (projectPageApplication != null)
+                    //                {
+                    //                    projectPageApplication.Name = application.Name;
+                    //                    projectPageApplication.Versions = versions;
+                    //                }
+                    //                else
+                    //                {
+                    //                    var newProjectPageApplication = new ProjectPageApplication
+                    //                    {
+                    //                        Id = application.Id,
+                    //                        ProjectId = application.ProjectId,
+                    //                        Name = application.Name,
+                    //                        Versions = versions
+                    //                    };
+
+                    //                    context.ProjectPageApplications.InsertOnSubmit(newProjectPageApplication);
+                    //                }
+
+                    //                context.SubmitChanges();
+                    throw new NotImplementedException();
+                });
+            });
+        }
+
+        public void UpdateProjectPageVersion(Guid projectKey, Guid applicaitonKey, Guid versionKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateVersionPageVersion(Guid projectKey, Guid applicaitonKey, Guid versionKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Quilt4.Service.DataTransfer;
-using Quilt4.Service.Entity;
+﻿using Quilt4.Service.Entity;
+using Tharga.Quilt4Net.DataTransfer;
 
 namespace Quilt4.Service.Converters
 {
     public static class RegisterSessionConverter
     {
-
         public static SessionRequestEntity ToSessionRequestEntity(this RegisterSessionRequest item, string callerIp)
         {
             if (item == null)
@@ -17,8 +12,8 @@ namespace Quilt4.Service.Converters
 
             return new SessionRequestEntity
             {
-                ClientToken = item.ClientToken,
-                SessionId = Guid.Parse(item.SessionId),
+                SessionKey = item.SessionKey,
+                ProjectApiKey = item.ProjectApiKey,
                 ClientStartTime = item.ClientStartTime,
                 Environment = item.Environment,
                 Application = item.Application.ToApplicationDataRequestEntity(),
@@ -28,7 +23,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static ApplicationDataRequestEntity ToApplicationDataRequestEntity(this ApplicationDataRequest item)
+        public static ApplicationDataRequestEntity ToApplicationDataRequestEntity(this ApplicationData item)
         {
             if (item == null)
                 return null;
@@ -43,7 +38,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineDataRequest item)
+        public static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineData item)
         {
             if (item == null)
                 return null;
@@ -56,7 +51,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static UserDataRequestEntity ToUserDataRequestEntity(this UserDataRequest item)
+        public static UserDataRequestEntity ToUserDataRequestEntity(this UserData item)
         {
             if (item == null)
                 return null;

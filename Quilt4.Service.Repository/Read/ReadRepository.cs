@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Converter;
@@ -27,6 +28,11 @@ namespace Quilt4.Service.SqlRepository.Read
             });
 
             return response;
+        }
+
+        public IProjectPageProject GetProject(string userName, Guid projectKey)
+        {
+            throw new NotImplementedException();
         }
     }
 }

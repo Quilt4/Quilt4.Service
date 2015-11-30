@@ -13,7 +13,7 @@ namespace Quilt4.Service.Business.Handlers.Commands
 
         protected override void DoHandle(ICreateProjectCommandInput input)
         {
-            Repository.CreateProject(input.UserName, input.ProjectKey, input.ProjectName, RandomUtility.GetRandomString(32), DateTime.UtcNow, input.DashboardColor ?? "blue");
+            Repository.CreateProject(input.UserName, input.ProjectKey, input.ProjectName, input.ProjectApiKey, DateTime.UtcNow, input.DashboardColor ?? "blue");
             WriteRepository.UpdateDashboardPageProject(input.ProjectKey);
             WriteRepository.UpdateProjectPageProject(input.ProjectKey);
         }

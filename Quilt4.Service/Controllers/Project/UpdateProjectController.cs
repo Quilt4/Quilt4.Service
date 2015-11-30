@@ -20,13 +20,12 @@ namespace Quilt4.Service.Controllers.Project
         [Route("api/Project/Update")]
         public void UpdateProject(UpdateProjectRequest request)
         {
-            throw new NotImplementedException();
-            //if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            //if (request.ProjectKey == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
-            //if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
-            //if (string.IsNullOrEmpty(request.DashboardColor)) throw new ArgumentException("No dashboard color provided.");
+            if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
+            if (request.ProjectKey == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
+            if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
+            if (string.IsNullOrEmpty(request.DashboardColor)) throw new ArgumentException("No dashboard color provided.");
 
-            //_handler.StartHandle(new UpdateProjectCommandInput(User.Identity.Name, request.ProjectKey, request.Name, request.DashboardColor));
+            _handler.StartHandle(new UpdateProjectCommandInput(User.Identity.Name, request.ProjectKey, request.Name, request.DashboardColor));
         }
     }
 }

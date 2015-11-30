@@ -92,7 +92,7 @@ namespace Quilt4.Service.Repository.SqlRepository
                 using (var context = GetDataContext())
                 {
                     var issueTypePageIssueIds = context.IssueTypePageIssues.Select(x => x.Id);
-                    var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.Id));
+                    var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.Id)).ToArray();
 
                     foreach (var issue in issuesToUpdate)
                     {
@@ -120,6 +120,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                         context.SubmitChanges();
                     }
+
 
                 }
 

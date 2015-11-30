@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Quilt4.Service.Entity;
 
-namespace Quil4.Service.Interface.Repository
+namespace Quilt4.Service.Interface.Repository
 {
     public interface IRepository
     {
@@ -12,7 +12,7 @@ namespace Quil4.Service.Interface.Repository
         T GetSetting<T>(string name);
         T GetSetting<T>(string name, T defaultValue);
         void SetSetting<T>(string name, T value);
-        int GetNextTicket(string clientToken, string name, string version, string type, string level, string message, string stackTrace);
+        int GetNextTicket(string clientToken, string type, string message, string stackTrace, string issueLevel, Guid versionId);
         Guid? GetProjectId(string clientToken);
         Guid SaveApplication(Guid projectId, string name);
         Guid SaveVersion(Guid applicaitonId, string version, string supportToolkitNameVersion);

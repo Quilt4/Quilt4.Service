@@ -5,6 +5,7 @@ using System.Linq;
 using System.Transactions;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
+using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Repository.SqlRepository.Extensions;
 
 namespace Quilt4.Service.Repository.SqlRepository
@@ -64,26 +65,30 @@ namespace Quilt4.Service.Repository.SqlRepository
             _settings.Add(name, value.ToString());
         }
         
-        public int GetNextTicket(string clientToken, string applicationName, string applicationVersion, string type,
-            string level, string message, string stackTrace)
+        public int GetNextTicket(string clientToken, string type, string message, string stackTrace, string issueLevel, Guid versionId)
         {
-            using (var scope = new TransactionScope())
+            using (var context = GetDataContext())
             {
+                var issueType = context.IssueTypes.SingleOrDefault(x => x.Type == type && x.Message == message && x.StackTrace == stackTrace && x.Level == issueLevel && x.VersionId == versionId);
+
+                if (issueType != null)
+                    return issueType.Ticket;
+
                 int ticket;
-                using (var context = GetDataContext())
+
+                using (var scope = new TransactionScope())
                 {
                     var project = context.Projects.Single(x => x.ClientToken == clientToken);
 
                     project.LastTicket++;
-                    context.SubmitChanges();
-
                     ticket = project.LastTicket;
-
+                    context.SubmitChanges();
+                    scope.Complete();
                 }
-                scope.Complete();
+
                 return ticket;
             }
-        }
+    }
 
         public Guid? GetProjectId(string clientToken)
         {
@@ -104,7 +109,6 @@ namespace Quilt4.Service.Repository.SqlRepository
                 if (application != null)
                 {
                     //Update application?
-
                     return application.Id;
                 }
 
@@ -134,7 +138,6 @@ namespace Quilt4.Service.Repository.SqlRepository
                 if (existingVersion != null)
                 {
                     //Update version?
-
                     return existingVersion.Id;
                 }
 
@@ -170,7 +173,7 @@ namespace Quilt4.Service.Repository.SqlRepository
                 if (issueType != null)
                 {
                     //Update issueType?
-
+                        
                     return issueType.Id;
                 }
 
@@ -192,6 +195,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                 return newIssueType.Id;
             }
+            
         }
 
         public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp, Guid applicaitonId, Guid versionId, Guid userDataId, Guid machineId, string environment)
@@ -245,7 +249,7 @@ namespace Quilt4.Service.Repository.SqlRepository
                     userData.UserName = userName;
                     userData.LastUpdateDate = DateTime.Now;
                     context.SubmitChanges();
-
+                    
                     return userData.Id;
                 }
 
@@ -260,7 +264,7 @@ namespace Quilt4.Service.Repository.SqlRepository
 
                 context.UserDatas.InsertOnSubmit(newUserData);
                 context.SubmitChanges();
-
+                
                 return newUserData.Id;
             }
         }

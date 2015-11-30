@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
+using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Repository.MemoryRepository
 {
@@ -37,7 +38,7 @@ namespace Quilt4.Service.Repository.MemoryRepository
             throw new NotImplementedException();
         }
 
-        public int GetNextTicket(string clientToken, string name, string version, string type, string level, string message, string stackTrace)
+        public int GetNextTicket(string clientToken, string type, string message, string stackTrace, string issueLevel, Guid versionId)
         {
             throw new NotImplementedException();
         }

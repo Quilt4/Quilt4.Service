@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
+using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Business
 {
@@ -38,19 +41,8 @@ namespace Quilt4.Service.Business
                 throw new ArgumentException("No project with provided clienttoken");
             }
 
-            var ticket = _repository.GetNextTicket(request.ClientToken, session.ApplicationName,
-                session.Version, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace);
-
-            Task.Factory.StartNew(() => SaveIssue(request, ticket, session));
-
-            return new RegisterIssueResponseEntity
-            {
-                Ticket = ticket
-            };
-        }
-
-        private void SaveIssue(RegisterIssueRequestEntity request, int ticket, Session session)
-        {
+            var ticket = GetTicket(request, 10, session.VersionId);
+            
             // Add/Update IssueType
             var issueTypeId = _repository.SaveIssueType(session.VersionId, ticket, request.IssueType.Type,
                 request.IssueType.IssueLevel, request.IssueType.Message,
@@ -59,6 +51,34 @@ namespace Quilt4.Service.Business
             _repository.SaveIssue(request.Id, issueTypeId, session.Id, request.ClientTime, request.Data);
 
             WriteBusiness.RunRecalculate();
+
+            return new RegisterIssueResponseEntity
+            {
+                Ticket = ticket
+            };
+        }
+
+        private int GetTicket(RegisterIssueRequestEntity request, int tryCount, Guid versionId)
+        {
+            int ticket;
+            try
+            {
+                ticket = _repository.GetNextTicket(request.ClientToken, request.IssueType.Type, request.IssueType.Message, request.IssueType.StackTrace, request.IssueType.IssueLevel, versionId);
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                if (tryCount > 0)
+                {
+                    Thread.Sleep((10 - tryCount) * 10);
+                    tryCount--;
+                    ticket = GetTicket(request, tryCount, versionId);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return ticket;
         }
     }
 }

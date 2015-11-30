@@ -31,6 +31,7 @@ namespace Quilt4.Service.Business
                 catch (Exception e)
                 {
                     //TODO: Log and handle exception
+                    throw e;
                 }
             }
         }

@@ -15,7 +15,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Quilt4.Service.Business.Handlers.Commands;
-using Quilt4.Service.Controllers.User.DataTransfer;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Models;
 using Quilt4.Service.Providers;
 using Quilt4.Service.Results;
@@ -342,7 +342,7 @@ namespace Quilt4.Service.Controllers
                     await _createUserCommandHandler.StartHandle(new CrateUserCommandInput(user.UserName));
                 }
             }
-            catch (Exception exception)
+            catch
             {
                 //TODO: Log issue to event log (or other logging service)
                 await UserManager.DeleteAsync(user);

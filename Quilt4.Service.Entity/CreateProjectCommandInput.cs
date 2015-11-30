@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers.Project.DataTransfer
+namespace Quilt4.Service.Entity
 {
-    internal class CreateProjectCommandInput : ICreateProjectCommandInput
+    public class CreateProjectCommandInput : ICreateProjectCommandInput
     {
         public CreateProjectCommandInput(string userName, Guid projectKey, string projectName, string dashboardColor)
         {

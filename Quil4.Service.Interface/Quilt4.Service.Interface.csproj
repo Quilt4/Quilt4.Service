@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Quilt4.Service.Interface</RootNamespace>
     <AssemblyName>Quilt4.Service.Interface</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -66,6 +66,7 @@
     <Compile Include="Business\IIssueTypeBusiness.cs" />
     <Compile Include="Business\IRegisterIssueRequestEntity.cs" />
     <Compile Include="Business\IRegisterIssueResponseEntity.cs" />
+    <Compile Include="Business\IRegisterSessionCommandInput.cs" />
     <Compile Include="Business\ISessionBusiness.cs" />
     <Compile Include="Business\ISessionRequestEntity.cs" />
     <Compile Include="Business\ISettingBusiness.cs" />

@@ -1,9 +1,9 @@
 ﻿using System;
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers.Project.DataTransfer
+namespace Quilt4.Service.Entity
 {
-    internal class UpdateProjectCommandInput : IUpdateProjectCommandInput
+    public class UpdateProjectCommandInput : IUpdateProjectCommandInput
     {
         public UpdateProjectCommandInput(string userName, Guid projectKey, string projectName, string dashboardColor)
         {

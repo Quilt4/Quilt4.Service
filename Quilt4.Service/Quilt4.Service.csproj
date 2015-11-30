@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Quilt4.Service</RootNamespace>
     <AssemblyName>Quilt4.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,16 +61,16 @@
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -120,6 +121,11 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Tharga.Quilt4Net, Version=2.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tharga.Quilt4Net.2.0.0.9\lib\portable-net45+win+wpa81+wp80\Tharga.Quilt4Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -219,20 +225,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Project\DataTransfer\ProjectResponse.cs" />
-    <Compile Include="Controllers\Project\DataTransfer\UpdateProjectCommandInput.cs" />
+    <Compile Include="Controllers\Session\RegisterSessionController.cs" />
     <Compile Include="Controllers\Project\UpdateProjectController.cs" />
-    <Compile Include="Controllers\User\DataTransfer\CrateUserCommandInput.cs" />
-    <Compile Include="Controllers\Project\DataTransfer\CreateProjectCommandInput.cs" />
     <Compile Include="Controllers\Project\CreateProjectController.cs" />
-    <Compile Include="Controllers\Project\DataTransfer\GetProjectQueryInput.cs" />
     <Compile Include="DataTransfer\ProjectPageApplicationResponse.cs" />
     <Compile Include="Controllers\Project\GetProjectsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Converters\ProjectPageConverter.cs" />
-    <Compile Include="Controllers\Project\DataTransfer\ProjectPageProjectResponse.cs" />
     <Compile Include="DataTransfer\ProjectPageVersionResponse.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

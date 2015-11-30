@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Web.Http;
 using Quilt4.Service.Business.Handlers.Commands;
-using Quilt4.Service.Controllers.Project.DataTransfer;
+using Quilt4.Service.Entity;
+using Tharga.Quilt4Net.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Project
 {
@@ -19,11 +20,12 @@ namespace Quilt4.Service.Controllers.Project
         [Route("api/Project/Create")]
         public void CreateProject(CreateProjectRequest request)
         {
-            if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            if (request.ProjectKey == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
-            if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
+            throw new NotImplementedException();
+            //if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
+            //if (request.ProjectKey == Guid.Empty) throw new ArgumentException("Key cannot be empty Guid.");
+            //if (string.IsNullOrEmpty(request.Name)) throw new ArgumentException("No name provided.");
 
-            _handler.StartHandle(new CreateProjectCommandInput(User.Identity.Name, request.ProjectKey, request.Name, request.DashboardColor));
+            //_handler.StartHandle(new CreateProjectCommandInput(User.Identity.Name, request.ProjectKey, request.Name, request.DashboardColor));
         }
     }
 }

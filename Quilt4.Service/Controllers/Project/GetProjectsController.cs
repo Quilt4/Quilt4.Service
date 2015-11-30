@@ -1,7 +1,8 @@
 using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Business.Handlers.Queries;
-using Quilt4.Service.Controllers.Project.DataTransfer;
+using Quilt4.Service.Entity;
+using Tharga.Quilt4Net.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Project
 {

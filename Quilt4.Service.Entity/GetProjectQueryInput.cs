@@ -1,8 +1,8 @@
-using Quilt4.Service.Interface.Business;
+﻿using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers.Project.DataTransfer
+namespace Quilt4.Service.Entity
 {
-    internal class GetProjectQueryInput : IGetProjectQueryInput
+    public class GetProjectQueryInput : IGetProjectQueryInput
     {
         public GetProjectQueryInput(string userName)
         {

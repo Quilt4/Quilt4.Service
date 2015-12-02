@@ -23,7 +23,7 @@ namespace Quilt4.Service.Business
         {
             while (_running)
             {
-                _autoResetEvent.WaitOne();
+                _autoResetEvent.WaitOne(5 * 60 * 1000); //Timeout after 5 minutes
                 try
                 {
                     _repository.WriteToReadDb();

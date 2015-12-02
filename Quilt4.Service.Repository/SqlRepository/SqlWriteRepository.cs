@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Transactions;
@@ -91,6 +92,8 @@ namespace Quilt4.Service.Repository.SqlRepository
             {
                 using (var context = GetDataContext())
                 {
+                    var projects = context.Projects.ToArray();
+
                     var issueTypePageIssueIds = context.IssueTypePageIssues.Select(x => x.Id);
                     var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.Id)).ToArray();
 
@@ -121,10 +124,44 @@ namespace Quilt4.Service.Repository.SqlRepository
                         context.SubmitChanges();
                     }
 
+                    foreach (var project in projects)
+                    {
+                        var sessions = project.Applications.SelectMany(x => x.Sessions).Count();
+                        var versions = project.Applications.SelectMany(x => x.Versions);
 
+                        UpdateProjectPageVersionSessionCount(context, versions);
+
+                        UpdateDashboardPageProjectSessionCount(context, project.Id, sessions);
+
+                        context.SubmitChanges();
+                    }
                 }
 
                 scope.Complete();
+            }
+        }
+
+        private void UpdateDashboardPageProjectSessionCount(Quilt4DataContext context, Guid projectId, int sessions)
+        {
+            var dashboardPageProject = context.DashboardPageProjects.SingleOrDefault(x => x.Id == projectId);
+            if(dashboardPageProject == null)
+                return;
+            dashboardPageProject.Sessions = sessions;
+        }
+
+        private void UpdateProjectPageVersionSessionCount(Quilt4DataContext context, IEnumerable<Version> versions)
+        {
+            if(versions == null || !versions.Any())
+
+            foreach (var version in versions)
+            {
+                var sessions = version.Sessions.Count;
+                var dashboardProject = context.ProjectPageVersions.SingleOrDefault(x => x.Id == version.Id);
+                
+                if(dashboardProject == null)
+                    continue;
+
+                dashboardProject.Sessions = sessions;
             }
         }
 

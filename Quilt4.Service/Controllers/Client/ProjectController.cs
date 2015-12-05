@@ -1,53 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
-using Quilt4.Service.Converters;
-using Quilt4.Service.DataTransfer;
+using Quilt4.Service.Controllers.Client.Converters;
 using Quilt4.Service.Interface.Business;
+using Tharga.Quilt4Net.DataTransfer;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Controllers.Client
 {
-    //[Route("api/Project")]
-    public class ProjectController : ApiController
+    [Authorize]
+    [Route("api/Client/Project")]
+    [Route("api/Client/Project/{id}")]
+    public class ClientProjectController : ApiController
     {
         private readonly IProjectBusiness _projectBusiness;
 
-        public ProjectController(IProjectBusiness projectBusiness)
+        public ClientProjectController(IProjectBusiness projectBusiness)
         {
             _projectBusiness = projectBusiness;
         }
 
-        // GET: api/Project
-        [HttpGet]
-        [Authorize]
-        [Route("api/Project/List")]
-        public IEnumerable<ProjectPageProjectResponse> Get()
+        public IEnumerable<ProjectResponse> Get()
         {
-            return new[] { new ProjectPageProjectResponse { Name = "A", } };
+            var projects = _projectBusiness.GetProjects(User.Identity.Name);
+            return projects.Select(x => x.ToProjectResponse());
         }
 
-        // GET: api/Project/5
-        public ProjectPageProjectResponse Get(string id)
+        public ProjectResponse Get(Guid id)
         {
-            return _projectBusiness.GetProject(null, Guid.Parse(id)).ToProjectPageProjectResponse();
+            return _projectBusiness.GetProject(id).ToProjectResponse();
         }
 
-        // POST: api/Project
-        public void Post([FromBody]string value)
+        public void Post([FromBody]CreateProjectRequest value)
         {
-            throw new NotImplementedException();
+            _projectBusiness.CreateProject(User.Identity.Name, value.ProjectKey, value.Name, value.DashboardColor);
         }
 
-        // PUT: api/Project/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(Guid id, [FromBody]CreateProjectRequest value)
         {
-            throw new NotImplementedException();
+            if(id != value.ProjectKey) throw new InvalidOperationException("Provided id and key does not match.");
+            _projectBusiness.UpdateProject(id, value.Name, value.DashboardColor);
         }
 
-        // DELETE: api/Project/5
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            _projectBusiness.DeleteProject(id);
         }
     }
 }

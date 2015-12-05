@@ -19,9 +19,19 @@ namespace Quilt4.Service.Business
             _writeRepository = writeRepository;
         }
 
-        public ProjectPageProject GetProject(string userId, Guid projectId)
+        public ProjectPageProject GetProject(Guid projectId)
         {
-            return _readRepository.GetProject(userId, projectId);
+            return _readRepository.GetProject(projectId);
+        }
+
+        public IEnumerable<ProjectPageProject> GetProjects(string userName)
+        {
+            return _repository.GetProjects(userName);
+        }
+
+        public void DeleteProject(Guid projectKey)
+        {
+            _repository.DeleteProject(projectKey);
         }
 
         public IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId)
@@ -29,21 +39,21 @@ namespace Quilt4.Service.Business
             return _readRepository.GetVersions(userId, projectId, applicationId);
         }
 
-        public void CreateProject(Guid projectKey, string name, string dashboardColor)
+        public void CreateProject(string userName, Guid projectKey, string name, string dashboardColor)
         {
-            _repository.CreateProject(projectKey, name, dashboardColor);
+            var projectApiKey = RandomUtility.GetRandomString(32);
+
+            _repository.CreateProject(userName, projectKey, name, DateTime.UtcNow, dashboardColor ?? "blue", projectApiKey);
             _writeRepository.UpdateDashboardPageProject(projectKey);
             _writeRepository.UpdateProjectPageProject(projectKey);
         }
 
-        public Guid UpdateProject(Guid projectId, string name, string dashboardColor)
+        public void UpdateProject(Guid projectKey, string name, string dashboardColor)
         {
-            _repository.UpdateProject(projectId, name, dashboardColor);
+            _repository.UpdateProject(projectKey, name, dashboardColor, DateTime.UtcNow);
 
-            _writeRepository.UpdateDashboardPageProject(projectId);
-            _writeRepository.UpdateProjectPageProject(projectId);
-
-            return projectId;
+            _writeRepository.UpdateDashboardPageProject(projectKey);
+            _writeRepository.UpdateProjectPageProject(projectKey);
         }
     }
 }

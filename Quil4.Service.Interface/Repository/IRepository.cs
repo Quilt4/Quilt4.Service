@@ -8,6 +8,10 @@ namespace Quilt4.Service.Interface.Repository
     {
         void SaveUser(User user);
         User GetUser(string userName);
+        ProjectPageProject[] GetProjects(string userName);
+        void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
+        void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime);
+        void DeleteProject(Guid projectKey);
 
         //TODO: Revisit
         void SaveLoginSession(LoginSession loginSession);
@@ -24,7 +28,5 @@ namespace Quilt4.Service.Interface.Repository
         Guid SaveMachine(string fingerprint, string name, IDictionary<string, string> data);
         Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data);
         Session GetSession(Guid sessionId);
-        void CreateProject(Guid projectKey, string name, string dashboardColor);
-        void UpdateProject(Guid projectId, string name, string dashboardColor);
     }
 }

@@ -43,6 +43,18 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public void DeleteProject(Guid projectKey)
+        {
+            using (var context = GetDataContext())
+            {
+                var project = context.Projects.Single(x => x.Id == projectKey);
+                context.Projects.DeleteOnSubmit(project);
+                context.SubmitChanges();
+
+                //TODO: Also delete from all read-tables
+            }
+        }
+
         public void SaveLoginSession(LoginSession loginSession)
         {
             _loginSession.Add(loginSession.PublicKey, loginSession);
@@ -444,18 +456,22 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void CreateProject(Guid projectKey, string name, string dashboardColor)
+        public void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey)
         {
             using (var context = GetDataContext())
             {
+                var user = context.Users.Single(x => x.UserName == userName);
+
                 var project = new Project
                 {
                     Id = projectKey,
                     Name = name,
                     DashboardColor = dashboardColor,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now,
-                    ClientToken = Guid.NewGuid().ToString().Replace("-", "")
+                    CreationDate = createTime,
+                    LastUpdateDate = createTime,
+                    ClientToken = projectApiKey,
+                    OwnerUserId = user.UserId,
+                    LastTicket = 0,
                 };
 
                 context.Projects.InsertOnSubmit(project);
@@ -463,17 +479,26 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void UpdateProject(Guid projectId, string name, string dashboardColor)
+        public void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.Single(x => x.Id == projectId);
+                var project = context.Projects.Single(x => x.Id == projectKey);
 
                 project.Name = name;
                 project.DashboardColor = dashboardColor;
-                project.LastUpdateDate = DateTime.Now;
+                project.LastUpdateDate = updateTime;
 
                 context.SubmitChanges();
+            }
+        }
+
+        public Entity.ProjectPageProject[] GetProjects(string userId)
+        {
+            using (var context = GetDataContext())
+            {
+                var projectPageApplicaitons = context.Projects.Where(x => x.User.UserName == userId);
+                return projectPageApplicaitons.Select(x => new Entity.ProjectPageProject { Name = x.Name, DashboardColor = x.DashboardColor, Id = x.Id, ClientToken = x.ClientToken }).ToArray();
             }
         }
 

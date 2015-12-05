@@ -44,6 +44,7 @@ namespace Quilt4.Service
         private static void MapRoutes(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+            //config.Routes.MapHttpRoute("DefaultApi", "api/{area}/{controller}/{id}", new { id = RouteParameter.Optional, area = RouteParameter.Optional });
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
         }
 

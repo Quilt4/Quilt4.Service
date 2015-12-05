@@ -55,6 +55,7 @@
     <Compile Include="DashboardPageProject.cs" />
     <Compile Include="IssueTypePageIssueType.cs" />
     <Compile Include="LoginSession.cs" />
+    <Compile Include="ProjectPageApplication.cs" />
     <Compile Include="ProjectPageProject.cs" />
     <Compile Include="ProjectPageVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

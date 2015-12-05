@@ -9,12 +9,11 @@ namespace Quilt4.Service.SqlRepository
 {
     public class SqlReadRepository : IReadRepository
     {
-        public Entity.ProjectPageProject GetProject(string userId, Guid projectId)
+        public Entity.ProjectPageProject GetProject(Guid projectId)
         {
             using (var context = GetDataContext())
             {
                 var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectId == projectId);
-
                 return context.ProjectPageProjects.SingleOrDefault(x => x.Id == projectId).ToProjectPageProject(projectPageApplicaitons);
             }
         }

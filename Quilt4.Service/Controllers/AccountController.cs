@@ -10,10 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
 using Quilt4.Service.Models;
-using Quilt4.Service.Providers;
-using Quilt4.Service.Results;
 
 namespace Quilt4.Service.Controllers
 {

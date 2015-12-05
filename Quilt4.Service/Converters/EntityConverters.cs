@@ -3,10 +3,9 @@ using Tharga.Quilt4Net.DataTransfer;
 
 namespace Quilt4.Service.Converters
 {
-    public static class RegisterSessionConverter
+    internal static class EntityConverters
     {
-
-        public static SessionRequestEntity ToSessionRequestEntity(this RegisterSessionRequest item, string callerIp)
+        public static SessionRequestEntity ToSessionRequestEntity(this SessionData item, string callerIp)
         {
             if (item == null)
                 return null;
@@ -20,7 +19,7 @@ namespace Quilt4.Service.Converters
                 Application = item.Application.ToApplicationDataRequestEntity(),
                 Machine = item.Machine.ToMachineDataRequestEntity(),
                 User = item.User.ToUserDataRequestEntity(),
-                CallerIp = callerIp,                
+                CallerIp = callerIp,
             };
         }
 
@@ -39,7 +38,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineData item)
+        private static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineData item)
         {
             if (item == null)
                 return null;
@@ -52,7 +51,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static UserDataRequestEntity ToUserDataRequestEntity(this UserData item)
+        private static UserDataRequestEntity ToUserDataRequestEntity(this UserData item)
         {
             if (item == null)
                 return null;

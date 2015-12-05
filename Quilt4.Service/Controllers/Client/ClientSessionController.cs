@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
-using Newtonsoft.Json;
 using Quilt4.Service.Converters;
 using Quilt4.Service.Interface.Business;
 using Tharga.Quilt4Net.DataTransfer;
@@ -20,13 +19,13 @@ namespace Quilt4.Service.Controllers.Client
         }
 
         [Route("api/Client/Session")]
-        public IEnumerable<ProjectResponse> Get()
+        public IEnumerable<SessionData> Get()
         {
             throw new NotImplementedException();
         }
 
         [Route("api/Client/Session/{id}")]
-        public ProjectResponse Get(Guid id)
+        public SessionData Get(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -35,15 +34,8 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Session")]
         public void Post([FromBody] object value)
         {
-            var data = GetData(value).ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
+            var data = value.ToSessionData().ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
             _sessionBusiness.RegisterSession(data);
-        }
-
-        private RegisterSessionRequest GetData(object request)
-        {
-            var requestString = JsonConvert.SerializeObject(request);
-            var data = JsonConvert.DeserializeObject<RegisterSessionRequest>(requestString);
-            return data;
         }
     }
 }

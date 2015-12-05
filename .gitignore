@@ -90,3 +90,4 @@ _ReSharper.*
 *.psess
 
 *.orig
+*.transformed

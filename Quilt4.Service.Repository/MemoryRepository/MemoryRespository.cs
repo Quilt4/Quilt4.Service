@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Quil4.Service.Interface.Repository;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 
@@ -84,6 +83,11 @@ namespace Quilt4.Service.Repository.MemoryRepository
         }
 
         public Session GetSession(Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateProject(Guid projectKey, string name, string dashboardColor)
         {
             throw new NotImplementedException();
         }

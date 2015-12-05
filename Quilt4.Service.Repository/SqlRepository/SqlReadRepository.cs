@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using Quil4.Service.Interface.Repository;
+using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Repository.SqlRepository.Extensions;
 
 namespace Quilt4.Service.Repository.SqlRepository
@@ -30,9 +30,7 @@ namespace Quilt4.Service.Repository.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return
-                    context.ProjectPageVersions.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId)
-                        .ToProjectPageVersions().ToArray();
+                return context.ProjectPageVersions.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId).ToProjectPageVersions().ToArray();
             }
         }
 
@@ -40,14 +38,8 @@ namespace Quilt4.Service.Repository.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var versionPageIssueTypes =
-                    context.VersionPageIssueTypes.Where(
-                        x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId);
-
-                return
-                    context.VersionPageVersions.SingleOrDefault(
-                        x => x.Id == versionId && x.ProjectId == projectId && x.ApplicaitonId == applicationId)
-                        .ToVersionPageVersion(versionPageIssueTypes);
+                var versionPageIssueTypes = context.VersionPageIssueTypes.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId);
+                return context.VersionPageVersions.SingleOrDefault(x => x.Id == versionId && x.ProjectId == projectId && x.ApplicaitonId == applicationId).ToVersionPageVersion(versionPageIssueTypes);
             }
         }
 
@@ -56,17 +48,8 @@ namespace Quilt4.Service.Repository.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var issueTypePageIssues =
-                    context.IssueTypePageIssues.Where(
-                        x =>
-                            x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId &&
-                            x.IssueTypeId == issueTypeId);
-
-                return
-                    context.IssueTypePageIssueTypes.SingleOrDefault(
-                        x =>
-                            x.Id == issueTypeId && x.ProjectId == projectId && x.ApplicationId == applicationId &&
-                            x.VersionId == versionId).ToIssueTypePageIssueType(issueTypePageIssues);
+                var issueTypePageIssues = context.IssueTypePageIssues.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId && x.IssueTypeId == issueTypeId);
+                return context.IssueTypePageIssueTypes.SingleOrDefault(x => x.Id == issueTypeId && x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId).ToIssueTypePageIssueType(issueTypePageIssues);
             }
         }
 

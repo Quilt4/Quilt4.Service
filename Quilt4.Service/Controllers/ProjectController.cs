@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Http;
-using Quil4.Service.Interface.Business;
 using Quilt4.Service.Converters;
 using Quilt4.Service.DataTransfer;
+using Quilt4.Service.Entity;
+using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Controllers
 {
@@ -20,28 +21,15 @@ namespace Quilt4.Service.Controllers
         [HttpGet]
         public ProjectPageProjectResponse GetProject(string id)
         {
-            //IEnumerable<string> headerValues = request.Headers.GetValues("MyCustomID");
-            //var id = headerValues.FirstOrDefault();
-
             return _projectBusiness.GetProject(null, Guid.Parse(id)).ToProjectPageProjectResponse();
         }
         
         [HttpGet]
         public ProjectPageProjectResponse[] GetProjects()
         {
-            var re = Request;
-            var headers = re.Headers;
-            if (!string.IsNullOrEmpty(headers.Authorization.Scheme))
-            {
-                var sessionKey = headers.Authorization.Parameter;
-                var xxx = Convert.FromBase64String(sessionKey);
-                var key = Encoding.UTF8.GetString(xxx);
-            }
+            //TODO: Move this so that it is applied for all calls.
+            AuthenticateCall();
 
-            //IEnumerable<string> headerValues = request.Headers.GetValues("MyCustomID");
-            //var id = headerValues.FirstOrDefault();
-
-            //return _projectBusiness.GetProject(null, Guid.Parse(id)).ToProjectPageProjectResponse();
             return new[] { new ProjectPageProjectResponse { Name = "A", } };
         }
 
@@ -50,12 +38,38 @@ namespace Quilt4.Service.Controllers
         public CreateProjectResponse CreateProject(CreateProjectRequest request)
         {
             if (request == null)
-                throw new ArgumentNullException("request", "No request object provided.");
+                throw new ArgumentNullException(nameof(request), "No request object provided.");
 
-            return new CreateProjectResponse
+            //TODO: Move this so that it is applied for all calls.
+            AuthenticateCall(request);
+
+            _projectBusiness.CreateProject(request.ProjectKey, request.Name, request.DashboardColor);
+
+            return new CreateProjectResponse();
+        }
+
+        //TODO: Move this so that it is applied for all calls.
+        private void AuthenticateCall(object request = null)
+        {
+            if (!string.IsNullOrEmpty(Request.Headers.Authorization.Scheme))
             {
-                ProjectId = _projectBusiness.CreateProject(request.Name, request.DashboardColor).ToString()
-            };
+                var header = Encoding.UTF8.GetString(Convert.FromBase64String(Request.Headers.Authorization.Parameter)).Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var publicSessionKey = header[0];
+                var messageHash = header[1];
+
+                var securityType = (SecurityType)Enum.Parse(typeof(SecurityType), Request.Headers.Authorization.Scheme);
+                switch (securityType)
+                {
+                    case SecurityType.Simple:
+                        //TODO: Compare the URL called and the data provided
+                        var requestedUrl = Request.RequestUri;
+                        //var content = Request.Content.ReadAsStringAsync().Result;
+
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(string.Format("Unknown security type {0}.", securityType));
+                }
+            }
         }
 
         [HttpPost]
@@ -63,14 +77,12 @@ namespace Quilt4.Service.Controllers
         public UpdateProjectResponse UpdateProject(UpdateProjectRequest request)
         {
             if (request == null)
-                throw new ArgumentNullException("request", "No request object provided.");
+                throw new ArgumentNullException(nameof(request), "No request object provided.");
 
-            return new UpdateProjectResponse
-            {
-                ProjectId = _projectBusiness.UpdateProject(Guid.Parse(request.Id), request.Name, request.DashboardColor).ToString()
-            };
+            _projectBusiness.UpdateProject(Guid.Parse(request.Id), request.Name, request.DashboardColor);
+
+            return new UpdateProjectResponse();
         }
-
 
         [Route("api/project/{projectId}/application/{applicationId}/version")]
         public IEnumerable<ProjectPageVersionResponse> GetVersions(string projectId, string applicationId)
@@ -79,17 +91,18 @@ namespace Quilt4.Service.Controllers
         }
     }
 
+    //TODO: Move the definition to the toolkit (
     public class CreateProjectResponse
     {
-        public string ProjectId { get; set; }
     }
+
     public class UpdateProjectResponse
     {
-        public string ProjectId { get; set; }
     }
 
     public class CreateProjectRequest
     {
+        public Guid ProjectKey { get; set; }
         public string Name { get; set; }
         public string DashboardColor { get; set; }
     }

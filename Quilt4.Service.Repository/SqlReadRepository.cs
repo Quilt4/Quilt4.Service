@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Quilt4.Service.Interface.Repository;
-using Quilt4.Service.Repository.SqlRepository.Extensions;
+using Quilt4.Service.SqlRepository.Extensions;
 
-namespace Quilt4.Service.Repository.SqlRepository
+namespace Quilt4.Service.SqlRepository
 {
     public class SqlReadRepository : IReadRepository
     {

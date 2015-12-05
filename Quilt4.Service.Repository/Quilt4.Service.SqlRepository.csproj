@@ -7,8 +7,8 @@
     <ProjectGuid>{9B023F8B-855E-409E-8CB9-F2C57F9561BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Quilt4.Service.Repository</RootNamespace>
-    <AssemblyName>Quilt4.Service.Repository</AssemblyName>
+    <RootNamespace>Quilt4.Service.SqlRepository</RootNamespace>
+    <AssemblyName>Quilt4.Service.SqlRepository</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -59,28 +59,25 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
-    <Compile Include="MemoryRepository\MemoryReadRepository.cs" />
-    <Compile Include="MemoryRepository\MemoryRespository.cs" />
-    <Compile Include="MemoryRepository\MemoryWriteRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SqlRepository\Extensions\DashboardProjectExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\IssueTypePageExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\ProjectPageExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\SessionExtensions.cs" />
-    <Compile Include="SqlRepository\Extensions\VersionPageExtensions.cs" />
-    <Compile Include="SqlRepository\Quilt4.designer.cs">
+    <Compile Include="Extensions\DashboardProjectExtensions.cs" />
+    <Compile Include="Extensions\IssueTypePageExtensions.cs" />
+    <Compile Include="Extensions\ProjectPageExtensions.cs" />
+    <Compile Include="Extensions\SessionExtensions.cs" />
+    <Compile Include="Extensions\VersionPageExtensions.cs" />
+    <Compile Include="Quilt4.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Quilt4.dbml</DependentUpon>
     </Compile>
-    <Compile Include="SqlRepository\SqlReadRepository.cs" />
-    <Compile Include="SqlRepository\SqlRepository.cs" />
-    <Compile Include="SqlRepository\SqlWriteRepository.cs" />
+    <Compile Include="SqlReadRepository.cs" />
+    <Compile Include="SqlRepository.cs" />
+    <Compile Include="SqlWriteRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quil4.Service.Interface\Quilt4.Service.Interface.csproj">
@@ -99,7 +96,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SqlRepository\Quilt4.dbml">
+    <None Include="Quilt4.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Quilt4.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -109,7 +106,7 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SqlRepository\Quilt4.dbml.layout">
+    <None Include="Quilt4.dbml.layout">
       <DependentUpon>Quilt4.dbml</DependentUpon>
     </None>
   </ItemGroup>

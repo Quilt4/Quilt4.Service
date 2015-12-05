@@ -334,9 +334,9 @@
       <Project>{2806ee69-f5cb-4d21-87c1-eea837b034ae}</Project>
       <Name>Quilt4.Service.Entity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Quilt4.Service.Repository\Quilt4.Service.Repository.csproj">
+    <ProjectReference Include="..\Quilt4.Service.Repository\Quilt4.Service.SqlRepository.csproj">
       <Project>{9B023F8B-855E-409E-8CB9-F2C57F9561BD}</Project>
-      <Name>Quilt4.Service.Repository</Name>
+      <Name>Quilt4.Service.SqlRepository</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

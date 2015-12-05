@@ -1,4 +1,4 @@
-﻿namespace Quilt4.Service.Repository.SqlRepository.Extensions
+﻿namespace Quilt4.Service.SqlRepository.Extensions
 {
     public static class SessionExtensions
     {

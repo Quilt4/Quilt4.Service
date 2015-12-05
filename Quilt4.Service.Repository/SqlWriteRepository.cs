@@ -6,7 +6,7 @@ using System.Transactions;
 using Newtonsoft.Json;
 using Quilt4.Service.Interface.Repository;
 
-namespace Quilt4.Service.Repository.SqlRepository
+namespace Quilt4.Service.SqlRepository
 {
     public class SqlWriteRepository : IWriteRepository
     {

@@ -5,27 +5,24 @@ using System.Linq;
 using System.Transactions;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
-using Quilt4.Service.Repository.SqlRepository.Extensions;
+using Quilt4.Service.SqlRepository.Extensions;
 
-namespace Quilt4.Service.Repository.SqlRepository
-{
-    //TODO: Persist to SQL Server
+namespace Quilt4.Service.SqlRepository
+{    
     public class SqlRepository : IRepository
     {
+        //TODO: Persist to SQL Server
         private static readonly IDictionary<string, string> _settings = new Dictionary<string, string>();
-        private static readonly IDictionary<string, User> _users = new Dictionary<string, User>();
         private static readonly IDictionary<string, LoginSession> _loginSession = new Dictionary<string, LoginSession>();
 
-        public void SaveUser(User user)
+        public void SaveUser(Entity.User user)
         {
-            _users.Add(user.Username, user);
+            throw new NotImplementedException();
         }
 
-        public User GetUser(string username)
+        public Entity.User GetUser(string username)
         {
-            if (!_users.ContainsKey(username))
-                return null;
-            return _users[username];
+            throw new NotImplementedException();
         }
 
         public void SaveLoginSession(LoginSession loginSession)

@@ -65,13 +65,10 @@ namespace Quilt4.Service.Repository.SqlRepository
         }
 
         public int GetNextTicket(string clientToken, string type, string message, string stackTrace, string issueLevel, Guid versionId)
-                                 string level, string message, string stackTrace)
         {
             using (var context = GetDataContext())
             {
                 var issueType = context.IssueTypes.SingleOrDefault(x => x.Type == type && x.Message == message && x.StackTrace == stackTrace && x.Level == issueLevel && x.VersionId == versionId);
-
-                    x.Type == type && x.Level == level && x.Message == message && x.StackTrace == stackTrace);
                 if (issueType != null)
                     return issueType.Ticket;
 

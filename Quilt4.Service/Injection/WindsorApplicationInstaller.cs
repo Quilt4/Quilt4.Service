@@ -11,8 +11,8 @@ namespace Quilt4.Service.Injection
         {
             //Repository
             container.Register(
-                Classes.FromAssemblyNamed("Quilt4.Service.Repository")
-                    .InNamespace("Quilt4.Service.Repository.SqlRepository")
+                Classes.FromAssemblyNamed("Quilt4.Service.SqlRepository")
+                    .InNamespace("Quilt4.Service.SqlRepository")
                     .WithService.DefaultInterfaces()
                     .LifestyleSingleton());
 

@@ -51,10 +51,10 @@ namespace Quilt4.Service.Business
             return loginSession;
         }
 
-        void IUserBusiness.CreateUser(string username, string email, string password)
-        {
-            var user = new User(username, email, password.ToMd5Hash(_settingBusiness.GetPasswordPadding()));
-            _repository.SaveUser(user);
-        }
+        //void IUserBusiness.CreateUser(string username, string email, string password)
+        //{
+        //    var user = new User(username, email, password.ToMd5Hash(_settingBusiness.GetPasswordPadding()));
+        //    _repository.SaveUser(user);
+        //}
     }
 }

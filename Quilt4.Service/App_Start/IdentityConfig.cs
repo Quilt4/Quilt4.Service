@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Quilt4.Service.Authentication;
 using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service
@@ -14,24 +16,30 @@ namespace Quilt4.Service
             this.PasswordHasher = new OldSystemPasswordHasher();
         }
 
-        public override Task<ApplicationUser> FindAsync(string userName, string password)
+        //public override Task<ApplicationUser> FindAsync(string userName, string password)
+        //{
+        //    Task<ApplicationUser> taskInvoke = Task<ApplicationUser>.Factory.StartNew(() =>
+        //    {
+        //        //First Verify Password... 
+        //        PasswordVerificationResult result = this.PasswordHasher.VerifyHashedPassword(userName, password);
+        //        if (result == PasswordVerificationResult.SuccessRehashNeeded)
+        //        {
+        //            //Return User Profile Object... 
+        //            //So this data object will come from Database we can write custom ADO.net to retrieve details/ 
+        //            ApplicationUser applicationUser = new ApplicationUser();
+        //            applicationUser.UserName = "san";
+        //            applicationUser.UserName = "san@san.com";
+        //            return applicationUser;
+        //        }
+        //        return null;
+        //    });
+        //    return taskInvoke;
+        //}
+
+        public async override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
         {
-            Task<ApplicationUser> taskInvoke = Task<ApplicationUser>.Factory.StartNew(() =>
-            {
-                //First Verify Password... 
-                PasswordVerificationResult result = this.PasswordHasher.VerifyHashedPassword(userName, password);
-                if (result == PasswordVerificationResult.SuccessRehashNeeded)
-                {
-                    //Return User Profile Object... 
-                    //So this data object will come from Database we can write custom ADO.net to retrieve details/ 
-                    ApplicationUser applicationUser = new ApplicationUser();
-                    applicationUser.UserName = "san";
-                    applicationUser.UserName = "san@san.com";
-                    return applicationUser;
-                }
-                return null;
-            });
-            return taskInvoke;
+            var response = await base.CreateAsync(user, password);
+            return response;
         }
 
         public static ApplicationUserManager Create(IRepository repository)

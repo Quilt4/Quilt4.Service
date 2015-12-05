@@ -17,12 +17,30 @@ namespace Quilt4.Service.SqlRepository
 
         public void SaveUser(Entity.User user)
         {
-            throw new NotImplementedException();
+            using (var context = GetDataContext())
+            {
+                var dbUser = context.Users.SingleOrDefault(x => x.UserName == user.Username);
+                if (dbUser == null)
+                {
+                    dbUser = new User { CreateTime = DateTime.UtcNow, UserKey = user.UserKey, EmailConfirmed = false };
+                    context.Users.InsertOnSubmit(dbUser);
+                }
+
+                dbUser.UserName = user.Username;
+                dbUser.Email = user.Email;
+                dbUser.PasswordHash = user.PasswordHash;
+
+                context.SubmitChanges();
+            }
         }
 
         public Entity.User GetUser(string username)
         {
-            throw new NotImplementedException();
+            using (var context = GetDataContext())
+            {
+                var dbUser = context.Users.SingleOrDefault(x => x.UserName == username);
+                return dbUser == null ? null : new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash);
+            }
         }
 
         public void SaveLoginSession(LoginSession loginSession)

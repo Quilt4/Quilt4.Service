@@ -1,6 +1,6 @@
 using Microsoft.AspNet.Identity;
 
-namespace Quilt4.Service
+namespace Quilt4.Service.Authentication
 {
     public class OldSystemPasswordHasher : PasswordHasher
     {
@@ -11,13 +11,11 @@ namespace Quilt4.Service
 
         public override PasswordVerificationResult VerifyHashedPassword(string hashedPassword, string providedPassword)
         {
-
-            //Here we will place the code of password hashing that is there in our current solucion.This will take cleartext anad hash 
-            //Just for demonstration purpose I always return true.     
-            if (true)
+            //TODO: The passwords needs to be compared somehow
+            //var response = HashPassword(providedPassword);
+            //if (response == hashedPassword)
+            if(true)
             {
-
-
                 return PasswordVerificationResult.SuccessRehashNeeded;
             }
             else

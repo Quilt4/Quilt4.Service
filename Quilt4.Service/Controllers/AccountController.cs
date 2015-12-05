@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -10,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Quilt4.Service.Authentication;
 using Quilt4.Service.Models;
 
 namespace Quilt4.Service.Controllers
@@ -312,6 +315,40 @@ namespace Quilt4.Service.Controllers
             return logins;
         }
 
+        // POST api/Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Login")]
+        public async Task<HttpResponseMessage> LoginUser(LoginUserBindingModel model)
+        {
+            //var user = UserManager.Users.Single(x => x.UserName == model.Username);
+            //var logins = await UserManager.GetLoginsAsync(model.Username);
+
+            // Invoke the "token" OWIN service to perform the login: /api/token
+            // Ugly hack: I use a server-side HTTP POST because I cannot directly invoke the service (it is deeply hidden in the OAuthAuthorizationServerHandler class)
+            var request = HttpContext.Current.Request;
+            //var tokenServiceUrl = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath + "/api/Token";
+            var tokenServiceUrl = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath + "/Token";
+            using (var client = new HttpClient())
+            {
+                var requestParams = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username", model.Username),
+                    new KeyValuePair<string, string>("password", model.Password)
+                };
+                var requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
+                var tokenServiceResponse = await client.PostAsync(tokenServiceUrl, requestParamsFormUrlEncoded);
+                var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                var responseCode = tokenServiceResponse.StatusCode;
+                var responseMsg = new HttpResponseMessage(responseCode)
+                {
+                    Content = new StringContent(responseString, Encoding.UTF8, "application/json")
+                };
+                return responseMsg;
+            }
+        }
+
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -324,7 +361,7 @@ namespace Quilt4.Service.Controllers
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
@@ -484,5 +521,15 @@ namespace Quilt4.Service.Controllers
         }
 
         #endregion
+    }
+
+    public class LoginUserBindingModel
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }

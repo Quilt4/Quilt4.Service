@@ -7,7 +7,9 @@ namespace Quilt4.Service.Interface.Repository
     public interface IRepository
     {
         void SaveUser(User user);
-        User GetUser(string username);
+        User GetUser(string userName);
+
+        //TODO: Revisit
         void SaveLoginSession(LoginSession loginSession);
         T GetSetting<T>(string name);
         T GetSetting<T>(string name, T defaultValue);

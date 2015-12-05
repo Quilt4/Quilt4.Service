@@ -218,7 +218,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Web\IssueTypeController.cs" />
     <Compile Include="Controllers\Web\ProjectController.cs" />
-    <Compile Include="Controllers\Web\UserController.cs" />
+    <Compile Include="Controllers\Client\UserController.cs" />
     <Compile Include="Controllers\Web\VersionController.cs" />
     <Compile Include="Converters\DashboardPageConverter.cs" />
     <Compile Include="Converters\IssueTypePageConverter.cs" />

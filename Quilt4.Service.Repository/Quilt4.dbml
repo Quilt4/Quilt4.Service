@@ -208,17 +208,6 @@
       <Column Name="ClientToken" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="CreateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="OwnerUserId" Type="Project" />
-    </Type>
-  </Table>
   <Table Name="dbo.Project" Member="Projects">
     <Type Name="Project">
       <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -231,6 +220,18 @@
       <Column Name="OwnerUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Project_Application" Member="Applications" ThisKey="Id" OtherKey="ProjectId" Type="Application" />
       <Association Name="User_Project" Member="User" ThisKey="OwnerUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UserKey" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="OwnerUserId" Type="Project" />
     </Type>
   </Table>
 </Database>

@@ -14,12 +14,12 @@ namespace Quilt4.Service.Controllers
             _userBusiness = userBusiness;
         }
 
-        [HttpPost]
-        [Route("api/user/create")]
-        public void Post([FromBody]CreateUserRequest value)
-        {
-            _userBusiness.CreateUser(value.Username, value.Email, value.Password);
-        }
+        //[HttpPost]
+        //[Route("api/user/create")]
+        //public void Post([FromBody]CreateUserRequest value)
+        //{
+        //    _userBusiness.CreateUser(value.Username, value.Email, value.Password);
+        //}
 
         [HttpPost]
         [Route("api/user/login")]

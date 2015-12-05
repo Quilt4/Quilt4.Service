@@ -1,6 +1,5 @@
-﻿using System;
-using Quilt4.Service.DataTransfer;
-using Quilt4.Service.Entity;
+﻿using Quilt4.Service.Entity;
+using Tharga.Quilt4Net.DataTransfer;
 
 namespace Quilt4.Service.Converters
 {
@@ -14,18 +13,18 @@ namespace Quilt4.Service.Converters
 
             return new SessionRequestEntity
             {
-                ClientToken = item.ClientToken,
-                SessionId = Guid.Parse(item.SessionId),
+                ProjectApiKey = item.ProjectApiKey,
+                SessionId = item.SessionKey,
                 ClientStartTime = item.ClientStartTime,
                 Environment = item.Environment,
                 Application = item.Application.ToApplicationDataRequestEntity(),
                 Machine = item.Machine.ToMachineDataRequestEntity(),
                 User = item.User.ToUserDataRequestEntity(),
-                CallerIp = callerIp,
+                CallerIp = callerIp,                
             };
         }
 
-        public static ApplicationDataRequestEntity ToApplicationDataRequestEntity(this ApplicationDataRequest item)
+        private static ApplicationDataRequestEntity ToApplicationDataRequestEntity(this ApplicationData item)
         {
             if (item == null)
                 return null;
@@ -36,11 +35,11 @@ namespace Quilt4.Service.Converters
                 Name = item.Name,
                 Version = item.Version,
                 SupportToolkitNameVersion = item.SupportToolkitNameVersion,
-                BuildTime = item.BuildTime
+                BuildTime = item.BuildTime,
             };
         }
 
-        public static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineDataRequest item)
+        public static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineData item)
         {
             if (item == null)
                 return null;
@@ -49,11 +48,11 @@ namespace Quilt4.Service.Converters
             {
                 Fingerprint = item.Fingerprint,
                 Name = item.Name,
-                Data = item.Data
+                Data = item.Data,
             };
         }
 
-        public static UserDataRequestEntity ToUserDataRequestEntity(this UserDataRequest item)
+        public static UserDataRequestEntity ToUserDataRequestEntity(this UserData item)
         {
             if (item == null)
                 return null;
@@ -61,7 +60,7 @@ namespace Quilt4.Service.Converters
             return new UserDataRequestEntity
             {
                 Fingerprint = item.Fingerprint,
-                UserName = item.UserName
+                UserName = item.UserName,
             };
         }
     }

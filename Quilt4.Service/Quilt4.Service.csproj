@@ -215,7 +215,7 @@
     <Compile Include="Controllers\Client\Converters\ProjectConverter.cs" />
     <Compile Include="Controllers\Client\IssueController.cs" />
     <Compile Include="Controllers\Client\ProjectController.cs" />
-    <Compile Include="Controllers\Client\SessionController.cs" />
+    <Compile Include="Controllers\Client\ClientSessionController.cs" />
     <Compile Include="Controllers\Web\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Web\IssueTypeController.cs" />

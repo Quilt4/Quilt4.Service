@@ -27,7 +27,7 @@ namespace Quilt4.Service.Entity
 
     public class SessionRequestEntity
     {
-        public string ClientToken { get; set; }
+        public string ProjectApiKey { get; set; }
         public Guid SessionId { get; set; }
         public DateTime ClientStartTime { get; set; }
         public string Environment { get; set; }

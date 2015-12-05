@@ -9,8 +9,6 @@ using Tharga.Quilt4Net.DataTransfer;
 namespace Quilt4.Service.Controllers.Client
 {
     [Authorize]
-    [Route("api/Client/Project")]
-    [Route("api/Client/Project/{id}")]
     public class ClientProjectController : ApiController
     {
         private readonly IProjectBusiness _projectBusiness;
@@ -20,28 +18,35 @@ namespace Quilt4.Service.Controllers.Client
             _projectBusiness = projectBusiness;
         }
 
+        [Route("api/Client/Project")]
         public IEnumerable<ProjectResponse> Get()
         {
             var projects = _projectBusiness.GetProjects(User.Identity.Name);
             return projects.Select(x => x.ToProjectResponse());
         }
 
+        [Route("api/Client/Project/{id}")]
         public ProjectResponse Get(Guid id)
         {
             return _projectBusiness.GetProject(id).ToProjectResponse();
         }
 
+        [Route("api/Client/Project")]
         public void Post([FromBody]CreateProjectRequest value)
         {
+            //if (!string.IsNullOrEmpty(value.ProjectApiKey)) throw new InvalidOperationException("Cannot provide a value for ProjectApiKey, this value is assigned by the server.");
             _projectBusiness.CreateProject(User.Identity.Name, value.ProjectKey, value.Name, value.DashboardColor);
         }
 
+        [Route("api/Client/Project/{id}")]
         public void Put(Guid id, [FromBody]CreateProjectRequest value)
         {
             if(id != value.ProjectKey) throw new InvalidOperationException("Provided id and key does not match.");
+            //if (!string.IsNullOrEmpty(value.ProjectApiKey)) throw new InvalidOperationException("Cannot provide a value for ProjectApiKey, this value is assigned by the server.");
             _projectBusiness.UpdateProject(id, value.Name, value.DashboardColor);
         }
 
+        [Route("api/Client/Project/{id}")]
         public void Delete(Guid id)
         {
             _projectBusiness.DeleteProject(id);

@@ -31,7 +31,7 @@ namespace Quilt4.Service.Business
             if(request.ClientStartTime == DateTime.MinValue) throw new ArgumentException("No client start time provided.");
             if (string.IsNullOrEmpty(request.Environment)) throw new ArgumentException("No enviroment provided.");
             
-            var projectId = _repository.GetProjectId(request.ClientToken);
+            var projectId = _repository.GetProjectId(request.ProjectApiKey);
             if (projectId == null)
             {
                 throw new ArgumentException("No project with provided clienttoken");

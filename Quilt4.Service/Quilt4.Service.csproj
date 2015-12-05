@@ -119,6 +119,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Tharga.Quilt4Net, Version=2.0.0.12, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tharga.Quilt4Net.2.0.0.12\lib\portable-net45+win+wpa81+wp80\Tharga.Quilt4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -170,6 +174,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\OldSystemPasswordHasher.cs" />
+    <Compile Include="Authentication\CustomUserSore.cs" />
+    <Compile Include="Authentication\ApplicationUser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -326,6 +333,10 @@
     <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">
       <Project>{2806ee69-f5cb-4d21-87c1-eea837b034ae}</Project>
       <Name>Quilt4.Service.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quilt4.Service.Repository\Quilt4.Service.Repository.csproj">
+      <Project>{9B023F8B-855E-409E-8CB9-F2C57F9561BD}</Project>
+      <Name>Quilt4.Service.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,1 @@
+On the build server, execute the script PatchDatabase.ps1 and privide a path to a text file that contains a list of connection strings of the databases that are to be patched.

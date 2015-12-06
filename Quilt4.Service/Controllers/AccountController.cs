@@ -321,13 +321,9 @@ namespace Quilt4.Service.Controllers
         [Route("Login")]
         public async Task<HttpResponseMessage> LoginUser(LoginUserBindingModel model)
         {
-            //var user = UserManager.Users.Single(x => x.UserName == model.Username);
-            //var logins = await UserManager.GetLoginsAsync(model.Username);
-
             // Invoke the "token" OWIN service to perform the login: /api/token
             // Ugly hack: I use a server-side HTTP POST because I cannot directly invoke the service (it is deeply hidden in the OAuthAuthorizationServerHandler class)
             var request = HttpContext.Current.Request;
-            //var tokenServiceUrl = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath + "/api/Token";
             var tokenServiceUrl = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath + "/Token";
             using (var client = new HttpClient())
             {
@@ -359,7 +355,7 @@ namespace Quilt4.Service.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
             var result = await UserManager.CreateAsync(user, model.Password);
 

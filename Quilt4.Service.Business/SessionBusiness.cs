@@ -45,15 +45,14 @@ namespace Quilt4.Service.Business
                 request.Application.SupportToolkitNameVersion);
 
             // Add/Update UserData
-            var userDataId = _repository.SaveUserData(request.User.Fingerprint, request.User.UserName);
+            var userDataId = _repository.SaveUserData(request.User.Fingerprint, request.User.UserName, DateTime.UtcNow);
 
             // Add/Update Machine
             var machineId = _repository.SaveMachine(request.Machine.Fingerprint, request.Machine.Name,
                 request.Machine.Data);
 
             // Add/Update Session
-            _repository.SaveSession(request.SessionId, request.ClientStartTime,
-                request.CallerIp, applicaitonId, versionId, userDataId, machineId, request.Environment);
+            _repository.SaveSession(request.SessionId, request.ClientStartTime, request.CallerIp, applicaitonId, versionId, userDataId, machineId, request.Environment, DateTime.UtcNow);
 
             WriteBusiness.RunRecalculate();
         }

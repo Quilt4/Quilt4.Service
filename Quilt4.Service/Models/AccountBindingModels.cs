@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Quilt4.Service.Models
 {
@@ -34,6 +32,10 @@ namespace Quilt4.Service.Models
 
     public class RegisterBindingModel
     {
+        [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Quilt4.Service.Controllers.Web
+namespace Quilt4.Service.Controllers.Web.DataTransfer
 {
     public class ProjectInput
     {

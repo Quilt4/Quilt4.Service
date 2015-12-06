@@ -142,8 +142,8 @@ namespace Quilt4.Service.SqlRepository
                     Id = Guid.NewGuid(),
                     ProjectId = projectId,
                     Name = name,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    CreationDate = DateTime.UtcNow,
+                    LastUpdateDate = DateTime.UtcNow
                 };
 
                 context.Applications.InsertOnSubmit(newApplication);
@@ -172,8 +172,8 @@ namespace Quilt4.Service.SqlRepository
                     ApplicationId = applicaitonId,
                     Version1 = version,
                     SupportToolkitVersion = supportToolkitNameVersion,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    CreationDate = DateTime.UtcNow,
+                    LastUpdateDate = DateTime.UtcNow
                 };
 
                 context.Versions.InsertOnSubmit(newVersion);
@@ -211,8 +211,8 @@ namespace Quilt4.Service.SqlRepository
                     Level = issueLevel,
                     Message = message,
                     StackTrace = stackTrace,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    CreationDate = DateTime.UtcNow,
+                    LastUpdateDate = DateTime.UtcNow
                 };
 
                 context.IssueTypes.InsertOnSubmit(newIssueType);
@@ -223,7 +223,7 @@ namespace Quilt4.Service.SqlRepository
             
         }
 
-        public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp, Guid applicaitonId, Guid versionId, Guid userDataId, Guid machineId, string environment)
+        public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp, Guid applicaitonId, Guid versionId, Guid userDataId, Guid machineId, string environment, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
@@ -231,8 +231,7 @@ namespace Quilt4.Service.SqlRepository
 
                 if (session != null)
                 {
-                    session.ClientEndTime = DateTime.Now;
-                    session.ServerEndTime = DateTime.Now;
+                    session.ServerEndTime = null;
                     context.SubmitChanges();
 
                     return session.Id;
@@ -243,9 +242,8 @@ namespace Quilt4.Service.SqlRepository
                     Id = sessionId,
                     CallerIp = callerIp,
                     ClientStartTime = clientStartTime,
-                    ServerStartTime = DateTime.Now,
-                    ServerEndTime = DateTime.Now,
-                    ClientEndTime = clientStartTime,
+                    ServerStartTime = serverTime,
+                    ServerEndTime = null,
                     ApplicationId = applicaitonId,
                     VersionId = versionId,
                     UserDataId = userDataId,
@@ -260,7 +258,7 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveUserData(string fingerprint, string userName)
+        public Guid SaveUserData(string fingerprint, string userName, DateTime updateTime)
         {
             using (var context = GetDataContext())
             {
@@ -272,7 +270,7 @@ namespace Quilt4.Service.SqlRepository
                         return userData.Id;
 
                     userData.UserName = userName;
-                    userData.LastUpdateDate = DateTime.Now;
+                    userData.LastUpdateDate = updateTime;
                     context.SubmitChanges();
                     
                     return userData.Id;
@@ -283,8 +281,8 @@ namespace Quilt4.Service.SqlRepository
                     Id = Guid.NewGuid(),
                     Fingerprint = fingerprint,
                     UserName = userName,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    CreationDate = DateTime.UtcNow,
+                    LastUpdateDate = DateTime.UtcNow
                 };
 
                 context.UserDatas.InsertOnSubmit(newUserData);
@@ -308,7 +306,7 @@ namespace Quilt4.Service.SqlRepository
                     if (machine.Name != name)
                     {
                         machine.Name = name;
-                        machine.LastUpdateDate = DateTime.Now;
+                        machine.LastUpdateDate = DateTime.UtcNow;
                         needToSubmitChanges = true;
                     }
 
@@ -328,8 +326,8 @@ namespace Quilt4.Service.SqlRepository
                                 {
                                     Id = Guid.NewGuid(),
                                     MachineId = machine.Id,
-                                    CreationDate = DateTime.Now,
-                                    LastUpdateDate = DateTime.Now,
+                                    CreationDate = DateTime.UtcNow,
+                                    LastUpdateDate = DateTime.UtcNow,
                                     Name = d.Key,
                                     Value = d.Value
                                 };
@@ -344,7 +342,7 @@ namespace Quilt4.Service.SqlRepository
                             if (match.Value != d.Value)
                             {
                                 match.Value = d.Value;
-                                match.LastUpdateDate = DateTime.Now;
+                                match.LastUpdateDate = DateTime.UtcNow;
 
                                 needToSubmitChanges = true;
                             }
@@ -375,8 +373,8 @@ namespace Quilt4.Service.SqlRepository
                     Id = Guid.NewGuid(),
                     Fingerprint = fingerprint,
                     Name = name,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    CreationDate = DateTime.UtcNow,
+                    LastUpdateDate = DateTime.UtcNow
                 };
 
                 context.Machines.InsertOnSubmit(newMachine);
@@ -389,8 +387,8 @@ namespace Quilt4.Service.SqlRepository
                         {
                             Id = Guid.NewGuid(),
                             MachineId = newMachine.Id,
-                            CreationDate = DateTime.Now,
-                            LastUpdateDate = DateTime.Now,
+                            CreationDate = DateTime.UtcNow,
+                            LastUpdateDate = DateTime.UtcNow,
                             Name = d.Key,
                             Value = d.Value
                         };
@@ -416,8 +414,8 @@ namespace Quilt4.Service.SqlRepository
                     Id = issueId,
                     IssueTypeId = issueTypeId,
                     ClientCreationDate = clientTime,
-                    CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
+                    LastUpdateDate = DateTime.UtcNow,
                     SessionId = sessionId,
                 };
 

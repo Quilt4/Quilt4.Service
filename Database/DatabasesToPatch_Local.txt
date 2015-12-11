@@ -1,1 +1,1 @@
-Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog=Quilt4;Data Source=localhost;Initial File Name=""
+Data Source=localhost;Initial Catalog=Quilt4;User ID=sa;Password=Inca12

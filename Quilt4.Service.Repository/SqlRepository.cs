@@ -113,7 +113,7 @@ namespace Quilt4.Service.SqlRepository
 
                 return ticket;
             }
-    }
+        }
 
         public Guid? GetProjectId(string clientToken)
         {

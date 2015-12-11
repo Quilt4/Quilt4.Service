@@ -16,6 +16,7 @@ namespace Quilt4.Service.Controllers
             _issueTypeBusiness = issueTypeBusiness;
         }
 
+        [Authorize]
         [Route("api/project/{projectId}/application/{applicationId}/version/{versionId}/issuetype/{issueTypeId}")]
         public IssueTypePageIssueTypeResponse GetIssueType(string projectId, string applicationId, string versionId,
             string issueTypeId)

@@ -15,6 +15,7 @@ namespace Quilt4.Service.Controllers
             _versionBusiness = versionBusiness;
         }
 
+        [Authorize]
         [Route("api/project/{projectId}/application/{applicationId}/version/{versionId}")]
         public VersionPageVersionResponse GetVersion(string projectId, string applicationId, string versionId)
         {

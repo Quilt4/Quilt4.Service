@@ -17,6 +17,17 @@ namespace Quilt4.Service.Controllers.Web
         {
             _projectBusiness = projectBusiness;
         }
+        
+        [HttpGet]
+        [Authorize]
+        [Route("api/project/{projectId}")]
+        public ProjectPageProjectResponse GetProject(string projectId)
+        {
+            //IEnumerable<string> headerValues = request.Headers.GetValues("MyCustomID");
+            //var id = headerValues.FirstOrDefault();
+
+            return _projectBusiness.GetProject(null, Guid.Parse(projectId)).ToProjectPageProjectResponse();
+        }
 
         [HttpGet]
         [Authorize]
@@ -28,6 +39,7 @@ namespace Quilt4.Service.Controllers.Web
 
         [HttpPost]
         [Authorize]
+        [Route("api/project/create")]
         public void CreateProject(ProjectInput request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
@@ -37,6 +49,7 @@ namespace Quilt4.Service.Controllers.Web
 
         [HttpPut]
         [Authorize]
+        [Route("api/project/create")]
         public void UpdateProject(ProjectInput request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");

@@ -6,6 +6,8 @@ namespace Quilt4.Service.Interface.Business
 {
     public interface IProjectBusiness
     {
+
+        ProjectPageProject GetProject(string userId, Guid projectId);
         IEnumerable<ProjectPageProject> GetProjects(string userName);
         ProjectPageProject GetProject(Guid projectId);
         void CreateProject(string userName, Guid projectKey, string name, string dashboardColor);

@@ -19,6 +19,12 @@ namespace Quilt4.Service.Business
             _writeRepository = writeRepository;
         }
 
+
+        public ProjectPageProject GetProject(string userId, Guid projectId)
+        {
+            return _readRepository.GetProject(userId, projectId);
+        }
+
         public ProjectPageProject GetProject(Guid projectId)
         {
             return _readRepository.GetProject(projectId);

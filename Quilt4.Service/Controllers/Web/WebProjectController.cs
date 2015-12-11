@@ -47,9 +47,9 @@ namespace Quilt4.Service.Controllers.Web
             _projectBusiness.CreateProject(User.Identity.Name, request.ProjectKey, request.Name, request.DashboardColor);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize]
-        [Route("api/project/create")]
+        [Route("api/project/update")]
         public void UpdateProject(ProjectInput request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");

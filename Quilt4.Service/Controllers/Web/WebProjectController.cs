@@ -23,10 +23,7 @@ namespace Quilt4.Service.Controllers.Web
         [Route("api/project/{projectId}")]
         public ProjectPageProjectResponse GetProject(string projectId)
         {
-            //IEnumerable<string> headerValues = request.Headers.GetValues("MyCustomID");
-            //var id = headerValues.FirstOrDefault();
-
-            return _projectBusiness.GetProject(null, Guid.Parse(projectId)).ToProjectPageProjectResponse();
+            return _projectBusiness.GetProject(User.Identity.Name, Guid.Parse(projectId)).ToProjectPageProjectResponse();
         }
 
         [HttpGet]
@@ -54,7 +51,7 @@ namespace Quilt4.Service.Controllers.Web
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
 
-            _projectBusiness.UpdateProject(request.ProjectKey, request.Name, request.DashboardColor);
+            _projectBusiness.UpdateProject(request.ProjectKey, request.Name, request.DashboardColor, User.Identity.Name);
         }
     }
 }

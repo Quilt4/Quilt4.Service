@@ -473,14 +473,31 @@ namespace Quilt4.Service.SqlRepository
                 };
 
                 context.Projects.InsertOnSubmit(project);
+
+                var projectUser = new ProjectUser
+                {
+                    ProjectId = projectKey,
+                    UserId = user.UserId
+                };
+
+                context.ProjectUsers.InsertOnSubmit(projectUser);
+
                 context.SubmitChanges();
             }
         }
 
-        public void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime)
+        public void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime, string userName)
         {
             using (var context = GetDataContext())
             {
+
+                var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
+
+                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.ProjectId == projectKey && x.UserId == user.UserId);
+
+                if (projectUser == null)
+                    throw new InvalidOperationException("The user doesn't have access to the provided project.");
+
                 var project = context.Projects.Single(x => x.Id == projectKey);
 
                 project.Name = name;

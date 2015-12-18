@@ -14,9 +14,9 @@ namespace Quilt4.Service.Business
             _readRepository = readRepository;
         }
 
-        public IEnumerable<DashboardPageProject> GetProjects(string userId)
+        public IEnumerable<DashboardPageProject> GetProjects(string userName)
         {
-            return _readRepository.GetDashboardProjects(userId);
+            return _readRepository.GetDashboardProjects(userName);
         }
     }
 }

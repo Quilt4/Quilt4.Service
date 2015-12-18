@@ -199,6 +199,7 @@
       <Column Name="LastTicket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OwnerUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Project_Application" Member="Applications" ThisKey="Id" OtherKey="ProjectId" Type="Application" />
+      <Association Name="Project_ProjectUser" Member="ProjectUsers" ThisKey="Id" OtherKey="ProjectId" Type="ProjectUser" />
       <Association Name="User_Project" Member="User" ThisKey="OwnerUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
@@ -212,6 +213,7 @@
       <Column Name="CreateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UserKey" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="OwnerUserId" Type="Project" />
+      <Association Name="User_ProjectUser" Member="ProjectUsers" ThisKey="UserId" OtherKey="UserId" Type="ProjectUser" />
     </Type>
   </Table>
   <Table Name="dbo.Session" Member="Sessions">
@@ -231,6 +233,15 @@
       <Association Name="Machine_Session" Member="Machine" ThisKey="MachineId" OtherKey="Id" Type="Machine" IsForeignKey="true" />
       <Association Name="UserData_Session" Member="UserData" ThisKey="UserDataId" OtherKey="Id" Type="UserData" IsForeignKey="true" />
       <Association Name="Version_Session" Member="Version" ThisKey="VersionId" OtherKey="Id" Type="Version" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProjectUser" Member="ProjectUsers">
+    <Type Name="ProjectUser">
+      <Column Name="ProjectId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Project_ProjectUser" Member="Project" ThisKey="ProjectId" OtherKey="Id" Type="Project" IsForeignKey="true" />
+      <Association Name="User_ProjectUser" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -19,7 +19,7 @@ namespace Quilt4.Service.Controllers
         [Route("api/project/{projectId}/application/{applicationId}/version/{versionId}")]
         public VersionPageVersionResponse GetVersion(string projectId, string applicationId, string versionId)
         {
-            return _versionBusiness.GetVersion(null, Guid.Parse(projectId), Guid.Parse(applicationId), Guid.Parse(versionId)).ToVersionPageVersionResponse();
+            return _versionBusiness.GetVersion(User.Identity.Name, Guid.Parse(projectId), Guid.Parse(applicationId), Guid.Parse(versionId)).ToVersionPageVersionResponse();
         }
     }
 }

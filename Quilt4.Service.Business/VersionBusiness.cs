@@ -14,9 +14,9 @@ namespace Quilt4.Service.Business
             _readRepository = readRepository;
         }
 
-        public VersionPageVersion GetVersion(string userId, Guid projectId, Guid applicationId, Guid versionId)
+        public VersionPageVersion GetVersion(string userName, Guid projectId, Guid applicationId, Guid versionId)
         {
-            return _readRepository.GetVersion(userId, projectId, applicationId, versionId);
+            return _readRepository.GetVersion(userName, projectId, applicationId, versionId);
         }
     }
 }

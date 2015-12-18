@@ -19,7 +19,7 @@ namespace Quilt4.Service.Controllers.Web
         [Authorize]
         public IEnumerable<DashboardPageProjectResponse> GetAllProjects()
         {
-            var projects = _dashboardBusiness.GetProjects(null);
+            var projects = _dashboardBusiness.GetProjects(User.Identity.Name);
 
             return projects.ToDashboardProjectResponses();
         }

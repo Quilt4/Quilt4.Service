@@ -20,9 +20,9 @@ namespace Quilt4.Service.Business
         }
 
 
-        public ProjectPageProject GetProject(string userId, Guid projectId)
+        public ProjectPageProject GetProject(string userName, Guid projectId)
         {
-            return _readRepository.GetProject(userId, projectId);
+            return _readRepository.GetProject(userName, projectId);
         }
 
         public ProjectPageProject GetProject(Guid projectId)
@@ -54,9 +54,9 @@ namespace Quilt4.Service.Business
             _writeRepository.UpdateProjectPageProject(projectKey);
         }
 
-        public void UpdateProject(Guid projectKey, string name, string dashboardColor)
+        public void UpdateProject(Guid projectKey, string name, string dashboardColor, string userName)
         {
-            _repository.UpdateProject(projectKey, name, dashboardColor, DateTime.UtcNow);
+            _repository.UpdateProject(projectKey, name, dashboardColor, DateTime.UtcNow, userName);
 
             _writeRepository.UpdateDashboardPageProject(projectKey);
             _writeRepository.UpdateProjectPageProject(projectKey);

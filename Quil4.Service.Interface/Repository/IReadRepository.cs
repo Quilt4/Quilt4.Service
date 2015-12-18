@@ -7,12 +7,12 @@ namespace Quilt4.Service.Interface.Repository
     public interface IReadRepository
     {
 
-        ProjectPageProject GetProject(string userId, Guid projectId);
+        ProjectPageProject GetProject(string userName, Guid projectId);
         ProjectPageProject GetProject(Guid projectId);
 
         IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId);
-        VersionPageVersion GetVersion(string userId, Guid projectId, Guid applicationId, Guid versionId);
-        IssueTypePageIssueType GetIssueType(string userId, Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId);
-        IEnumerable<DashboardPageProject> GetDashboardProjects(string userId);
+        VersionPageVersion GetVersion(string userName, Guid projectId, Guid applicationId, Guid versionId);
+        IssueTypePageIssueType GetIssueType(string userName, Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId);
+        IEnumerable<DashboardPageProject> GetDashboardProjects(string userName);
     }
 }

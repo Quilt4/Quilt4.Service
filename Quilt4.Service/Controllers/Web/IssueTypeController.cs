@@ -21,13 +21,9 @@ namespace Quilt4.Service.Controllers
         public IssueTypePageIssueTypeResponse GetIssueType(string projectId, string applicationId, string versionId,
             string issueTypeId)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-            var zzz = _issueTypeBusiness.GetIssueType(null, Guid.Parse(projectId), Guid.Parse(applicationId),
-                    Guid.Parse(versionId), Guid.Parse(issueTypeId)).ToIssueTypePageIssueTypeResponse();
-            Debug.WriteLine(sw.ElapsedMilliseconds);
 
-            return zzz;
+            return _issueTypeBusiness.GetIssueType(User.Identity.Name, Guid.Parse(projectId), Guid.Parse(applicationId),
+                    Guid.Parse(versionId), Guid.Parse(issueTypeId)).ToIssueTypePageIssueTypeResponse();
         }
     }
 }

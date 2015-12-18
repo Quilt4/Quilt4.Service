@@ -10,7 +10,7 @@ namespace Quilt4.Service.Interface.Repository
         User GetUser(string userName);
         ProjectPageProject[] GetProjects(string userName);
         void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
-        void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime);
+        void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime, string userName);
         void DeleteProject(Guid projectKey);
 
         //TODO: Revisit

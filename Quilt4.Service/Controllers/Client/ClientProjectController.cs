@@ -43,7 +43,7 @@ namespace Quilt4.Service.Controllers.Client
         {
             if(id != value.ProjectKey) throw new InvalidOperationException("Provided id and key does not match.");
             if (!string.IsNullOrEmpty(value.ProjectApiKey)) throw new InvalidOperationException("Cannot provide a value for ProjectApiKey, this value is assigned by the server.");
-            _projectBusiness.UpdateProject(id, value.Name, value.DashboardColor);
+            _projectBusiness.UpdateProject(id, value.Name, value.DashboardColor, User.Identity.Name);
         }
 
         [Route("api/Client/Project/{id}")]

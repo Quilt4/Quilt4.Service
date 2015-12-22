@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Http;
 using Quilt4.Service.Converters;
 using Quilt4.Service.Interface.Business;
-using Tharga.Quilt4Net.DataTransfer;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Client
 {
@@ -19,23 +19,25 @@ namespace Quilt4.Service.Controllers.Client
         }
 
         [Route("api/Client/Session")]
-        public IEnumerable<SessionData> Get()
+        public IEnumerable<SessionResponse> Get()
         {
             throw new NotImplementedException();
         }
 
         [Route("api/Client/Session/{id}")]
-        public SessionData Get(Guid id)
+        public SessionResponse Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
         [AllowAnonymous]
         [Route("api/Client/Session")]
-        public void Post([FromBody] object value)
+        public SessionResponse Post([FromBody] object value)
         {
-            var data = value.ToSessionData().ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
-            _sessionBusiness.RegisterSession(data);
+            var data = value.ToSessionRequest().ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
+            var response = _sessionBusiness.RegisterSession(data);
+            //return new SessionResponse {};
+            throw new NotImplementedException();
         }
     }
 }

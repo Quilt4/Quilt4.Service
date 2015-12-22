@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Quilt4.Service.Entity;
-using Tharga.Quilt4Net.DataTransfer;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Converters
 {
     internal static class DataTransferConverters
     {
-        public static ProjectData ToProjectData(this ProjectPageProject x)
+        public static ProjectResponse ToProjectData(this ProjectPageProject x)
         {
-            return new ProjectData
+            return new ProjectResponse
             {
                 Name = x.Name,
                 DashboardColor = x.DashboardColor,
@@ -17,10 +18,17 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static SessionData ToSessionData(this object request)
+        public static SessionRequest ToSessionRequest(this object request)
         {
             var requestString = JsonConvert.SerializeObject(request);
-            var data = JsonConvert.DeserializeObject<SessionData>(requestString);
+            var data = JsonConvert.DeserializeObject<SessionRequest>(requestString);
+            return data;
+        }
+
+        public static IssueRequest ToIssueRequest(this object request)
+        {
+            var requestString = JsonConvert.SerializeObject(request);
+            var data = JsonConvert.DeserializeObject<IssueRequest>(requestString);
             return data;
         }
     }

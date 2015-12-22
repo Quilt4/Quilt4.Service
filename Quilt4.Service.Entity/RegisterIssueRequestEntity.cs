@@ -25,7 +25,12 @@ namespace Quilt4.Service.Entity
         public IssueTypeRequestEntity Inner { get; set; }
     }
 
-    public class SessionRequestEntity
+    public class RegisterSessionResponseEntity
+    {
+        public DateTime ServerStartTime { get; set; }
+    }
+
+    public class RegisterSessionRequestEntity
     {
         public string ProjectApiKey { get; set; }
         public Guid SessionId { get; set; }

@@ -1,16 +1,22 @@
-﻿using Quilt4.Service.Entity;
-using Tharga.Quilt4Net.DataTransfer;
+﻿using System;
+using Quilt4.Service.Entity;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Converters
 {
     internal static class EntityConverters
     {
-        public static SessionRequestEntity ToSessionRequestEntity(this SessionData item, string callerIp)
+        public static RegisterIssueRequestEntity ToRegisterIssueRequestEntity(this IssueRequest item, string callerIp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static RegisterSessionRequestEntity ToSessionRequestEntity(this SessionRequest item, string callerIp)
         {
             if (item == null)
                 return null;
 
-            return new SessionRequestEntity
+            return new RegisterSessionRequestEntity
             {
                 ProjectApiKey = item.ProjectApiKey,
                 SessionId = item.SessionKey,

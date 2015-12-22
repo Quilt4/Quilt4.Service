@@ -14,7 +14,7 @@ namespace Quilt4.Service.Business
             _repository = repository;
         }
 
-        public void RegisterSession(SessionRequestEntity request)
+        public RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity request)
         {
             if (request == null) throw new ArgumentNullException("request", "No request object provided.");
             if (request.SessionId == Guid.Empty) throw new ArgumentException("No valid session guid provided.");
@@ -37,6 +37,8 @@ namespace Quilt4.Service.Business
                 throw new ArgumentException("No project with provided clienttoken");
             }
 
+            var serverTime = DateTime.UtcNow;
+
             // Add/Update Application
             var applicaitonId = _repository.SaveApplication(projectId.Value, request.Application.Name);
 
@@ -45,16 +47,18 @@ namespace Quilt4.Service.Business
                 request.Application.SupportToolkitNameVersion);
 
             // Add/Update UserData
-            var userDataId = _repository.SaveUserData(request.User.Fingerprint, request.User.UserName, DateTime.UtcNow);
+            var userDataId = _repository.SaveUserData(request.User.Fingerprint, request.User.UserName, serverTime);
 
             // Add/Update Machine
             var machineId = _repository.SaveMachine(request.Machine.Fingerprint, request.Machine.Name,
                 request.Machine.Data);
 
             // Add/Update Session
-            _repository.SaveSession(request.SessionId, request.ClientStartTime, request.CallerIp, applicaitonId, versionId, userDataId, machineId, request.Environment, DateTime.UtcNow);
+            _repository.SaveSession(request.SessionId, request.ClientStartTime, request.CallerIp, applicaitonId, versionId, userDataId, machineId, request.Environment, serverTime);
 
             WriteBusiness.RunRecalculate();
+
+            return new RegisterSessionResponseEntity {ServerStartTime = serverTime};
         }
     }
 }

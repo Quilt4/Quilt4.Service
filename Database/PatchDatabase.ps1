@@ -27,7 +27,7 @@ foreach($connectionString in $connectionStrings)
 	
 	#Create the DBVersion patch table if needed
 	$SqlCmd1 = New-Object System.Data.SqlClient.SqlCommand
-	$SqlCmd1.CommandText = "IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DBVersion')) BEGIN CREATE TABLE DBVersion ( PatchName varchar(250) NOT NULL, PatchTime DateTime NOT NULL ) END"
+	$SqlCmd1.CommandText = "IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DBVersion')) BEGIN CREATE TABLE DBVersion ( PatchName varchar(250) PRIMARY KEY NOT NULL, PatchTime DateTime NOT NULL ) END"
 	$SqlCmd1.Connection = $SqlConnection
 	$reqult1 = $SqlCmd1.ExecuteNonQuery()
 

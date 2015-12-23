@@ -34,10 +34,20 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Session")]
         public SessionResponse Post([FromBody] object value)
         {
-            var data = value.ToSessionRequest().ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
+            var sessionRequest = value.ToSessionRequest();
+            var data = sessionRequest.ToSessionRequestEntity(HttpContext.Current.Request.UserHostAddress);
             var response = _sessionBusiness.RegisterSession(data);
-            //return new SessionResponse {};
-            throw new NotImplementedException();
+            return new SessionResponse
+            {
+                SessionKey = sessionRequest.SessionKey,
+                Application = sessionRequest.Application,
+                ClientEndTime = null,
+                ClientStartTime = sessionRequest.ClientStartTime,
+                Environment = sessionRequest.Environment,
+                Machine = sessionRequest.Machine,
+                ServerStartTime = response.ServerStartTime,
+                User = sessionRequest.User,
+            };
         }
     }
 }

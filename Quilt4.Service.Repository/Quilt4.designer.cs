@@ -69,9 +69,6 @@ namespace Quilt4.Service.SqlRepository
     partial void InsertVersion(Version instance);
     partial void UpdateVersion(Version instance);
     partial void DeleteVersion(Version instance);
-    partial void InsertIssue(Issue instance);
-    partial void UpdateIssue(Issue instance);
-    partial void DeleteIssue(Issue instance);
     partial void InsertVersionPageIssueType(VersionPageIssueType instance);
     partial void UpdateVersionPageIssueType(VersionPageIssueType instance);
     partial void DeleteVersionPageIssueType(VersionPageIssueType instance);
@@ -90,6 +87,9 @@ namespace Quilt4.Service.SqlRepository
     partial void InsertProjectUser(ProjectUser instance);
     partial void UpdateProjectUser(ProjectUser instance);
     partial void DeleteProjectUser(ProjectUser instance);
+    partial void InsertIssue(Issue instance);
+    partial void UpdateIssue(Issue instance);
+    partial void DeleteIssue(Issue instance);
     #endregion
 		
 		public Quilt4DataContext() : 
@@ -226,14 +226,6 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		public System.Data.Linq.Table<Issue> Issues
-		{
-			get
-			{
-				return this.GetTable<Issue>();
-			}
-		}
-		
 		public System.Data.Linq.Table<VersionPageIssueType> VersionPageIssueTypes
 		{
 			get
@@ -279,6 +271,14 @@ namespace Quilt4.Service.SqlRepository
 			get
 			{
 				return this.GetTable<ProjectUser>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Issue> Issues
+		{
+			get
+			{
+				return this.GetTable<Issue>();
 			}
 		}
 	}
@@ -2412,6 +2412,8 @@ namespace Quilt4.Service.SqlRepository
 		
 		private EntitySet<Session> _Sessions;
 		
+		private EntitySet<Issue> _Issues;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2432,6 +2434,7 @@ namespace Quilt4.Service.SqlRepository
 		{
 			this._MachineDatas = new EntitySet<MachineData>(new Action<MachineData>(this.attach_MachineDatas), new Action<MachineData>(this.detach_MachineDatas));
 			this._Sessions = new EntitySet<Session>(new Action<Session>(this.attach_Sessions), new Action<Session>(this.detach_Sessions));
+			this._Issues = new EntitySet<Issue>(new Action<Issue>(this.attach_Issues), new Action<Issue>(this.detach_Issues));
 			OnCreated();
 		}
 		
@@ -2561,6 +2564,19 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Machine_Issue", Storage="_Issues", ThisKey="Id", OtherKey="MachineId")]
+		public EntitySet<Issue> Issues
+		{
+			get
+			{
+				return this._Issues;
+			}
+			set
+			{
+				this._Issues.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2600,6 +2616,18 @@ namespace Quilt4.Service.SqlRepository
 		}
 		
 		private void detach_Sessions(Session entity)
+		{
+			this.SendPropertyChanging();
+			entity.Machine = null;
+		}
+		
+		private void attach_Issues(Issue entity)
+		{
+			this.SendPropertyChanging();
+			entity.Machine = this;
+		}
+		
+		private void detach_Issues(Issue entity)
 		{
 			this.SendPropertyChanging();
 			entity.Machine = null;
@@ -2847,6 +2875,8 @@ namespace Quilt4.Service.SqlRepository
 		
 		private EntitySet<Session> _Sessions;
 		
+		private EntitySet<Issue> _Issues;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2866,6 +2896,7 @@ namespace Quilt4.Service.SqlRepository
 		public UserData()
 		{
 			this._Sessions = new EntitySet<Session>(new Action<Session>(this.attach_Sessions), new Action<Session>(this.detach_Sessions));
+			this._Issues = new EntitySet<Issue>(new Action<Issue>(this.attach_Issues), new Action<Issue>(this.detach_Issues));
 			OnCreated();
 		}
 		
@@ -2982,6 +3013,19 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserData_Issue", Storage="_Issues", ThisKey="Id", OtherKey="UserDataId")]
+		public EntitySet<Issue> Issues
+		{
+			get
+			{
+				return this._Issues;
+			}
+			set
+			{
+				this._Issues.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3009,6 +3053,18 @@ namespace Quilt4.Service.SqlRepository
 		}
 		
 		private void detach_Sessions(Session entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserData = null;
+		}
+		
+		private void attach_Issues(Issue entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserData = this;
+		}
+		
+		private void detach_Issues(Issue entity)
 		{
 			this.SendPropertyChanging();
 			entity.UserData = null;
@@ -3291,298 +3347,6 @@ namespace Quilt4.Service.SqlRepository
 		{
 			this.SendPropertyChanging();
 			entity.Version = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Issue")]
-	public partial class Issue : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Id;
-		
-		private System.Guid _IssueTypeId;
-		
-		private System.DateTime _ClientCreationDate;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastUpdateDate;
-		
-		private System.Guid _SessionId;
-		
-		private EntitySet<IssueData> _IssueDatas;
-		
-		private EntityRef<IssueType> _IssueType;
-		
-		private EntityRef<Session> _Session;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(System.Guid value);
-    partial void OnIdChanged();
-    partial void OnIssueTypeIdChanging(System.Guid value);
-    partial void OnIssueTypeIdChanged();
-    partial void OnClientCreationDateChanging(System.DateTime value);
-    partial void OnClientCreationDateChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastUpdateDateChanging(System.DateTime value);
-    partial void OnLastUpdateDateChanged();
-    partial void OnSessionIdChanging(System.Guid value);
-    partial void OnSessionIdChanged();
-    #endregion
-		
-		public Issue()
-		{
-			this._IssueDatas = new EntitySet<IssueData>(new Action<IssueData>(this.attach_IssueDatas), new Action<IssueData>(this.detach_IssueDatas));
-			this._IssueType = default(EntityRef<IssueType>);
-			this._Session = default(EntityRef<Session>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueTypeId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid IssueTypeId
-		{
-			get
-			{
-				return this._IssueTypeId;
-			}
-			set
-			{
-				if ((this._IssueTypeId != value))
-				{
-					if (this._IssueType.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIssueTypeIdChanging(value);
-					this.SendPropertyChanging();
-					this._IssueTypeId = value;
-					this.SendPropertyChanged("IssueTypeId");
-					this.OnIssueTypeIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClientCreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime ClientCreationDate
-		{
-			get
-			{
-				return this._ClientCreationDate;
-			}
-			set
-			{
-				if ((this._ClientCreationDate != value))
-				{
-					this.OnClientCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._ClientCreationDate = value;
-					this.SendPropertyChanged("ClientCreationDate");
-					this.OnClientCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdateDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastUpdateDate
-		{
-			get
-			{
-				return this._LastUpdateDate;
-			}
-			set
-			{
-				if ((this._LastUpdateDate != value))
-				{
-					this.OnLastUpdateDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastUpdateDate = value;
-					this.SendPropertyChanged("LastUpdateDate");
-					this.OnLastUpdateDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid SessionId
-		{
-			get
-			{
-				return this._SessionId;
-			}
-			set
-			{
-				if ((this._SessionId != value))
-				{
-					if (this._Session.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSessionIdChanging(value);
-					this.SendPropertyChanging();
-					this._SessionId = value;
-					this.SendPropertyChanged("SessionId");
-					this.OnSessionIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Issue_IssueData", Storage="_IssueDatas", ThisKey="Id", OtherKey="IssueId")]
-		public EntitySet<IssueData> IssueDatas
-		{
-			get
-			{
-				return this._IssueDatas;
-			}
-			set
-			{
-				this._IssueDatas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="IssueType_Issue", Storage="_IssueType", ThisKey="IssueTypeId", OtherKey="Id", IsForeignKey=true)]
-		public IssueType IssueType
-		{
-			get
-			{
-				return this._IssueType.Entity;
-			}
-			set
-			{
-				IssueType previousValue = this._IssueType.Entity;
-				if (((previousValue != value) 
-							|| (this._IssueType.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._IssueType.Entity = null;
-						previousValue.Issues.Remove(this);
-					}
-					this._IssueType.Entity = value;
-					if ((value != null))
-					{
-						value.Issues.Add(this);
-						this._IssueTypeId = value.Id;
-					}
-					else
-					{
-						this._IssueTypeId = default(System.Guid);
-					}
-					this.SendPropertyChanged("IssueType");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Session_Issue", Storage="_Session", ThisKey="SessionId", OtherKey="Id", IsForeignKey=true)]
-		public Session Session
-		{
-			get
-			{
-				return this._Session.Entity;
-			}
-			set
-			{
-				Session previousValue = this._Session.Entity;
-				if (((previousValue != value) 
-							|| (this._Session.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Session.Entity = null;
-						previousValue.Issues.Remove(this);
-					}
-					this._Session.Entity = value;
-					if ((value != null))
-					{
-						value.Issues.Add(this);
-						this._SessionId = value.Id;
-					}
-					else
-					{
-						this._SessionId = default(System.Guid);
-					}
-					this.SendPropertyChanged("Session");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_IssueDatas(IssueData entity)
-		{
-			this.SendPropertyChanging();
-			entity.Issue = this;
-		}
-		
-		private void detach_IssueDatas(IssueData entity)
-		{
-			this.SendPropertyChanging();
-			entity.Issue = null;
 		}
 	}
 	
@@ -5270,6 +5034,428 @@ namespace Quilt4.Service.SqlRepository
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Issue")]
+	public partial class Issue : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Id;
+		
+		private System.Guid _IssueTypeId;
+		
+		private System.DateTime _ClientCreationDate;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastUpdateDate;
+		
+		private System.Guid _SessionId;
+		
+		private System.Guid _MachineId;
+		
+		private System.Guid _UserDataId;
+		
+		private EntitySet<IssueData> _IssueDatas;
+		
+		private EntityRef<IssueType> _IssueType;
+		
+		private EntityRef<Machine> _Machine;
+		
+		private EntityRef<Session> _Session;
+		
+		private EntityRef<UserData> _UserData;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(System.Guid value);
+    partial void OnIdChanged();
+    partial void OnIssueTypeIdChanging(System.Guid value);
+    partial void OnIssueTypeIdChanged();
+    partial void OnClientCreationDateChanging(System.DateTime value);
+    partial void OnClientCreationDateChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastUpdateDateChanging(System.DateTime value);
+    partial void OnLastUpdateDateChanged();
+    partial void OnSessionIdChanging(System.Guid value);
+    partial void OnSessionIdChanged();
+    partial void OnMachineIdChanging(System.Guid value);
+    partial void OnMachineIdChanged();
+    partial void OnUserDataIdChanging(System.Guid value);
+    partial void OnUserDataIdChanged();
+    #endregion
+		
+		public Issue()
+		{
+			this._IssueDatas = new EntitySet<IssueData>(new Action<IssueData>(this.attach_IssueDatas), new Action<IssueData>(this.detach_IssueDatas));
+			this._IssueType = default(EntityRef<IssueType>);
+			this._Machine = default(EntityRef<Machine>);
+			this._Session = default(EntityRef<Session>);
+			this._UserData = default(EntityRef<UserData>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueTypeId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid IssueTypeId
+		{
+			get
+			{
+				return this._IssueTypeId;
+			}
+			set
+			{
+				if ((this._IssueTypeId != value))
+				{
+					if (this._IssueType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIssueTypeIdChanging(value);
+					this.SendPropertyChanging();
+					this._IssueTypeId = value;
+					this.SendPropertyChanged("IssueTypeId");
+					this.OnIssueTypeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClientCreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ClientCreationDate
+		{
+			get
+			{
+				return this._ClientCreationDate;
+			}
+			set
+			{
+				if ((this._ClientCreationDate != value))
+				{
+					this.OnClientCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._ClientCreationDate = value;
+					this.SendPropertyChanged("ClientCreationDate");
+					this.OnClientCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdateDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastUpdateDate
+		{
+			get
+			{
+				return this._LastUpdateDate;
+			}
+			set
+			{
+				if ((this._LastUpdateDate != value))
+				{
+					this.OnLastUpdateDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastUpdateDate = value;
+					this.SendPropertyChanged("LastUpdateDate");
+					this.OnLastUpdateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid SessionId
+		{
+			get
+			{
+				return this._SessionId;
+			}
+			set
+			{
+				if ((this._SessionId != value))
+				{
+					if (this._Session.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSessionIdChanging(value);
+					this.SendPropertyChanging();
+					this._SessionId = value;
+					this.SendPropertyChanged("SessionId");
+					this.OnSessionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MachineId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid MachineId
+		{
+			get
+			{
+				return this._MachineId;
+			}
+			set
+			{
+				if ((this._MachineId != value))
+				{
+					if (this._Machine.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMachineIdChanging(value);
+					this.SendPropertyChanging();
+					this._MachineId = value;
+					this.SendPropertyChanged("MachineId");
+					this.OnMachineIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserDataId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid UserDataId
+		{
+			get
+			{
+				return this._UserDataId;
+			}
+			set
+			{
+				if ((this._UserDataId != value))
+				{
+					if (this._UserData.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserDataIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserDataId = value;
+					this.SendPropertyChanged("UserDataId");
+					this.OnUserDataIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Issue_IssueData", Storage="_IssueDatas", ThisKey="Id", OtherKey="IssueId")]
+		public EntitySet<IssueData> IssueDatas
+		{
+			get
+			{
+				return this._IssueDatas;
+			}
+			set
+			{
+				this._IssueDatas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="IssueType_Issue", Storage="_IssueType", ThisKey="IssueTypeId", OtherKey="Id", IsForeignKey=true)]
+		public IssueType IssueType
+		{
+			get
+			{
+				return this._IssueType.Entity;
+			}
+			set
+			{
+				IssueType previousValue = this._IssueType.Entity;
+				if (((previousValue != value) 
+							|| (this._IssueType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._IssueType.Entity = null;
+						previousValue.Issues.Remove(this);
+					}
+					this._IssueType.Entity = value;
+					if ((value != null))
+					{
+						value.Issues.Add(this);
+						this._IssueTypeId = value.Id;
+					}
+					else
+					{
+						this._IssueTypeId = default(System.Guid);
+					}
+					this.SendPropertyChanged("IssueType");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Machine_Issue", Storage="_Machine", ThisKey="MachineId", OtherKey="Id", IsForeignKey=true)]
+		public Machine Machine
+		{
+			get
+			{
+				return this._Machine.Entity;
+			}
+			set
+			{
+				Machine previousValue = this._Machine.Entity;
+				if (((previousValue != value) 
+							|| (this._Machine.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Machine.Entity = null;
+						previousValue.Issues.Remove(this);
+					}
+					this._Machine.Entity = value;
+					if ((value != null))
+					{
+						value.Issues.Add(this);
+						this._MachineId = value.Id;
+					}
+					else
+					{
+						this._MachineId = default(System.Guid);
+					}
+					this.SendPropertyChanged("Machine");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Session_Issue", Storage="_Session", ThisKey="SessionId", OtherKey="Id", IsForeignKey=true)]
+		public Session Session
+		{
+			get
+			{
+				return this._Session.Entity;
+			}
+			set
+			{
+				Session previousValue = this._Session.Entity;
+				if (((previousValue != value) 
+							|| (this._Session.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Session.Entity = null;
+						previousValue.Issues.Remove(this);
+					}
+					this._Session.Entity = value;
+					if ((value != null))
+					{
+						value.Issues.Add(this);
+						this._SessionId = value.Id;
+					}
+					else
+					{
+						this._SessionId = default(System.Guid);
+					}
+					this.SendPropertyChanged("Session");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserData_Issue", Storage="_UserData", ThisKey="UserDataId", OtherKey="Id", IsForeignKey=true)]
+		public UserData UserData
+		{
+			get
+			{
+				return this._UserData.Entity;
+			}
+			set
+			{
+				UserData previousValue = this._UserData.Entity;
+				if (((previousValue != value) 
+							|| (this._UserData.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserData.Entity = null;
+						previousValue.Issues.Remove(this);
+					}
+					this._UserData.Entity = value;
+					if ((value != null))
+					{
+						value.Issues.Add(this);
+						this._UserDataId = value.Id;
+					}
+					else
+					{
+						this._UserDataId = default(System.Guid);
+					}
+					this.SendPropertyChanged("UserData");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_IssueDatas(IssueData entity)
+		{
+			this.SendPropertyChanging();
+			entity.Issue = this;
+		}
+		
+		private void detach_IssueDatas(IssueData entity)
+		{
+			this.SendPropertyChanging();
+			entity.Issue = null;
 		}
 	}
 }

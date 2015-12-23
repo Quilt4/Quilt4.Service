@@ -404,11 +404,13 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId,
-                              DateTime clientTime, IDictionary<string, string> data)
+        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data)
         {
             using (var context = GetDataContext())
             {
+                var machine = context.Machines.Single(x => x.Sessions.Single(y => y.Id == sessionId).MachineId == x.Id);
+                var userData = context.UserDatas.Single(x => x.Sessions.Single(y => y.Id == sessionId).UserDataId == x.Id);
+
                 var issue = new Issue
                 {
                     Id = issueId,
@@ -417,6 +419,8 @@ namespace Quilt4.Service.SqlRepository
                     CreationDate = DateTime.UtcNow,
                     LastUpdateDate = DateTime.UtcNow,
                     SessionId = sessionId,
+                    MachineId = machine.Id,
+                    UserDataId = userData.Id,
                 };
 
                 context.Issues.InsertOnSubmit(issue);
@@ -436,7 +440,6 @@ namespace Quilt4.Service.SqlRepository
                         context.IssueDatas.InsertOnSubmit(issueData);
                     }
                 }
-
 
                 context.SubmitChanges();
 

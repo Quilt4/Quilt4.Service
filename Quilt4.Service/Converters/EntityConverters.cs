@@ -8,7 +8,36 @@ namespace Quilt4.Service.Converters
     {
         public static RegisterIssueRequestEntity ToRegisterIssueRequestEntity(this IssueRequest item, string callerIp)
         {
-            throw new NotImplementedException();
+            if (item == null)
+                return null;
+
+            return new RegisterIssueRequestEntity
+            {
+                SessionId = item.SessionKey,
+                IssueType = ToIssueType(item.IssueType),
+                ClientTime = item.ClientTime,
+                Data = item.Data,
+                UserHandle = item.UserHandle,
+                ClientToken = item.ProjectApiKey,
+                Id = item.IssueKey,
+                IssueThreadId = item.IssueThreadKey,
+                UserInput = null
+            };
+        }
+
+        private static IssueTypeRequestEntity ToIssueType(this IssueTypeData item)
+        {
+            if (item == null)
+                return null;
+
+            return new IssueTypeRequestEntity
+            {
+                Type = item.Type,
+                IssueLevel = item.IssueLevel.ToString(),
+                Message = item.Message,
+                StackTrace = item.StackTrace,
+                Inner = item.Inner.ToIssueType()
+            };
         }
 
         public static RegisterSessionRequestEntity ToSessionRequestEntity(this SessionRequest item, string callerIp)

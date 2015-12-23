@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -19,7 +17,7 @@ namespace Quilt4.Service.Business
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
         {
-            if (request == null) throw new ArgumentNullException("request", "No request object provided.");
+            if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
             if (request.SessionId == Guid.Empty) throw new ArgumentException("No valid session guid provided.");
             if (string.IsNullOrEmpty(request.ClientToken)) throw new ArgumentException("No ClientToken provided.");
             if (request.IssueType == null) throw new ArgumentException("No IssueType object in request was provided. Need object '{ \"IssueType\":{...} }' in root.");
@@ -43,9 +41,7 @@ namespace Quilt4.Service.Business
             var ticket = GetTicket(request, 10, session.VersionId);
             
             // Add/Update IssueType
-            var issueTypeId = _repository.SaveIssueType(session.VersionId, ticket, request.IssueType.Type,
-                request.IssueType.IssueLevel, request.IssueType.Message,
-                request.IssueType.StackTrace);
+            var issueTypeId = _repository.SaveIssueType(session.VersionId, ticket, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace);
 
             _repository.SaveIssue(request.Id, issueTypeId, session.Id, request.ClientTime, request.Data);
 

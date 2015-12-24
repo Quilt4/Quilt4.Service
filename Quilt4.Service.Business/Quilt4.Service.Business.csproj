@@ -62,6 +62,7 @@
     <Compile Include="SessionBusiness.cs" />
     <Compile Include="SettingBusiness.cs" />
     <Compile Include="UserBusiness.cs" />
+    <Compile Include="ValidationHelper.cs" />
     <Compile Include="VersionBusiness.cs" />
     <Compile Include="WriteBusiness.cs" />
   </ItemGroup>

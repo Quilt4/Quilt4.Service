@@ -91,19 +91,19 @@ namespace Quilt4.Service.SqlRepository
             _settings.Add(name, value.ToString());
         }
 
-        public int GetNextTicket(string clientToken, string type, string message, string stackTrace, string issueLevel, Guid versionId)
+        public int GetNextTicket(Guid projectKey) //, string type, string message, string stackTrace, string issueLevel, Guid versionId)
         {
             using (var context = GetDataContext())
             {
-                var issueType = context.IssueTypes.SingleOrDefault(x => x.Type == type && x.Message == message && x.StackTrace == stackTrace && x.Level == issueLevel && x.VersionId == versionId);
-                if (issueType != null)
-                    return issueType.Ticket;
+                //var issueType = context.IssueTypes.SingleOrDefault(x => x.Type == type && x.Message == message && x.StackTrace == stackTrace && x.Level == issueLevel && x.VersionId == versionId);
+                //if (issueType != null)
+                //    return issueType.Ticket;
 
                 int ticket;
 
                 using (var scope = new TransactionScope())
                 {
-                    var project = context.Projects.Single(x => x.ClientToken == clientToken);
+                    var project = context.Projects.Single(x => x.Id == projectKey);
 
                     project.LastTicket++;
                     ticket = project.LastTicket;
@@ -115,21 +115,26 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid? GetProjectId(string clientToken)
+        public Guid GetProjectKey(string projectApiKey)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.SingleOrDefault(x => x.ClientToken == clientToken);
+                var project = context.Projects.SingleOrDefault(x => x.ClientToken == projectApiKey);
 
-                return project?.Id;
+                if (project == null)
+                {
+                    throw new ArgumentException("There is no project with provided projectApiKey.");
+                }
+
+                return project.Id;
             }
         }
 
-        public Guid SaveApplication(Guid projectId, string name)
+        public Guid SaveApplication(Guid projectKey, string name)
         {
             using (var context = GetDataContext())
             {
-                var application = context.Applications.SingleOrDefault(x => x.ProjectId == projectId && x.Name == name);
+                var application = context.Applications.SingleOrDefault(x => x.ProjectId == projectKey && x.Name == name);
 
                 if (application != null)
                 {
@@ -140,7 +145,7 @@ namespace Quilt4.Service.SqlRepository
                 var newApplication = new Application
                 {
                     Id = Guid.NewGuid(),
-                    ProjectId = projectId,
+                    ProjectId = projectKey,
                     Name = name,
                     CreationDate = DateTime.UtcNow,
                     LastUpdateDate = DateTime.UtcNow
@@ -153,12 +158,12 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveVersion(Guid applicaitonId, string version, string supportToolkitNameVersion)
+        public Guid SaveVersion(Guid applicaitonKey, string version, string supportToolkitNameVersion)
         {
             using (var context = GetDataContext())
             {
                 var existingVersion =
-                    context.Versions.SingleOrDefault(x => x.ApplicationId == applicaitonId && x.Version1 == version);
+                    context.Versions.SingleOrDefault(x => x.ApplicationId == applicaitonKey && x.Version1 == version);
 
                 if (existingVersion != null)
                 {
@@ -169,7 +174,7 @@ namespace Quilt4.Service.SqlRepository
                 var newVersion = new Version
                 {
                     Id = Guid.NewGuid(),
-                    ApplicationId = applicaitonId,
+                    ApplicationId = applicaitonKey,
                     Version1 = version,
                     SupportToolkitVersion = supportToolkitNameVersion,
                     CreationDate = DateTime.UtcNow,
@@ -183,7 +188,7 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveIssueType(Guid versionId, int ticket, string type, string issueLevel, string message,
+        public Guid SaveIssueType(Guid versionKey, int ticket, string type, string issueLevel, string message,
                                   string stackTrace)
         {
             using (var context = GetDataContext())
@@ -191,7 +196,7 @@ namespace Quilt4.Service.SqlRepository
                 var issueType =
                     context.IssueTypes.SingleOrDefault(
                         x =>
-                        x.VersionId.Equals(versionId) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
+                        x.VersionId.Equals(versionKey) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
                         x.Message.Equals(message) &&
                         (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
 
@@ -205,7 +210,7 @@ namespace Quilt4.Service.SqlRepository
                 var newIssueType = new IssueType
                 {
                     Id = Guid.NewGuid(),
-                    VersionId = versionId,
+                    VersionId = versionKey,
                     Ticket = ticket,
                     Type = type,
                     Level = issueLevel,
@@ -223,43 +228,61 @@ namespace Quilt4.Service.SqlRepository
             
         }
 
-        public Guid SaveSession(Guid sessionId, DateTime clientStartTime, string callerIp, Guid applicaitonId, Guid versionId, Guid userDataId, Guid machineId, string environment, DateTime serverTime)
+        public void SetSessionEnd(Guid sessionKey, DateTime serverDateTime)
         {
             using (var context = GetDataContext())
             {
-                var session = context.Sessions.SingleOrDefault(x => x.Id == sessionId);
+                var session = context.Sessions.Single(x => x.Id == sessionKey);
+                session.ServerEndTime = serverDateTime;
+                context.SubmitChanges();
+            }
+        }
 
+        public void SetSessionUsed(Guid sessionKey, DateTime serverDateTime)
+        {
+            //TODO: Set the server last used time
+            //using (var context = GetDataContext())
+            //{
+            //    var session = context.Sessions.Single(x => x.Id == sessionKey);
+            //    session.ServerLastUsedTime = serverDateTime;
+            //    context.SubmitChanges();
+            //}
+        }
+
+        public void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime)
+        {
+            using (var context = GetDataContext())
+            {
+                //TODO: Move this check to the business layer
+                var session = context.Sessions.SingleOrDefault(x => x.Id == sessionKey);
                 if (session != null)
                 {
-                    session.ServerEndTime = null;
-                    context.SubmitChanges();
-
-                    return session.Id;
+                    throw new InvalidOperationException("A session with this key has already been registered.");
                 }
 
                 var newSession = new Session
                 {
-                    Id = sessionId,
+                    Id = sessionKey,
                     CallerIp = callerIp,
                     ClientStartTime = clientStartTime,
                     ServerStartTime = serverTime,
                     ServerEndTime = null,
-                    ApplicationId = applicaitonId,
-                    VersionId = versionId,
-                    UserDataId = userDataId,
-                    MachineId = machineId,
+                    ApplicationId = applicaitonKey,
+                    VersionId = versionKey,
+                    UserDataId = applicationUserKey.Value, //TODO: We should allow null here if no user tracking is used.
+                    MachineId = machineKey.Value, //TODO: We should allow null here if no machine tracking is used.
                     Enviroment = environment
                 };
 
                 context.Sessions.InsertOnSubmit(newSession);
                 context.SubmitChanges();
-
-                return newSession.Id;
             }
         }
 
-        public Guid SaveUserData(string fingerprint, string userName, DateTime updateTime)
+        public Guid SaveApplicationUser(Guid projectKey, string fingerprint, string userName, DateTime updateTime)
         {
+            //TODO: Save the application user per project. The fingerprint should be unique per project.
+
             using (var context = GetDataContext())
             {
                 var userData = context.UserDatas.SingleOrDefault(x => x.Fingerprint == fingerprint);
@@ -293,7 +316,7 @@ namespace Quilt4.Service.SqlRepository
         }
 
         //TODO: Make this method a bit more clean
-        public Guid SaveMachine(string fingerprint, string name, IDictionary<string, string> data)
+        public Guid SaveMachine(Guid projectKey, string fingerprint, string name, IDictionary<string, string> data)
         {
             using (var context = GetDataContext())
             {
@@ -404,7 +427,7 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data)
+        public void SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data)
         {
             using (var context = GetDataContext())
             {
@@ -443,7 +466,7 @@ namespace Quilt4.Service.SqlRepository
 
                 context.SubmitChanges();
 
-                return issue.Id;
+                //return issue.Id;
             }
         }
 

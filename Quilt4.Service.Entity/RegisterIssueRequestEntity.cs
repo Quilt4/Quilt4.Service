@@ -5,15 +5,15 @@ namespace Quilt4.Service.Entity
 {
     public class RegisterIssueRequestEntity
     {
-        public Guid Id { get; set; }
-        public Guid SessionId { get; set; }
+        public Guid IssueKey { get; set; }
+        public Guid SessionKey { get; set; }
         public DateTime ClientTime { get; set; }
         public IDictionary<string, string> Data { get; set; }
         public IssueTypeRequestEntity IssueType { get; set; }
         public Guid? IssueThreadId { get; set; }
         public string UserHandle { get; set; }
         public string UserInput { get; set; }
-        public string ClientToken { get; set; }
+        //public string ProjectApiKey { get; set; }
     }
 
     public class IssueTypeRequestEntity
@@ -33,7 +33,7 @@ namespace Quilt4.Service.Entity
     public class RegisterSessionRequestEntity
     {
         public string ProjectApiKey { get; set; }
-        public Guid SessionId { get; set; }
+        public Guid SessionKey { get; set; }
         public DateTime ClientStartTime { get; set; }
         public string Environment { get; set; }
         public ApplicationDataRequestEntity Application { get; set; }

@@ -13,13 +13,13 @@ namespace Quilt4.Service.Converters
 
             return new RegisterIssueRequestEntity
             {
-                SessionId = item.SessionKey,
+                IssueKey = item.IssueKey,
+                SessionKey = item.SessionKey,
                 IssueType = ToIssueType(item.IssueType),
                 ClientTime = item.ClientTime,
                 Data = item.Data,
                 UserHandle = item.UserHandle,
-                ClientToken = item.ProjectApiKey,
-                Id = item.IssueKey,
+                //ProjectApiKey = item.ProjectApiKey,
                 IssueThreadId = item.IssueThreadKey,
                 UserInput = null
             };
@@ -42,13 +42,12 @@ namespace Quilt4.Service.Converters
 
         public static RegisterSessionRequestEntity ToSessionRequestEntity(this SessionRequest item, string callerIp)
         {
-            if (item == null)
-                return null;
+            if (item == null) return null;
 
             return new RegisterSessionRequestEntity
             {
                 ProjectApiKey = item.ProjectApiKey,
-                SessionId = item.SessionKey,
+                SessionKey = item.SessionKey,
                 ClientStartTime = item.ClientStartTime,
                 Environment = item.Environment,
                 Application = item.Application.ToApplicationDataRequestEntity(),
@@ -60,8 +59,7 @@ namespace Quilt4.Service.Converters
 
         private static ApplicationDataRequestEntity ToApplicationDataRequestEntity(this ApplicationData item)
         {
-            if (item == null)
-                return null;
+            if (item == null) return null;
 
             return new ApplicationDataRequestEntity
             {
@@ -75,8 +73,7 @@ namespace Quilt4.Service.Converters
 
         private static MachineDataRequestEntity ToMachineDataRequestEntity(this MachineData item)
         {
-            if (item == null)
-                return null;
+            if (item == null) return null;
 
             return new MachineDataRequestEntity
             {
@@ -88,8 +85,7 @@ namespace Quilt4.Service.Converters
 
         private static UserDataRequestEntity ToUserDataRequestEntity(this UserData item)
         {
-            if (item == null)
-                return null;
+            if (item == null) return null;
 
             return new UserDataRequestEntity
             {

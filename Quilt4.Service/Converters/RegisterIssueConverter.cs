@@ -24,15 +24,15 @@ namespace Quilt4.Service.Converters
 
             return new RegisterIssueRequestEntity
             {
-                Id = Guid.Parse(item.Id),
-                SessionId = Guid.Parse(item.SessionId),
+                IssueKey = Guid.Parse(item.Id),
+                SessionKey = Guid.Parse(item.SessionId),
                 ClientTime = item.ClientTime,
                 Data = item.Data,
                 IssueType = item.IssueType.ToIssueTypeRequestEntity(),
                 IssueThreadId = string.IsNullOrEmpty(item.IssueThreadId) ? (Guid?) null : Guid.Parse(item.IssueThreadId),
                 UserHandle = item.UserHandle,
                 UserInput = item.UserInput,
-                ClientToken = item.ClientToken
+                //ProjectApiKey = item.ClientToken
             };
         }
 

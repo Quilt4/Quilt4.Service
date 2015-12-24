@@ -49,5 +49,15 @@ namespace Quilt4.Service.Controllers.Client
                 User = sessionRequest.User,
             };
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/Client/Session/End")]
+        public void End([FromBody] object value)
+        {
+            var sessionKey = Guid.Parse(value.ToString());
+            var callerIp = HttpContext.Current.Request.UserHostAddress;
+            _sessionBusiness.EndSession(sessionKey, callerIp);
+        }
     }
 }

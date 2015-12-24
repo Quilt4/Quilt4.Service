@@ -19,7 +19,6 @@ namespace Quilt4.Service.Converters
                 ClientTime = item.ClientTime,
                 Data = item.Data,
                 UserHandle = item.UserHandle,
-                //ProjectApiKey = item.ProjectApiKey,
                 IssueThreadId = item.IssueThreadKey,
                 UserInput = null
             };

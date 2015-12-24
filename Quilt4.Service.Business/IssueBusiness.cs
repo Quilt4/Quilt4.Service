@@ -18,30 +18,28 @@ namespace Quilt4.Service.Business
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            if (request.SessionKey.IsValidGuid()) throw new ArgumentException("No valid session guid provided.");
+            if (!request.SessionKey.IsValidGuid()) throw new ArgumentException("No valid session guid provided.");
             if (request.IssueType == null) throw new ArgumentException("No IssueType object in request was provided. Need object '{ \"IssueType\":{...} }' in root.");
             if (string.IsNullOrEmpty(request.IssueType.Message)) throw new ArgumentException("No message in issue type provided.");
             if (string.IsNullOrEmpty(request.IssueType.IssueLevel)) throw new ArgumentException("No issue level in issue type provided.");
             if (string.IsNullOrEmpty(request.IssueType.Type)) throw new ArgumentException("No issue type provided.");
             if (request.ClientTime == DateTime.MinValue) throw new ArgumentException("No client time provided.");
 
+            var serverTime = DateTime.UtcNow;
+
             var session = _repository.GetSession(request.SessionKey);
-            if (session == null)
-            {
-                throw new ArgumentException("There is no session with provided sessionKey.");
-            }
+            _repository.SetSessionUsed(session.SessionKey, serverTime);
 
-            //var projectId = _repository.GetProjectKey(request.ProjectApiKey);
-            //if (projectId == null)
-            //{
-            //    throw new ArgumentException("No project with provided clienttoken");
-            //}
+            var ticket = GetTicket(session.ProjectKey, 10);
 
-            var ticket = GetTicket(session.ProjectKey, 10); //, request, session.VersionKey);
-            
             // Add/Update IssueType
-            var issueTypeKey = _repository.SaveIssueType(session.VersionKey, ticket, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace);
-            _repository.SaveIssue(request.IssueKey, issueTypeKey, session.SessionKey, request.ClientTime, request.Data);
+            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, ticket, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
+            if (issueTypeKey == null)
+            {
+                issueTypeKey = Guid.NewGuid();
+                _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
+            }
+            _repository.CreateIssue(request.IssueKey, issueTypeKey.Value, session.SessionKey, request.ClientTime, request.Data, serverTime);
 
             WriteBusiness.RunRecalculate();
 
@@ -51,12 +49,12 @@ namespace Quilt4.Service.Business
             };
         }
 
-        private int GetTicket(Guid projectKey, int tryCount) //, RegisterIssueRequestEntity request, Guid versionId)
+        private int GetTicket(Guid projectKey, int tryCount)
         {
             int ticket;
             try
             {
-                ticket = _repository.GetNextTicket(projectKey); //, request.IssueType.Type, request.IssueType.Message, request.IssueType.StackTrace, request.IssueType.IssueLevel, versionId);
+                ticket = _repository.GetNextTicket(projectKey);
             }
             catch (System.Data.SqlClient.SqlException)
             {
@@ -64,7 +62,7 @@ namespace Quilt4.Service.Business
                 {
                     Thread.Sleep((10 - tryCount) * 10);
                     tryCount--;
-                    ticket = GetTicket(projectKey, tryCount); //, request, versionId);
+                    ticket = GetTicket(projectKey, tryCount);
                 }
                 else
                 {

@@ -239,7 +239,6 @@
     <Compile Include="Controllers\Web\IssueTypeController.cs" />
     <Compile Include="Controllers\Web\DataTransfer\ProjectInput.cs" />
     <Compile Include="Controllers\Web\WebProjectController.cs" />
-    <Compile Include="Controllers\Client\UserController.cs" />
     <Compile Include="Controllers\Web\VersionController.cs" />
     <Compile Include="Converters\DashboardPageConverter.cs" />
     <Compile Include="Converters\IssueTypePageConverter.cs" />

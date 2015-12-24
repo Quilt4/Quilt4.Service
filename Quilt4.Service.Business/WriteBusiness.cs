@@ -9,8 +9,8 @@ namespace Quilt4.Service.Business
     public class WriteBusiness : IWriteBusiness, IDisposable
     {
         private readonly IWriteRepository _repository;
+        private static readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
         private bool _running;
-        private static AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
 
         public WriteBusiness(IWriteRepository repository)
         {

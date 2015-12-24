@@ -52,18 +52,26 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="ApplicationDataRequestEntity.cs" />
     <Compile Include="DashboardPageProject.cs" />
+    <Compile Include="IssueTypePageIssue.cs" />
     <Compile Include="IssueTypePageIssueType.cs" />
+    <Compile Include="IssueTypeRequestEntity.cs" />
     <Compile Include="LoginSession.cs" />
+    <Compile Include="MachineDataRequestEntity.cs" />
     <Compile Include="ProjectPageApplication.cs" />
     <Compile Include="ProjectPageProject.cs" />
     <Compile Include="ProjectPageVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterIssueRequestEntity.cs" />
     <Compile Include="RegisterIssueResponseEntity.cs" />
+    <Compile Include="RegisterSessionRequestEntity.cs" />
+    <Compile Include="RegisterSessionResponseEntity.cs" />
     <Compile Include="SecurityType.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserDataRequestEntity.cs" />
+    <Compile Include="VersionPageIssueType.cs" />
     <Compile Include="VersionPageVersion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

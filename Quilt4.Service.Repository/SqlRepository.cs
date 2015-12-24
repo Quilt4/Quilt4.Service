@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Transactions;
-using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
 
@@ -11,10 +10,6 @@ namespace Quilt4.Service.SqlRepository
 {    
     public class SqlRepository : IRepository
     {
-        //TODO: Persist to SQL Server
-        private static readonly IDictionary<string, string> _settings = new Dictionary<string, string>();
-        private static readonly IDictionary<string, LoginSession> _loginSession = new Dictionary<string, LoginSession>();
-
         public void SaveUser(Entity.User user)
         {
             using (var context = GetDataContext())
@@ -55,50 +50,10 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void SaveLoginSession(LoginSession loginSession)
-        {
-            _loginSession.Add(loginSession.PublicKey, loginSession);
-        }
-
-        public T GetSetting<T>(string name)
-        {
-            if (!_settings.ContainsKey(name))
-            {
-                return default(T);
-            }
-
-            var value = _settings[name];
-            var result = (T)Convert.ChangeType(value, typeof(T));
-            return result;
-        }
-
-        public T GetSetting<T>(string name, T defaultValue)
-        {
-            if (!_settings.ContainsKey(name))
-            {
-                SetSetting(name, defaultValue);
-            }
-
-            var value = _settings[name];
-            var result = (T)Convert.ChangeType(value, typeof(T));
-            return result;
-        }
-
-        public void SetSetting<T>(string name, T value)
-        {
-            if (_settings.ContainsKey(name))
-                _settings.Remove(name);
-            _settings.Add(name, value.ToString());
-        }
-
-        public int GetNextTicket(Guid projectKey) //, string type, string message, string stackTrace, string issueLevel, Guid versionId)
+        public int GetNextTicket(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                //var issueType = context.IssueTypes.SingleOrDefault(x => x.Type == type && x.Message == message && x.StackTrace == stackTrace && x.Level == issueLevel && x.VersionId == versionId);
-                //if (issueType != null)
-                //    return issueType.Ticket;
-
                 int ticket;
 
                 using (var scope = new TransactionScope())
@@ -188,42 +143,56 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveIssueType(Guid versionKey, int ticket, string type, string issueLevel, string message,
-                                  string stackTrace)
+        public Guid? GetIssueTypeKey(Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
                 var issueType =
                     context.IssueTypes.SingleOrDefault(
                         x =>
-                        x.VersionId.Equals(versionKey) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
-                        x.Message.Equals(message) &&
-                        (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
+                            x.VersionId.Equals(versionKey) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
+                            x.Message.Equals(message) &&
+                            (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
 
-                if (issueType != null)
-                {
-                    //Update issueType?
+                return issueType?.Id;
+            }
+        }
+
+        public void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime)
+        {
+            using (var context = GetDataContext())
+            {
+                //var issueType =
+                //    context.IssueTypes.SingleOrDefault(
+                //        x =>
+                //        x.VersionId.Equals(versionKey) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
+                //        x.Message.Equals(message) &&
+                //        (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
+
+                //if (issueType != null)
+                //{
+                //    //Update issueType?
                         
-                    return issueType.Id;
-                }
+                //    return issueType.Id;
+                //}
 
                 var newIssueType = new IssueType
                 {
-                    Id = Guid.NewGuid(),
+                    Id = issueTypeKey,
                     VersionId = versionKey,
                     Ticket = ticket,
                     Type = type,
                     Level = issueLevel,
                     Message = message,
                     StackTrace = stackTrace,
-                    CreationDate = DateTime.UtcNow,
-                    LastUpdateDate = DateTime.UtcNow
+                    CreationDate = serverTime,
+                    LastUpdateDate = serverTime
                 };
 
                 context.IssueTypes.InsertOnSubmit(newIssueType);
                 context.SubmitChanges();
 
-                return newIssueType.Id;
+                //return newIssueType.Id;
             }
             
         }
@@ -427,23 +396,23 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data)
+        public void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
-                var machine = context.Machines.Single(x => x.Sessions.Single(y => y.Id == sessionId).MachineId == x.Id);
-                var userData = context.UserDatas.Single(x => x.Sessions.Single(y => y.Id == sessionId).UserDataId == x.Id);
+                var machine = context.Machines.SingleOrDefault(x => x.Sessions.Single(y => y.Id == sessionKey).MachineId == x.Id);
+                var userData = context.UserDatas.SingleOrDefault(x => x.Sessions.Single(y => y.Id == sessionKey).UserDataId == x.Id);
 
                 var issue = new Issue
                 {
-                    Id = issueId,
-                    IssueTypeId = issueTypeId,
+                    Id = issueKey,
+                    IssueTypeId = issueTypeKey,
                     ClientCreationDate = clientTime,
-                    CreationDate = DateTime.UtcNow,
-                    LastUpdateDate = DateTime.UtcNow,
-                    SessionId = sessionId,
-                    MachineId = machine.Id,
-                    UserDataId = userData.Id,
+                    CreationDate = serverTime,
+                    LastUpdateDate = serverTime, //TODO: Remove this property from database.
+                    SessionId = sessionKey,
+                    MachineId = machine.Id, //TODO: Allow the machineId to be null.
+                    UserDataId = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
                 };
 
                 context.Issues.InsertOnSubmit(issue);
@@ -455,7 +424,7 @@ namespace Quilt4.Service.SqlRepository
                         var issueData = new IssueData
                         {
                             Id = Guid.NewGuid(),
-                            IssueId = issueId,
+                            IssueId = issueKey,
                             Name = d.Key,
                             Value = d.Value
                         };
@@ -465,8 +434,6 @@ namespace Quilt4.Service.SqlRepository
                 }
 
                 context.SubmitChanges();
-
-                //return issue.Id;
             }
         }
 
@@ -475,6 +442,11 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var session = context.Sessions.SingleOrDefault(x => x.Id == sessionId);
+
+                if (session == null)
+                {
+                    throw new ArgumentException("There is no session with provided sessionKey.");
+                }
 
                 return session.ToSessionEntity();
             }

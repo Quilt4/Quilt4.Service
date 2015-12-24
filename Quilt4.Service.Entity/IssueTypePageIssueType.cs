@@ -19,13 +19,4 @@ namespace Quilt4.Service.Entity
         public string StackTrace { get; set; }
         public IEnumerable<IssueTypePageIssue> Issues { get; set; }
     }
-
-    public class IssueTypePageIssue
-    {
-        public Guid Id { get; set; }
-        public DateTime Time { get; set; }
-        public string User { get; set; }
-        public string Enviroment { get; set; }
-        public IDictionary<string, string> Data { get; set; }
-    }
 }

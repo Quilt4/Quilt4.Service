@@ -18,6 +18,7 @@ namespace Quilt4.Service.Interface.Repository
         void DeleteProject(Guid projectKey);
 
         //Session
+        Session GetSession(Guid sessionId);
         void SetSessionUsed(Guid sessionKey, DateTime serverDateTime);
         void SetSessionEnd(Guid sessionKey, DateTime serverDateTime);
         void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime);
@@ -33,15 +34,9 @@ namespace Quilt4.Service.Interface.Repository
         Guid SaveMachine(Guid projectKey, string fingerprint, string name, IDictionary<string, string> data);
 
         //Issue
-        Guid SaveIssueType(Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace);
-        void SaveIssue(Guid issueId, Guid issueTypeId, Guid sessionId, DateTime clientTime, IDictionary<string, string> data);
-        int GetNextTicket(Guid projectKey); //, string type, string message, string stackTrace, string issueLevel, Guid versionId);
-
-        //TODO: Revisit
-        void SaveLoginSession(LoginSession loginSession);
-        T GetSetting<T>(string name);
-        T GetSetting<T>(string name, T defaultValue);
-        void SetSetting<T>(string name, T value);
-        Session GetSession(Guid sessionId);
+        Guid? GetIssueTypeKey(Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
+        void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
+        void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
+        int GetNextTicket(Guid projectKey);
     }
 }

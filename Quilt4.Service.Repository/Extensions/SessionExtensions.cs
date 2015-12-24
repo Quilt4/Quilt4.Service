@@ -11,11 +11,9 @@
             {
                 SessionKey = item.Id,
                 ProjectKey = item.Application.Project.Id,
-                //ApplicationName = item.Application.Name,
                 ApplicationKey = item.ApplicationId,
-                //Version = item.Version.Version1,
                 VersionKey = item.VersionId,
-                CallerIp = item.CallerIp,
+                CallerIp = item.CallerIp,                
             };
         }
     }

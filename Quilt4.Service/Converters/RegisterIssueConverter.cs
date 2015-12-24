@@ -32,7 +32,6 @@ namespace Quilt4.Service.Converters
                 IssueThreadId = string.IsNullOrEmpty(item.IssueThreadId) ? (Guid?) null : Guid.Parse(item.IssueThreadId),
                 UserHandle = item.UserHandle,
                 UserInput = item.UserInput,
-                //ProjectApiKey = item.ClientToken
             };
         }
 

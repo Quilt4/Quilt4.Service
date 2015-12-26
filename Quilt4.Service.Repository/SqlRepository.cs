@@ -442,12 +442,6 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var session = context.Sessions.SingleOrDefault(x => x.Id == sessionId);
-
-                if (session == null)
-                {
-                    throw new ArgumentException("There is no session with provided sessionKey.");
-                }
-
                 return session.ToSessionEntity();
             }
         }

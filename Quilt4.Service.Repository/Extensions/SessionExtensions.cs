@@ -13,7 +13,8 @@
                 ProjectKey = item.Application.Project.Id,
                 ApplicationKey = item.ApplicationId,
                 VersionKey = item.VersionId,
-                CallerIp = item.CallerIp,                
+                CallerIp = item.CallerIp,
+                ServerEndTime = item.ServerEndTime,
             };
         }
     }

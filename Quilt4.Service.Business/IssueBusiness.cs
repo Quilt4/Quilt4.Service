@@ -28,6 +28,14 @@ namespace Quilt4.Service.Business
             var serverTime = DateTime.UtcNow;
 
             var session = _repository.GetSession(request.SessionKey);
+            if (session == null)
+            {
+                throw new ArgumentException("There is no session with provided sessionKey.");
+            }
+            if (session.ServerEndTime != null)
+            {
+                throw new InvalidOperationException("The session has already been marked as ended. Create a new session to register issues.");
+            }
             _repository.SetSessionUsed(session.SessionKey, serverTime);
 
             var ticket = GetTicket(session.ProjectKey, 10);

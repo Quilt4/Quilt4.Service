@@ -9,5 +9,6 @@ namespace Quilt4.Service.Entity
         public Guid ApplicationKey { get; set; }
         public Guid VersionKey { get; set; }
         public string CallerIp { get; set; }
+        public DateTime? ServerEndTime { get; set; }
     }
 }

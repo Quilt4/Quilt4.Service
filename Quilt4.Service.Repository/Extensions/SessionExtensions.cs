@@ -9,10 +9,10 @@
 
             return new Entity.Session
             {
-                SessionKey = item.Id,
+                SessionKey = item.SessionKey,
                 ProjectKey = item.Application.Project.Id,
-                ApplicationKey = item.ApplicationId,
-                VersionKey = item.VersionId,
+                ApplicationKey = item.ApplicationKey,
+                VersionKey = item.VersionKey,
                 CallerIp = item.CallerIp,
                 ServerEndTime = item.ServerEndTime,
             };

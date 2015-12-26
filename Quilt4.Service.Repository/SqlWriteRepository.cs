@@ -95,7 +95,7 @@ namespace Quilt4.Service.SqlRepository
                     var projects = context.Projects.ToArray();
 
                     var issueTypePageIssueIds = context.IssueTypePageIssues.Select(x => x.Id);
-                    var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.Id)).ToArray();
+                    var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.IssueKey)).ToArray();
 
                     foreach (var issue in issuesToUpdate)
                     {
@@ -255,7 +255,7 @@ namespace Quilt4.Service.SqlRepository
             var sessions = version.Sessions.Count;
             var issueTypes = version.IssueTypes.Count;
             var issues = version.IssueTypes.SelectMany(x => x.Issues).Count();
-            var last = version.IssueTypes.SelectMany(x => x.Issues).Max(x => x.ClientCreationDate);
+            var last = version.IssueTypes.SelectMany(x => x.Issues).Max(x => x.ClientTime);
             var enviroments = string.Join(";", version.Sessions.Select(x => x.Enviroment).Distinct());
 
 
@@ -309,7 +309,7 @@ namespace Quilt4.Service.SqlRepository
         {
             var versionPageIssueType = context.VersionPageIssueTypes.SingleOrDefault(x => x.Id == issueType.Id);
             var issueCount = issueType.Issues.Count;
-            var lastIssue = issueType.Issues.Max(x => x.ClientCreationDate);
+            var lastIssue = issueType.Issues.Max(x => x.ClientTime);
             var enviroments = string.Join(";", issueType.Issues.Select(x => x.Session).Select(y => y.Enviroment).Distinct());
 
             if (versionPageIssueType != null)
@@ -371,7 +371,7 @@ namespace Quilt4.Service.SqlRepository
 
             var issueTypePageIssue = new IssueTypePageIssue
             {
-                Id = issue.Id,
+                Id = issue.IssueKey,
                 ProjectId = project.Id, 
                 ApplicationId = application.Id,
                 VersionId = version.Id,
@@ -379,7 +379,7 @@ namespace Quilt4.Service.SqlRepository
                 Data = dataDictionary,
                 Enviroment = session.Enviroment,
                 IssueUser = session.UserData.UserName,
-                Time = issue.ClientCreationDate
+                Time = issue.ClientTime
             };
 
             context.IssueTypePageIssues.InsertOnSubmit(issueTypePageIssue);

@@ -201,7 +201,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var session = context.Sessions.Single(x => x.Id == sessionKey);
+                var session = context.Sessions.Single(x => x.SessionKey == sessionKey);
                 session.ServerEndTime = serverDateTime;
                 context.SubmitChanges();
             }
@@ -209,13 +209,12 @@ namespace Quilt4.Service.SqlRepository
 
         public void SetSessionUsed(Guid sessionKey, DateTime serverDateTime)
         {
-            //TODO: Set the server last used time
-            //using (var context = GetDataContext())
-            //{
-            //    var session = context.Sessions.Single(x => x.Id == sessionKey);
-            //    session.ServerLastUsedTime = serverDateTime;
-            //    context.SubmitChanges();
-            //}
+            using (var context = GetDataContext())
+            {
+                var session = context.Sessions.Single(x => x.SessionKey == sessionKey);
+                session.ServerLastUsedTime = serverDateTime;
+                context.SubmitChanges();
+            }
         }
 
         public void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime)
@@ -223,7 +222,7 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 //TODO: Move this check to the business layer
-                var session = context.Sessions.SingleOrDefault(x => x.Id == sessionKey);
+                var session = context.Sessions.SingleOrDefault(x => x.SessionKey == sessionKey);
                 if (session != null)
                 {
                     throw new InvalidOperationException("A session with this key has already been registered.");
@@ -231,15 +230,15 @@ namespace Quilt4.Service.SqlRepository
 
                 var newSession = new Session
                 {
-                    Id = sessionKey,
+                    SessionKey = sessionKey,
                     CallerIp = callerIp,
                     ClientStartTime = clientStartTime,
                     ServerStartTime = serverTime,
                     ServerEndTime = null,
-                    ApplicationId = applicaitonKey,
-                    VersionId = versionKey,
-                    UserDataId = applicationUserKey.Value, //TODO: We should allow null here if no user tracking is used.
-                    MachineId = machineKey.Value, //TODO: We should allow null here if no machine tracking is used.
+                    ApplicationKey = applicaitonKey,
+                    VersionKey = versionKey,
+                    ApplicationUserKey = applicationUserKey,
+                    MachineKey = machineKey,
                     Enviroment = environment
                 };
 
@@ -400,19 +399,18 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var machine = context.Machines.SingleOrDefault(x => x.Sessions.Single(y => y.Id == sessionKey).MachineId == x.Id);
-                var userData = context.UserDatas.SingleOrDefault(x => x.Sessions.Single(y => y.Id == sessionKey).UserDataId == x.Id);
+                var machine = context.Machines.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).MachineKey == x.Id);
+                var userData = context.UserDatas.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).ApplicationUserKey == x.Id);
 
                 var issue = new Issue
                 {
-                    Id = issueKey,
-                    IssueTypeId = issueTypeKey,
-                    ClientCreationDate = clientTime,
-                    CreationDate = serverTime,
-                    LastUpdateDate = serverTime, //TODO: Remove this property from database.
-                    SessionId = sessionKey,
-                    MachineId = machine.Id, //TODO: Allow the machineId to be null.
-                    UserDataId = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
+                    IssueKey = issueKey,
+                    IssueTypeKey = issueTypeKey,
+                    ClientTime = clientTime,
+                    ServerTime = serverTime,
+                    SessionKey = sessionKey,
+                    MachineKey = machine.Id, //TODO: Allow the machineId to be null.
+                    UserDataKey = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
                 };
 
                 context.Issues.InsertOnSubmit(issue);
@@ -441,7 +439,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var session = context.Sessions.SingleOrDefault(x => x.Id == sessionId);
+                var session = context.Sessions.SingleOrDefault(x => x.SessionKey == sessionId);
                 return session.ToSessionEntity();
             }
         }

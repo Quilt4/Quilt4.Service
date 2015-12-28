@@ -10,13 +10,13 @@ namespace Quilt4.Service.SqlRepository
 {
     public class SqlWriteRepository : IWriteRepository
     {
-        public void UpdateDashboardPageProject(Guid projectId)
+        public void UpdateDashboardPageProject(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.Single(x => x.Id == projectId);
+                var project = context.Projects.Single(x => x.ProjectKey == projectKey);
                 var versions = project.Applications.SelectMany(x => x.Versions).Count();
-                var sessions = project.Applications.SelectMany(x => x.Sessions).Count();
+                var sessions = project.Applications.SelectMany(x => x.Versions).SelectMany(x => x.Sessions).Count();
                 var issueTypes = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes).Count();
                 var issues =
                     project.Applications.SelectMany(x => x.Versions)
@@ -24,27 +24,27 @@ namespace Quilt4.Service.SqlRepository
                         .SelectMany(z => z.Issues)
                         .Count();
 
-                var dashboardProject = context.DashboardPageProjects.SingleOrDefault(x => x.Id == projectId);
+                var dashboardProject = context.DashboardPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey);
 
                 if (dashboardProject != null)
                 {
                     dashboardProject.Name = project.Name;
-                    dashboardProject.Versions = versions;
-                    dashboardProject.Sessions = sessions;
-                    dashboardProject.IssueTypes = issueTypes;
-                    dashboardProject.Issues = issues;
+                    dashboardProject.VersionCount = versions;
+                    dashboardProject.SessionCount = sessions;
+                    dashboardProject.IssueTypeCount = issueTypes;
+                    dashboardProject.IssueCount = issues;
                     dashboardProject.DashboardColor = project.DashboardColor;
                 }
                 else
                 {
                     var newDashboardProject = new DashboardPageProject
                     {
-                        Id = projectId,
+                        ProjectKey = projectKey,
                         Name = project.Name,
-                        Versions = versions,
-                        Sessions = sessions,
-                        IssueTypes = issueTypes,
-                        Issues = issues,
+                        VersionCount = versions,
+                        SessionCount = sessions,
+                        IssueTypeCount = issueTypes,
+                        IssueCount = issues,
                         DashboardColor = project.DashboardColor
                     };
 
@@ -55,28 +55,28 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void UpdateProjectPageProject(Guid projectId)
+        public void UpdateProjectPageProject(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.Single(x => x.Id == projectId);
+                var project = context.Projects.Single(x => x.ProjectKey == projectKey);
 
-                var projectPageProject = context.ProjectPageProjects.SingleOrDefault(x => x.Id == projectId);
+                var projectPageProject = context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey);
 
                 if (projectPageProject != null)
                 {
                     projectPageProject.Name = project.Name;
                     projectPageProject.DashboardColor = project.DashboardColor;
-                    projectPageProject.ClientToken = project.ClientToken;
+                    projectPageProject.ProjectApiKey = project.ProjectApiKey;
                 }
                 else
                 {
                     var newProjectPageProject = new ProjectPageProject
                     {
-                        Id = projectId,
+                        ProjectKey = projectKey,
                         Name = project.Name,
                         DashboardColor = project.DashboardColor,
-                        ClientToken = project.ClientToken,
+                        ProjectApiKey = project.ProjectApiKey,
                     };
 
                     context.ProjectPageProjects.InsertOnSubmit(newProjectPageProject);
@@ -94,7 +94,7 @@ namespace Quilt4.Service.SqlRepository
                 {
                     var projects = context.Projects.ToArray();
 
-                    var issueTypePageIssueIds = context.IssueTypePageIssues.Select(x => x.Id);
+                    var issueTypePageIssueIds = context.IssueTypePageIssues.Select(x => x.IssueTypeKey);
                     var issuesToUpdate = context.Issues.Where(x => !issueTypePageIssueIds.Contains(x.IssueKey)).ToArray();
 
                     foreach (var issue in issuesToUpdate)
@@ -126,12 +126,12 @@ namespace Quilt4.Service.SqlRepository
 
                     foreach (var project in projects)
                     {
-                        var sessions = project.Applications.SelectMany(x => x.Sessions).Count();
+                        var sessions = project.Applications.SelectMany(x => x.Versions).SelectMany(x => x.Sessions).Count();
                         var versions = project.Applications.SelectMany(x => x.Versions);
 
                         UpdateProjectPageVersionSessionCount(context, versions);
 
-                        UpdateDashboardPageProjectSessionCount(context, project.Id, sessions);
+                        UpdateDashboardPageProjectSessionCount(context, project.ProjectKey, sessions);
 
                         context.SubmitChanges();
                     }
@@ -141,12 +141,12 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        private void UpdateDashboardPageProjectSessionCount(Quilt4DataContext context, Guid projectId, int sessions)
+        private void UpdateDashboardPageProjectSessionCount(Quilt4DataContext context, Guid projectKey, int sessionCount)
         {
-            var dashboardPageProject = context.DashboardPageProjects.SingleOrDefault(x => x.Id == projectId);
+            var dashboardPageProject = context.DashboardPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey);
             if(dashboardPageProject == null)
                 return;
-            dashboardPageProject.Sessions = sessions;
+            dashboardPageProject.SessionCount = sessionCount;
         }
 
         private void UpdateProjectPageVersionSessionCount(Quilt4DataContext context, IEnumerable<Version> versions)
@@ -155,22 +155,22 @@ namespace Quilt4.Service.SqlRepository
 
             foreach (var version in versions)
             {
-                var sessions = version.Sessions.Count;
-                var dashboardProject = context.ProjectPageVersions.SingleOrDefault(x => x.Id == version.Id);
+                var sessionCount = version.Sessions.Count;
+                var dashboardProject = context.ProjectPageVersions.SingleOrDefault(x => x.VersionKey == version.VersionKey);
                 
                 if(dashboardProject == null)
                     continue;
 
-                dashboardProject.Sessions = sessions;
+                dashboardProject.SessionCount = sessionCount;
             }
         }
 
         private static void AddUpdateDashboardPageProject(Quilt4DataContext context, Project project)
         {
-            var dashboardPageProject = context.DashboardPageProjects.SingleOrDefault(x => x.Id == project.Id);
+            var dashboardPageProject = context.DashboardPageProjects.SingleOrDefault(x => x.ProjectKey == project.ProjectKey);
 
             var versions = project.Applications.SelectMany(x => x.Versions).Count();
-            var sessions = project.Applications.SelectMany(x => x.Sessions).Count();
+            var sessions = project.Applications.SelectMany(x => x.Versions).SelectMany(x => x.Sessions).Count();
             var issueTypes = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes).Count();
             var issues = project.Applications.SelectMany(x => x.Versions).SelectMany(y => y.IssueTypes).SelectMany(x => x.Issues).Count();
 
@@ -178,22 +178,22 @@ namespace Quilt4.Service.SqlRepository
             {
                 dashboardPageProject.Name = project.Name;
                 dashboardPageProject.DashboardColor = project.DashboardColor;
-                dashboardPageProject.Versions = versions;
-                dashboardPageProject.Sessions = sessions;
-                dashboardPageProject.IssueTypes = issueTypes;
-                dashboardPageProject.Issues = issues;
+                dashboardPageProject.VersionCount = versions;
+                dashboardPageProject.SessionCount = sessions;
+                dashboardPageProject.IssueTypeCount = issueTypes;
+                dashboardPageProject.IssueCount = issues;
             }
             else
             {
                 var newDashboardPageProject = new DashboardPageProject
                 {
-                    Id = project.Id,
+                    ProjectKey = project.ProjectKey,
                     Name = project.Name,
                     DashboardColor = project.DashboardColor,
-                    Versions = versions,
-                    Sessions = sessions,
-                    IssueTypes = issueTypes,
-                    Issues = issues,
+                    VersionCount = versions,
+                    SessionCount = sessions,
+                    IssueTypeCount = issueTypes,
+                    IssueCount = issues,
                 };
 
                 context.DashboardPageProjects.InsertOnSubmit(newDashboardPageProject);
@@ -202,14 +202,14 @@ namespace Quilt4.Service.SqlRepository
 
         private static void AddUpdateProjectPageProject(Quilt4DataContext context, Project project)
         {
-            var projectPageProject = context.ProjectPageProjects.SingleOrDefault(x => x.Id == project.Id);
+            var projectPageProject = context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == project.ProjectKey);
 
             if (projectPageProject == null)
             {
                 var newProjectPageProject = new ProjectPageProject
                 {
-                    Id = project.Id,
-                    ClientToken = project.ClientToken,
+                    ProjectKey = project.ProjectKey,
+                    ProjectApiKey = project.ProjectApiKey,
                     DashboardColor = project.DashboardColor,
                     Name = project.Name,
                 };
@@ -218,7 +218,7 @@ namespace Quilt4.Service.SqlRepository
             }
             else
             {
-                projectPageProject.ClientToken = project.ClientToken;
+                projectPageProject.ProjectApiKey = project.ProjectApiKey;
                 projectPageProject.DashboardColor = project.DashboardColor;
                 projectPageProject.Name = project.Name;
             }
@@ -226,22 +226,22 @@ namespace Quilt4.Service.SqlRepository
 
         private static void AddUpdateProjectPageApplication(Quilt4DataContext context, Application application, Project project)
         {
-            var projectPageApplication = context.ProjectPageApplications.SingleOrDefault(x => x.Id == application.Id);
+            var projectPageApplication = context.ProjectPageApplications.SingleOrDefault(x => x.ApplicationKey == application.ApplicationKey);
 
             var versions = application.Versions.Count;
 
             if (projectPageApplication != null)
             {
-                projectPageApplication.Versions = versions;
+                projectPageApplication.VersionCount = versions;
             }
             else
             {
                 var newProjectPageApplication = new ProjectPageApplication
                 {
-                    Id = application.Id,
+                    ApplicationKey = application.ApplicationKey,
                     Name = application.Name,
-                    ProjectId = project.Id,
-                    Versions = versions
+                    ProjectKey = project.ProjectKey,
+                    VersionCount = versions
                 };
 
                 context.ProjectPageApplications.InsertOnSubmit(newProjectPageApplication);
@@ -250,35 +250,35 @@ namespace Quilt4.Service.SqlRepository
 
         private static void AddUpdateProjectPageVersion(Quilt4DataContext context, Version version, Application application, Project project)
         {
-            var projectPageVersion = context.ProjectPageVersions.SingleOrDefault(x => x.Id == version.Id);
+            var projectPageVersion = context.ProjectPageVersions.SingleOrDefault(x => x.VersionKey == version.VersionKey);
 
             var sessions = version.Sessions.Count;
             var issueTypes = version.IssueTypes.Count;
             var issues = version.IssueTypes.SelectMany(x => x.Issues).Count();
-            var last = version.IssueTypes.SelectMany(x => x.Issues).Max(x => x.ClientTime);
+            var lastUpdateServerTime = version.IssueTypes.SelectMany(x => x.Issues).Max(x => x.CreationServerTime);
             var enviroments = string.Join(";", version.Sessions.Select(x => x.Enviroment).Distinct());
 
 
             if (projectPageVersion != null)
             {
-                projectPageVersion.Sessions = sessions;
-                projectPageVersion.IssueTypes = issueTypes;
-                projectPageVersion.Issues = issues;
-                projectPageVersion.Last = last;
+                projectPageVersion.SessionCount = sessions;
+                projectPageVersion.IssueTypeCount = issueTypes;
+                projectPageVersion.IssueCount = issues;
+                projectPageVersion.LastUpdateServerTime = lastUpdateServerTime;
                 projectPageVersion.Enviroments = enviroments;
             }
             else
             {
                 var newProjectPageVersion = new ProjectPageVersion
                 {
-                    Id = version.Id,
-                    ProjectId = project.Id,
-                    ApplicationId = application.Id,
-                    Version = version.Version1,
-                    Sessions = sessions,
-                    IssueTypes = issueTypes,
-                    Issues = issues,
-                    Last = last,
+                    VersionKey = version.VersionKey,
+                    ProjectKey = project.ProjectKey,
+                    ApplicationKey = application.ApplicationKey,
+                    VersionName = version.VersionName,
+                    SessionCount = sessions,
+                    IssueTypeCount = issueTypes,
+                    IssueCount = issues,
+                    LastUpdateServerTime = lastUpdateServerTime,
                     Enviroments = enviroments,
                 };
                 context.ProjectPageVersions.InsertOnSubmit(newProjectPageVersion);
@@ -287,18 +287,18 @@ namespace Quilt4.Service.SqlRepository
 
         private static void AddUpdateVersionPageVersion(Quilt4DataContext context, Version version, Application application, Project project)
         {
-            var versionPageVersion = context.VersionPageVersions.SingleOrDefault(x => x.Id == version.Id);
+            var versionPageVersion = context.VersionPageVersions.SingleOrDefault(x => x.VersionKey == version.VersionKey);
 
             if (versionPageVersion == null)
             {
                 var newVersionPageVersion = new VersionPageVersion
                 {
-                    Id = version.Id,
-                    ProjectId = project.Id,
-                    ApplicaitonId = application.Id,
+                    VersionKey = version.VersionKey,
+                    ProjectKey = project.ProjectKey,
+                    ApplicationKey = application.ApplicationKey,
                     ProjectName = project.Name,
                     ApplicationName = application.Name,
-                    Version = version.Version1,
+                    VersionName = version.VersionName,
                 };
 
                 context.VersionPageVersions.InsertOnSubmit(newVersionPageVersion);
@@ -307,28 +307,28 @@ namespace Quilt4.Service.SqlRepository
 
         private static void AddUpdateVersionPageIssueType(Quilt4DataContext context, IssueType issueType, Version version, Application application, Project project)
         {
-            var versionPageIssueType = context.VersionPageIssueTypes.SingleOrDefault(x => x.Id == issueType.Id);
+            var versionPageIssueType = context.VersionPageIssueTypes.SingleOrDefault(x => x.IssueTypeKey == issueType.IssueTypeKey);
             var issueCount = issueType.Issues.Count;
-            var lastIssue = issueType.Issues.Max(x => x.ClientTime);
+            var lastIssueServerTime = issueType.Issues.Max(x => x.CreationServerTime);
             var enviroments = string.Join(";", issueType.Issues.Select(x => x.Session).Select(y => y.Enviroment).Distinct());
 
             if (versionPageIssueType != null)
             {
-                versionPageIssueType.Issues = issueCount;
-                versionPageIssueType.LastIssue = lastIssue;
+                versionPageIssueType.IssueCount = issueCount;
+                versionPageIssueType.LastIssueServerTime = lastIssueServerTime;
                 versionPageIssueType.Enviroments = enviroments;
             }
             else
             {
                 var newVersionPageIssueType = new VersionPageIssueType
                 {
-                    Id = issueType.Id,
-                    ProjectId = project.Id,
-                    ApplicationId = application.Id,
-                    VersionId = version.Id,
+                    IssueTypeKey = issueType.IssueTypeKey,
+                    ProjectKey = project.ProjectKey,
+                    ApplicationKey = application.ApplicationKey,
+                    VersionKey = version.VersionKey,
                     Enviroments = enviroments,
-                    Issues = issueCount,
-                    LastIssue = lastIssue,
+                    IssueCount = issueCount,
+                    LastIssueServerTime = lastIssueServerTime,
                     Level = issueType.Level,
                     Message = issueType.Message,
                     Ticket = issueType.Ticket,
@@ -341,19 +341,19 @@ namespace Quilt4.Service.SqlRepository
 
         private static void AddUpdateIssueTypePageIssueType(Quilt4DataContext context, IssueType issueType, Version version, Application application, Project project)
         {
-            var issueTypePageIssueType = context.IssueTypePageIssueTypes.SingleOrDefault(x => x.Id == issueType.Id);
+            var issueTypePageIssueType = context.IssueTypePageIssueTypes.SingleOrDefault(x => x.IssueTypeKey == issueType.IssueTypeKey);
 
             if (issueTypePageIssueType == null)
             {
                 var newIssueTypePageIssueType = new IssueTypePageIssueType
                 {
-                    Id = issueType.Id,
-                    ProjectId = project.Id,
-                    ApplicationId = application.Id,
-                    VersionId = version.Id,
+                    IssueTypeKey = issueType.IssueTypeKey,
+                    ProjectKey = project.ProjectKey,
+                    ApplicationKey = application.ApplicationKey,
+                    VersionKey = version.VersionKey,
                     ProjectName = project.Name,
                     ApplicationName = application.Name,
-                    Version = version.Version1,
+                    VersionName = version.VersionName,
                     Level = issueType.Level,
                     Message = issueType.Message,
                     StackTrace = issueType.StackTrace,
@@ -371,15 +371,14 @@ namespace Quilt4.Service.SqlRepository
 
             var issueTypePageIssue = new IssueTypePageIssue
             {
-                Id = issue.IssueKey,
-                ProjectId = project.Id, 
-                ApplicationId = application.Id,
-                VersionId = version.Id,
-                IssueTypeId = issueType.Id,
+                ProjectKey = project.ProjectKey,
+                ApplicationKey = application.ApplicationKey,
+                VersionKey = version.VersionKey,
+                IssueTypeKey = issueType.IssueTypeKey,
                 Data = dataDictionary,
                 Enviroment = session.Enviroment,
-                IssueUser = session.UserData.UserName,
-                Time = issue.ClientTime
+                ApplicationUserName = session.ApplicationUser.UserName,
+                LastUpdateServerTime = issue.CreationServerTime,                
             };
 
             context.IssueTypePageIssues.InsertOnSubmit(issueTypePageIssue);

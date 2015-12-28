@@ -20,7 +20,7 @@ namespace Quilt4.Service.Converters
 
             return new DashboardPageProjectResponse
             {
-                Id = item.Id.ToString(),
+                Id = item.ProjectKey.ToString(),
                 Name = item.Name,
                 Versions = item.Versions,
                 Sessions = item.Sessions,

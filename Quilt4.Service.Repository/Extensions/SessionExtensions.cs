@@ -10,11 +10,11 @@
             return new Entity.Session
             {
                 SessionKey = item.SessionKey,
-                ProjectKey = item.Application.Project.Id,
-                ApplicationKey = item.ApplicationKey,
-                VersionKey = item.VersionKey,
+                ProjectKey = item.Version.Application.Project.ProjectKey,
+                ApplicationKey = item.Version.Application.ApplicationKey,
+                VersionKey = item.Version.VersionKey,
                 CallerIp = item.CallerIp,
-                ServerEndTime = item.ServerEndTime,
+                ServerEndTime = item.EndServerTime,
             };
         }
     }

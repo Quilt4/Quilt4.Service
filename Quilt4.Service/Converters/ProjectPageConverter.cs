@@ -14,10 +14,10 @@ namespace Quilt4.Service.Converters
 
             return new ProjectPageProjectResponse
             {
-                Id = item.Id.ToString(),
+                Id = item.ProjectKey.ToString(),
                 Name = item.Name,
                 DashboardColor = item.DashboardColor,
-                ClientToken = item.ClientToken,
+                ClientToken = item.ProjectApiKey,
                 Applications = item.Applications.ToProjectPageApplicationResponses().ToArray()
             };
         }

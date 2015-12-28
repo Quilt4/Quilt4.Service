@@ -4,7 +4,7 @@ namespace Quilt4.Service.Entity
 {
     public class DashboardPageProject
     {
-        public Guid Id { get; set; }
+        public Guid ProjectKey { get; set; }
         public string Name { get; set; }
         public int Versions { get; set; }
         public int Sessions { get; set; }

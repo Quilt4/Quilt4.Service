@@ -25,34 +25,53 @@ namespace Quilt4.Service.Business
 
             var serverTime = DateTime.UtcNow;
             var projectKey = _repository.GetProjectKey(request.ProjectApiKey);
+            if (projectKey == null)
+            {
+                throw new ArgumentException("There is no project with provided projectApiKey.");
+            }
 
             // Add/Update Application
-            var applicaitonKey = _repository.SaveApplication(projectKey, request.Application.Name);
+            var applicationKey = _repository.GetApplicationKey(projectKey.Value, request.Application.Name);
+            if (applicationKey == null)
+            {
+                applicationKey = Guid.NewGuid();
+                _repository.SaveApplication(applicationKey.Value, projectKey.Value, request.Application.Name, serverTime);
+            }
 
             // Add/Update Version            
-            var versionKey = _repository.GetVersionKey(applicaitonKey, request.Application.Version, request.Application.BuildTime);
+            var versionKey = _repository.GetVersionKey(applicationKey.Value, request.Application.Version, request.Application.BuildTime);
             if (versionKey == null)
             {
                 versionKey = Guid.NewGuid();
-                _repository.SaveVersion(versionKey.Value, applicaitonKey, request.Application.Version, request.Application.BuildTime, ValidationHelper.SetIfEmpty(request.Application.SupportToolkitNameVersion, "Unknown"), serverTime);
+                _repository.SaveVersion(versionKey.Value, applicationKey.Value, request.Application.Version, request.Application.BuildTime, ValidationHelper.SetIfEmpty(request.Application.SupportToolkitNameVersion, "Unknown"), serverTime);
             }
 
             // Add/Update UserData
             Guid? applicationUserKey = null;
             if (request.User != null && !string.IsNullOrEmpty(request.User.Fingerprint))
             {
-                applicationUserKey = _repository.SaveApplicationUser(projectKey, request.User.Fingerprint, request.User.UserName, serverTime);
+                applicationUserKey = _repository.GetApplicationUser(projectKey.Value, request.User.Fingerprint);
+                if (applicationUserKey == null)
+                {
+                    applicationUserKey = Guid.NewGuid();
+                    _repository.SaveApplicationUser(applicationUserKey.Value, projectKey.Value, request.User.Fingerprint, request.User.UserName, serverTime);
+                }
             }
 
             // Add/Update Machine
             Guid? machineKey = null;
             if (request.Machine != null && !string.IsNullOrEmpty(request.Machine.Fingerprint))
             {
-                machineKey = _repository.SaveMachine(projectKey, request.Machine.Fingerprint, request.Machine.Name, request.Machine.Data);
+                machineKey = _repository.GetMachineKey(projectKey.Value, request.Machine.Fingerprint);
+                if (machineKey == null)
+                {
+                    machineKey = Guid.NewGuid();
+                    _repository.SaveMachine(machineKey.Value, projectKey.Value, request.Machine.Fingerprint, request.Machine.Name, request.Machine.Data, serverTime);
+                }
             }
 
             // Add/Update Session
-            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, applicaitonKey, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
+            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, applicationKey.Value, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
             WriteBusiness.RunRecalculate();
 

@@ -12,10 +12,10 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.ProjectPageProject
             {
-                Id = item.Id,
+                ProjectKey = item.ProjectKey,
                 Name = item.Name,
                 DashboardColor = item.DashboardColor,
-                ClientToken = item.ClientToken,
+                ProjectApiKey = item.ProjectApiKey,
                 Applications = projectPageApplicaitons.ToProjectPageApplications().ToArray()
             };
         }
@@ -33,9 +33,9 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.ProjectPageApplication
             {
-                Id = item.Id,
+                Id = item.ApplicationKey,
                 Name = item.Name,
-                Versions = item.Versions
+                Versions = item.VersionCount
             };
         }
 
@@ -49,14 +49,14 @@ namespace Quilt4.Service.SqlRepository.Extensions
         {
             return new Entity.ProjectPageVersion
             {
-                Id = item.Id,
-                ProjectId = item.ProjectId,
-                ApplicationId = item.ApplicationId,
-                Version = item.Version,
-                Sessions = item.Sessions,
-                IssueTypes = item.IssueTypes,
-                Issues = item.Issues,
-                Last = item.Last,
+                Id = item.VersionKey,
+                ProjectId = item.ProjectKey,
+                ApplicationId = item.ApplicationKey,
+                Version = item.VersionName,
+                Sessions = item.SessionCount,
+                IssueTypes = item.IssueTypeCount,
+                Issues = item.IssueCount,
+                Last = item.LastUpdateServerTime,
                 Enviroments = item.Enviroments.Split(';')
             };
         }

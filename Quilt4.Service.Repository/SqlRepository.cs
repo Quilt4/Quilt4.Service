@@ -17,7 +17,7 @@ namespace Quilt4.Service.SqlRepository
                 var dbUser = context.Users.SingleOrDefault(x => x.UserName == user.Username);
                 if (dbUser == null)
                 {
-                    dbUser = new User { CreateTime = DateTime.UtcNow, UserKey = user.UserKey, EmailConfirmed = false };
+                    dbUser = new User { CreateServerTime = DateTime.UtcNow, UserKey = user.UserKey, EmailConfirmed = false };
                     context.Users.InsertOnSubmit(dbUser);
                 }
 
@@ -42,7 +42,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.Single(x => x.Id == projectKey);
+                var project = context.Projects.Single(x => x.ProjectKey == projectKey);
                 context.Projects.DeleteOnSubmit(project);
                 context.SubmitChanges();
 
@@ -58,7 +58,7 @@ namespace Quilt4.Service.SqlRepository
 
                 using (var scope = new TransactionScope())
                 {
-                    var project = context.Projects.Single(x => x.Id == projectKey);
+                    var project = context.Projects.Single(x => x.ProjectKey == projectKey);
 
                     project.LastTicket++;
                     ticket = project.LastTicket;
@@ -70,76 +70,62 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid GetProjectKey(string projectApiKey)
+        public Guid? GetProjectKey(string projectApiKey)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.SingleOrDefault(x => x.ClientToken == projectApiKey);
-
-                if (project == null)
-                {
-                    throw new ArgumentException("There is no project with provided projectApiKey.");
-                }
-
-                return project.Id;
+                var project = context.Projects.SingleOrDefault(x => x.ProjectApiKey == projectApiKey);
+                return project?.ProjectKey;
             }
         }
 
-        public Guid SaveApplication(Guid projectKey, string name)
+        public Guid? GetApplicationKey(Guid projectKey, string name)
         {
             using (var context = GetDataContext())
             {
-                var application = context.Applications.SingleOrDefault(x => x.ProjectId == projectKey && x.Name == name);
+                var application = context.Applications.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.Name == name);
+                return application?.ApplicationKey;
+            }
+        }
 
-                if (application != null)
-                {
-                    //Update application?
-                    return application.Id;
-                }
-
+        public void SaveApplication(Guid applicationKey, Guid projectKey, string name, DateTime serverTime)
+        {
+            using (var context = GetDataContext())
+            {
                 var newApplication = new Application
                 {
-                    Id = Guid.NewGuid(),
-                    ProjectId = projectKey,
+                    ApplicationKey = applicationKey,
+                    ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
                     Name = name,
-                    CreationDate = DateTime.UtcNow,
-                    LastUpdateDate = DateTime.UtcNow
+                    CreationServerTime = serverTime,                    
                 };
 
                 context.Applications.InsertOnSubmit(newApplication);
                 context.SubmitChanges();
-
-                return newApplication.Id;
             }
         }
 
         public Guid? GetVersionKey(Guid applicaitonKey, string versionName, DateTime? buildTime)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverCreateTime)
-        {
-            throw new NotImplementedException();
-
             using (var context = GetDataContext())
             {
-                var existingVersion = context.Versions.SingleOrDefault(x => x.ApplicationId == applicaitonKey && x.Version1 == versionName);
+                var version = context.Versions.SingleOrDefault(x => x.Application.ApplicationKey == applicaitonKey && x.VersionName == versionName);
+                return version?.VersionKey;
+            }
+        }
 
-                if (existingVersion != null)
-                {
-                    //Update version?
-                    return;
-                }
-
+        public void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime)
+        {
+            using (var context = GetDataContext())
+            {
                 var newVersion = new Version
                 {
-                    Id = Guid.NewGuid(),
-                    ApplicationId = applicaitonKey,
-                    Version1 = versionName,
+                    VersionKey = versionKey,
+                    ApplicationId = context.Applications.Single(x => x.ApplicationKey == applicaitonKey).ApplicationId,
+                    VersionName = versionName,
                     SupportToolkitVersion = supportToolkitNameVersion,
-                    CreationDate = DateTime.UtcNow,
-                    LastUpdateDate = DateTime.UtcNow
+                    CreationServerDate = serverTime,
+                    BuildTime = buildTime,
                 };
 
                 context.Versions.InsertOnSubmit(newVersion);
@@ -154,11 +140,13 @@ namespace Quilt4.Service.SqlRepository
                 var issueType =
                     context.IssueTypes.SingleOrDefault(
                         x =>
-                            x.VersionId.Equals(versionKey) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
+                            x.Version.VersionKey == versionKey && 
+                            x.Type.Equals(type) && 
+                            x.Level.Equals(issueLevel) &&
                             x.Message.Equals(message) &&
                             (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
 
-                return issueType?.Id;
+                return issueType?.IssueTypeKey;
             }
         }
 
@@ -166,39 +154,24 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                //var issueType =
-                //    context.IssueTypes.SingleOrDefault(
-                //        x =>
-                //        x.VersionId.Equals(versionKey) && x.Type.Equals(type) && x.Level.Equals(issueLevel) &&
-                //        x.Message.Equals(message) &&
-                //        (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
-
-                //if (issueType != null)
-                //{
-                //    //Update issueType?
-                        
-                //    return issueType.Id;
-                //}
+                var itk = GetIssueTypeKey(issueTypeKey, type, issueLevel, message, stackTrace);
+                if (itk != null) throw new InvalidOperationException("A IssueType with this signature already exists.");
 
                 var newIssueType = new IssueType
                 {
-                    Id = issueTypeKey,
-                    VersionId = versionKey,
+                    IssueTypeKey = issueTypeKey,
+                    VersionId = context.Versions.Single(x => x.VersionKey == versionKey).VersionId,
                     Ticket = ticket,
                     Type = type,
                     Level = issueLevel,
                     Message = message,
                     StackTrace = stackTrace,
-                    CreationDate = serverTime,
-                    LastUpdateDate = serverTime
+                    CreationServerDate = serverTime,                    
                 };
 
                 context.IssueTypes.InsertOnSubmit(newIssueType);
                 context.SubmitChanges();
-
-                //return newIssueType.Id;
             }
-            
         }
 
         public void SetSessionEnd(Guid sessionKey, DateTime serverDateTime)
@@ -206,7 +179,7 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var session = context.Sessions.Single(x => x.SessionKey == sessionKey);
-                session.ServerEndTime = serverDateTime;
+                session.EndServerTime = serverDateTime;
                 context.SubmitChanges();
             }
         }
@@ -216,7 +189,7 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var session = context.Sessions.Single(x => x.SessionKey == sessionKey);
-                session.ServerLastUsedTime = serverDateTime;
+                session.LastUsedServerTime = serverDateTime;
                 context.SubmitChanges();
             }
         }
@@ -236,14 +209,14 @@ namespace Quilt4.Service.SqlRepository
                 {
                     SessionKey = sessionKey,
                     CallerIp = callerIp,
-                    ClientStartTime = clientStartTime,
-                    ServerStartTime = serverTime,
-                    ServerEndTime = null,
-                    ApplicationKey = applicaitonKey,
-                    VersionKey = versionKey,
-                    ApplicationUserKey = applicationUserKey,
-                    MachineKey = machineKey,
-                    Enviroment = environment
+                    StartClientTime = clientStartTime,
+                    StartServerTime = serverTime,
+                    LastUsedServerTime = serverTime,
+                    EndServerTime = null,
+                    ApplicationUserId = context.ApplicationUsers.Single(x => x.ApplicationUserKey == applicationUserKey).ApplicationUserId,
+                    MachineId = context.Machines.Single(x => x.MachineKey == machineKey).MachineId,
+                    Enviroment = environment,
+                    VersionId = context.Versions.Single(x => x.VersionKey == versionKey).VersionId,                    
                 };
 
                 context.Sessions.InsertOnSubmit(newSession);
@@ -251,128 +224,129 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveApplicationUser(Guid projectKey, string fingerprint, string userName, DateTime updateTime)
+        public Guid? GetApplicationUser(Guid projectKey, string fingerprint)
         {
-            //TODO: Save the application user per project. The fingerprint should be unique per project.
-
             using (var context = GetDataContext())
             {
-                var userData = context.UserDatas.SingleOrDefault(x => x.Fingerprint == fingerprint);
+                var userData = context.ApplicationUsers.SingleOrDefault(x => x.Fingerprint == fingerprint && x.Project.ProjectKey == projectKey);
+                return userData?.ApplicationUserKey;
+            }
+        }
 
-                if (userData != null)
+        public void SaveApplicationUser(Guid applicationUserKey, Guid projectKey, string fingerprint, string userName, DateTime serverTime)
+        {
+            using (var context = GetDataContext())
+            {
+                var applicationUser = new ApplicationUser
                 {
-                    if (userData.UserName == userName)
-                        return userData.Id;
-
-                    userData.UserName = userName;
-                    userData.LastUpdateDate = updateTime;
-                    context.SubmitChanges();
-                    
-                    return userData.Id;
-                }
-
-                var newUserData = new UserData
-                {
-                    Id = Guid.NewGuid(),
+                    ApplicationUserKey = applicationUserKey,
+                    ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
                     Fingerprint = fingerprint,
                     UserName = userName,
-                    CreationDate = DateTime.UtcNow,
-                    LastUpdateDate = DateTime.UtcNow
+                    CreationServerTime = serverTime,                    
                 };
 
-                context.UserDatas.InsertOnSubmit(newUserData);
+                context.ApplicationUsers.InsertOnSubmit(applicationUser);
                 context.SubmitChanges();
-                
-                return newUserData.Id;
+            }
+        }
+
+        public Guid? GetMachineKey(Guid projectKey, string fingerprint)
+        {
+            using (var context = GetDataContext())
+            {
+                var machine = context.Machines.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.Fingerprint == fingerprint);
+                return machine?.MachineKey;
             }
         }
 
         //TODO: Make this method a bit more clean
-        public Guid SaveMachine(Guid projectKey, string fingerprint, string name, IDictionary<string, string> data)
+        public void SaveMachine(Guid machineKey, Guid projectKey, string fingerprint, string name, IDictionary<string, string> data, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
-                var machine = context.Machines.SingleOrDefault(x => x.Fingerprint == fingerprint);
+                //    var machine = context.Machines.SingleOrDefault(x => x.Fingerprint == fingerprint);
 
-                if (machine != null)
-                {
-                    var needToSubmitChanges = false;
+                //    if (machine != null)
+                //    {
+                //        var needToSubmitChanges = false;
 
-                    if (machine.Name != name)
-                    {
-                        machine.Name = name;
-                        machine.LastUpdateDate = DateTime.UtcNow;
-                        needToSubmitChanges = true;
-                    }
+                //        if (machine.Name != name)
+                //        {
+                //            machine.Name = name;
+                //            machine.LastUpdateDate = DateTime.UtcNow;
+                //            needToSubmitChanges = true;
+                //        }
 
-                    //To improve performance ?
-                    var machineDatas = machine.MachineDatas.ToArray();
+                //        //To improve performance ?
+                //        var machineDatas = machine.MachineDatas.ToArray();
 
-                    if (data != null)
-                    {
-                        //Add missing and update existing machineDatas
-                        foreach (var d in data)
-                        {
-                            var match = machineDatas.SingleOrDefault(x => x.Name == d.Key);
+                //        if (data != null)
+                //        {
+                //            //Add missing and update existing machineDatas
+                //            foreach (var d in data)
+                //            {
+                //                var match = machineDatas.SingleOrDefault(x => x.Name == d.Key);
 
-                            if (match == null)
-                            {
-                                var newMachineData = new MachineData
-                                {
-                                    Id = Guid.NewGuid(),
-                                    MachineId = machine.Id,
-                                    CreationDate = DateTime.UtcNow,
-                                    LastUpdateDate = DateTime.UtcNow,
-                                    Name = d.Key,
-                                    Value = d.Value
-                                };
+                //                if (match == null)
+                //                {
+                //                    var newMachineData = new MachineData
+                //                    {
+                //                        Id = Guid.NewGuid(),
+                //                        MachineId = machine.Id,
+                //                        CreationDate = DateTime.UtcNow,
+                //                        LastUpdateDate = DateTime.UtcNow,
+                //                        Name = d.Key,
+                //                        Value = d.Value
+                //                    };
 
-                                context.MachineDatas.InsertOnSubmit(newMachineData);
+                //                    context.MachineDatas.InsertOnSubmit(newMachineData);
 
-                                needToSubmitChanges = true;
+                //                    needToSubmitChanges = true;
 
-                                continue;
-                            }
+                //                    continue;
+                //                }
 
-                            if (match.Value != d.Value)
-                            {
-                                match.Value = d.Value;
-                                match.LastUpdateDate = DateTime.UtcNow;
+                //                if (match.Value != d.Value)
+                //                {
+                //                    match.Value = d.Value;
+                //                    match.LastUpdateDate = DateTime.UtcNow;
 
-                                needToSubmitChanges = true;
-                            }
-                        }
-                    }
+                //                    needToSubmitChanges = true;
+                //                }
+                //            }
+                //        }
 
-                    //Remove old machineDatas
-                    foreach (var machineData in machineDatas)
-                    {
-                        var match = data.SingleOrDefault(x => x.Key == machineData.Name);
+                //        //Remove old machineDatas
+                //        foreach (var machineData in machineDatas)
+                //        {
+                //            var match = data.SingleOrDefault(x => x.Key == machineData.Name);
 
-                        if (match.Equals(new KeyValuePair<string, string>()))
-                        {
-                            context.MachineDatas.DeleteOnSubmit(machineData);
-                            needToSubmitChanges = true;
-                        }
-                    }
+                //            if (match.Equals(new KeyValuePair<string, string>()))
+                //            {
+                //                context.MachineDatas.DeleteOnSubmit(machineData);
+                //                needToSubmitChanges = true;
+                //            }
+                //        }
 
 
-                    if (needToSubmitChanges)
-                        context.SubmitChanges();
+                //        if (needToSubmitChanges)
+                //            context.SubmitChanges();
 
-                    return machine.Id;
-                }
+                //        return machine.Id;
+                //    }
 
                 var newMachine = new Machine
                 {
-                    Id = Guid.NewGuid(),
+                    MachineKey = machineKey,
                     Fingerprint = fingerprint,
                     Name = name,
-                    CreationDate = DateTime.UtcNow,
-                    LastUpdateDate = DateTime.UtcNow
+                    CreationServerTime = serverTime,
+                    ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
                 };
 
                 context.Machines.InsertOnSubmit(newMachine);
+                context.SubmitChanges();
 
                 if (data != null)
                 {
@@ -380,22 +354,17 @@ namespace Quilt4.Service.SqlRepository
                     {
                         var machineData = new MachineData
                         {
-                            Id = Guid.NewGuid(),
-                            MachineId = newMachine.Id,
-                            CreationDate = DateTime.UtcNow,
-                            LastUpdateDate = DateTime.UtcNow,
+                            MachineId = newMachine.MachineId,                            
                             Name = d.Key,
-                            Value = d.Value
+                            Value = d.Value,
+                            CreationServerTime = serverTime,                            
                         };
 
                         context.MachineDatas.InsertOnSubmit(machineData);
                     }
                 }
 
-
                 context.SubmitChanges();
-
-                return newMachine.Id;
             }
         }
 
@@ -403,17 +372,17 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var machine = context.Machines.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).MachineKey == x.Id);
-                var userData = context.UserDatas.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).ApplicationUserKey == x.Id);
+                //var machine = context.Machines.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).MachineId == x.MachineId);
+                //var applicationUser = context.ApplicationUsers.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).ApplicationUserId == x.ApplicationUserId);
 
                 var issue = new Issue
                 {
                     IssueKey = issueKey,
-                    IssueTypeKey = issueTypeKey,
-                    ClientTime = clientTime,
-                    ServerTime = serverTime,
-                    SessionKey = sessionKey,
-                    MachineKey = machine.Id, //TODO: Allow the machineId to be null.
+                    IssueTypeId = context.IssueTypes.Single(x => x.IssueTypeKey == issueTypeKey).IssueTypeId,
+                    CreationClientTime = clientTime,
+                    CreationServerTime = serverTime,
+                    SessionId = context.Sessions.Single(x => x.SessionKey == sessionKey).SessionId,
+                    //MachineKey = machine.Id, //TODO: Allow the machineId to be null.
                     //UserDataKey = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
                 };
 
@@ -425,10 +394,9 @@ namespace Quilt4.Service.SqlRepository
                     {
                         var issueData = new IssueData
                         {
-                            Id = Guid.NewGuid(),
-                            IssueId = issueKey,
+                            IssueId = issue.IssueId,
                             Name = d.Key,
-                            Value = d.Value
+                            Value = d.Value,                                                  
                         };
 
                         context.IssueDatas.InsertOnSubmit(issueData);
@@ -456,26 +424,25 @@ namespace Quilt4.Service.SqlRepository
 
                 var project = new Project
                 {
-                    Id = projectKey,
+                    ProjectKey = projectKey,
                     Name = name,
                     DashboardColor = dashboardColor,
-                    CreationDate = createTime,
-                    LastUpdateDate = createTime,
-                    ClientToken = projectApiKey,
+                    CreationServerTime = createTime,
+                    ProjectApiKey = projectApiKey,
                     OwnerUserId = user.UserId,
-                    LastTicket = 0,
+                    LastTicket = 0,                    
                 };
 
                 context.Projects.InsertOnSubmit(project);
+                context.SubmitChanges();
 
                 var projectUser = new ProjectUser
                 {
-                    ProjectId = projectKey,
+                    ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
                     UserId = user.UserId
                 };
 
                 context.ProjectUsers.InsertOnSubmit(projectUser);
-
                 context.SubmitChanges();
             }
         }
@@ -484,19 +451,19 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-
                 var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
+                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.ProjectId == projectKey && x.UserId == user.UserId);
-
+                //TODO: This check should be in the business layer
                 if (projectUser == null)
+                {
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
+                }
 
-                var project = context.Projects.Single(x => x.Id == projectKey);
+                var project = context.Projects.Single(x => x.ProjectKey == projectKey);
 
                 project.Name = name;
                 project.DashboardColor = dashboardColor;
-                project.LastUpdateDate = updateTime;
 
                 context.SubmitChanges();
             }
@@ -507,7 +474,7 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var projectPageApplicaitons = context.Projects.Where(x => x.User.UserName == userId);
-                return projectPageApplicaitons.Select(x => new Entity.ProjectPageProject { Name = x.Name, DashboardColor = x.DashboardColor, Id = x.Id, ClientToken = x.ClientToken }).ToArray();
+                return projectPageApplicaitons.Select(x => new Entity.ProjectPageProject { Name = x.Name, DashboardColor = x.DashboardColor, ProjectKey = x.ProjectKey, ProjectApiKey = x.ProjectApiKey }).ToArray();
             }
         }
 

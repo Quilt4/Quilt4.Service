@@ -4,8 +4,8 @@ namespace Quilt4.Service.Interface.Repository
 {
     public interface IWriteRepository
     {
-        void UpdateDashboardPageProject(Guid projectId);
-        void UpdateProjectPageProject(Guid projectId);
+        void UpdateDashboardPageProject(Guid projectKey);
+        void UpdateProjectPageProject(Guid projectKey);
         void WriteToReadDb();
     }
 }

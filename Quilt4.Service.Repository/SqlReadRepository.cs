@@ -11,29 +11,29 @@ namespace Quilt4.Service.SqlRepository
     public class SqlReadRepository : IReadRepository
     {
 
-        public Entity.ProjectPageProject GetProject(string userName, Guid projectId)
+        public Entity.ProjectPageProject GetProject(string userName, Guid projectKey)
         {
             using (var context = GetDataContext())
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
 
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.ProjectId == projectId && x.UserId == user.UserId);
+                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
                 if (projectUser == null)
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
-                var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectId == projectId);
+                var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectKey == projectKey);
 
-                return context.ProjectPageProjects.SingleOrDefault(x => x.Id == projectId).ToProjectPageProject(projectPageApplicaitons);
+                return context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject(projectPageApplicaitons);
             }
         }
 
-        public Entity.ProjectPageProject GetProject(Guid projectId)
+        public Entity.ProjectPageProject GetProject(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectId == projectId);
-                return context.ProjectPageProjects.SingleOrDefault(x => x.Id == projectId).ToProjectPageProject(projectPageApplicaitons);
+                var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectKey == projectKey);
+                return context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject(projectPageApplicaitons);
             }
         }
 
@@ -44,43 +44,43 @@ namespace Quilt4.Service.SqlRepository
             return new Quilt4DataContext(connectionString);
         }
 
-        public IEnumerable<Entity.ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId)
+        public IEnumerable<Entity.ProjectPageVersion> GetVersions(string userId, Guid projectKey, Guid applicationKey)
         {
             using (var context = GetDataContext())
             {
-                return context.ProjectPageVersions.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId).ToProjectPageVersions().ToArray();
+                return context.ProjectPageVersions.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey).ToProjectPageVersions().ToArray();
             }
         }
 
-        public Entity.VersionPageVersion GetVersion(string userName, Guid projectId, Guid applicationId, Guid versionId)
+        public Entity.VersionPageVersion GetVersion(string userName, Guid projectKey, Guid applicationKey, Guid versionKey)
         {
             using (var context = GetDataContext())
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.ProjectId == projectId && x.UserId == user.UserId);
+                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
                 if (projectUser == null)
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
-                var versionPageIssueTypes = context.VersionPageIssueTypes.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId);
-                return context.VersionPageVersions.SingleOrDefault(x => x.Id == versionId && x.ProjectId == projectId && x.ApplicaitonId == applicationId).ToVersionPageVersion(versionPageIssueTypes);
+                var versionPageIssueTypes = context.VersionPageIssueTypes.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey);
+                return context.VersionPageVersions.SingleOrDefault(x => x.VersionKey == versionKey && x.ProjectKey == projectKey && x.ApplicationKey == applicationKey).ToVersionPageVersion(versionPageIssueTypes);
             }
         }
 
-        public Entity.IssueTypePageIssueType GetIssueType(string userName, Guid projectId, Guid applicationId,
-            Guid versionId, Guid issueTypeId)
+        public Entity.IssueTypePageIssueType GetIssueType(string userName, Guid projectKey, Guid applicationKey,
+            Guid versionKey, Guid issueTypeKey)
         {
             using (var context = GetDataContext())
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
 
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.ProjectId == projectId && x.UserId == user.UserId);
+                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
                 if (projectUser == null)
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
-                var issueTypePageIssues = context.IssueTypePageIssues.Where(x => x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId && x.IssueTypeId == issueTypeId);
-                return context.IssueTypePageIssueTypes.SingleOrDefault(x => x.Id == issueTypeId && x.ProjectId == projectId && x.ApplicationId == applicationId && x.VersionId == versionId).ToIssueTypePageIssueType(issueTypePageIssues);
+                var issueTypePageIssues = context.IssueTypePageIssues.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey && x.IssueTypeKey == issueTypeKey);
+                return context.IssueTypePageIssueTypes.SingleOrDefault(x => x.IssueTypeKey == issueTypeKey && x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey).ToIssueTypePageIssueType(issueTypePageIssues);
             }
         }
 
@@ -89,8 +89,8 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
-                var projectsIds = context.ProjectUsers.Where(x => x.UserId == user.UserId).Select(x => x.ProjectId);
-                return context.DashboardPageProjects.Where(x => projectsIds.Contains(x.Id)).ToDashboardProjects().ToArray();
+                var projectKeys = context.ProjectUsers.Where(x => x.UserId == user.UserId).Select(x => x.Project.ProjectKey);
+                return context.DashboardPageProjects.Where(x => projectKeys.Contains(x.ProjectKey)).ToDashboardProjects().ToArray();
             }
         }
     }

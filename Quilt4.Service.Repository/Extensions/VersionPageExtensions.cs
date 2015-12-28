@@ -13,10 +13,10 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.VersionPageVersion
             {
-                Id = item.Id,
-                ProjectId = item.ProjectId,
-                ApplicationId = item.ApplicaitonId,
-                Version = item.Version,
+                Id = item.VersionKey,
+                ProjectId = item.ProjectKey,
+                ApplicationId = item.ApplicationKey,
+                Version = item.VersionName,
                 ProjectName = item.ProjectName,
                 ApplicationName = item.ApplicationName,
                 IssueTypes = versionPageIssueTypes.ToVersionPageIssueTypes().ToArray()
@@ -36,12 +36,12 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.VersionPageIssueType
             {
-                Id = item.Id,
+                Id = item.IssueTypeKey,
                 Ticket = item.Ticket,
                 Type = item.Type,
-                Issues = item.Issues,
+                Issues = item.IssueCount,
                 Level = item.Level,
-                LastIssue = item.LastIssue,
+                LastIssue = item.LastIssueServerTime,
                 Enviroments = item.Enviroments.Split(';'),
                 Message = item.Message
             };

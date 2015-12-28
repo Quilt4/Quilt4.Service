@@ -5,10 +5,10 @@ namespace Quilt4.Service.Entity
 {
     public class ProjectPageProject
     {
-        public Guid Id { get; set; }
+        public Guid ProjectKey { get; set; }
         public string Name { get; set; }
         public string DashboardColor { get; set; }
-        public string ClientToken { get; set; }
+        public string ProjectApiKey { get; set; }
         public IEnumerable<ProjectPageApplication> Applications { get; set; }
     }
 }

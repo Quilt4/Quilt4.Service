@@ -14,13 +14,13 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.IssueTypePageIssueType
             {
-                Id = item.Id,
-                ProjectId = item.ProjectId,
-                ApplicationId = item.ApplicationId,
-                VersionId = item.VersionId,
+                Id = item.IssueTypeKey,
+                ProjectId = item.ProjectKey,
+                ApplicationId = item.ApplicationKey,
+                VersionId = item.VersionKey,
                 ProjectName = item.ProjectName,
                 ApplicationName = item.ApplicationName,
-                Version = item.Version,
+                Version = item.VersionName,
                 Ticket = item.Ticket,
                 Type = item.Type,
                 Level = item.Level,
@@ -43,9 +43,9 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.IssueTypePageIssue
             {
-                Id = item.Id,
-                Time = item.Time,
-                User = item.IssueUser,
+                Id = item.IssueTypeKey,
+                Time = item.LastUpdateServerTime,
+                User = item.ApplicationUserName,
                 Enviroment = item.Enviroment,
                 Data = JsonConvert.DeserializeObject<IDictionary<string, string>>(item.Data)
             };

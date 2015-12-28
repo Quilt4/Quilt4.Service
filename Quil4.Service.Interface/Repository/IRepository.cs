@@ -11,7 +11,7 @@ namespace Quilt4.Service.Interface.Repository
         User GetUser(string userName);
 
         //Project
-        Guid GetProjectKey(string projectApiKey);
+        Guid? GetProjectKey(string projectApiKey);
         ProjectPageProject[] GetProjects(string userName);
         void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
         void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime, string userName);
@@ -24,15 +24,18 @@ namespace Quilt4.Service.Interface.Repository
         void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime);
 
         //Application/Version
-        Guid SaveApplication(Guid projectKey, string name);
+        Guid? GetApplicationKey(Guid projectKey, string name);
+        void SaveApplication(Guid applicationKey, Guid projectKey, string name, DateTime serverTime);
         Guid? GetVersionKey(Guid applicaitonKey, string versionName, DateTime? buildTime);
-        void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverCreateTime);
+        void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime);
 
         //ApplicationUser
-        Guid SaveApplicationUser(Guid projectKey, string fingerprint, string userName, DateTime updateTime);
+        Guid? GetApplicationUser(Guid projectKey, string fingerprint);
+        void SaveApplicationUser(Guid applicationUserKey, Guid projectKey, string fingerprint, string userName, DateTime serverTime);
 
         //Machine
-        Guid SaveMachine(Guid projectKey, string fingerprint, string name, IDictionary<string, string> data);
+        Guid? GetMachineKey(Guid projectKey, string fingerprint);
+        void SaveMachine(Guid machineKey, Guid projectKey, string fingerprint, string name, IDictionary<string, string> data, DateTime serverTime);
 
         //Issue
         Guid? GetIssueTypeKey(Guid versionKey, string type, string issueLevel, string message, string stackTrace);

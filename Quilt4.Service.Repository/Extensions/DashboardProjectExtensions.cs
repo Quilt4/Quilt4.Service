@@ -18,12 +18,12 @@ namespace Quilt4.Service.SqlRepository.Extensions
 
             return new Entity.DashboardPageProject
             {
-                Id = item.Id,
+                ProjectKey = item.ProjectKey,
                 Name = item.Name,
-                Versions = item.Versions,
-                Sessions = item.Sessions,
-                IssueTypes = item.IssueTypes,
-                Issues = item.Issues,
+                Versions = item.VersionCount,
+                Sessions = item.SessionCount,
+                IssueTypes = item.IssueTypeCount,
+                Issues = item.IssueCount,
                 DashboardColor = item.DashboardColor
             };
         }

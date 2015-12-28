@@ -13,8 +13,8 @@ namespace Quilt4.Service.Converters
             {
                 Name = x.Name,
                 DashboardColor = x.DashboardColor,
-                ProjectApiKey = x.ClientToken,
-                ProjectKey = x.Id
+                ProjectApiKey = x.ProjectApiKey,
+                ProjectKey = x.ProjectKey
             };
         }
 

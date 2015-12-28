@@ -528,7 +528,7 @@ namespace Quilt4.Service.SqlRepository
 		
 		private string _ApplicationName;
 		
-		private string _VersionName;
+		private string _VersionNumber;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -546,8 +546,8 @@ namespace Quilt4.Service.SqlRepository
     partial void OnProjectNameChanged();
     partial void OnApplicationNameChanging(string value);
     partial void OnApplicationNameChanged();
-    partial void OnVersionNameChanging(string value);
-    partial void OnVersionNameChanged();
+    partial void OnVersionNumberChanging(string value);
+    partial void OnVersionNumberChanged();
     #endregion
 		
 		public VersionPageVersion()
@@ -675,22 +675,22 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionName", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
-		public string VersionName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionNumber", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string VersionNumber
 		{
 			get
 			{
-				return this._VersionName;
+				return this._VersionNumber;
 			}
 			set
 			{
-				if ((this._VersionName != value))
+				if ((this._VersionNumber != value))
 				{
-					this.OnVersionNameChanging(value);
+					this.OnVersionNumberChanging(value);
 					this.SendPropertyChanging();
-					this._VersionName = value;
-					this.SendPropertyChanged("VersionName");
-					this.OnVersionNameChanged();
+					this._VersionNumber = value;
+					this.SendPropertyChanged("VersionNumber");
+					this.OnVersionNumberChanged();
 				}
 			}
 		}
@@ -3537,7 +3537,7 @@ namespace Quilt4.Service.SqlRepository
 		
 		private int _ApplicationId;
 		
-		private string _VersionName;
+		private string _VersionNumber;
 		
 		private System.Nullable<System.DateTime> _BuildTime;
 		
@@ -3561,8 +3561,8 @@ namespace Quilt4.Service.SqlRepository
     partial void OnVersionKeyChanged();
     partial void OnApplicationIdChanging(int value);
     partial void OnApplicationIdChanged();
-    partial void OnVersionNameChanging(string value);
-    partial void OnVersionNameChanged();
+    partial void OnVersionNumberChanging(string value);
+    partial void OnVersionNumberChanged();
     partial void OnBuildTimeChanging(System.Nullable<System.DateTime> value);
     partial void OnBuildTimeChanged();
     partial void OnSupportToolkitVersionChanging(string value);
@@ -3643,22 +3643,22 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionName", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
-		public string VersionName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionNumber", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string VersionNumber
 		{
 			get
 			{
-				return this._VersionName;
+				return this._VersionNumber;
 			}
 			set
 			{
-				if ((this._VersionName != value))
+				if ((this._VersionNumber != value))
 				{
-					this.OnVersionNameChanging(value);
+					this.OnVersionNumberChanging(value);
 					this.SendPropertyChanging();
-					this._VersionName = value;
-					this.SendPropertyChanged("VersionName");
-					this.OnVersionNameChanged();
+					this._VersionNumber = value;
+					this.SendPropertyChanged("VersionNumber");
+					this.OnVersionNumberChanged();
 				}
 			}
 		}
@@ -4332,7 +4332,7 @@ namespace Quilt4.Service.SqlRepository
 		
 		private string _ApplicationName;
 		
-		private string _VersionName;
+		private string _VersionNumber;
 		
 		private int _Ticket;
 		
@@ -4362,8 +4362,8 @@ namespace Quilt4.Service.SqlRepository
     partial void OnProjectNameChanged();
     partial void OnApplicationNameChanging(string value);
     partial void OnApplicationNameChanged();
-    partial void OnVersionNameChanging(string value);
-    partial void OnVersionNameChanged();
+    partial void OnVersionNumberChanging(string value);
+    partial void OnVersionNumberChanged();
     partial void OnTicketChanging(int value);
     partial void OnTicketChanged();
     partial void OnTypeChanging(string value);
@@ -4521,22 +4521,22 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionName", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
-		public string VersionName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionNumber", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string VersionNumber
 		{
 			get
 			{
-				return this._VersionName;
+				return this._VersionNumber;
 			}
 			set
 			{
-				if ((this._VersionName != value))
+				if ((this._VersionNumber != value))
 				{
-					this.OnVersionNameChanging(value);
+					this.OnVersionNumberChanging(value);
 					this.SendPropertyChanging();
-					this._VersionName = value;
-					this.SendPropertyChanged("VersionName");
-					this.OnVersionNameChanged();
+					this._VersionNumber = value;
+					this.SendPropertyChanged("VersionNumber");
+					this.OnVersionNumberChanged();
 				}
 			}
 		}
@@ -4992,7 +4992,7 @@ namespace Quilt4.Service.SqlRepository
 		
 		private System.Guid _VersionKey;
 		
-		private string _VersionName;
+		private string _VersionNumber;
 		
 		private int _SessionCount;
 		
@@ -5016,8 +5016,8 @@ namespace Quilt4.Service.SqlRepository
     partial void OnApplicationKeyChanged();
     partial void OnVersionKeyChanging(System.Guid value);
     partial void OnVersionKeyChanged();
-    partial void OnVersionNameChanging(string value);
-    partial void OnVersionNameChanged();
+    partial void OnVersionNumberChanging(string value);
+    partial void OnVersionNumberChanged();
     partial void OnSessionCountChanging(int value);
     partial void OnSessionCountChanged();
     partial void OnIssueTypeCountChanging(int value);
@@ -5115,22 +5115,22 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionName", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
-		public string VersionName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VersionNumber", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string VersionNumber
 		{
 			get
 			{
-				return this._VersionName;
+				return this._VersionNumber;
 			}
 			set
 			{
-				if ((this._VersionName != value))
+				if ((this._VersionNumber != value))
 				{
-					this.OnVersionNameChanging(value);
+					this.OnVersionNumberChanging(value);
 					this.SendPropertyChanging();
-					this._VersionName = value;
-					this.SendPropertyChanged("VersionName");
-					this.OnVersionNameChanged();
+					this._VersionNumber = value;
+					this.SendPropertyChanged("VersionNumber");
+					this.OnVersionNumberChanged();
 				}
 			}
 		}

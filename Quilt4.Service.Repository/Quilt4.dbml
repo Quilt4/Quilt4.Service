@@ -19,7 +19,7 @@
       <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ProjectName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationName" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
-      <Column Name="VersionName" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.ApplicationUser" Member="ApplicationUsers">
@@ -157,7 +157,7 @@
       <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="VersionName" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="BuildTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="SupportToolkitVersion" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
       <Column Name="CreationServerDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -200,7 +200,7 @@
       <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ProjectName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationName" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
-      <Column Name="VersionName" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Type" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
       <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
@@ -232,7 +232,7 @@
       <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionName" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="SessionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IssueTypeCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IssueCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />

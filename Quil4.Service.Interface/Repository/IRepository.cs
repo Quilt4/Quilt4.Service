@@ -26,8 +26,8 @@ namespace Quilt4.Service.Interface.Repository
         //Application/Version
         Guid? GetApplicationKey(Guid projectKey, string name);
         void SaveApplication(Guid applicationKey, Guid projectKey, string name, DateTime serverTime);
-        Guid? GetVersionKey(Guid applicaitonKey, string versionName, DateTime? buildTime);
-        void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime);
+        Guid? GetVersionKey(Guid applicaitonKey, string versionNumber, DateTime? buildTime);
+        void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionNumber, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime);
 
         //ApplicationUser
         Guid? GetApplicationUser(Guid projectKey, string fingerprint);

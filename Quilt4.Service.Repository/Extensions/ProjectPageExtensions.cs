@@ -52,7 +52,7 @@ namespace Quilt4.Service.SqlRepository.Extensions
                 Id = item.VersionKey,
                 ProjectId = item.ProjectKey,
                 ApplicationId = item.ApplicationKey,
-                Version = item.VersionName,
+                Version = item.VersionNumber,
                 Sessions = item.SessionCount,
                 IssueTypes = item.IssueTypeCount,
                 Issues = item.IssueCount,

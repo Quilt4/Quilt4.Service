@@ -66,11 +66,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Quilt4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.38\lib\net45\Quilt4Net.dll</HintPath>
+      <HintPath>..\packages\Quilt4Net.2.0.0.39\lib\net45\Quilt4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quilt4Net.Core, Version=2.0.0.38, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.38\lib\net45\Quilt4Net.Core.dll</HintPath>
+    <Reference Include="Quilt4Net.Core, Version=2.0.0.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quilt4Net.2.0.0.39\lib\net45\Quilt4Net.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -228,7 +228,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Client\ClientServiceLogController.cs" />
     <Compile Include="Converters\DataTransferConverters.cs" />
     <Compile Include="Converters\EntityConverters.cs" />
     <Compile Include="Controllers\Client\ClientIssueController.cs" />
@@ -262,8 +264,10 @@
     <Compile Include="Injection\WindsorCompositionRoot.cs" />
     <Compile Include="Injection\WindsorDependencyResolver.cs" />
     <Compile Include="Injection\WindsorDependencyScope.cs" />
+    <Compile Include="Logging\EventLogger.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ServiceLogItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

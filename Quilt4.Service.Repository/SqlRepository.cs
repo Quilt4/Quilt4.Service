@@ -105,16 +105,16 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid? GetVersionKey(Guid applicaitonKey, string versionName, DateTime? buildTime)
+        public Guid? GetVersionKey(Guid applicaitonKey, string versionNumber, DateTime? buildTime)
         {
             using (var context = GetDataContext())
             {
-                var version = context.Versions.SingleOrDefault(x => x.Application.ApplicationKey == applicaitonKey && x.VersionName == versionName);
+                var version = context.Versions.SingleOrDefault(x => x.Application.ApplicationKey == applicaitonKey && x.VersionNumber == versionNumber);
                 return version?.VersionKey;
             }
         }
 
-        public void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime)
+        public void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionNumber, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
@@ -122,7 +122,7 @@ namespace Quilt4.Service.SqlRepository
                 {
                     VersionKey = versionKey,
                     ApplicationId = context.Applications.Single(x => x.ApplicationKey == applicaitonKey).ApplicationId,
-                    VersionName = versionName,
+                    VersionNumber = versionNumber,
                     SupportToolkitVersion = supportToolkitNameVersion,
                     CreationServerDate = serverTime,
                     BuildTime = buildTime,

@@ -16,7 +16,7 @@ namespace Quilt4.Service.SqlRepository.Extensions
                 Id = item.VersionKey,
                 ProjectId = item.ProjectKey,
                 ApplicationId = item.ApplicationKey,
-                Version = item.VersionName,
+                Version = item.VersionNumber,
                 ProjectName = item.ProjectName,
                 ApplicationName = item.ApplicationName,
                 IssueTypes = versionPageIssueTypes.ToVersionPageIssueTypes().ToArray()

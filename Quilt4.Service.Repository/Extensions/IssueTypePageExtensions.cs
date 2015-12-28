@@ -20,7 +20,7 @@ namespace Quilt4.Service.SqlRepository.Extensions
                 VersionId = item.VersionKey,
                 ProjectName = item.ProjectName,
                 ApplicationName = item.ApplicationName,
-                Version = item.VersionName,
+                Version = item.VersionNumber,
                 Ticket = item.Ticket,
                 Type = item.Type,
                 Level = item.Level,

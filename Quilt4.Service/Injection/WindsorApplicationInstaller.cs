@@ -2,6 +2,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Injection
 {

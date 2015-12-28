@@ -274,7 +274,7 @@ namespace Quilt4.Service.SqlRepository
                     VersionKey = version.VersionKey,
                     ProjectKey = project.ProjectKey,
                     ApplicationKey = application.ApplicationKey,
-                    VersionName = version.VersionName,
+                    VersionNumber = version.VersionNumber,
                     SessionCount = sessions,
                     IssueTypeCount = issueTypes,
                     IssueCount = issues,
@@ -298,7 +298,7 @@ namespace Quilt4.Service.SqlRepository
                     ApplicationKey = application.ApplicationKey,
                     ProjectName = project.Name,
                     ApplicationName = application.Name,
-                    VersionName = version.VersionName,
+                    VersionNumber = version.VersionNumber,
                 };
 
                 context.VersionPageVersions.InsertOnSubmit(newVersionPageVersion);
@@ -353,7 +353,7 @@ namespace Quilt4.Service.SqlRepository
                     VersionKey = version.VersionKey,
                     ProjectName = project.Name,
                     ApplicationName = application.Name,
-                    VersionName = version.VersionName,
+                    VersionNumber = version.VersionNumber,
                     Level = issueType.Level,
                     Message = issueType.Message,
                     StackTrace = issueType.StackTrace,

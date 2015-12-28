@@ -56,6 +56,8 @@
     <Compile Include="Business\IIssueBusiness.cs" />
     <Compile Include="Business\IProjectBusiness.cs" />
     <Compile Include="Business\IIssueTypeBusiness.cs" />
+    <Compile Include="Business\IServiceLog.cs" />
+    <Compile Include="Business\IServiceLogItem.cs" />
     <Compile Include="Business\ISessionBusiness.cs" />
     <Compile Include="Business\ISettingBusiness.cs" />
     <Compile Include="Business\IUserBusiness.cs" />

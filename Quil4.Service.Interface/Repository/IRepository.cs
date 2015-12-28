@@ -25,7 +25,8 @@ namespace Quilt4.Service.Interface.Repository
 
         //Application/Version
         Guid SaveApplication(Guid projectKey, string name);
-        Guid SaveVersion(Guid applicaitonKey, string version, string supportToolkitNameVersion);
+        Guid? GetVersionKey(Guid applicaitonKey, string versionName, DateTime? buildTime);
+        void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverCreateTime);
 
         //ApplicationUser
         Guid SaveApplicationUser(Guid projectKey, string fingerprint, string userName, DateTime updateTime);
@@ -34,7 +35,7 @@ namespace Quilt4.Service.Interface.Repository
         Guid SaveMachine(Guid projectKey, string fingerprint, string name, IDictionary<string, string> data);
 
         //Issue
-        Guid? GetIssueTypeKey(Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
+        Guid? GetIssueTypeKey(Guid versionKey, string type, string issueLevel, string message, string stackTrace);
         void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
         void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
         int GetNextTicket(Guid projectKey);

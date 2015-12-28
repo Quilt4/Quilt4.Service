@@ -41,7 +41,7 @@ namespace Quilt4.Service.Business
             var ticket = GetTicket(session.ProjectKey, 10);
 
             // Add/Update IssueType
-            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, ticket, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
+            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace);
             if (issueTypeKey == null)
             {
                 issueTypeKey = Guid.NewGuid();

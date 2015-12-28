@@ -1,2 +1,0 @@
-ALTER TABLE Issue
-DROP COLUMN Enviroment

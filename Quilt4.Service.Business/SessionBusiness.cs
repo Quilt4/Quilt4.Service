@@ -29,8 +29,13 @@ namespace Quilt4.Service.Business
             // Add/Update Application
             var applicaitonKey = _repository.SaveApplication(projectKey, request.Application.Name);
 
-            // Add/Update Version
-            var versionKey = _repository.SaveVersion(applicaitonKey, request.Application.Version, ValidationHelper.SetIfEmpty(request.Application.SupportToolkitNameVersion, "Unknown"));
+            // Add/Update Version            
+            var versionKey = _repository.GetVersionKey(applicaitonKey, request.Application.Version, request.Application.BuildTime);
+            if (versionKey == null)
+            {
+                versionKey = Guid.NewGuid();
+                _repository.SaveVersion(versionKey.Value, applicaitonKey, request.Application.Version, request.Application.BuildTime, ValidationHelper.SetIfEmpty(request.Application.SupportToolkitNameVersion, "Unknown"), serverTime);
+            }
 
             // Add/Update UserData
             Guid? applicationUserKey = null;
@@ -47,7 +52,7 @@ namespace Quilt4.Service.Business
             }
 
             // Add/Update Session
-            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, applicaitonKey, versionKey, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
+            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, applicaitonKey, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
             WriteBusiness.RunRecalculate();
 

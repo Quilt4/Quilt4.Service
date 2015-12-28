@@ -113,24 +113,30 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Guid SaveVersion(Guid applicaitonKey, string version, string supportToolkitNameVersion)
+        public Guid? GetVersionKey(Guid applicaitonKey, string versionName, DateTime? buildTime)
         {
+            throw new NotImplementedException();
+        }
+
+        public void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionName, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverCreateTime)
+        {
+            throw new NotImplementedException();
+
             using (var context = GetDataContext())
             {
-                var existingVersion =
-                    context.Versions.SingleOrDefault(x => x.ApplicationId == applicaitonKey && x.Version1 == version);
+                var existingVersion = context.Versions.SingleOrDefault(x => x.ApplicationId == applicaitonKey && x.Version1 == versionName);
 
                 if (existingVersion != null)
                 {
                     //Update version?
-                    return existingVersion.Id;
+                    return;
                 }
 
                 var newVersion = new Version
                 {
                     Id = Guid.NewGuid(),
                     ApplicationId = applicaitonKey,
-                    Version1 = version,
+                    Version1 = versionName,
                     SupportToolkitVersion = supportToolkitNameVersion,
                     CreationDate = DateTime.UtcNow,
                     LastUpdateDate = DateTime.UtcNow
@@ -138,12 +144,10 @@ namespace Quilt4.Service.SqlRepository
 
                 context.Versions.InsertOnSubmit(newVersion);
                 context.SubmitChanges();
-
-                return newVersion.Id;
             }
         }
 
-        public Guid? GetIssueTypeKey(Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime)
+        public Guid? GetIssueTypeKey(Guid versionKey, string type, string issueLevel, string message, string stackTrace)
         {
             using (var context = GetDataContext())
             {
@@ -410,7 +414,7 @@ namespace Quilt4.Service.SqlRepository
                     ServerTime = serverTime,
                     SessionKey = sessionKey,
                     MachineKey = machine.Id, //TODO: Allow the machineId to be null.
-                    UserDataKey = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
+                    //UserDataKey = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
                 };
 
                 context.Issues.InsertOnSubmit(issue);

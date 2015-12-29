@@ -71,7 +71,7 @@ namespace Quilt4.Service.Business
             }
 
             // Add/Update Session
-            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, applicationKey.Value, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
+            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
             WriteBusiness.RunRecalculate();
 

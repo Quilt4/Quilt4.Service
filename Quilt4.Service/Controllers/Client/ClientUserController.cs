@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Client
 {
-    [Authorize(Roles = Constants.Administrators)]
+    [Authorize]
     public class ClientUserController : ApiController
     {
         private readonly IUserBusiness _userBusiness;
@@ -15,18 +16,18 @@ namespace Quilt4.Service.Controllers.Client
             _userBusiness = userBusiness;
         }
 
-        //TODO: Use UserResponse from quilt4net nuget instead
+        [Authorize(Roles = Constants.Administrators)]
         [Route("api/Client/User")]
         public IEnumerable<UserResponse> Get()
         {
             var response = _userBusiness.GetList().Select(x => new UserResponse { UserName = x.Username, EMail = x.Email });
             return response;
         }
-    }
 
-    public class UserResponse
-    {
-        public string UserName { get; set; }
-        public string EMail { get; set; }
+        [Route("api/Client/User/Invite")]
+        public void Invite(InviteRequest inviteRequest)
+        {
+            _userBusiness.Invite(User.Identity.Name, inviteRequest.ProjectKey, inviteRequest.User);
+        }
     }
 }

@@ -66,11 +66,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Quilt4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.39\lib\net45\Quilt4Net.dll</HintPath>
+      <HintPath>..\packages\Quilt4Net.2.0.0.40\lib\net45\Quilt4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quilt4Net.Core, Version=2.0.0.39, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.39\lib\net45\Quilt4Net.Core.dll</HintPath>
+    <Reference Include="Quilt4Net.Core, Version=2.0.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quilt4Net.2.0.0.40\lib\net45\Quilt4Net.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -193,6 +193,7 @@
   <ItemGroup>
     <Compile Include="App_Start\ApplicationRoleManager.cs" />
     <Compile Include="Authentication\ApplicationRole.cs" />
+    <Compile Include="Authentication\CustomRoleStore.cs" />
     <Compile Include="Authentication\OldSystemPasswordHasher.cs" />
     <Compile Include="Authentication\CustomUserSore.cs" />
     <Compile Include="Authentication\ApplicationUser.cs" />
@@ -232,9 +233,12 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Client\ClientApplicationController.cs" />
     <Compile Include="Controllers\Client\ClientIssueTypeController.cs" />
     <Compile Include="Controllers\Client\ClientServiceLogController.cs" />
     <Compile Include="Controllers\Client\ClientUserController.cs" />
+    <Compile Include="Controllers\Client\ClientVersionController.cs" />
+    <Compile Include="Controllers\Web\DataTransfer\ProjectInvitationResponse.cs" />
     <Compile Include="Converters\DataTransferConverters.cs" />
     <Compile Include="Converters\EntityConverters.cs" />
     <Compile Include="Controllers\Client\ClientIssueController.cs" />

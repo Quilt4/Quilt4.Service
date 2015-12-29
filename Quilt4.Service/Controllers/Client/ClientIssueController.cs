@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
 using Quilt4.Service.Converters;
 using Quilt4.Service.Interface.Business;
@@ -37,19 +36,5 @@ namespace Quilt4.Service.Controllers.Client
                 ServerTime = response.ServerTime,                
             };
         }
-    }
-
-    //TODO: Remove this class and use the one from quilt4net nuget instead.
-    public class IssueTypeResponse
-    {
-        public Guid IssueTypeKey { get; set; }
-        public Guid VersionKey { get; set; }
-        public string Type { get; set; }
-        public string Level { get; set; }
-        public string Message { get; set; }
-        public string StackTrace { get; set; }
-        public int Ticket { get; set; }
-        public DateTime CreationServerTime { get; set; }
-        public DateTime LastIssueServerTime { get; set; }
     }
 }

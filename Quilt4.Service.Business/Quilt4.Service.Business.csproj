@@ -52,6 +52,7 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="ApplicationBusiness.cs" />
     <Compile Include="DashboardBusiness.cs" />
     <Compile Include="HelperExtension.cs" />
     <Compile Include="IssueBusiness.cs" />

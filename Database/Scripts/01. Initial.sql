@@ -195,7 +195,8 @@ ALTER TABLE Query.IssueTypePageIssue ADD CONSTRAINT IssueTypePageIssue_VersionKe
 GO
 ALTER TABLE Query.IssueTypePageIssue ADD CONSTRAINT IssueTypePageIssue_IssueTypeKey UNIQUE (IssueTypeKey)
 GO
-CREATE TABLE dbo.Project (
+CREATE TABLE dbo.Project
+(
 	ProjectId INT NOT NULL IDENTITY,
 	ProjectKey UNIQUEIDENTIFIER NOT NULL,
 	CreationServerTime DATETIME NOT NULL,
@@ -221,6 +222,21 @@ CREATE TABLE ProjectUser
 	CONSTRAINT FK_ProjectUser_Project FOREIGN KEY (ProjectId) REFERENCES Project(ProjectId),
 	CONSTRAINT FK_ProjectUser_User FOREIGN KEY (UserId) REFERENCES [User](UserId),
 );
+GO
+CREATE TABLE ProjectInvitation
+(
+	ProjectInvitationId INT NOT NULL IDENTITY,
+	ProjectId INT NOT NULL,
+	UserId INT NULL,
+	UserEmail nvarchar(512) NULL,
+	InviterUserId INT NULL,
+	InviteCode VARCHAR(50) NOT NULL,
+	ServerCreateTime DATETIME NOT NULL,
+	CONSTRAINT PK_ProjectInvitation PRIMARY KEY CLUSTERED ( ProjectInvitationId ),
+	CONSTRAINT FK_ProjectInvitation_Project FOREIGN KEY (ProjectId) REFERENCES Project(ProjectId),
+	CONSTRAINT FK_ProjectInvitation_User FOREIGN KEY (UserId) REFERENCES [User](UserId),
+	CONSTRAINT FK_ProjectInvitation_InviterUser FOREIGN KEY (InviterUserId) REFERENCES [User](UserId),
+)
 GO
 CREATE TABLE dbo.[Application]
 (
@@ -274,7 +290,6 @@ CREATE TABLE dbo.IssueType
 	StackTrace NVARCHAR(MAX) NULL,
 	Ticket INT NOT NULL,
 	CreationServerTime DATETIME NOT NULL,
-	LastIssueServerTime DATETIME NOT NULL,
 	CONSTRAINT PK_IssueType PRIMARY KEY CLUSTERED ( IssueTypeId ),
 	CONSTRAINT FK_IssueType_Version FOREIGN KEY (VersionId) REFERENCES [Version](VersionId)
 );

@@ -10,8 +10,9 @@ namespace Quilt4.Service.Interface.Repository
         //User
         void CreateUser(User user, DateTime serverTime);
         void UpdateUser(User user);
-        User GetUserByUserName(string userName);
         User GetUserByUserKey(string userKey);
+        User GetUserByUserName(string userName);
+        User GetUserByEMail(string email);
         IEnumerable<User> GetUsers();
         IEnumerable<Role> GetRolesByUser(string userName);
         void AddUserToRole(string userName, string roleName);
@@ -23,15 +24,17 @@ namespace Quilt4.Service.Interface.Repository
         //Project
         Guid? GetProjectKey(string projectApiKey);
         ProjectPageProject[] GetProjects(string userName);
+        ProjectInvitation[] GetInvitations(string userName);
         void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
-        void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime, string userName);
+        void UpdateProject(Guid projectKey, string name, string dashboardColor);
         void DeleteProject(Guid projectKey);
+        void CreateProjectInvitation(Guid projectKey, string userName, string inviteCode, string userKey, string email, DateTime serverTime);
 
         //Session
         Session GetSession(Guid sessionId);
         void SetSessionUsed(Guid sessionKey, DateTime serverDateTime);
         void SetSessionEnd(Guid sessionKey, DateTime serverDateTime);
-        void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime);
+        void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime);
 
         //Application/Version
         Guid? GetApplicationKey(Guid projectKey, string name);

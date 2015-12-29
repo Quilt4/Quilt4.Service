@@ -48,6 +48,15 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public Entity.User GetUserByEMail(string email)
+        {
+            using (var context = GetDataContext())
+            {
+                var dbUser = context.Users.SingleOrDefault(x => x.Email == email);
+                return dbUser == null ? null : new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash);
+            }
+        }
+
         public Entity.User GetUserByUserKey(string userKey)
         {
             using (var context = GetDataContext())
@@ -117,6 +126,25 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public void CreateProjectInvitation(Guid projectKey, string userName, string inviteCode, string userKey, string email, DateTime serverTime)
+        {
+            using (var context = GetDataContext())
+            {
+                var user = context.Users.SingleOrDefault(x => x.UserKey == userKey);
+
+                context.ProjectInvitations.InsertOnSubmit(new ProjectInvitation
+                {
+                    ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
+                    InviteCode = inviteCode,
+                    ServerCreateTime = serverTime,
+                    UserEmail = email,
+                    UserId = user?.UserId,
+                    InviterUserId = context.Users.Single(x => x.UserName == userName).UserId,                    
+                });
+                context.SubmitChanges();
+            }
+        }
+
         public int GetNextTicket(Guid projectKey)
         {
             using (var context = GetDataContext())
@@ -141,8 +169,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                //TODO: Use this line: return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName && x.Version.VersionKey == versionKey).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerDate, x.LastIssueServerTime)).ToArray();
-                return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName && x.Version.VersionKey == versionKey).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerDate, DateTime.MinValue)).ToArray();
+                return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName && x.Version.VersionKey == versionKey).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerTime)).ToArray();
             }
         }
 
@@ -208,8 +235,8 @@ namespace Quilt4.Service.SqlRepository
                     ApplicationId = context.Applications.Single(x => x.ApplicationKey == applicaitonKey).ApplicationId,
                     VersionNumber = versionNumber,
                     SupportToolkitVersion = supportToolkitNameVersion,
-                    CreationServerDate = serverTime,
-                    BuildTime = buildTime,
+                    CreationServerTime = serverTime,
+                    BuildTime = buildTime,                    
                 };
 
                 context.Versions.InsertOnSubmit(newVersion);
@@ -258,7 +285,7 @@ namespace Quilt4.Service.SqlRepository
                     Level = issueLevel,
                     Message = message,
                     StackTrace = stackTrace,
-                    CreationServerDate = serverTime,                    
+                    CreationServerTime = serverTime,
                 };
 
                 context.IssueTypes.InsertOnSubmit(newIssueType);
@@ -286,7 +313,7 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid applicaitonKey, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime)
+        public void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
@@ -539,18 +566,18 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void UpdateProject(Guid projectKey, string name, string dashboardColor, DateTime updateTime, string userName)
+        public void UpdateProject(Guid projectKey, string name, string dashboardColor)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
+                //var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
+                //var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
-                //TODO: This check should be in the business layer
-                if (projectUser == null)
-                {
-                    throw new InvalidOperationException("The user doesn't have access to the provided project.");
-                }
+                ////TODO: This check should be in the business layer
+                //if (projectUser == null)
+                //{
+                //    throw new InvalidOperationException("The user doesn't have access to the provided project.");
+                //}
 
                 var project = context.Projects.Single(x => x.ProjectKey == projectKey);
 
@@ -561,11 +588,25 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Entity.ProjectPageProject[] GetProjects(string userId)
+        public Entity.ProjectInvitation[] GetInvitations(string userName)
         {
             using (var context = GetDataContext())
             {
-                var projectPageApplicaitons = context.Projects.Where(x => x.User.UserName == userId);
+                return context.ProjectInvitations.Where(x => x.User.UserName == userName).Select(x => new Entity.ProjectInvitation
+                {
+                    ProjectKey = x.Project.ProjectKey,
+                    Name = x.Project.Name,
+                    InvitedByUserName = x.User1.UserName,
+                    InviteTime = x.ServerCreateTime,
+                }).ToArray();
+            }
+        }
+
+        public Entity.ProjectPageProject[] GetProjects(string userName)
+        {
+            using (var context = GetDataContext())
+            {
+                var projectPageApplicaitons = context.Projects.Where(x => x.User.UserName == userName || x.ProjectUsers.Any(y => y.User.UserName == userName && x.ProjectId == y.ProjectId));
                 return projectPageApplicaitons.Select(x => new Entity.ProjectPageProject { Name = x.Name, DashboardColor = x.DashboardColor, ProjectKey = x.ProjectKey, ProjectApiKey = x.ProjectApiKey }).ToArray();
             }
         }

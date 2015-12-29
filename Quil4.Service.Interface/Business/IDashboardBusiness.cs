@@ -6,5 +6,6 @@ namespace Quilt4.Service.Interface.Business
     public interface IDashboardBusiness
     {
         IEnumerable<DashboardPageProject> GetProjects(string userName);
+        IEnumerable<ProjectInvitation> GetInvitations(string userName);
     }
 }

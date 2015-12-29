@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Linq;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
-using static System.String;
 
 namespace Quilt4.Service.SqlRepository
 {

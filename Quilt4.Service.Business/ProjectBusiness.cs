@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -18,7 +19,6 @@ namespace Quilt4.Service.Business
             _repository = repository;
             _writeRepository = writeRepository;
         }
-
 
         public ProjectPageProject GetProject(string userName, Guid projectId)
         {
@@ -56,7 +56,10 @@ namespace Quilt4.Service.Business
 
         public void UpdateProject(Guid projectKey, string name, string dashboardColor, string userName)
         {
-            _repository.UpdateProject(projectKey, name, dashboardColor, DateTime.UtcNow, userName);
+            if (_repository.GetProjects(userName).All(x => x.ProjectKey != projectKey))
+                throw new InvalidOperationException("The user doesn't have access to the provided project.");
+
+            _repository.UpdateProject(projectKey, name, dashboardColor);
 
             _writeRepository.UpdateDashboardPageProject(projectKey);
             _writeRepository.UpdateProjectPageProject(projectKey);

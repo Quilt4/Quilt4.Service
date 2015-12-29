@@ -66,7 +66,8 @@
       <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="StackTrace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CreationServerDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastIssueServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="IssueType_Issue" Member="Issues" ThisKey="IssueTypeId" OtherKey="IssueTypeId" Type="Issue" />
       <Association Name="Version_IssueType" Member="Version" ThisKey="VersionId" OtherKey="VersionId" Type="Version" IsForeignKey="true" />
     </Type>
@@ -107,8 +108,23 @@
       <Association Name="Project_Application" Member="Applications" ThisKey="ProjectId" OtherKey="ProjectId" Type="Application" />
       <Association Name="Project_ApplicationUser" Member="ApplicationUsers" ThisKey="ProjectId" OtherKey="ProjectId" Type="ApplicationUser" />
       <Association Name="Project_Machine" Member="Machines" ThisKey="ProjectId" OtherKey="ProjectId" Type="Machine" />
+      <Association Name="Project_ProjectInvitation" Member="ProjectInvitations" ThisKey="ProjectId" OtherKey="ProjectId" Type="ProjectInvitation" />
       <Association Name="Project_ProjectUser" Member="ProjectUsers" ThisKey="ProjectId" OtherKey="ProjectId" Type="ProjectUser" />
       <Association Name="User_Project" Member="User" ThisKey="OwnerUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProjectInvitation" Member="ProjectInvitations">
+    <Type Name="ProjectInvitation">
+      <Column Name="ProjectInvitationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserEmail" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="InviterUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InviteCode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ServerCreateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Project_ProjectInvitation" Member="Project" ThisKey="ProjectId" OtherKey="ProjectId" Type="Project" IsForeignKey="true" />
+      <Association Name="User_ProjectInvitation" Member="User" ThisKey="InviterUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="User_ProjectInvitation1" Member="User1" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ProjectUser" Member="ProjectUsers">
@@ -156,6 +172,8 @@
       <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="CreateServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="OwnerUserId" Type="Project" />
+      <Association Name="User_ProjectInvitation" Member="ProjectInvitations" ThisKey="UserId" OtherKey="InviterUserId" Type="ProjectInvitation" />
+      <Association Name="User_ProjectInvitation1" Member="ProjectInvitations1" ThisKey="UserId" OtherKey="UserId" Type="ProjectInvitation" />
       <Association Name="User_ProjectUser" Member="ProjectUsers" ThisKey="UserId" OtherKey="UserId" Type="ProjectUser" />
       <Association Name="User_UserRole" Member="UserRoles" ThisKey="UserId" OtherKey="UserId" Type="UserRole" />
     </Type>
@@ -176,7 +194,7 @@
       <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="BuildTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="SupportToolkitVersion" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
-      <Column Name="CreationServerDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="VersionId" OtherKey="VersionId" Type="IssueType" />
       <Association Name="Version_Session" Member="Sessions" ThisKey="VersionId" OtherKey="VersionId" Type="Session" />
       <Association Name="Application_Version" Member="Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="Application" IsForeignKey="true" />

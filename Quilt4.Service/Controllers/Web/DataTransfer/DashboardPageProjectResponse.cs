@@ -1,4 +1,4 @@
-namespace Quilt4.Service.DataTransfer
+namespace Quilt4.Service.Controllers.Web.DataTransfer
 {
     public class DashboardPageProjectResponse
     {

@@ -12,7 +12,7 @@ CREATE TABLE dbo.[User]
 (
 	UserId INT NOT NULL IDENTITY,
 	UserKey nvarchar(128) NOT NULL,
-	UserName nvarchar(50) NOT NULL,
+	UserName varchar(128) NOT NULL,
 	Email nvarchar(512) NULL,
 	EmailConfirmed bit NOT NULL,
 	PasswordHash nvarchar(MAX) NULL,
@@ -23,6 +23,24 @@ GO
 ALTER TABLE dbo.[User] ADD CONSTRAINT User_UserKey UNIQUE (UserKey)
 GO
 ALTER TABLE dbo.[User] ADD CONSTRAINT User_UserName UNIQUE (UserName)
+GO
+CREATE TABLE dbo.[Role]
+(
+	RoleId INT NOT NULL IDENTITY,
+	RoleName varchar(128) NOT NULL,
+	CONSTRAINT PK_Role PRIMARY KEY CLUSTERED ( RoleId ) 
+)
+GO
+ALTER TABLE dbo.[Role] ADD CONSTRAINT Role_RoleName UNIQUE (RoleName)
+GO
+CREATE TABLE dbo.[UserRole]
+(
+	UserId INT NOT NULL,
+	RoleId INT NOT NULL,
+	CONSTRAINT PK_UserRole PRIMARY KEY CLUSTERED ( UserId, RoleId ),
+	CONSTRAINT FK_UserRole_User FOREIGN KEY (UserId) REFERENCES [User](UserId),
+	CONSTRAINT FK_UserRole_Role FOREIGN KEY (RoleId) REFERENCES [Role](RoleId),
+)
 GO
 CREATE TABLE Query.DashboardPageProject
 (
@@ -163,7 +181,7 @@ CREATE TABLE Query.IssueTypePageIssue
 	VersionKey UNIQUEIDENTIFIER NOT NULL,
 	IssueTypeKey UNIQUEIDENTIFIER NOT NULL,
 	LastUpdateServerTime DATETIME NOT NULL,
-	ApplicationUserName VARCHAR(1024) NULL,
+	ApplicationUserName VARCHAR(128) NULL,
 	Enviroment NVARCHAR(128) NULL,
 	Data NVARCHAR(MAX) NULL,
 	CONSTRAINT PK_IssueTypePageIssue PRIMARY KEY CLUSTERED ( IssueTypePageIssueId )
@@ -231,7 +249,7 @@ CREATE TABLE dbo.[Version]
 	VersionNumber VARCHAR(128) NOT NULL,
 	BuildTime DATETIME NULL,
 	SupportToolkitVersion VARCHAR(1024) NOT NULL,
-	CreationServerDate DATETIME NOT NULL,
+	CreationServerTime DATETIME NOT NULL,
 	CONSTRAINT PK_Version PRIMARY KEY CLUSTERED ( VersionId ),
 	CONSTRAINT FK_Version_Application FOREIGN KEY (ApplicationId) REFERENCES [Application](ApplicationId)
 );
@@ -255,7 +273,8 @@ CREATE TABLE dbo.IssueType
 	[Message] NVARCHAR(MAX) NULL,
 	StackTrace NVARCHAR(MAX) NULL,
 	Ticket INT NOT NULL,
-	CreationServerDate DATETIME NOT NULL,
+	CreationServerTime DATETIME NOT NULL,
+	LastIssueServerTime DATETIME NOT NULL,
 	CONSTRAINT PK_IssueType PRIMARY KEY CLUSTERED ( IssueTypeId ),
 	CONSTRAINT FK_IssueType_Version FOREIGN KEY (VersionId) REFERENCES [Version](VersionId)
 );

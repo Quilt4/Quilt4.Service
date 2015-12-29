@@ -10,31 +10,98 @@ namespace Quilt4.Service.SqlRepository
 {    
     public class SqlRepository : IRepository
     {
-        public void SaveUser(Entity.User user)
+        public void CreateUser(Entity.User user, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
-                var dbUser = context.Users.SingleOrDefault(x => x.UserName == user.Username);
-                if (dbUser == null)
+                var dbUser = new User
                 {
-                    dbUser = new User { CreateServerTime = DateTime.UtcNow, UserKey = user.UserKey, EmailConfirmed = false };
-                    context.Users.InsertOnSubmit(dbUser);
-                }
-
-                dbUser.UserName = user.Username;
-                dbUser.Email = user.Email;
-                dbUser.PasswordHash = user.PasswordHash;
-
+                    UserKey = user.UserKey,
+                    UserName = user.Username,
+                    Email = user.Email,
+                    EmailConfirmed = false,
+                    PasswordHash = user.PasswordHash,
+                    CreateServerTime = serverTime,
+                };
+                context.Users.InsertOnSubmit(dbUser);
                 context.SubmitChanges();
             }
         }
 
-        public Entity.User GetUser(string username)
+        public void UpdateUser(Entity.User user)
+        {
+            using (var context = GetDataContext())
+            {
+                var dbUser = context.Users.Single(x => x.UserKey == user.UserKey);
+                dbUser.UserName = user.Username;
+                dbUser.Email = user.Email;
+                context.SubmitChanges();
+            }
+        }
+
+        public Entity.User GetUserByUserName(string username)
         {
             using (var context = GetDataContext())
             {
                 var dbUser = context.Users.SingleOrDefault(x => x.UserName == username);
                 return dbUser == null ? null : new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash);
+            }
+        }
+
+        public Entity.User GetUserByUserKey(string userKey)
+        {
+            using (var context = GetDataContext())
+            {
+                var dbUser = context.Users.SingleOrDefault(x => x.UserKey == userKey);
+                return dbUser == null ? null : new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash);
+            }
+        }
+
+        public IEnumerable<Entity.User> GetUsers()
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Users.Select(dbUser => new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash)).ToArray();
+            }
+        }
+
+        public IEnumerable<Entity.Role> GetRolesByUser(string userName)
+        {
+            using (var context = GetDataContext())
+            {
+                var response = context.Roles.Where(x => context.UserRoles.Any(y => y.User.UserName == userName)).ToArray();
+                return response.Select(x => new Entity.Role(x.RoleName));
+            }
+        }
+
+        public void AddUserToRole(string userName, string roleName)
+        {
+            using (var context = GetDataContext())
+            {
+                context.UserRoles.InsertOnSubmit(new UserRole
+                {
+                    UserId = context.Users.Single(x => x.UserName == userName).UserId,
+                    RoleId = context.Roles.Single(x => x.RoleName == roleName).RoleId,
+                });
+                context.SubmitChanges();
+            }
+        }
+
+        public void CreateRole(Entity.Role role)
+        {
+            using (var context = GetDataContext())
+            {
+                context.Roles.InsertOnSubmit(new Role { RoleName = role.RoleName });
+                context.SubmitChanges();
+            }
+        }
+
+        public Entity.Role GetRole(string roleName)
+        {
+            using (var context = GetDataContext())
+            {
+                var response = context.Roles.FirstOrDefault(x => x.RoleName == roleName);
+                return response == null ? null : new Entity.Role(response.RoleName);
             }
         }
 
@@ -67,6 +134,15 @@ namespace Quilt4.Service.SqlRepository
                 }
 
                 return ticket;
+            }
+        }
+
+        public IEnumerable<Entity.IssueType> GetIssueTypes(string userName, Guid versionKey)
+        {
+            using (var context = GetDataContext())
+            {
+                //TODO: Use this line: return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName && x.Version.VersionKey == versionKey).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerDate, x.LastIssueServerTime)).ToArray();
+                return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName && x.Version.VersionKey == versionKey).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerDate, DateTime.MinValue)).ToArray();
             }
         }
 
@@ -105,6 +181,14 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public IEnumerable<Entity.Application> GetApplications(string userName, Guid projectKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Applications.Where(x => x.Project.User.UserName == userName && x.Project.ProjectKey == projectKey).Select(x => new Entity.Application(x.ApplicationKey, x.Name)).ToArray();
+            }
+        }
+
         public Guid? GetVersionKey(Guid applicaitonKey, string versionNumber, DateTime? buildTime)
         {
             using (var context = GetDataContext())
@@ -130,6 +214,14 @@ namespace Quilt4.Service.SqlRepository
 
                 context.Versions.InsertOnSubmit(newVersion);
                 context.SubmitChanges();
+            }
+        }
+
+        public IEnumerable<Entity.Version> GetVersions(string userName, Guid applicationKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Versions.Where(x => x.Application.Project.User.UserName == userName && x.Application.ApplicationKey == applicationKey).Select(x => new Entity.Version(x.VersionKey, x.VersionNumber)).ToArray();
             }
         }
 

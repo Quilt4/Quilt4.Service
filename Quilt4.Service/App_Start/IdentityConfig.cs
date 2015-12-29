@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Quilt4.Service.Authentication;
@@ -8,39 +8,13 @@ namespace Quilt4.Service
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IRepository repository) 
+        private ApplicationUserManager(IRepository repository) 
             : base(new CustomUserSore<ApplicationUser>(repository))
         {
-            //We can retrieve Old System Hash Password and can encypt or decrypt old password using custom approach. 
-            //When we want to reuse old system password as it would be difficult for all users to initiate pwd change as per Idnetity Core hashing. 
-            this.PasswordHasher = new OldSystemPasswordHasher();
+            PasswordHasher = new OldSystemPasswordHasher();
         }
 
-        //public override Task<ApplicationUser> FindAsync(string userName, string password)
-        //{
-        //    Task<ApplicationUser> taskInvoke = Task<ApplicationUser>.Factory.StartNew(() =>
-        //    {
-        //        //First Verify Password... 
-        //        PasswordVerificationResult result = this.PasswordHasher.VerifyHashedPassword(userName, password);
-        //        if (result == PasswordVerificationResult.SuccessRehashNeeded)
-        //        {
-        //            //Return User Profile Object... 
-        //            //So this data object will come from Database we can write custom ADO.net to retrieve details/ 
-        //            ApplicationUser applicationUser = new ApplicationUser();
-        //            applicationUser.UserName = "san";
-        //            applicationUser.UserName = "san@san.com";
-        //            return applicationUser;
-        //        }
-        //        return null;
-        //    });
-        //    return taskInvoke;
-        //}
-
-        public async override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
-        {
-            var response = await base.CreateAsync(user, password);
-            return response;
-        }
+        public override IQueryable<ApplicationUser> Users => ((CustomUserSore<ApplicationUser>)Store).GetAll().AsQueryable();
 
         public static ApplicationUserManager Create(IRepository repository)
         {

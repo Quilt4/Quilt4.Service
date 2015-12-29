@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
@@ -55,6 +56,11 @@ namespace Quilt4.Service.Business
             {
                 Ticket = ticket
             };
+        }
+
+        public IEnumerable<IssueType> GetIssueTypeList(string userName, Guid versionKey)
+        {
+            return _repository.GetIssueTypes(userName, versionKey);
         }
 
         private int GetTicket(Guid projectKey, int tryCount)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -23,14 +24,16 @@ namespace Quilt4.Service.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
+            RoleManager = roleManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
@@ -46,6 +49,18 @@ namespace Quilt4.Service.Controllers
             }
         }
 
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -53,11 +68,12 @@ namespace Quilt4.Service.Controllers
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                UserName = User.Identity.GetUserName(),
+                Email = User.Identity.Name, //TODO: Get the email address of the user
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -71,46 +87,46 @@ namespace Quilt4.Service.Controllers
             return Ok();
         }
 
-        // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
-        [Route("ManageInfo")]
-        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
-        {
-            throw new NotImplementedException();
-            //IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //// GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
+        //[Route("ManageInfo")]
+        //public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
+        //{
+        //    throw new NotImplementedException();
+        //    //IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            //if (user == null)
-            //{
-            //    return null;
-            //}
+        //    //if (user == null)
+        //    //{
+        //    //    return null;
+        //    //}
 
-            //List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+        //    //List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
-            //foreach (IdentityUserLogin linkedAccount in user.Logins)
-            //{
-            //    logins.Add(new UserLoginInfoViewModel
-            //    {
-            //        LoginProvider = linkedAccount.LoginProvider,
-            //        ProviderKey = linkedAccount.ProviderKey
-            //    });
-            //}
+        //    //foreach (IdentityUserLogin linkedAccount in user.Logins)
+        //    //{
+        //    //    logins.Add(new UserLoginInfoViewModel
+        //    //    {
+        //    //        LoginProvider = linkedAccount.LoginProvider,
+        //    //        ProviderKey = linkedAccount.ProviderKey
+        //    //    });
+        //    //}
 
-            //if (user.PasswordHash != null)
-            //{
-            //    logins.Add(new UserLoginInfoViewModel
-            //    {
-            //        LoginProvider = LocalLoginProvider,
-            //        ProviderKey = user.UserName,
-            //    });
-            //}
+        //    //if (user.PasswordHash != null)
+        //    //{
+        //    //    logins.Add(new UserLoginInfoViewModel
+        //    //    {
+        //    //        LoginProvider = LocalLoginProvider,
+        //    //        ProviderKey = user.UserName,
+        //    //    });
+        //    //}
 
-            //return new ManageInfoViewModel
-            //{
-            //    LocalLoginProvider = LocalLoginProvider,
-            //    Email = user.UserName,
-            //    Logins = logins,
-            //    ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
-            //};
-        }
+        //    //return new ManageInfoViewModel
+        //    //{
+        //    //    LocalLoginProvider = LocalLoginProvider,
+        //    //    Email = user.UserName,
+        //    //    Logins = logins,
+        //    //    ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
+        //    //};
+        //}
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
@@ -218,61 +234,61 @@ namespace Quilt4.Service.Controllers
             return Ok();
         }
 
-        // GET api/Account/ExternalLogin
-        [OverrideAuthentication]
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
-        [AllowAnonymous]
-        [Route("ExternalLogin", Name = "ExternalLogin")]
-        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
-        {
-            throw new NotImplementedException();
-            //if (error != null)
-            //{
-            //    return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
-            //}
+        //// GET api/Account/ExternalLogin
+        //[OverrideAuthentication]
+        //[HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
+        //[AllowAnonymous]
+        //[Route("ExternalLogin", Name = "ExternalLogin")]
+        //public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
+        //{
+        //    throw new NotImplementedException();
+        //    //if (error != null)
+        //    //{
+        //    //    return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+        //    //}
 
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    return new ChallengeResult(provider, this);
-            //}
+        //    //if (!User.Identity.IsAuthenticated)
+        //    //{
+        //    //    return new ChallengeResult(provider, this);
+        //    //}
 
-            //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+        //    //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
-            //if (externalLogin == null)
-            //{
-            //    return InternalServerError();
-            //}
+        //    //if (externalLogin == null)
+        //    //{
+        //    //    return InternalServerError();
+        //    //}
 
-            //if (externalLogin.LoginProvider != provider)
-            //{
-            //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            //    return new ChallengeResult(provider, this);
-            //}
+        //    //if (externalLogin.LoginProvider != provider)
+        //    //{
+        //    //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+        //    //    return new ChallengeResult(provider, this);
+        //    //}
 
-            //ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-            //    externalLogin.ProviderKey));
+        //    //ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+        //    //    externalLogin.ProviderKey));
 
-            //bool hasRegistered = user != null;
+        //    //bool hasRegistered = user != null;
 
-            //if (hasRegistered)
-            //{
-            //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+        //    //if (hasRegistered)
+        //    //{
+        //    //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-            //     ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
-            //    ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
+        //    //     ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
+        //    //    ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
 
-            //    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-            //    Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            //}
-            //else
-            //{
-            //    IEnumerable<Claim> claims = externalLogin.GetClaims();
-            //    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-            //    Authentication.SignIn(identity);
-            //}
+        //    //    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+        //    //    Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+        //    //}
+        //    //else
+        //    //{
+        //    //    IEnumerable<Claim> claims = externalLogin.GetClaims();
+        //    //    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+        //    //    Authentication.SignIn(identity);
+        //    //}
 
-            //return Ok();
-        }
+        //    //return Ok();
+        //}
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
@@ -358,11 +374,52 @@ namespace Quilt4.Service.Controllers
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
             var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                result = await AutoAdminAssignment(user) ?? result;
+            }
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
+
+            return Ok();
+        }
+
+        private async Task<IdentityResult> AutoAdminAssignment(ApplicationUser user)
+        {
+            var autoAdminCountString = System.Configuration.ConfigurationManager.AppSettings["AutoAdminCount"];
+            int autoAdminCount;
+            if (!int.TryParse(autoAdminCountString, out autoAdminCount))
+            {
+                autoAdminCount = 2;
+            }
+
+            IdentityResult result = null;
+            if (UserManager.Users.Count() <= autoAdminCount)
+            {
+                var role = await RoleManager.FindByNameAsync(Constants.Administrators);
+                if (role == null)
+                {
+                    result = await RoleManager.CreateAsync(new ApplicationRole { Name = Constants.Administrators });
+                }
+
+                if (result == null || result.Succeeded)
+                {
+                    var userId = UserManager.FindByName(user.UserName).Id;
+                    result = await UserManager.AddToRoleAsync(userId, Constants.Administrators);
+                }
+            }
+
+            return result;
+        }
+
+        [Authorize(Roles = Constants.Administrators)]
+        [Route("Role/Assign")]
+        public async Task<IHttpActionResult> AddRole(AddRoleModel addRoleModel)
+        {
+            var result = await UserManager.AddToRoleAsync(addRoleModel.UserName, addRoleModel.Role);
 
             return Ok();
         }
@@ -527,5 +584,12 @@ namespace Quilt4.Service.Controllers
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+    }
+
+    //TODO: Use the version from quilt4Net
+    public class AddRoleModel
+    {
+        public string UserName { get; set; }
+        public string Role { get; set; }
     }
 }

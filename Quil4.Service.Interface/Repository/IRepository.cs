@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Quilt4.Service.Entity;
+using Version = Quilt4.Service.Entity.Version;
 
 namespace Quilt4.Service.Interface.Repository
 {
     public interface IRepository
     {
         //User
-        void SaveUser(User user);
-        User GetUser(string userName);
+        void CreateUser(User user, DateTime serverTime);
+        void UpdateUser(User user);
+        User GetUserByUserName(string userName);
+        User GetUserByUserKey(string userKey);
+        IEnumerable<User> GetUsers();
+        IEnumerable<Role> GetRolesByUser(string userName);
+        void AddUserToRole(string userName, string roleName);
+
+        //Role
+        void CreateRole(Role role);
+        Role GetRole(string roleName);
 
         //Project
         Guid? GetProjectKey(string projectApiKey);
@@ -26,8 +36,10 @@ namespace Quilt4.Service.Interface.Repository
         //Application/Version
         Guid? GetApplicationKey(Guid projectKey, string name);
         void SaveApplication(Guid applicationKey, Guid projectKey, string name, DateTime serverTime);
+        IEnumerable<Application> GetApplications(string userName, Guid projectKey);
         Guid? GetVersionKey(Guid applicaitonKey, string versionNumber, DateTime? buildTime);
         void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionNumber, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime);
+        IEnumerable<Version> GetVersions(string userName, Guid applicationKey);
 
         //ApplicationUser
         Guid? GetApplicationUser(Guid projectKey, string fingerprint);
@@ -42,5 +54,6 @@ namespace Quilt4.Service.Interface.Repository
         void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
         void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
         int GetNextTicket(Guid projectKey);
+        IEnumerable<IssueType> GetIssueTypes(string userName, Guid versionKey);
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Quilt4.Service
 {
-    internal class Constants
-    {        
+    internal static class Constants
+    {
+        public const string Administrators = "Administrators";
     }
 }

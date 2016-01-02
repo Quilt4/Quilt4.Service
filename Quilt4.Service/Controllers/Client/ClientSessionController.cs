@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
 using Quilt4.Service.Converters;
@@ -18,17 +17,17 @@ namespace Quilt4.Service.Controllers.Client
             _sessionBusiness = sessionBusiness;
         }
 
-        [Route("api/Client/Session")]
-        public IEnumerable<SessionResponse> Get()
-        {
-            throw new NotImplementedException();
-        }
+        //[Route("api/Client/Session")]
+        //public IEnumerable<SessionResponse> Get()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        [Route("api/Client/Session/{id}")]
-        public SessionResponse Get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        //[Route("api/Client/Session/{id}")]
+        //public SessionResponse Get(Guid id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         [AllowAnonymous]
         [Route("api/Client/Session")]

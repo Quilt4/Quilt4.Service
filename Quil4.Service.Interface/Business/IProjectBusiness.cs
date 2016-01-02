@@ -12,6 +12,7 @@ namespace Quilt4.Service.Interface.Business
         void CreateProject(string userName, Guid projectKey, string name, string dashboardColor);
         void UpdateProject(Guid projectKey, string name, string dashboardColor, string userName);
         void DeleteProject(Guid projectKey);
+        IEnumerable<ProjectMember> GetMembers(Guid projectKey);
 
         //TODO: Revisit
         IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId);

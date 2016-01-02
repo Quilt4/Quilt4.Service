@@ -16,6 +16,18 @@ namespace Quilt4.Service
 
         public override IQueryable<ApplicationUser> Users => ((CustomUserSore<ApplicationUser>)Store).GetAll().AsQueryable();
 
+        protected override Task<bool> VerifyPasswordAsync(IUserPasswordStore<ApplicationUser, string> store, ApplicationUser user, string password)
+        {
+            return base.VerifyPasswordAsync(store, user, password);
+        }
+
+        public Task<IdentityResult> CreateAsync(ApplicationUser user, string password, string callerIp)
+        {
+            //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)
+
+            return base.CreateAsync(user, password);
+        }
+
         public static ApplicationUserManager Create(IRepository repository)
         {
             return new ApplicationUserManager(repository);

@@ -63,6 +63,7 @@
     <Compile Include="MachineDataRequestEntity.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="ProjectInvitation.cs" />
+    <Compile Include="ProjectMember.cs" />
     <Compile Include="ProjectPageApplication.cs" />
     <Compile Include="ProjectPageProject.cs" />
     <Compile Include="ProjectPageVersion.cs" />

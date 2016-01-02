@@ -13,13 +13,10 @@ namespace Quilt4.Service.Business
             _repository = repository;
         }
 
-        //public string GetPasswordPadding()
-        //{
-        //    lock (_syncRoot)
-        //    {
-        //        var response = _repository.GetSetting("PasswordPadding", RandomUtility.GetRandomString(20));
-        //        return response;
-        //    }
-        //}
+        public T GetSetting<T>(string settingName, T defaultValue)
+        {
+            //TODO: Read from the setting table
+            return defaultValue;
+        }
     }
 }

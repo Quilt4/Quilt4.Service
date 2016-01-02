@@ -145,6 +145,22 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public Entity.ProjectMember[] GetProjectUsers(Guid projectKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, true)).ToArray();
+            }
+        }
+
+        public Entity.ProjectMember[] GetProjectInvitation(Guid projectKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, false)).ToArray();
+            }
+        }
+
         public int GetNextTicket(Guid projectKey)
         {
             using (var context = GetDataContext())

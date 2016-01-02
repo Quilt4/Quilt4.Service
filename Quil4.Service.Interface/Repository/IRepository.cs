@@ -29,6 +29,8 @@ namespace Quilt4.Service.Interface.Repository
         void UpdateProject(Guid projectKey, string name, string dashboardColor);
         void DeleteProject(Guid projectKey);
         void CreateProjectInvitation(Guid projectKey, string userName, string inviteCode, string userKey, string email, DateTime serverTime);
+        ProjectMember[] GetProjectUsers(Guid projectKey);
+        ProjectMember[] GetProjectInvitation(Guid projectKey);
 
         //Session
         Session GetSession(Guid sessionId);

@@ -40,6 +40,13 @@ namespace Quilt4.Service.Business
             _repository.DeleteProject(projectKey);
         }
 
+        public IEnumerable<ProjectMember> GetMembers(Guid projectKey)
+        {
+            var a = _repository.GetProjectUsers(projectKey);
+            var b = _repository.GetProjectInvitation(projectKey);
+            return a.Union(b);
+        }
+
         public IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId)
         {
             return _readRepository.GetVersions(userId, projectId, applicationId);

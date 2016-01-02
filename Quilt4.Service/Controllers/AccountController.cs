@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -357,6 +356,9 @@ namespace Quilt4.Service.Controllers
                 {
                     Content = new StringContent(responseString, Encoding.UTF8, "application/json")
                 };
+
+                //TODO: Lock account when too many failed logins has been performed within a too short time.
+
                 return responseMsg;
             }
         }
@@ -373,7 +375,8 @@ namespace Quilt4.Service.Controllers
 
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
-            var result = await UserManager.CreateAsync(user, model.Password);
+            var callerIp = HttpContext.Current.Request.UserHostAddress;
+            var result = await UserManager.CreateAsync(user, model.Password, callerIp);
             if (result.Succeeded)
             {
                 result = await AutoAdminAssignment(user) ?? result;
@@ -574,22 +577,5 @@ namespace Quilt4.Service.Controllers
         }
 
         #endregion
-    }
-
-    public class LoginUserBindingModel
-    {
-        [Required]
-        public string Username { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-    }
-
-    //TODO: Use the version from quilt4Net
-    public class AddRoleModel
-    {
-        public string UserName { get; set; }
-        public string Role { get; set; }
     }
 }

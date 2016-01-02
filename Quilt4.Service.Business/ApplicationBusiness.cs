@@ -10,14 +10,14 @@ namespace Quilt4.Service.Business
     {
         private readonly IRepository _repository;
 
-        public ApplicationBusiness(IRepository repository)
-        {
-            _repository = repository;
-        }
-
         public IEnumerable<Application> GetApplications(string userName, Guid projectKey)
         {
             return _repository.GetApplications(userName, projectKey);
+        }
+
+        public ApplicationBusiness(IRepository repository)
+        {
+            _repository = repository;
         }
     }
 }

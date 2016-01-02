@@ -10,10 +10,12 @@ namespace Quilt4.Service.Business
     public class UserBusiness : IUserBusiness
     {
         private readonly IRepository _repository;
+        private readonly ISettingBusiness _settingBusiness;
 
-        public UserBusiness(IRepository repository)
+        public UserBusiness(IRepository repository, ISettingBusiness settingBusiness)
         {
             _repository = repository;
+            _settingBusiness = settingBusiness;
         }
 
         public IEnumerable<User> GetList()
@@ -21,23 +23,15 @@ namespace Quilt4.Service.Business
             return _repository.GetUsers();
         }
 
-        public void Invite(string userName, Guid projectKey, string user)
+        public IEnumerable<User> SearchUsers(string searchString, string callerIp)
         {
-            if (_repository.GetProjects(userName).All(x => x.ProjectKey != projectKey))
-                throw new InvalidOperationException("The user doesn't have access to the provided project.");
+            //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)
 
-            var userEntity = _repository.GetUserByUserName(user) ?? _repository.GetUserByEMail(user);
+            var minUserSearchStringLength = _settingBusiness.GetSetting("MinUserSearchStringLength", 3);
+            if (searchString.Length < minUserSearchStringLength)
+                return new List<User> { };
 
-            string userKey = null;
-            string email = null;
-            if (userEntity != null)
-                userKey = userEntity.UserKey;
-            else
-                email = user;
-
-            var inviteCode = RandomUtility.GetRandomString(12);
-
-            _repository.CreateProjectInvitation(projectKey, userName, inviteCode, userKey, email, DateTime.UtcNow);
+            return _repository.GetUsers().Where(x => x.Username.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

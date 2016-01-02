@@ -574,7 +574,8 @@ namespace Quilt4.Service.SqlRepository
                 var projectUser = new ProjectUser
                 {
                     ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
-                    UserId = user.UserId
+                    UserId = user.UserId,
+                    Role = "Owner"
                 };
 
                 context.ProjectUsers.InsertOnSubmit(projectUser);
@@ -608,13 +609,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.ProjectInvitations.Where(x => x.User.UserName == userName).Select(x => new Entity.ProjectInvitation
-                {
-                    ProjectKey = x.Project.ProjectKey,
-                    Name = x.Project.Name,
-                    InvitedByUserName = x.User1.UserName,
-                    InviteTime = x.ServerCreateTime,
-                }).ToArray();
+                return context.ProjectInvitations.Where(x => x.User.UserName == userName).Select(x => new Entity.ProjectInvitation(x.Project.ProjectKey, x.Project.Name, x.User1.UserName, x.ServerCreateTime, x.InviteCode)).ToArray();
             }
         }
 

@@ -218,6 +218,7 @@ CREATE TABLE ProjectUser
 	ProjectUserId INT NOT NULL IDENTITY,
 	ProjectId INT NOT NULL,
 	UserId INT NOT NULL,
+	[Role] varchar(50) NOT NULL,
 	CONSTRAINT PK_ProjectUser PRIMARY KEY CLUSTERED ( ProjectUserId ),
 	CONSTRAINT FK_ProjectUser_Project FOREIGN KEY (ProjectId) REFERENCES Project(ProjectId),
 	CONSTRAINT FK_ProjectUser_User FOREIGN KEY (UserId) REFERENCES [User](UserId),
@@ -383,5 +384,13 @@ CREATE TABLE dbo.IssueData
 	Value VARCHAR(MAX) NOT NULL,
 	CONSTRAINT PK_IssueData PRIMARY KEY CLUSTERED ( IssueDataId ),
 	CONSTRAINT FK_IssueData_Issue FOREIGN KEY (IssueId) REFERENCES Issue(IssueId)
+);
+GO
+CREATE TABLE dbo.Setting
+(
+	SettingId INT NOT NULL IDENTITY,
+	Name VARCHAR(128) NOT NULL,
+	Value VARCHAR(1024) NOT NULL,	
+	CONSTRAINT PK_Setting PRIMARY KEY CLUSTERED ( SettingId ),
 );
 GO

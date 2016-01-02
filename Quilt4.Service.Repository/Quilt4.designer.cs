@@ -69,6 +69,9 @@ namespace Quilt4.Service.SqlRepository
     partial void InsertSession(Session instance);
     partial void UpdateSession(Session instance);
     partial void DeleteSession(Session instance);
+    partial void InsertSetting(Setting instance);
+    partial void UpdateSetting(Setting instance);
+    partial void DeleteSetting(Setting instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
@@ -232,6 +235,14 @@ namespace Quilt4.Service.SqlRepository
 			get
 			{
 				return this.GetTable<Session>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Setting> Settings
+		{
+			get
+			{
+				return this.GetTable<Setting>();
 			}
 		}
 		
@@ -1491,8 +1502,6 @@ namespace Quilt4.Service.SqlRepository
 		
 		private System.DateTime _CreationServerTime;
 		
-		private System.DateTime _LastIssueServerTime;
-		
 		private EntitySet<Issue> _Issues;
 		
 		private EntityRef<Version> _Version;
@@ -1519,8 +1528,6 @@ namespace Quilt4.Service.SqlRepository
     partial void OnTicketChanged();
     partial void OnCreationServerTimeChanging(System.DateTime value);
     partial void OnCreationServerTimeChanged();
-    partial void OnLastIssueServerTimeChanging(System.DateTime value);
-    partial void OnLastIssueServerTimeChanged();
     #endregion
 		
 		public IssueType()
@@ -1710,26 +1717,6 @@ namespace Quilt4.Service.SqlRepository
 					this._CreationServerTime = value;
 					this.SendPropertyChanged("CreationServerTime");
 					this.OnCreationServerTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastIssueServerTime", DbType="DateTime NOT NULL")]
-		public System.DateTime LastIssueServerTime
-		{
-			get
-			{
-				return this._LastIssueServerTime;
-			}
-			set
-			{
-				if ((this._LastIssueServerTime != value))
-				{
-					this.OnLastIssueServerTimeChanging(value);
-					this.SendPropertyChanging();
-					this._LastIssueServerTime = value;
-					this.SendPropertyChanged("LastIssueServerTime");
-					this.OnLastIssueServerTimeChanged();
 				}
 			}
 		}
@@ -3044,6 +3031,8 @@ namespace Quilt4.Service.SqlRepository
 		
 		private int _UserId;
 		
+		private string _Role;
+		
 		private EntityRef<Project> _Project;
 		
 		private EntityRef<User> _User;
@@ -3058,6 +3047,8 @@ namespace Quilt4.Service.SqlRepository
     partial void OnProjectIdChanged();
     partial void OnUserIdChanging(int value);
     partial void OnUserIdChanged();
+    partial void OnRoleChanging(string value);
+    partial void OnRoleChanged();
     #endregion
 		
 		public ProjectUser()
@@ -3131,6 +3122,26 @@ namespace Quilt4.Service.SqlRepository
 					this._UserId = value;
 					this.SendPropertyChanged("UserId");
 					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Role
+		{
+			get
+			{
+				return this._Role;
+			}
+			set
+			{
+				if ((this._Role != value))
+				{
+					this.OnRoleChanging(value);
+					this.SendPropertyChanging();
+					this._Role = value;
+					this.SendPropertyChanged("Role");
+					this.OnRoleChanged();
 				}
 			}
 		}
@@ -3788,6 +3799,116 @@ namespace Quilt4.Service.SqlRepository
 		{
 			this.SendPropertyChanging();
 			entity.Session = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Setting")]
+	public partial class Setting : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SettingId;
+		
+		private string _Name;
+		
+		private string _Value;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSettingIdChanging(int value);
+    partial void OnSettingIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnValueChanging(string value);
+    partial void OnValueChanged();
+    #endregion
+		
+		public Setting()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SettingId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SettingId
+		{
+			get
+			{
+				return this._SettingId;
+			}
+			set
+			{
+				if ((this._SettingId != value))
+				{
+					this.OnSettingIdChanging(value);
+					this.SendPropertyChanging();
+					this._SettingId = value;
+					this.SendPropertyChanged("SettingId");
+					this.OnSettingIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="VarChar(1024) NOT NULL", CanBeNull=false)]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	

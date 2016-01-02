@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 
@@ -14,6 +16,11 @@ namespace Quilt4.Service.Business
         {
             _repository = repository;
             _settingBusiness = settingBusiness;
+        }
+
+        public IEnumerable<ProjectInvitation> GetUserInvitations(string userName)
+        {
+            return _repository.GetInvitations(userName);
         }
 
         public void Invite(string userName, Guid projectKey, string user)

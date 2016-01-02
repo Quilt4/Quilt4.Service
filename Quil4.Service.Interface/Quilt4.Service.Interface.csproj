@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Business\IApplicationBusiness.cs" />
     <Compile Include="Business\IDashboardBusiness.cs" />
+    <Compile Include="Business\IInvitationBusiness.cs" />
     <Compile Include="Business\IIssueBusiness.cs" />
     <Compile Include="Business\IProjectBusiness.cs" />
     <Compile Include="Business\IIssueTypeBusiness.cs" />

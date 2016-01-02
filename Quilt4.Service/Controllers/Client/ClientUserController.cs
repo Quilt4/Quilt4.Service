@@ -24,19 +24,7 @@ namespace Quilt4.Service.Controllers.Client
             var response = _userBusiness.GetList().Select(x => new UserResponse { UserName = x.Username, EMail = x.Email });
             return response;
         }
-
-        //[Route("api/Client/User/Invite")]
-        //public void Invite(InviteRequest inviteRequest)
-        //{
-        //    _userBusiness.Invite(User.Identity.Name, inviteRequest.ProjectKey, inviteRequest.User);
-        //}
-
-        //[Route("api/Client/User/Accept")]
-        //public void Accept(InviteAcceptRequest inviteRequest)
-        //{
-        //    _userBusiness.Accept(User.Identity.Name, inviteRequest.InviteCode);
-        //}
-
+        
         [Route("api/Client/User/UserQuery")]
         public IEnumerable<QueryUserResponse> UserQuery([FromBody]QueryUserRequest queryUserRequest)
         {

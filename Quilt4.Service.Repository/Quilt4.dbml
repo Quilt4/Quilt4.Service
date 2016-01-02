@@ -67,7 +67,6 @@
       <Column Name="StackTrace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastIssueServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="IssueType_Issue" Member="Issues" ThisKey="IssueTypeId" OtherKey="IssueTypeId" Type="Issue" />
       <Association Name="Version_IssueType" Member="Version" ThisKey="VersionId" OtherKey="VersionId" Type="Version" IsForeignKey="true" />
     </Type>
@@ -132,6 +131,7 @@
       <Column Name="ProjectUserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Role" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Project_ProjectUser" Member="Project" ThisKey="ProjectId" OtherKey="ProjectId" Type="Project" IsForeignKey="true" />
       <Association Name="User_ProjectUser" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
@@ -160,6 +160,13 @@
       <Association Name="ApplicationUser_Session" Member="ApplicationUser" ThisKey="ApplicationUserId" OtherKey="ApplicationUserId" Type="ApplicationUser" IsForeignKey="true" />
       <Association Name="Machine_Session" Member="Machine" ThisKey="MachineId" OtherKey="MachineId" Type="Machine" IsForeignKey="true" />
       <Association Name="Version_Session" Member="Version" ThisKey="VersionId" OtherKey="VersionId" Type="Version" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Setting" Member="Settings">
+    <Type Name="Setting">
+      <Column Name="SettingId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.[User]" Member="Users">

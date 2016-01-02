@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
@@ -18,9 +19,9 @@ namespace Quilt4.Service.Controllers.Client
 
         [HttpPost]
         [Route("api/Client/Invitation/UserInvitationQuery")]
-        public IEnumerable<MemberResponse> UserInvitationQuery([FromBody] Guid projectKey)
+        public IEnumerable<InvitationResponse> UserInvitationQuery()
         {
-            throw new NotImplementedException("Return members for this project along with pending members.");
+            return _invitationBusiness.GetUserInvitations(User.Identity.Name).Select(x => new InvitationResponse { ProjectKey = x.ProjectKey, ProjectName = x.Name, InviteCode = x.InviteCode, InvitedByUserName = x.InvitedByUserName, InviteTime = x.InviteTime });
         }
 
         [Route("api/Client/Invitation/InviteCommand")]
@@ -35,5 +36,15 @@ namespace Quilt4.Service.Controllers.Client
             //_userBusiness.Accept(User.Identity.Name, inviteRequest.InviteCode);
             throw new NotImplementedException();
         }
+    }
+
+    public class InvitationResponse
+    {
+        //TODO: Replace this class with the version from the nuget package
+        public Guid ProjectKey { get; set; }
+        public string ProjectName { get; set; }
+        public string InviteCode { get; set; }
+        public DateTime InviteTime { get; set; }
+        public string InvitedByUserName { get; set; }
     }
 }

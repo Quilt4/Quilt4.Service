@@ -25,13 +25,7 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<ProjectInvitation> GetInvitations(string userName)
         {
-            return _repository.GetInvitations(userName).Select(x => new ProjectInvitation
-            {
-                ProjectKey = x.ProjectKey,
-                Name = x.Name,
-                InviteTime = DateTime.MinValue,
-                InvitedByUserName = "?",
-            });
+            return _repository.GetInvitations(userName);
         }
     }
 }

@@ -1,283 +1,289 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 19.5, 19.625" name="Quilt4">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 19.5, 19.75" name="Quilt4">
   <DataContextMoniker Name="/Quilt4DataContext" />
   <nestedChildShapes>
-    <classShape Id="ca73e726-2532-4e47-9a4f-edecedb4967f" absoluteBounds="6.25, 11.625, 2, 1.7708968098958344">
+    <classShape Id="9895d507-eee3-430c-b17b-f1cfc4a4bc22" absoluteBounds="6.25, 11.875, 2, 1.7708968098958344">
       <DataClassMoniker Name="/Quilt4DataContext/Application" />
       <nestedChildShapes>
-        <elementListCompartment Id="c2513192-1534-41c0-bcb0-0d1bc66a837e" absoluteBounds="6.265, 12.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0135b035-0710-43e6-bc38-76b20232d647" absoluteBounds="6.265, 12.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="28b8698f-9de7-42e1-bd3a-62c569c0cb07" absoluteBounds="0.75, 0.75, 2, 2.1554996744791666">
+    <classShape Id="2b1d0faf-cfd2-41f1-9ae0-f18527180b66" absoluteBounds="0.75, 0.75, 2, 2.1554996744791666">
       <DataClassMoniker Name="/Quilt4DataContext/VersionPageVersion" />
       <nestedChildShapes>
-        <elementListCompartment Id="ca6f3159-aa3d-458a-a349-8648e40e1355" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c37dc263-dd10-4b9a-b62c-efab3efde632" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c7bcb3bf-14ae-44a4-8d30-f2da1a4c29ea" absoluteBounds="6.25, 14.625, 2, 1.9631982421875005">
+    <classShape Id="8e830a95-0e2e-4e4d-a9a6-4aaadde22e9e" absoluteBounds="6.25, 14.75, 2, 1.9631982421875005">
       <DataClassMoniker Name="/Quilt4DataContext/ApplicationUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="748b139a-d6e0-4b56-bf15-315225652769" absoluteBounds="6.265, 15.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="dfbbaff8-2d2b-46c6-a3b7-ed36e0a8ad7c" absoluteBounds="6.265, 15.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2d1edcb7-b0d6-441d-a26f-ee23ac162410" absoluteBounds="14.5, 11.5, 2, 1.9631982421874987">
+    <classShape Id="2b056416-1b1d-49be-8675-432af32d7d15" absoluteBounds="14.5, 11.75, 2, 1.9631982421874987">
       <DataClassMoniker Name="/Quilt4DataContext/Issue" />
       <nestedChildShapes>
-        <elementListCompartment Id="a3ab5759-44d9-4071-9f7e-08461fb22f01" absoluteBounds="14.515, 11.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="279ca80c-97d1-4865-a3f0-76da4b267534" absoluteBounds="14.515, 12.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="f815947c-f95c-408f-bc39-751a4803d849" absoluteBounds="17.25, 11.75, 2, 1.5785953776041666">
+    <classShape Id="62faf30a-e41c-47c6-bac0-af2a86f89b9b" absoluteBounds="17.25, 12, 2, 1.5785953776041666">
       <DataClassMoniker Name="/Quilt4DataContext/IssueData" />
       <nestedChildShapes>
-        <elementListCompartment Id="81e6ab1d-7e76-4f7e-8074-123b8a53abbe" absoluteBounds="17.265, 12.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="affb4423-4c5e-4871-b9ba-424382f17fdd" absoluteBounds="17.265, 12.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="25d68425-b2d9-4b2e-9b79-4858850128c8" absoluteBounds="11.75, 11.125, 2, 2.7324039713541666">
+    <classShape Id="2cd3e550-2d1d-4b7e-8f55-4e57b5856291" absoluteBounds="11.75, 11.5, 2, 2.5401025390624987">
       <DataClassMoniker Name="/Quilt4DataContext/IssueType" />
       <nestedChildShapes>
-        <elementListCompartment Id="9d6e6384-235a-4411-963b-361b9be3132b" absoluteBounds="11.765, 11.585, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="579ddfc9-ab34-458f-85db-eeda7eb3f3b2" absoluteBounds="11.765, 11.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="329ab7bc-b315-4afe-abb5-9a9fc7bbfceb" absoluteBounds="6.25, 17.375, 2, 1.9631982421875023">
+    <classShape Id="8943359d-ab53-4ab4-961f-383f4c530a0e" absoluteBounds="6.25, 17.5, 2, 1.9631982421875023">
       <DataClassMoniker Name="/Quilt4DataContext/Machine" />
       <nestedChildShapes>
-        <elementListCompartment Id="f9c25795-247d-466a-8982-4af2233aeaf8" absoluteBounds="6.265, 17.835, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bff0ec15-96c4-4690-90bf-8bb140756b87" absoluteBounds="6.265, 17.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="4019cc76-fa3b-466d-9bd3-16123f345602" absoluteBounds="9, 17.5, 2, 1.7708968098958309">
+    <classShape Id="b182e8da-aa72-4966-b435-00df3565e98e" absoluteBounds="9, 17.625, 2, 1.7708968098958309">
       <DataClassMoniker Name="/Quilt4DataContext/MachineData" />
       <nestedChildShapes>
-        <elementListCompartment Id="43f98645-1e08-4858-9a0e-9a449242294b" absoluteBounds="9.015, 17.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="67011049-0cd2-4353-bf68-a5599cb4d945" absoluteBounds="9.015, 18.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="675bccac-2f25-4b45-bfe8-040c46660250" absoluteBounds="3.5, 12, 2, 2.3478011067708344">
+    <classShape Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" absoluteBounds="3.5, 12, 2, 2.3478011067708344">
       <DataClassMoniker Name="/Quilt4DataContext/Project" />
       <nestedChildShapes>
-        <elementListCompartment Id="2ffadaa2-fe57-47ff-b5fd-3e90550b2298" absoluteBounds="3.515, 12.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6a26f3c6-9b0a-4d60-ac86-f5b7dccbda2a" absoluteBounds="3.515, 12.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="14422a69-9b24-4a84-b67f-10be8e0d4c7c" absoluteBounds="9.25, 8.125, 2, 2.1554996744791666">
+    <classShape Id="d7333d03-88b2-4cad-a4ee-c73193fb524a" absoluteBounds="9.25, 8.125, 2, 2.1554996744791666">
       <DataClassMoniker Name="/Quilt4DataContext/ProjectInvitation" />
       <nestedChildShapes>
-        <elementListCompartment Id="062470bd-7d90-4576-a9b9-7a1fbbb8f83c" absoluteBounds="9.265, 8.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c0b63fbe-be83-4ce3-a718-1235d1a4e1aa" absoluteBounds="9.265, 8.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2d70b306-475a-4cc6-8637-8e6c9af21b94" absoluteBounds="6.25, 9.5, 2, 1.3862939453124987">
+    <classShape Id="c1cb5e68-353c-464e-af3c-71867a7e712d" absoluteBounds="6.25, 9.375, 2, 1.5785953776041666">
       <DataClassMoniker Name="/Quilt4DataContext/ProjectUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="17dbfb15-1291-45f8-a9eb-506e933b05bf" absoluteBounds="6.265, 9.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8ed38ef6-13e2-44fa-9278-aed5180f2892" absoluteBounds="6.265, 9.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="115b6e93-6853-4846-b0f0-36835d0f6e0a" absoluteBounds="0.75, 7.625, 2, 1.1939925130208344">
+    <classShape Id="7a2f4557-37ea-4bd8-b079-f93276b2217f" absoluteBounds="0.75, 7.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/Quilt4DataContext/Role" />
       <nestedChildShapes>
-        <elementListCompartment Id="80e0133e-9bf9-4de6-a193-505b2532592d" absoluteBounds="0.765, 8.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0305b82f-d072-4dfd-90e4-f7cb71a524bb" absoluteBounds="0.765, 8.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b8b713ad-efb4-4025-9ef4-5dac80257b13" absoluteBounds="11.75, 15, 2, 2.9247054036458309">
+    <classShape Id="f04c51a1-804f-4bc7-8c82-06f4a64c5c9a" absoluteBounds="11.75, 15.125, 2, 2.9247054036458309">
       <DataClassMoniker Name="/Quilt4DataContext/Session" />
       <nestedChildShapes>
-        <elementListCompartment Id="2f26c9a5-aeac-4bd4-99ef-b7749a03806a" absoluteBounds="11.765, 15.46, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ef8b2fac-edde-4544-a9f1-14739ce642c2" absoluteBounds="11.765, 15.585, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9ecc47db-cb45-4ca4-8536-47f1342d0748" absoluteBounds="0.75, 10.125, 2, 2.1554996744791666">
+    <classShape Id="c53d6e6f-2b3e-4e14-9b31-4b5987bcb860" absoluteBounds="3.75, 0.75, 2, 1.3862939453125">
+      <DataClassMoniker Name="/Quilt4DataContext/Setting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3279df74-2b23-41ef-8843-6ad3a2711304" absoluteBounds="3.765, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3e4b4046-f804-45ed-8a8d-0040e6f21bbd" absoluteBounds="0.75, 10.125, 2, 2.1554996744791666">
       <DataClassMoniker Name="/Quilt4DataContext/User" />
       <nestedChildShapes>
-        <elementListCompartment Id="a1e30e71-54f7-43f7-978a-173b8e98d4d9" absoluteBounds="0.765, 10.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="712767a7-523e-4c7b-a714-c67206d193db" absoluteBounds="0.765, 10.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c7515589-1b5c-436d-b57d-769a51ba9bd8" absoluteBounds="3.5, 9.625, 2, 1.1939925130208344">
+    <classShape Id="58400ce5-49eb-494a-9d87-2636380a023b" absoluteBounds="3.5, 9.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/Quilt4DataContext/UserRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="e54eca8d-1d2f-4817-9e1f-6ce874e93483" absoluteBounds="3.515, 10.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b96a86c7-4659-42cd-9486-c23277c07f25" absoluteBounds="3.515, 10.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="75c1e76d-ea53-43ac-a7e9-5967eb3dd4ae" absoluteBounds="9, 11.5, 2, 2.1554996744791666">
+    <classShape Id="17e0a567-a842-43f5-8f5d-3d1de6db8c4c" absoluteBounds="9, 11.625, 2, 2.1554996744791666">
       <DataClassMoniker Name="/Quilt4DataContext/Version" />
       <nestedChildShapes>
-        <elementListCompartment Id="f7043fb5-0e4b-4e27-b771-ca2a4f3d4406" absoluteBounds="9.015, 11.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="217639aa-7da7-4f60-a487-8bff241336bd" absoluteBounds="9.015, 12.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="8101693d-9597-4500-9e16-d03ab2637148" absoluteBounds="3.75, 0.75, 2, 2.3478011067708335">
+    <classShape Id="79bca4ac-031f-474b-bd57-592353fd3f4d" absoluteBounds="0.75, 3.75, 2, 2.347801106770834">
       <DataClassMoniker Name="/Quilt4DataContext/DashboardPageProject" />
       <nestedChildShapes>
-        <elementListCompartment Id="e23e5bee-6f21-4ad0-82fb-9c192858a1a9" absoluteBounds="3.765, 1.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e400cf18-4223-4218-a4d9-73f20e92ecd6" absoluteBounds="0.765, 4.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c99d9667-3beb-4b00-957f-614d447f8ff2" absoluteBounds="3.75, 4.75, 2, 2.5401025390625005">
+    <classShape Id="a436fd12-096d-4816-a8a4-77327f4eab25" absoluteBounds="3.75, 3.75, 2, 2.5401025390625005">
       <DataClassMoniker Name="/Quilt4DataContext/IssueTypePageIssue" />
       <nestedChildShapes>
-        <elementListCompartment Id="0139f824-48c6-4c6f-818c-7fb56c1e90ab" absoluteBounds="3.765, 5.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="fbd81921-1075-4f6e-b17c-64e4b0e54e5e" absoluteBounds="3.765, 4.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="3e5c524f-c049-4bd4-8c4a-40a7f265641b" absoluteBounds="6.75, 0.75, 2, 3.3093082682291666">
+    <classShape Id="f5dc5a32-8387-4da2-967f-89fdaa5f837b" absoluteBounds="6.75, 0.75, 2, 3.3093082682291666">
       <DataClassMoniker Name="/Quilt4DataContext/IssueTypePageIssueType" />
       <nestedChildShapes>
-        <elementListCompartment Id="0edd6b8f-778d-43e3-935e-2ad9ddfaa779" absoluteBounds="6.765, 1.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ad1abedb-22e2-4734-9f54-d696e88da498" absoluteBounds="6.765, 1.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="dba585a2-2107-444b-99f6-73f53a0d8347" absoluteBounds="9.75, 0.75, 2, 1.7708968098958329">
+    <classShape Id="e407c898-b6ae-40de-9a69-663bcb6f2cc8" absoluteBounds="9.75, 0.75, 2, 1.7708968098958329">
       <DataClassMoniker Name="/Quilt4DataContext/ProjectPageApplication" />
       <nestedChildShapes>
-        <elementListCompartment Id="48133904-5ad8-4da9-acb3-315a670a0edf" absoluteBounds="9.765, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4d95e1c4-d510-4811-ad0a-61669b210ec9" absoluteBounds="9.765, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2f90f49b-2cd8-4ef5-a4a8-b46b9634efb5" absoluteBounds="9.75, 3.75, 2, 1.7708968098958327">
+    <classShape Id="77b673f7-297e-4ee6-8bd2-e01366d10a4a" absoluteBounds="9.75, 3.75, 2, 1.7708968098958327">
       <DataClassMoniker Name="/Quilt4DataContext/ProjectPageProject" />
       <nestedChildShapes>
-        <elementListCompartment Id="9fefc284-3ab8-44b2-9f28-3457eb8d4143" absoluteBounds="9.765, 4.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="18b5e829-68a5-4a62-9234-2ada44dee7ee" absoluteBounds="9.765, 4.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="cd359436-ff59-41eb-8359-382d62fda38f" absoluteBounds="11.75, 6.75, 2, 2.7324039713541666">
+    <classShape Id="d9b7e940-1896-4855-9d3c-e8d9da5c718d" absoluteBounds="11.75, 6.75, 2, 2.7324039713541666">
       <DataClassMoniker Name="/Quilt4DataContext/ProjectPageVersion" />
       <nestedChildShapes>
-        <elementListCompartment Id="12cd091a-795b-4254-afbf-d61608138048" absoluteBounds="11.765, 7.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="aaa32bf7-fc22-4f89-ae8d-4c0dac166168" absoluteBounds="11.765, 7.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="d08f1369-b5ce-4cf7-9c01-00396f631c6b" absoluteBounds="12.75, 0.75, 2, 3.1170068359375005">
+    <classShape Id="51ef1831-de00-4476-bfd7-b66628580128" absoluteBounds="12.75, 0.75, 2, 3.1170068359375005">
       <DataClassMoniker Name="/Quilt4DataContext/VersionPageIssueType" />
       <nestedChildShapes>
-        <elementListCompartment Id="8758b054-1c29-4f63-bd1a-61e39ef6dc14" absoluteBounds="12.765, 1.21, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="059ea3eb-985d-4698-805b-5124c59eafad" absoluteBounds="12.765, 1.21, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(16.5 : 12.5392976888021); (17.25 : 12.5392976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(16.5 : 12.7892976888021); (17.25 : 12.7892976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Issue/Issue_IssueData" />
       <nodes>
-        <classShapeMoniker Id="2d1edcb7-b0d6-441d-a26f-ee23ac162410" />
-        <classShapeMoniker Id="f815947c-f95c-408f-bc39-751a4803d849" />
+        <classShapeMoniker Id="2b056416-1b1d-49be-8675-432af32d7d15" />
+        <classShapeMoniker Id="62faf30a-e41c-47c6-bac0-af2a86f89b9b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(13.75 : 12.4815991210937); (14.5 : 12.4815991210937)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(13.75 : 12.7315991210937); (14.5 : 12.7315991210937)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/IssueType/IssueType_Issue" />
       <nodes>
-        <classShapeMoniker Id="25d68425-b2d9-4b2e-9b79-4858850128c8" />
-        <classShapeMoniker Id="2d1edcb7-b0d6-441d-a26f-ee23ac162410" />
+        <classShapeMoniker Id="2cd3e550-2d1d-4b7e-8f55-4e57b5856291" />
+        <classShapeMoniker Id="2b056416-1b1d-49be-8675-432af32d7d15" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 18.3854484049479); (9 : 18.3854484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 18.5104484049479); (9 : 18.5104484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Machine/Machine_MachineData" />
       <nodes>
-        <classShapeMoniker Id="329ab7bc-b315-4afe-abb5-9a9fc7bbfceb" />
-        <classShapeMoniker Id="4019cc76-fa3b-466d-9bd3-16123f345602" />
+        <classShapeMoniker Id="8943359d-ab53-4ab4-961f-383f4c530a0e" />
+        <classShapeMoniker Id="b182e8da-aa72-4966-b435-00df3565e98e" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 12.6979484049479); (6.25 : 12.6979484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 12.8229484049479); (6.25 : 12.8229484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_Application" />
       <nodes>
-        <classShapeMoniker Id="675bccac-2f25-4b45-bfe8-040c46660250" />
-        <classShapeMoniker Id="ca73e726-2532-4e47-9a4f-edecedb4967f" />
+        <classShapeMoniker Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" />
+        <classShapeMoniker Id="9895d507-eee3-430c-b17b-f1cfc4a4bc22" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.5 : 14.3478011067708); (4.5 : 15.6065991210938); (4.94791916666667 : 15.6065991210938 : JumpStart); (5.11458583333333 : 15.6065991210938 : JumpEnd); (6.25 : 15.6065991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5 : 14.3478011067708); (4.5 : 15.7315991210938); (4.94791916666667 : 15.7315991210938 : JumpStart); (5.11458583333333 : 15.7315991210938 : JumpEnd); (6.25 : 15.7315991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_ApplicationUser" />
       <nodes>
-        <classShapeMoniker Id="675bccac-2f25-4b45-bfe8-040c46660250" />
-        <classShapeMoniker Id="c7bcb3bf-14ae-44a4-8d30-f2da1a4c29ea" />
+        <classShapeMoniker Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" />
+        <classShapeMoniker Id="8e830a95-0e2e-4e4d-a9a6-4aaadde22e9e" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.0312525 : 14.3478011067708); (5.0312525 : 18.3565991210938); (6.25 : 18.3565991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.0312525 : 14.3478011067708); (5.0312525 : 18.4815991210938); (6.25 : 18.4815991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_Machine" />
       <nodes>
-        <classShapeMoniker Id="675bccac-2f25-4b45-bfe8-040c46660250" />
-        <classShapeMoniker Id="329ab7bc-b315-4afe-abb5-9a9fc7bbfceb" />
+        <classShapeMoniker Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" />
+        <classShapeMoniker Id="8943359d-ab53-4ab4-961f-383f4c530a0e" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 14.032900390625); (11.15625 : 14.032900390625); (11.15625 : 10.2804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 14.095400390625); (11.15625 : 14.095400390625); (11.15625 : 10.2804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_ProjectInvitation" />
       <nodes>
-        <classShapeMoniker Id="675bccac-2f25-4b45-bfe8-040c46660250" />
-        <classShapeMoniker Id="14422a69-9b24-4a84-b67f-10be8e0d4c7c" />
+        <classShapeMoniker Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" />
+        <classShapeMoniker Id="d7333d03-88b2-4cad-a4ee-c73193fb524a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 12); (5.875 : 11.625); (5.875 : 10.1931469726562); (6.25 : 10.1931469726562)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 12); (5.875 : 11.625); (5.875 : 10.1642976888021); (6.25 : 10.1642976888021)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_ProjectUser" />
       <nodes>
-        <classShapeMoniker Id="675bccac-2f25-4b45-bfe8-040c46660250" />
-        <classShapeMoniker Id="2d70b306-475a-4cc6-8637-8e6c9af21b94" />
+        <classShapeMoniker Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" />
+        <classShapeMoniker Id="c1cb5e68-353c-464e-af3c-71867a7e712d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(13.75 : 16.4623527018229); (15.5 : 16.4623527018229); (15.5 : 13.4631982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(13.75 : 16.5873527018229); (15.5 : 16.5873527018229); (15.5 : 13.7131982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Session/Session_Issue" />
       <nodes>
-        <classShapeMoniker Id="b8b713ad-efb4-4025-9ef4-5dac80257b13" />
-        <classShapeMoniker Id="2d1edcb7-b0d6-441d-a26f-ee23ac162410" />
+        <classShapeMoniker Id="f04c51a1-804f-4bc7-8c82-06f4a64c5c9a" />
+        <classShapeMoniker Id="2b056416-1b1d-49be-8675-432af32d7d15" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 15.7940991210938); (11.2916666666667 : 15.7940991210938 : JumpStart); (11.4583333333333 : 15.7940991210938 : JumpEnd); (11.75 : 15.7940991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 15.9190991210938); (11.2916666666667 : 15.9190991210938 : JumpStart); (11.4583333333333 : 15.9190991210938 : JumpEnd); (11.75 : 15.9190991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/ApplicationUser/ApplicationUser_Session" />
       <nodes>
-        <classShapeMoniker Id="c7bcb3bf-14ae-44a4-8d30-f2da1a4c29ea" />
-        <classShapeMoniker Id="b8b713ad-efb4-4025-9ef4-5dac80257b13" />
+        <classShapeMoniker Id="8e830a95-0e2e-4e4d-a9a6-4aaadde22e9e" />
+        <classShapeMoniker Id="f04c51a1-804f-4bc7-8c82-06f4a64c5c9a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 17.40625); (11.75 : 17.40625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 17.53125); (11.75 : 17.53125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Machine/Machine_Session" />
       <nodes>
-        <classShapeMoniker Id="329ab7bc-b315-4afe-abb5-9a9fc7bbfceb" />
-        <classShapeMoniker Id="b8b713ad-efb4-4025-9ef4-5dac80257b13" />
+        <classShapeMoniker Id="8943359d-ab53-4ab4-961f-383f4c530a0e" />
+        <classShapeMoniker Id="f04c51a1-804f-4bc7-8c82-06f4a64c5c9a" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(1.75 : 12.2804996744792); (1.75 : 13.314150890625); (3.5 : 13.314150890625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/User/User_Project" />
       <nodes>
-        <classShapeMoniker Id="9ecc47db-cb45-4ca4-8536-47f1342d0748" />
-        <classShapeMoniker Id="675bccac-2f25-4b45-bfe8-040c46660250" />
+        <classShapeMoniker Id="3e4b4046-f804-45ed-8a8d-0040e6f21bbd" />
+        <classShapeMoniker Id="7bdb3157-a2f7-49b8-aa64-0a73b895c109" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 11.1931469726562); (5.79166666666667 : 11.1931469726562 : JumpStart); (5.95833333333333 : 11.1931469726562 : JumpEnd); (11.1249975 : 11.1931469726562); (11.1249975 : 10.2804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 11.2892976888021); (5.79166666666667 : 11.2892976888021 : JumpStart); (5.95833333333333 : 11.2892976888021 : JumpEnd); (11.1249975 : 11.2892976888021); (11.1249975 : 10.2804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectInvitation" />
       <nodes>
-        <classShapeMoniker Id="9ecc47db-cb45-4ca4-8536-47f1342d0748" />
-        <classShapeMoniker Id="14422a69-9b24-4a84-b67f-10be8e0d4c7c" />
+        <classShapeMoniker Id="3e4b4046-f804-45ed-8a8d-0040e6f21bbd" />
+        <classShapeMoniker Id="d7333d03-88b2-4cad-a4ee-c73193fb524a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 11.0397179589844); (5.79166666666667 : 11.0397179589844 : JumpStart); (5.95833333333333 : 11.0397179589844 : JumpEnd); (11.1875025 : 11.0397179589844); (11.1875025 : 10.2804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 11.1214440332031); (5.79166666666667 : 11.1214440332031 : JumpStart); (5.95833333333333 : 11.1214440332031 : JumpEnd); (11.1875025 : 11.1214440332031); (11.1875025 : 10.2804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectInvitation1" />
       <nodes>
-        <classShapeMoniker Id="9ecc47db-cb45-4ca4-8536-47f1342d0748" />
-        <classShapeMoniker Id="14422a69-9b24-4a84-b67f-10be8e0d4c7c" />
+        <classShapeMoniker Id="3e4b4046-f804-45ed-8a8d-0040e6f21bbd" />
+        <classShapeMoniker Id="d7333d03-88b2-4cad-a4ee-c73193fb524a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 10.125); (1.75 : 9.53125); (4.41666666666667 : 9.53125 : JumpStart); (4.58333333333333 : 9.53125 : JumpEnd); (6.25 : 9.53125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 10.9175439453125); (5.79166666666667 : 10.9175439453125 : JumpStart); (5.95833333333333 : 10.9175439453125 : JumpEnd); (6.25 : 10.9175439453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectUser" />
       <nodes>
-        <classShapeMoniker Id="9ecc47db-cb45-4ca4-8536-47f1342d0748" />
-        <classShapeMoniker Id="2d70b306-475a-4cc6-8637-8e6c9af21b94" />
+        <classShapeMoniker Id="3e4b4046-f804-45ed-8a8d-0040e6f21bbd" />
+        <classShapeMoniker Id="c1cb5e68-353c-464e-af3c-71867a7e712d" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 8.22199625651042); (4.5 : 8.22199625651042); (4.5 : 9.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Role/Role_UserRole" />
       <nodes>
-        <classShapeMoniker Id="115b6e93-6853-4846-b0f0-36835d0f6e0a" />
-        <classShapeMoniker Id="c7515589-1b5c-436d-b57d-769a51ba9bd8" />
+        <classShapeMoniker Id="7a2f4557-37ea-4bd8-b079-f93276b2217f" />
+        <classShapeMoniker Id="58400ce5-49eb-494a-9d87-2636380a023b" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 10.4719962565104); (3.5 : 10.4719962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/User/User_UserRole" />
       <nodes>
-        <classShapeMoniker Id="9ecc47db-cb45-4ca4-8536-47f1342d0748" />
-        <classShapeMoniker Id="c7515589-1b5c-436d-b57d-769a51ba9bd8" />
+        <classShapeMoniker Id="3e4b4046-f804-45ed-8a8d-0040e6f21bbd" />
+        <classShapeMoniker Id="58400ce5-49eb-494a-9d87-2636380a023b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11 : 12.5777498372396); (11.0729166666667 : 12.5777498372396 : JumpStart); (11.2395833333333 : 12.5777498372396 : JumpEnd); (11.75 : 12.5777498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11 : 12.7027498372396); (11.0729166666667 : 12.7027498372396 : JumpStart); (11.2395833333333 : 12.7027498372396 : JumpEnd); (11.75 : 12.7027498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Version/Version_IssueType" />
       <nodes>
-        <classShapeMoniker Id="75c1e76d-ea53-43ac-a7e9-5967eb3dd4ae" />
-        <classShapeMoniker Id="25d68425-b2d9-4b2e-9b79-4858850128c8" />
+        <classShapeMoniker Id="17e0a567-a842-43f5-8f5d-3d1de6db8c4c" />
+        <classShapeMoniker Id="2cd3e550-2d1d-4b7e-8f55-4e57b5856291" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11 : 13.6554996744792); (11.0973244349011 : 13.7528241093803 : JumpStart); (11.2151755650989 : 13.870675239578 : JumpEnd); (11.375 : 14.0304996744792); (11.375 : 16.6001745605469); (11.75 : 16.6001745605469)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11 : 13.7804996744792); (11.0973244349011 : 13.8778241093803 : JumpStart); (11.2151755650989 : 13.995675239578 : JumpEnd); (11.375 : 14.1554996744792); (11.375 : 16.7251745605469); (11.75 : 16.7251745605469)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Version/Version_Session" />
       <nodes>
-        <classShapeMoniker Id="75c1e76d-ea53-43ac-a7e9-5967eb3dd4ae" />
-        <classShapeMoniker Id="b8b713ad-efb4-4025-9ef4-5dac80257b13" />
+        <classShapeMoniker Id="17e0a567-a842-43f5-8f5d-3d1de6db8c4c" />
+        <classShapeMoniker Id="f04c51a1-804f-4bc7-8c82-06f4a64c5c9a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 12.5104484049479); (9 : 12.5104484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 12.7604484049479); (9 : 12.7604484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/Application/Application_Version" />
       <nodes>
-        <classShapeMoniker Id="ca73e726-2532-4e47-9a4f-edecedb4967f" />
-        <classShapeMoniker Id="75c1e76d-ea53-43ac-a7e9-5967eb3dd4ae" />
+        <classShapeMoniker Id="9895d507-eee3-430c-b17b-f1cfc4a4bc22" />
+        <classShapeMoniker Id="17e0a567-a842-43f5-8f5d-3d1de6db8c4c" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

@@ -81,4 +81,11 @@ namespace Quilt4.Service.Controllers.Client
         public bool Confirmed { get; set; }
         public string Role { get; set; }
     }
+
+    public class SettingResponse
+    {
+        //TODO: Remove this class and replace with the nuget package version.
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
 }

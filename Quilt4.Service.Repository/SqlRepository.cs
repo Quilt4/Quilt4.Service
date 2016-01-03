@@ -213,6 +213,39 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public IEnumerable<Entity.Setting> GetSettings()
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Settings.Select(x => new Entity.Setting(x.Name, x.Value)).ToArray();
+            }
+        }
+
+        public Entity.Setting GetSetting(string settingName)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Settings.Select(x => new Entity.Setting(x.Name, x.Value)).Single(x => x.Name == settingName);
+            }
+        }
+
+        public void SetSetting(string settingName, string value)
+        {
+            using (var context = GetDataContext())
+            {
+                var val = context.Settings.SingleOrDefault(x => x.Name == settingName);
+                if (val == null)
+                {
+                    val = new Setting { Name = settingName };
+                    context.Settings.InsertOnSubmit(val);
+                }
+
+                val.Value = value;
+
+                context.SubmitChanges();
+            }
+        }
+
         public Guid? GetProjectKey(string projectApiKey)
         {
             using (var context = GetDataContext())

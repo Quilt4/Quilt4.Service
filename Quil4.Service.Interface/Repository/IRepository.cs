@@ -62,5 +62,10 @@ namespace Quilt4.Service.Interface.Repository
         void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
         int GetNextTicket(Guid projectKey);
         IEnumerable<IssueType> GetIssueTypes(string userName, Guid versionKey);
+
+        //Setting
+        IEnumerable<Setting> GetSettings();
+        Setting GetSetting(string settingName);
+        void SetSetting(string settingName, string value);
     }
 }

@@ -33,8 +33,7 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Invitation/AcceptCommand")]
         public void AcceptCommand(InviteAcceptRequest inviteRequest)
         {
-            //_userBusiness.Accept(User.Identity.Name, inviteRequest.InviteCode);
-            throw new NotImplementedException();
+            _invitationBusiness.Accept(User.Identity.Name, inviteRequest.InviteCode);
         }
     }
 

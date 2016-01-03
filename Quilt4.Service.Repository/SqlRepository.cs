@@ -145,6 +145,30 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public void DeleteProjectInvitation(Guid projectKey, string userName)
+        {
+            using (var context = GetDataContext())
+            {
+                var projectInvitation = context.ProjectInvitations.Single(x => x.User.UserName == userName && x.Project.ProjectKey == projectKey);
+                context.ProjectInvitations.DeleteOnSubmit(projectInvitation);
+                context.SubmitChanges();
+            }
+        }
+
+        public void AddProjectMember(string userName, Guid projectKey, string role)
+        {
+            using (var context = GetDataContext())
+            {
+                context.ProjectUsers.InsertOnSubmit(new ProjectUser
+                {
+                    ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
+                    UserId = context.Users.Single(x => x.UserName == userName).UserId,
+                    Role = role
+                });
+                context.SubmitChanges();
+            }
+        }
+
         public Entity.ProjectMember[] GetProjectUsers(Guid projectKey)
         {
             using (var context = GetDataContext())

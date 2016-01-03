@@ -224,6 +224,8 @@ CREATE TABLE ProjectUser
 	CONSTRAINT FK_ProjectUser_User FOREIGN KEY (UserId) REFERENCES [User](UserId),
 );
 GO
+ALTER TABLE ProjectUser ADD CONSTRAINT ProjectUser_Project_User UNIQUE (ProjectId,UserId)
+GO
 CREATE TABLE ProjectInvitation
 (
 	ProjectInvitationId INT NOT NULL IDENTITY,
@@ -238,6 +240,8 @@ CREATE TABLE ProjectInvitation
 	CONSTRAINT FK_ProjectInvitation_User FOREIGN KEY (UserId) REFERENCES [User](UserId),
 	CONSTRAINT FK_ProjectInvitation_InviterUser FOREIGN KEY (InviterUserId) REFERENCES [User](UserId),
 )
+GO
+ALTER TABLE ProjectInvitation ADD CONSTRAINT ProjectInvitation_InviteCode UNIQUE (InviteCode)
 GO
 CREATE TABLE dbo.[Application]
 (

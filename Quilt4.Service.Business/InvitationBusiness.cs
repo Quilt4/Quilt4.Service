@@ -44,7 +44,10 @@ namespace Quilt4.Service.Business
 
         public void Accept(string userName, string inviteCode)
         {
-            throw new NotImplementedException();
+            //TODO: Create a transaction scobe around theese lines.
+            var invitation = _repository.GetInvitations(userName).Single(x => x.InviteCode == inviteCode);
+            _repository.AddProjectMember(userName, invitation.ProjectKey, "User");
+            _repository.DeleteProjectInvitation(invitation.ProjectKey, userName);
         }
     }
 }

@@ -173,7 +173,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, true)).ToArray();
+                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, true, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role)).ToArray();
             }
         }
 
@@ -181,7 +181,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, false)).ToArray();
+                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, false, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role)).ToArray();
             }
         }
 

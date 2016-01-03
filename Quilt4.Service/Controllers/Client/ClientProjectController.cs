@@ -56,7 +56,7 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Project/ProjectMemberQuery")]
         public IEnumerable<MemberResponse> ProjectMemberQuery([FromBody] Guid projectKey)
         {
-            return _projectBusiness.GetMembers(projectKey).Select(x => new MemberResponse { UserName = x.UserName, EMail = x.EMail, Confirmed = x.Confirmed });
+            return _projectBusiness.GetMembers(projectKey).Select(x => new MemberResponse { UserName = x.UserName, EMail = x.EMail, Confirmed = x.Confirmed, Role = x.Role });
         }
     }
 
@@ -79,5 +79,6 @@ namespace Quilt4.Service.Controllers.Client
         public string UserName { get; set; }
         public string EMail { get; set; }
         public bool Confirmed { get; set; }
+        public string Role { get; set; }
     }
 }

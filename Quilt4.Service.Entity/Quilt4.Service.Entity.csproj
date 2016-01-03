@@ -75,6 +75,7 @@
     <Compile Include="Role.cs" />
     <Compile Include="SecurityType.cs" />
     <Compile Include="Session.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserDataRequestEntity.cs" />
     <Compile Include="Version.cs" />

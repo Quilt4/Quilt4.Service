@@ -24,6 +24,7 @@ namespace Quilt4.Service.Interface.Repository
         //Project
         Guid? GetProjectKey(string projectApiKey);
         ProjectPageProject[] GetProjects(string userName);
+        ProjectInvitation[] GetInvitations();
         ProjectInvitation[] GetInvitations(string userName);
         void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
         void UpdateProject(Guid projectKey, string name, string dashboardColor);

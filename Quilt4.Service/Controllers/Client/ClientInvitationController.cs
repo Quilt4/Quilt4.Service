@@ -21,7 +21,17 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Invitation/UserInvitationQuery")]
         public IEnumerable<InvitationResponse> UserInvitationQuery()
         {
-            return _invitationBusiness.GetUserInvitations(User.Identity.Name).Select(x => new InvitationResponse { ProjectKey = x.ProjectKey, ProjectName = x.Name, InviteCode = x.InviteCode, InvitedByUserName = x.InvitedByUserName, InviteTime = x.InviteTime });
+            var response = _invitationBusiness.GetUserInvitations(User.Identity.Name).Select(x => new InvitationResponse
+            {
+                ProjectKey = x.ProjectKey,
+                ProjectName = x.Name,
+                InviteCode = x.InviteCode,
+                InvitedByUserName = x.InvitedByUserName,
+                InviteTime = x.InviteTime,
+                UserName = x.UserName,
+                UserEMail = x.UserEMail
+            });
+            return response;
         }
 
         [Route("api/Client/Invitation/InviteCommand")]
@@ -45,5 +55,7 @@ namespace Quilt4.Service.Controllers.Client
         public string InviteCode { get; set; }
         public DateTime InviteTime { get; set; }
         public string InvitedByUserName { get; set; }
+        public string UserName { get; set; }
+        public string UserEMail { get; set; }
     }
 }

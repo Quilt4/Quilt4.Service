@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="ApplicationBusiness.cs" />
     <Compile Include="DashboardBusiness.cs" />
+    <Compile Include="EmailSender.cs" />
     <Compile Include="HelperExtension.cs" />
     <Compile Include="InvitationBusiness.cs" />
     <Compile Include="IssueBusiness.cs" />

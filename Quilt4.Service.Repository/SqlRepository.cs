@@ -662,11 +662,19 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public Entity.ProjectInvitation[] GetInvitations()
+        {
+            using (var context = GetDataContext())
+            {
+                return context.ProjectInvitations.Select(x => new Entity.ProjectInvitation(x.Project.ProjectKey, x.Project.Name, x.User.UserName, x.ServerCreateTime, x.InviteCode, x.User1 != null ? x.User1.UserName : null, x.UserEmail)).ToArray();
+            }
+        }
+
         public Entity.ProjectInvitation[] GetInvitations(string userName)
         {
             using (var context = GetDataContext())
             {
-                return context.ProjectInvitations.Where(x => x.User.UserName == userName).Select(x => new Entity.ProjectInvitation(x.Project.ProjectKey, x.Project.Name, x.User1.UserName, x.ServerCreateTime, x.InviteCode)).ToArray();
+                return context.ProjectInvitations.Where(x => x.User.UserName == userName).Select(x => new Entity.ProjectInvitation(x.Project.ProjectKey, x.Project.Name, x.User.UserName, x.ServerCreateTime, x.InviteCode, x.User1 != null ? x.User1.UserName : null, x.UserEmail)).ToArray();
             }
         }
 

@@ -11,11 +11,13 @@ namespace Quilt4.Service.Business
     {
         private readonly IRepository _repository;
         private readonly ISettingBusiness _settingBusiness;
+        private readonly IEmailSender _emailSender;
 
-        public InvitationBusiness(IRepository repository, ISettingBusiness settingBusiness)
+        public InvitationBusiness(IRepository repository, ISettingBusiness settingBusiness, IEmailSender emailSender)
         {
             _repository = repository;
             _settingBusiness = settingBusiness;
+            _emailSender = emailSender;
         }
 
         public IEnumerable<ProjectInvitation> GetUserInvitations(string userName)
@@ -30,12 +32,27 @@ namespace Quilt4.Service.Business
 
             var userEntity = _repository.GetUserByUserName(user) ?? _repository.GetUserByEMail(user);
 
+            var projectInvitations = _repository.GetInvitations().Where(x => x.ProjectKey == projectKey);
+            if (projectInvitations.Any(x => user == x.UserEMail || (userEntity != null && userEntity.Username == x.UserName)))
+                throw new InvalidOperationException("There is already an invitation to this proect for the provided user.");
+
             string userKey = null;
             string email = null;
             if (userEntity != null)
+            {
                 userKey = userEntity.UserKey;
+            }
             else
+            {
+                //TODO: Set a limit to email invitations that can be made by a single user, and how frequent it can be.
+                //How frequent can a regular user invite be?
+
+                //TODO: Move the content somewhere so that it can be changed.
+                //TODO: Make the accept and decline links work.
+
+                _emailSender.Send(user, "Invitation to Quilt4", string.Format("User {0} want to invite you to the project {1}. Click Accept or Decline.", userName, "???"));
                 email = user;
+            }            
 
             var inviteCode = RandomUtility.GetRandomString(12);
 

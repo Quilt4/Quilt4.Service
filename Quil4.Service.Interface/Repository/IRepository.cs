@@ -69,5 +69,6 @@ namespace Quilt4.Service.Interface.Repository
         Setting GetSetting(string settingName);
         void SetSetting(string settingName, string value);
         void AddUserExtraInfo(string id, string firstName, string lastName, string defaultAvatarUrl);
+        ProjectMember GetUser(string name);
     }
 }

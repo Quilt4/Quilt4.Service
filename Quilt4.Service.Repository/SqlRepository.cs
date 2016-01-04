@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Transactions;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
 
@@ -259,6 +260,16 @@ namespace Quilt4.Service.SqlRepository
                 user.AvatarUrl = defaultAvatarUrl;
 
                 context.SubmitChanges();
+            }
+        }
+
+        public ProjectMember GetUser(string name)
+        {
+            using (var context = GetDataContext())
+            {
+                var user = context.Users.SingleOrDefault(x => x.UserName == name);
+
+                return new ProjectMember(user.UserName, user.Email, false, null, user.FirstName, user.LastName, user.AvatarUrl);
             }
         }
 

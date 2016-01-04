@@ -73,10 +73,15 @@ namespace Quilt4.Service.Controllers
         {
             var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
+            var userInfo = _repository.GetUser(User.Identity.Name);
+
             return new UserInfoViewModel
             {
                 UserName = User.Identity.GetUserName(),
-                Email = User.Identity.Name, //TODO: Get the email address of the user
+                Email = userInfo.EMail,
+                FirstName = userInfo.FirstName,
+                LastName = userInfo.LastName,
+                AvatarUrl = userInfo.AvatarUrl,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };

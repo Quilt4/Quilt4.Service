@@ -63,6 +63,22 @@ namespace Quilt4.Service.Controllers.Web
             var members = _projectBusiness.GetMembers(Guid.Parse(projectId));
 
             return members;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("api/project/getUsers")]
+        public IEnumerable<ProjectMember> GetUsers(GetUsersRequest request)
+        {
+            var members = _projectBusiness.GetMembers(request.Email);
+
+            return members;
         } 
+
+    }
+
+    public class GetUsersRequest
+    {
+        public string Email { get; set; }
     }
 }

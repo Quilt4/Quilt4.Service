@@ -16,5 +16,6 @@ namespace Quilt4.Service.Interface.Business
 
         //TODO: Revisit
         IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId);
+        IEnumerable<ProjectMember> GetMembers(string email);
     }
 }

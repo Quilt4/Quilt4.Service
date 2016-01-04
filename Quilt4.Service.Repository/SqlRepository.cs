@@ -273,6 +273,15 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public IEnumerable<ProjectMember> GetUsersStartingWith(string email)
+        {
+            using (var context = GetDataContext())
+            {
+                //TODO: Sorry, bör byta från projectMemeber
+                return context.Users.Where(x => x.Email.StartsWith(email)).Select(x => new ProjectMember(x.UserName, x.Email, true, null, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
+            }
+        }
+
         public Guid? GetProjectKey(string projectApiKey)
         {
             using (var context = GetDataContext())

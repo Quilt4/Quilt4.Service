@@ -70,6 +70,9 @@ namespace Quilt4.Service.Controllers.Web
         [Route("api/project/getUsers")]
         public IEnumerable<ProjectMember> GetUsers(GetUsersRequest request)
         {
+            if (request == null && string.IsNullOrEmpty(request.Email))
+                return null;
+
             var members = _projectBusiness.GetMembers(request.Email);
 
             return members;

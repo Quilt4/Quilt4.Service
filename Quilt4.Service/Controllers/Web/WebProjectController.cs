@@ -4,6 +4,7 @@ using System.Web.Http;
 using Quilt4.Service.Controllers.Web.DataTransfer;
 using Quilt4.Service.Converters;
 using Quilt4.Service.DataTransfer;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Controllers.Web
@@ -53,5 +54,15 @@ namespace Quilt4.Service.Controllers.Web
 
             _projectBusiness.UpdateProject(request.ProjectKey, request.Name, request.DashboardColor, User.Identity.Name);
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("api/project/{projectId}/members")]
+        public IEnumerable<ProjectMember> GetMembers(string projectId)
+        {
+            var members = _projectBusiness.GetMembers(Guid.Parse(projectId));
+
+            return members;
+        } 
     }
 }

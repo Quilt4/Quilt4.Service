@@ -1,7 +1,5 @@
 USE [master]
 GO
-DROP DATABASE Quilt4
-GO
 CREATE DATABASE Quilt4
 GO
 USE Quilt4

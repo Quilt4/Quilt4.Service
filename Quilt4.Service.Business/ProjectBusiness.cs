@@ -42,6 +42,7 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<ProjectMember> GetMembers(Guid projectKey)
         {
+            //TODO: Check access to project
             var a = _repository.GetProjectUsers(projectKey);
             var b = _repository.GetProjectInvitation(projectKey);
             return a.Union(b);

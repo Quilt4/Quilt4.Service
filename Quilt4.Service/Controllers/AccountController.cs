@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Quilt4.Service.Authentication;
+using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Models;
 
 namespace Quilt4.Service.Controllers
@@ -21,16 +22,19 @@ namespace Quilt4.Service.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private readonly IRepository _repository;
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
 
-        public AccountController()
+        public AccountController(IRepository repository)
         {
+            _repository = repository;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IRepository repository)
         {
+            _repository = repository;
             UserManager = userManager;
             RoleManager = roleManager;
             AccessTokenFormat = accessTokenFormat;
@@ -380,6 +384,9 @@ namespace Quilt4.Service.Controllers
             if (result.Succeeded)
             {
                 result = await AutoAdminAssignment(user) ?? result;
+                
+                await AddExtraInfo(user, model);
+
             }
 
             if (!result.Succeeded)
@@ -388,6 +395,24 @@ namespace Quilt4.Service.Controllers
             }
 
             return Ok();
+        }
+
+        private async Task AddExtraInfo(ApplicationUser user, RegisterBindingModel model)
+        {
+            //TODO: Get from settings in db;
+            var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
+
+            try
+            {
+
+                var userId = UserManager.FindByName(user.UserName).Id;
+                _repository.AddUserExtraInfo(userId, model.FirstName, model.LastName, defaultAvatarUrl);
+            }
+            catch (Exception e)
+            {
+                
+                throw e;
+            }
         }
 
         private async Task<IdentityResult> AutoAdminAssignment(ApplicationUser user)

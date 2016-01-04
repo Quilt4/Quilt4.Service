@@ -246,6 +246,22 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public void AddUserExtraInfo(string id, string firstName, string lastName, string defaultAvatarUrl)
+        {
+            using (var context = GetDataContext())
+            {
+                var user = context.Users.SingleOrDefault(x => x.UserKey == id);
+
+                if (user == null) return;
+
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.AvatarUrl = defaultAvatarUrl;
+
+                context.SubmitChanges();
+            }
+        }
+
         public Guid? GetProjectKey(string projectApiKey)
         {
             using (var context = GetDataContext())

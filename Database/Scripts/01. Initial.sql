@@ -1,9 +1,3 @@
-USE [master]
-GO
-CREATE DATABASE Quilt4
-GO
-USE Quilt4
-GO
 CREATE SCHEMA Query
 GO
 CREATE TABLE dbo.[User]

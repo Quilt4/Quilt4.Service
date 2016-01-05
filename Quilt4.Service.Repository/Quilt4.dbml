@@ -146,7 +146,6 @@
   <Table Name="dbo.Session" Member="Sessions">
     <Type Name="Session">
       <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="SessionKey" Member="SessionToken" Storage="_SessionKey" Type="System.String" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="StartClientTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="StartServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="LastUsedServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -156,6 +155,7 @@
       <Column Name="MachineId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Member="SessionToken" Type="System.String" CanBeNull="false" />
       <Association Name="Session_Issue" Member="Issues" ThisKey="SessionId" OtherKey="SessionId" Type="Issue" />
       <Association Name="ApplicationUser_Session" Member="ApplicationUser" ThisKey="ApplicationUserId" OtherKey="ApplicationUserId" Type="ApplicationUser" IsForeignKey="true" />
       <Association Name="Machine_Session" Member="Machine" ThisKey="MachineId" OtherKey="MachineId" Type="Machine" IsForeignKey="true" />

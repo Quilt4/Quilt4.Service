@@ -3357,8 +3357,6 @@ namespace Quilt4.Service.SqlRepository
 		
 		private int _SessionId;
 		
-		private System.Guid _SessionKey;
-		
 		private System.DateTime _StartClientTime;
 		
 		private System.DateTime _StartServerTime;
@@ -3377,6 +3375,8 @@ namespace Quilt4.Service.SqlRepository
 		
 		private int _VersionId;
 		
+		private string _SessionToken;
+		
 		private EntitySet<Issue> _Issues;
 		
 		private EntityRef<ApplicationUser> _ApplicationUser;
@@ -3391,8 +3391,6 @@ namespace Quilt4.Service.SqlRepository
     partial void OnCreated();
     partial void OnSessionIdChanging(int value);
     partial void OnSessionIdChanged();
-    partial void OnSessionKeyChanging(System.Guid value);
-    partial void OnSessionKeyChanged();
     partial void OnStartClientTimeChanging(System.DateTime value);
     partial void OnStartClientTimeChanged();
     partial void OnStartServerTimeChanging(System.DateTime value);
@@ -3411,6 +3409,8 @@ namespace Quilt4.Service.SqlRepository
     partial void OnApplicationUserIdChanged();
     partial void OnVersionIdChanging(int value);
     partial void OnVersionIdChanged();
+    partial void OnSessionTokenChanging(string value);
+    partial void OnSessionTokenChanged();
     #endregion
 		
 		public Session()
@@ -3439,28 +3439,6 @@ namespace Quilt4.Service.SqlRepository
 					this.SendPropertyChanged("SessionId");
 					this.OnSessionIdChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionKey", DbType="UniqueIdentifier NOT NULL")]
-		public string SessionToken
-		{
-			get
-			{
-                throw new NotImplementedException();
-				//return this._SessionKey;
-			}
-			set
-			{
-                throw new NotImplementedException();
-    //            if ((this._SessionKey != value))
-				//{
-				//	this.OnSessionKeyChanging(value);
-				//	this.SendPropertyChanging();
-				//	this._SessionKey = value;
-				//	this.SendPropertyChanged("SessionKey");
-				//	this.OnSessionKeyChanged();
-				//}
 			}
 		}
 		
@@ -3652,6 +3630,26 @@ namespace Quilt4.Service.SqlRepository
 					this._VersionId = value;
 					this.SendPropertyChanged("VersionId");
 					this.OnVersionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionToken", CanBeNull=false)]
+		public string SessionToken
+		{
+			get
+			{
+				return this._SessionToken;
+			}
+			set
+			{
+				if ((this._SessionToken != value))
+				{
+					this.OnSessionTokenChanging(value);
+					this.SendPropertyChanging();
+					this._SessionToken = value;
+					this.SendPropertyChanged("SessionToken");
+					this.OnSessionTokenChanged();
 				}
 			}
 		}

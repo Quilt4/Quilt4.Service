@@ -55,6 +55,7 @@
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationDataRequestEntity.cs" />
     <Compile Include="DashboardPageProject.cs" />
+    <Compile Include="DatabaseInfo.cs" />
     <Compile Include="IssueType.cs" />
     <Compile Include="IssueTypePageIssue.cs" />
     <Compile Include="IssueTypePageIssueType.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="RegisterSessionResponseEntity.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SecurityType.cs" />
+    <Compile Include="ServiceInfo.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="User.cs" />

@@ -282,6 +282,25 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public DatabaseInfo GetDatabaseInfo()
+        {
+            try
+            {
+                using (var context = GetDataContext())
+                {
+                    //TODO: Get the database version from DBVersion
+                    //context.DBVersion
+
+                    System.Diagnostics.Debug.WriteLine(context.Connection.ServerVersion + " " + context.Connection.State);
+                    return new DatabaseInfo(true, context.Connection.DataSource, context.Connection.Database, -1);
+                }
+            }
+            catch (Exception)
+            {
+                return new DatabaseInfo(false, null, null, -1);
+            }
+        }
+
         public Guid? GetProjectKey(string projectApiKey)
         {
             using (var context = GetDataContext())

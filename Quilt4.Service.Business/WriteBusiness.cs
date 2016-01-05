@@ -9,12 +9,14 @@ namespace Quilt4.Service.Business
     public class WriteBusiness : IWriteBusiness, IDisposable
     {
         private readonly IWriteRepository _repository;
-        private static readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
+        private readonly IServiceLog _serviceLog;
+        private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
         private bool _running;
 
-        public WriteBusiness(IWriteRepository repository)
+        public WriteBusiness(IWriteRepository repository, IServiceLog serviceLog)
         {
             _repository = repository;
+            _serviceLog = serviceLog;
             Task.Factory.StartNew(Run);
             _running = true;
         }
@@ -30,13 +32,12 @@ namespace Quilt4.Service.Business
                 }
                 catch (Exception e)
                 {
-                    //TODO: Log and handle exception
-                    throw e;
+                    _serviceLog.LogException(e);
                 }
             }
         }
 
-        public static void RunRecalculate()
+        public void RunRecalculate()
         {
             _autoResetEvent.Set();
         }

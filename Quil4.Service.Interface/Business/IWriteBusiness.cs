@@ -1,4 +1,7 @@
 ﻿namespace Quilt4.Service.Interface.Business
 {
-    public interface IWriteBusiness { }
+    public interface IWriteBusiness
+    {
+        void RunRecalculate();
+    }
 }

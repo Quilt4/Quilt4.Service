@@ -10,10 +10,12 @@ namespace Quilt4.Service.Business
     public class IssueBusiness : IIssueBusiness
     {
         private readonly IRepository _repository;
+        private readonly IWriteBusiness _writeBusiness;
 
-        public IssueBusiness(IRepository repository)
+        public IssueBusiness(IRepository repository, IWriteBusiness writeBusiness)
         {
             _repository = repository;
+            _writeBusiness = writeBusiness;
         }
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
@@ -50,7 +52,7 @@ namespace Quilt4.Service.Business
             }
             _repository.CreateIssue(request.IssueKey, issueTypeKey.Value, session.SessionToken, request.ClientTime, request.Data, serverTime);
 
-            WriteBusiness.RunRecalculate();
+            _writeBusiness.RunRecalculate();
 
             return new RegisterIssueResponseEntity
             {

@@ -8,10 +8,12 @@ namespace Quilt4.Service.Business
     public class SessionBusiness : ISessionBusiness
     {
         private readonly IRepository _repository;
+        private readonly IWriteBusiness _writeBusiness;
 
-        public SessionBusiness(IRepository repository)
+        public SessionBusiness(IRepository repository, IWriteBusiness writeBusiness)
         {
             _repository = repository;
+            _writeBusiness = writeBusiness;
         }
 
         public RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity request)
@@ -74,7 +76,7 @@ namespace Quilt4.Service.Business
             var sessionToken = RandomUtility.GetRandomString(32); //TODO: Check that this session is really unique.            
             _repository.CreateSession(sessionToken, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
-            WriteBusiness.RunRecalculate();
+            _writeBusiness.RunRecalculate();
 
             return new RegisterSessionResponseEntity { SessionToken = sessionToken, ServerStartTime = serverTime};
         }

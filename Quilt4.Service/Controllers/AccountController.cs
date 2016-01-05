@@ -15,6 +15,9 @@ using Microsoft.Owin.Security.Cookies;
 using Quilt4.Service.Authentication;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Models;
+using Quilt4Net.Core.DataTransfer;
+using ChangePasswordBindingModel = Quilt4.Service.Models.ChangePasswordBindingModel;
+using UserInfoViewModel = Quilt4.Service.Models.UserInfoViewModel;
 
 namespace Quilt4.Service.Controllers
 {

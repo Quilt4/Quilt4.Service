@@ -29,7 +29,7 @@ namespace Quilt4.Service.Controllers.Client
                 ClientTime = issueRequest.ClientTime,
                 Data = issueRequest.Data,
                 IssueType = issueRequest.IssueType,
-                SessionKey = issueRequest.SessionKey,
+                SessionToken = issueRequest.SessionToken,
                 IssueKey = issueRequest.IssueKey,
                 IssueThreadKey = issueRequest.IssueThreadKey,
                 UserHandle = issueRequest.UserHandle,

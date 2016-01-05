@@ -15,10 +15,12 @@ namespace Quilt4.Service.Business
 
         public Entity.ServiceInfo GetServiceInfo()
         {
-            var assembly = Assembly.GetAssembly(typeof(ServiceBusiness));
+            var quilt4NetClient = new Quilt4Net.Quilt4NetClient(new Quilt4Net.Configuration());
+            var version = quilt4NetClient.Information.Aplication.Version;
+            var environment = quilt4NetClient.Session.Environment;
 
             var databaseInfo = _repository.GetDatabaseInfo();
-            return new Entity.ServiceInfo(assembly.GetName().Version.ToString(), "N/A", databaseInfo.CanConnect ? $"Database {databaseInfo.Database}, Patch version {databaseInfo.Version}." : "Cannot connect to database.");
+            return new Entity.ServiceInfo(version, environment, quilt4NetClient.Session.ClientStartTime, databaseInfo.CanConnect ? $"Database {databaseInfo.Database}, Patch version {databaseInfo.Version}." : "Cannot connect to database.");
         }
     }
 }

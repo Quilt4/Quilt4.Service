@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Quilt4.Service.Entity;
 using Quilt4Net.Core.DataTransfer;
 

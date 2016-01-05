@@ -1,9 +1,8 @@
-@using System.Web.Http
+@using System
 @using System.Web.Http.Controllers
 @using System.Web.Http.Description
 @using Quilt4.Service.Areas.HelpPage
-@using Quilt4.Service.Areas.HelpPage.Models
-@model IGrouping<HttpControllerDescriptor, ApiDescription>
+@model System.Linq.IGrouping<HttpControllerDescriptor, ApiDescription>
 
 @{
     var controllerDocumentation = ViewBag.DocumentationProvider != null ? 

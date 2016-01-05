@@ -288,11 +288,10 @@ namespace Quilt4.Service.SqlRepository
             {
                 using (var context = GetDataContext())
                 {
-                    //TODO: Get the database version from DBVersion
-                    //context.DBVersion
+                    var version = context.DBVersions.Max(x => x.VersionNumber);
 
-                    System.Diagnostics.Debug.WriteLine(context.Connection.ServerVersion + " " + context.Connection.State);
-                    return new DatabaseInfo(true, context.Connection.DataSource, context.Connection.Database, -1);
+                    var response = new DatabaseInfo(true, context.Connection.DataSource, context.Connection.Database, version);
+                    return response;
                 }
             }
             catch (Exception)
@@ -612,18 +611,13 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                //var machine = context.Machines.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).MachineId == x.MachineId);
-                //var applicationUser = context.ApplicationUsers.SingleOrDefault(x => x.Sessions.Single(y => y.SessionKey == sessionKey).ApplicationUserId == x.ApplicationUserId);
-
                 var issue = new Issue
                 {
                     IssueKey = issueKey,
                     IssueTypeId = context.IssueTypes.Single(x => x.IssueTypeKey == issueTypeKey).IssueTypeId,
                     CreationClientTime = clientTime,
                     CreationServerTime = serverTime,
-                    SessionId = context.Sessions.Single(x => x.SessionToken == sessionToken).SessionId,
-                    //MachineKey = machine.Id, //TODO: Allow the machineId to be null.
-                    //UserDataKey = userData.Id, //TODO: Allow the userdata (IE. ApplicationUser) to be null.
+                    SessionId = context.Sessions.Single(x => x.SessionToken == sessionToken).SessionId,                    
                 };
 
                 context.Issues.InsertOnSubmit(issue);
@@ -691,16 +685,7 @@ namespace Quilt4.Service.SqlRepository
         public void UpdateProject(Guid projectKey, string name, string dashboardColor)
         {
             using (var context = GetDataContext())
-            {
-                //var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
-                //var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
-
-                ////TODO: This check should be in the business layer
-                //if (projectUser == null)
-                //{
-                //    throw new InvalidOperationException("The user doesn't have access to the provided project.");
-                //}
-
+            {                
                 var project = context.Projects.Single(x => x.ProjectKey == projectKey);
 
                 project.Name = name;

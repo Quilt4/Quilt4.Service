@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Client
 {

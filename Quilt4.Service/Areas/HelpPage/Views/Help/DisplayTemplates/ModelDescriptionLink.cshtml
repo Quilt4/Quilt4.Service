@@ -1,5 +1,6 @@
+@using System
 @using Quilt4.Service.Areas.HelpPage.ModelDescriptions
-@model Type
+@model System.Type
 @{
     ModelDescription modelDescription = ViewBag.modelDescription;
     if (modelDescription is ComplexTypeModelDescription || modelDescription is EnumTypeModelDescription)

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Controllers.Web.DataTransfer;
 using Quilt4.Service.Converters;
-using Quilt4.Service.DataTransfer;
 using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Controllers.Web

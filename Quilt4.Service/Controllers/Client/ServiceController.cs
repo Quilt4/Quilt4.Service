@@ -1,5 +1,6 @@
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Client
 {
@@ -20,17 +21,10 @@ namespace Quilt4.Service.Controllers.Client
             return new ServiceInfoResponse
             {
                 Version = data.Version,
+                StartTime = data.StartTime,
                 Environment = data.Environment,
                 DatabaseInfo = data.DatabaseInfo,
             };
         }
-    }
-
-    public class ServiceInfoResponse
-    {
-        //TODO: Replace with nuget version
-        public string Version { get; set; }
-        public string Environment { get; set; }
-        public string DatabaseInfo { get; set; }
-    }
+    }    
 }

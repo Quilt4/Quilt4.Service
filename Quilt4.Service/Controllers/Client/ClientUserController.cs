@@ -33,10 +33,4 @@ namespace Quilt4.Service.Controllers.Client
             return response;
         }
     }
-
-    public class InviteAcceptRequest
-    {
-        //TODO: Replace this class with the nuget package version
-        public string InviteCode { get; set; }
-    }
 }

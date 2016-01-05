@@ -17,9 +17,8 @@
         public string EMail { get; }
         public bool Confirmed { get; }
         public string Role { get; }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string AvatarUrl { get; set; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public string AvatarUrl { get; }
     }
 }

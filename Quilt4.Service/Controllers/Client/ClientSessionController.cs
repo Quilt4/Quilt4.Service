@@ -38,7 +38,7 @@ namespace Quilt4.Service.Controllers.Client
             var response = _sessionBusiness.RegisterSession(data);
             return new SessionResponse
             {
-                SessionKey = sessionRequest.SessionKey,
+                SessionToken = response.SessionToken,
                 Application = sessionRequest.Application,
                 ClientEndTime = null,
                 ClientStartTime = sessionRequest.ClientStartTime,

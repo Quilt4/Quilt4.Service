@@ -1,3 +1,4 @@
+BEGIN TRAN
 ALTER TABLE [Session] ADD SessionToken varchar(50)
 GO
 UPDATE [Session] SET SessionToken = SessionKey
@@ -10,3 +11,4 @@ ALTER TABLE [Session] DROP CONSTRAINT Issue_SessionKey
 GO
 ALTER TABLE [Session] DROP COLUMN SessionKey
 GO
+COMMIT TRAN

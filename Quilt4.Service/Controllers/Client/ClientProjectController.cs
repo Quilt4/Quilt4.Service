@@ -58,34 +58,5 @@ namespace Quilt4.Service.Controllers.Client
         {
             return _projectBusiness.GetMembers(projectKey).Select(x => new MemberResponse { UserName = x.UserName, EMail = x.EMail, Confirmed = x.Confirmed, Role = x.Role });
         }
-    }
-
-    public class QueryUserResponse
-    {
-        //TODO: Remove this class and replace with the nuget package version.
-        public string UserName { get; set; }
-        public string EMail { get; set; }
-    }
-
-    public class QueryUserRequest
-    {
-        //TODO: Remove this class and replace with the nuget package version.
-        public string SearchString { get; set; }
-    }
-
-    public class MemberResponse
-    {
-        //TODO: Remove this class and replace with the nuget package version.
-        public string UserName { get; set; }
-        public string EMail { get; set; }
-        public bool Confirmed { get; set; }
-        public string Role { get; set; }
-    }
-
-    public class SettingResponse
-    {
-        //TODO: Remove this class and replace with the nuget package version.
-        public string Name { get; set; }
-        public string Value { get; set; }
-    }
+    }    
 }

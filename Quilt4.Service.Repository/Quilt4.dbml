@@ -34,6 +34,13 @@
       <Association Name="Project_ApplicationUser" Member="Project" ThisKey="ProjectId" OtherKey="ProjectId" Type="Project" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.DBVersion" Member="DBVersions">
+    <Type Name="DBVersion">
+      <Column Name="PatchName" Type="System.String" DbType="VarChar(250) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PatchTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.Issue" Member="Issues">
     <Type Name="Issue">
       <Column Name="IssueId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -155,7 +162,7 @@
       <Column Name="MachineId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Member="SessionToken" Type="System.String" CanBeNull="false" />
+      <Column Name="SessionToken" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Session_Issue" Member="Issues" ThisKey="SessionId" OtherKey="SessionId" Type="Issue" />
       <Association Name="ApplicationUser_Session" Member="ApplicationUser" ThisKey="ApplicationUserId" OtherKey="ApplicationUserId" Type="ApplicationUser" IsForeignKey="true" />
       <Association Name="Machine_Session" Member="Machine" ThisKey="MachineId" OtherKey="MachineId" Type="Machine" IsForeignKey="true" />
@@ -167,6 +174,25 @@
       <Column Name="SettingId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="Value" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserKey" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreateServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="AvatarUrl" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="OwnerUserId" Type="Project" />
+      <Association Name="User_ProjectInvitation" Member="ProjectInvitations" ThisKey="UserId" OtherKey="InviterUserId" Type="ProjectInvitation" />
+      <Association Name="User_ProjectInvitation1" Member="ProjectInvitations1" ThisKey="UserId" OtherKey="UserId" Type="ProjectInvitation" />
+      <Association Name="User_ProjectUser" Member="ProjectUsers" ThisKey="UserId" OtherKey="UserId" Type="ProjectUser" />
+      <Association Name="User_UserRole" Member="UserRoles" ThisKey="UserId" OtherKey="UserId" Type="UserRole" />
     </Type>
   </Table>
   <Table Name="dbo.UserRole" Member="UserRoles">
@@ -279,25 +305,6 @@
       <Column Name="LastIssueServerTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserKey" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="CreateServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="FirstName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="LastName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="AvatarUrl" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="User_Project" Member="Projects" ThisKey="UserId" OtherKey="OwnerUserId" Type="Project" />
-      <Association Name="User_ProjectInvitation" Member="ProjectInvitations" ThisKey="UserId" OtherKey="InviterUserId" Type="ProjectInvitation" />
-      <Association Name="User_ProjectInvitation1" Member="ProjectInvitations1" ThisKey="UserId" OtherKey="UserId" Type="ProjectInvitation" />
-      <Association Name="User_ProjectUser" Member="ProjectUsers" ThisKey="UserId" OtherKey="UserId" Type="ProjectUser" />
-      <Association Name="User_UserRole" Member="UserRoles" ThisKey="UserId" OtherKey="UserId" Type="UserRole" />
     </Type>
   </Table>
 </Database>

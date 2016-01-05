@@ -45,17 +45,5 @@ namespace Quilt4.Service.Controllers.Client
         {
             _invitationBusiness.Accept(User.Identity.Name, inviteRequest.InviteCode);
         }
-    }
-
-    public class InvitationResponse
-    {
-        //TODO: Replace this class with the version from the nuget package
-        public Guid ProjectKey { get; set; }
-        public string ProjectName { get; set; }
-        public string InviteCode { get; set; }
-        public DateTime InviteTime { get; set; }
-        public string InvitedByUserName { get; set; }
-        public string UserName { get; set; }
-        public string UserEMail { get; set; }
-    }
+    }    
 }

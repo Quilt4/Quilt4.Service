@@ -36,10 +36,10 @@ namespace Quilt4.Service.Interface.Repository
         ProjectMember[] GetProjectInvitation(Guid projectKey);
 
         //Session
-        Session GetSession(Guid sessionId);
-        void SetSessionUsed(Guid sessionKey, DateTime serverDateTime);
-        void SetSessionEnd(Guid sessionKey, DateTime serverDateTime);
-        void CreateSession(Guid sessionKey, DateTime clientStartTime, string callerIp, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime);
+        Session GetSession(string sessionToken);
+        void SetSessionUsed(string sessionToken, DateTime serverDateTime);
+        void SetSessionEnd(string sessionToken, DateTime serverDateTime);
+        void CreateSession(string sessionToken, DateTime clientStartTime, string callerIp, Guid versionKey, Guid? applicationUserKey, Guid? machineKey, string environment, DateTime serverTime);
 
         //Application/Version
         Guid? GetApplicationKey(Guid projectKey, string name);
@@ -60,7 +60,7 @@ namespace Quilt4.Service.Interface.Repository
         //Issue
         Guid? GetIssueTypeKey(Guid versionKey, string type, string issueLevel, string message, string stackTrace);
         void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
-        void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
+        void CreateIssue(Guid issueKey, Guid issueTypeKey, string sessionToken, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
         int GetNextTicket(Guid projectKey);
         IEnumerable<IssueType> GetIssueTypes(string userName, Guid versionKey);
 

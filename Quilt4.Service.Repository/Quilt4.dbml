@@ -146,7 +146,7 @@
   <Table Name="dbo.Session" Member="Sessions">
     <Type Name="Session">
       <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="SessionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="SessionKey" Member="SessionToken" Storage="_SessionKey" Type="System.String" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="StartClientTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="StartServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="LastUsedServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />

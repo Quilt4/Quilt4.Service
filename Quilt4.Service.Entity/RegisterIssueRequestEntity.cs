@@ -6,7 +6,7 @@ namespace Quilt4.Service.Entity
     public class RegisterIssueRequestEntity
     {
         public Guid IssueKey { get; set; }
-        public Guid SessionKey { get; set; }
+        public string SessionToken { get; set; }
         public DateTime ClientTime { get; set; }
         public IDictionary<string, string> Data { get; set; }
         public IssueTypeRequestEntity IssueType { get; set; }

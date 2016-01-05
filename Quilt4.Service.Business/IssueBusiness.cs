@@ -19,7 +19,7 @@ namespace Quilt4.Service.Business
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            if (!request.SessionKey.IsValidGuid()) throw new ArgumentException("No valid session guid provided.");
+            if (string.IsNullOrEmpty(request.SessionToken)) throw new ArgumentException("No valid session provided.");
             if (request.IssueType == null) throw new ArgumentException("No IssueType object in request was provided. Need object '{ \"IssueType\":{...} }' in root.");
             if (string.IsNullOrEmpty(request.IssueType.Message)) throw new ArgumentException("No message in issue type provided.");
             if (string.IsNullOrEmpty(request.IssueType.IssueLevel)) throw new ArgumentException("No issue level in issue type provided.");
@@ -28,7 +28,7 @@ namespace Quilt4.Service.Business
 
             var serverTime = DateTime.UtcNow;
 
-            var session = _repository.GetSession(request.SessionKey);
+            var session = _repository.GetSession(request.SessionToken);
             if (session == null)
             {
                 throw new ArgumentException("There is no session with provided sessionKey.");
@@ -37,7 +37,7 @@ namespace Quilt4.Service.Business
             {
                 throw new InvalidOperationException("The session has already been marked as ended. Create a new session to register issues.");
             }
-            _repository.SetSessionUsed(session.SessionKey, serverTime);
+            _repository.SetSessionUsed(session.SessionToken, serverTime);
 
             var ticket = GetTicket(session.ProjectKey, 10);
 
@@ -48,7 +48,7 @@ namespace Quilt4.Service.Business
                 issueTypeKey = Guid.NewGuid();
                 _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, request.IssueType.Type, request.IssueType.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
             }
-            _repository.CreateIssue(request.IssueKey, issueTypeKey.Value, session.SessionKey, request.ClientTime, request.Data, serverTime);
+            _repository.CreateIssue(request.IssueKey, issueTypeKey.Value, session.SessionToken, request.ClientTime, request.Data, serverTime);
 
             WriteBusiness.RunRecalculate();
 

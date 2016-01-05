@@ -54,9 +54,9 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Session/End")]
         public void End([FromBody] object value)
         {
-            var sessionKey = Guid.Parse(value.ToString());
+            var sessionToken = value.ToString();
             var callerIp = HttpContext.Current.Request.UserHostAddress;
-            _sessionBusiness.EndSession(sessionKey, callerIp);
+            _sessionBusiness.EndSession(sessionToken, callerIp);
         }
     }
 }

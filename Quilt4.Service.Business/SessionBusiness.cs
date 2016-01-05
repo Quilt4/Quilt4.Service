@@ -17,7 +17,7 @@ namespace Quilt4.Service.Business
         public RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            if (!request.SessionKey.IsValidGuid()) throw new ArgumentException("No valid session key provided.");
+            //if (!request.SessionKey.IsValidGuid()) throw new ArgumentException("No valid session key provided.");
             if (request.Application == null) throw new ArgumentException("No application provided.");
             if (string.IsNullOrEmpty(request.Application.Name)) throw new ArgumentException("No application name provided.");
             if (string.IsNullOrEmpty(request.Application.Version)) throw new ArgumentException("No application version provided.");
@@ -71,22 +71,23 @@ namespace Quilt4.Service.Business
             }
 
             // Add/Update Session
-            _repository.CreateSession(request.SessionKey, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
+            var sessionToken = RandomUtility.GetRandomString(32); //TODO: Check that this session is really unique.            
+            _repository.CreateSession(sessionToken, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
             WriteBusiness.RunRecalculate();
 
-            return new RegisterSessionResponseEntity {ServerStartTime = serverTime};
+            return new RegisterSessionResponseEntity { SessionToken = sessionToken, ServerStartTime = serverTime};
         }
 
-        public void EndSession(Guid sessionKey, string callerIp)
+        public void EndSession(string sessionToken, string callerIp)
         {
-            var session = _repository.GetSession(sessionKey);
+            var session = _repository.GetSession(sessionToken);
             if (session.CallerIp != callerIp)
             {
                 throw new InvalidOperationException("The call for this session comes from a different origin than the initial call.");
             }
 
-            _repository.SetSessionEnd(sessionKey, DateTime.UtcNow);
+            _repository.SetSessionEnd(sessionToken, DateTime.UtcNow);
         }
     }
 }

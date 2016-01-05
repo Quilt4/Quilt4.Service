@@ -6,6 +6,6 @@ namespace Quilt4.Service.Interface.Business
     public interface ISessionBusiness
     {
         RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity data);
-        void EndSession(Guid sessionKey, string callerIp);
+        void EndSession(string sessionToken, string callerIp);
     }
 }

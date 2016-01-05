@@ -14,7 +14,7 @@ namespace Quilt4.Service.Converters
             return new RegisterIssueRequestEntity
             {
                 IssueKey = item.IssueKey,
-                SessionKey = item.SessionKey,
+                SessionToken = item.SessionKey.ToString(), //TODO: Replace SessionKey with SessionToken
                 IssueType = ToIssueType(item.IssueType),
                 ClientTime = item.ClientTime,
                 Data = item.Data,
@@ -46,7 +46,6 @@ namespace Quilt4.Service.Converters
             return new RegisterSessionRequestEntity
             {
                 ProjectApiKey = item.ProjectApiKey,
-                SessionKey = item.SessionKey,
                 ClientStartTime = item.ClientStartTime,
                 Environment = item.Environment,
                 Application = item.Application.ToApplicationDataRequestEntity(),

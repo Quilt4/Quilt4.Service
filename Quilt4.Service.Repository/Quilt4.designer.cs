@@ -3443,22 +3443,24 @@ namespace Quilt4.Service.SqlRepository
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionKey", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid SessionKey
+		public string SessionToken
 		{
 			get
 			{
-				return this._SessionKey;
+                throw new NotImplementedException();
+				//return this._SessionKey;
 			}
 			set
 			{
-				if ((this._SessionKey != value))
-				{
-					this.OnSessionKeyChanging(value);
-					this.SendPropertyChanging();
-					this._SessionKey = value;
-					this.SendPropertyChanged("SessionKey");
-					this.OnSessionKeyChanged();
-				}
+                throw new NotImplementedException();
+    //            if ((this._SessionKey != value))
+				//{
+				//	this.OnSessionKeyChanging(value);
+				//	this.SendPropertyChanging();
+				//	this._SessionKey = value;
+				//	this.SendPropertyChanged("SessionKey");
+				//	this.OnSessionKeyChanged();
+				//}
 			}
 		}
 		

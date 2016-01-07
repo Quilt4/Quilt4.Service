@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Quilt4.Service.Interface.Business
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width"/>
@@ -9,6 +10,6 @@
     <h1>Error.</h1>
     <h2>An error occurred while processing your request.</h2>
 </hgroup>
-@WebApiApplication.LogException(Model.Exception);
+@WebApiApplication.LogException(Model.Exception, LogLevel.Error);
 </body>
 </html>

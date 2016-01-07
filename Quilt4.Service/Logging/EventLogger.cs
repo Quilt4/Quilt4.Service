@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Quilt4.Service.Interface.Business;
-using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Models;
 
 namespace Quilt4.Service.Logging
@@ -37,10 +35,31 @@ namespace Quilt4.Service.Logging
             WriteToEventLog(message, EventLogEntryType.Information);
         }
 
-        public void LogException(Exception exception)
+        public void LogWarning(string message)
         {
+            WriteToEventLog(message, EventLogEntryType.Warning);
+        }
+
+        public void LogException(Exception exception, LogLevel logLevel)
+        {
+            EventLogEntryType eventLogEntryType;
+            switch (logLevel)
+            {
+                case LogLevel.DoNotLog:
+                    return;
+                case LogLevel.Information:
+                    eventLogEntryType = EventLogEntryType.Information;
+                    break;
+                case LogLevel.Warning:
+                    eventLogEntryType = EventLogEntryType.Warning;
+                    break;
+                default:
+                    eventLogEntryType = EventLogEntryType.Error;
+                    break;
+            }
+
             var message = GetMessageFromException(exception);
-            WriteToEventLog(message, EventLogEntryType.Error);
+            WriteToEventLog(message, eventLogEntryType);
         }
 
         private Exception AssureEventLogSource()

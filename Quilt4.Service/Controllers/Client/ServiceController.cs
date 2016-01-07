@@ -23,7 +23,14 @@ namespace Quilt4.Service.Controllers.Client
                 Version = data.Version,
                 StartTime = data.StartTime,
                 Environment = data.Environment,
-                DatabaseInfo = data.DatabaseInfo,
+                Database = new DatabaseInfoResponse
+                {
+                    Version = data.DatabaseInfo.Version,
+                    CanConnect = data.DatabaseInfo.CanConnect,
+                    Database = data.DatabaseInfo.Database,
+                },
+                CanWriteToSystemLog = data.CanWriteToSystemLog,
+                HasOwnProjectApiKey = data.HasOwnProjectApiKey,
             };
         }
     }    

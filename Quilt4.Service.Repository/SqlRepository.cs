@@ -226,7 +226,9 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Settings.Select(x => new Entity.Setting(x.Name, x.Value)).Single(x => x.Name == settingName);
+                var result = context.Settings.SingleOrDefault(x => x.Name == settingName);
+                if (result == null) return null;
+                return new Entity.Setting(result.Name, result.Value);
             }
         }
 

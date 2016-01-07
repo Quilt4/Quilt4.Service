@@ -19,7 +19,6 @@ namespace Quilt4.Service.Business
         public RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
-            //if (!request.SessionKey.IsValidGuid()) throw new ArgumentException("No valid session key provided.");
             if (request.Application == null) throw new ArgumentException("No application provided.");
             if (string.IsNullOrEmpty(request.Application.Name)) throw new ArgumentException("No application name provided.");
             if (string.IsNullOrEmpty(request.Application.Version)) throw new ArgumentException("No application version provided.");

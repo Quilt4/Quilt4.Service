@@ -17,8 +17,8 @@ namespace Quilt4.Service.Business
         {
             _repository = repository;
             _serviceLog = serviceLog;
-            Task.Factory.StartNew(Run);
             _running = true;
+            Task.Factory.StartNew(Run);
         }
 
         private void Run()
@@ -32,7 +32,7 @@ namespace Quilt4.Service.Business
                 }
                 catch (Exception e)
                 {
-                    _serviceLog.LogException(e);
+                    _serviceLog.LogException(e, LogLevel.SystemError);
                 }
             }
         }

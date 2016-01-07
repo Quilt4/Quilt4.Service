@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -11,10 +12,12 @@ using Castle.Windsor.Installer;
 using Quilt4.Service.Injection;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
+using Quilt4Net.Core;
+using Quilt4Net.Core.Interfaces;
 
 namespace Quilt4.Service
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         private static IWindsorContainer _container;
 
@@ -29,12 +32,14 @@ namespace Quilt4.Service
 
             RegisterServiceLogger();
 
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            RegisterSession();
         }
 
         protected void Application_BeginRequest()
         {
-            CanWriteToLog();
+            //CanWriteToSystemLog();
         }
 
         private static void RegisterServiceLogger()
@@ -66,35 +71,98 @@ namespace Quilt4.Service
         void Application_Error(object sender, EventArgs e)
         {
             var lastError = Server.GetLastError();
-            LogException(lastError);
+            LogException(lastError, LogLevel.SystemError);
         }
 
-        private void CanWriteToLog()
+        private void RegisterSession()
         {
-            var log = _container.Resolve<IServiceLog>();
-            Exception exception;
-            if (!log.CanWriteToLog(out exception))
+            var sessionHandler = _container.Resolve<ISessionHandler>();
+            sessionHandler.Application.SetFirstAssembly(Assembly.GetAssembly(typeof(WebApiApplication)));
+
+            if (!HasOwnProjectApiKey())
+                return;
+
+            sessionHandler.SessionRegistrationCompletedEvent += SessionHandler_SessionRegistrationCompletedEvent;
+            sessionHandler.RegisterStart();
+        }
+
+        private void SessionHandler_SessionRegistrationCompletedEvent(object sender, Quilt4Net.Core.Events.SessionRegistrationCompletedEventArgs e)
+        {
+            if (!e.Result.IsSuccess)
             {
-                var serviceLog = System.Configuration.ConfigurationManager.AppSettings["ServiceLog"];
-                HttpContext.Current.Response.Write("Unable to write to service log (" + serviceLog + ").<br/>");
-                HttpContext.Current.Response.Write("Exception: " + exception.Message + "<br/><br/>");
-                HttpContext.Current.Response.Write("If the event log is used, the service might not have access to create the event source. Run the service as administrator once to create the source, then the service can run as a regular user.<br/>");
-                HttpContext.Current.Response.End();
+                LogException(e.Result.Exception, LogLevel.SystemError);
             }
         }
 
-        public static void LogException(Exception exception)
+        public static void LogException(Exception exception, LogLevel logLevel)
         {
+            if (exception == null) return;
+
             try
             {
-                var log = _container.Resolve<IServiceLog>();
-                log.LogException(exception);
+                ExceptionIssueLevel? issueLevel;
+                switch (logLevel)
+                {
+                    case LogLevel.DoNotLog:
+                        return;
+                    case LogLevel.Error:
+                        issueLevel = ExceptionIssueLevel.Error;
+                        break;
+                    case LogLevel.Warning:
+                        issueLevel = ExceptionIssueLevel.Warning;
+                        break;
+                    case LogLevel.Information:
+                        issueLevel = ExceptionIssueLevel.Warning; //TODO: Change this to information when that option is available
+                        break;
+                    case LogLevel.SystemError:
+                        issueLevel = null;
+                        break;
+                    default:
+                        issueLevel = null;
+                        break;
+                }
+
+                if (!HasOwnProjectApiKey())
+                {
+                    issueLevel = null;
+                }
+
+                Quilt4Net.ExceptionExtensions.AddData(exception, "ExceptionKey", Guid.NewGuid());
+
+                if (issueLevel != null)
+                {
+                    var issueHandler = _container.Resolve<IIssueHandler>();
+                    issueHandler.IssueRegistrationCompletedEvent += IssueHandler_IssueRegistrationCompletedEvent;
+                    issueHandler.RegisterStart(exception, issueLevel.Value);
+                }
+                else
+                {
+                    var log = _container.Resolve<IServiceLog>();
+                    log.LogException(exception, logLevel);
+                }
             }
             catch (Exception exp)
             {
+                HttpContext.Current.Response.Write("<html><body>");
                 HttpContext.Current.Response.Write("Unable to log exception. Reason: " + exp.Message + "</br>");
                 HttpContext.Current.Response.Write("The original exception that could not be logged: " + exception.Message + "</br>");
+                HttpContext.Current.Response.Write("</body></html>");
                 HttpContext.Current.Response.End();
+            }
+        }
+
+        private static bool HasOwnProjectApiKey()
+        {
+            var settingBusiness = _container.Resolve<ISettingBusiness>();
+            var hasOwnProjectApiKey = settingBusiness.HasSetting("ProjectApiKey");
+            return hasOwnProjectApiKey;
+        }
+
+        private static void IssueHandler_IssueRegistrationCompletedEvent(object sender, Quilt4Net.Core.Events.IssueRegistrationCompletedEventArgs e)
+        {
+            if (!e.Result.IsSuccess)
+            {
+                LogException(e.Result.Exception, LogLevel.SystemError);
             }
         }
 

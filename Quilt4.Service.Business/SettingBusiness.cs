@@ -29,6 +29,11 @@ namespace Quilt4.Service.Business
             return response;
         }
 
+        public bool HasSetting(string settingName)
+        {
+            return !string.IsNullOrEmpty(GetSetting(settingName, string.Empty));
+        }
+
         public IEnumerable<Setting> GetSettings()
         {
             return _repository.GetSettings();

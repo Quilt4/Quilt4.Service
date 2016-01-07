@@ -7,7 +7,8 @@ namespace Quilt4.Service.Interface.Business
     {
         bool CanWriteToLog(out Exception exception);
         void LogInformation(string message);
-        void LogException(Exception exception);
+        void LogWarning(string message);
+        void LogException(Exception exception, LogLevel logLevel);
         IEnumerable<IServiceLogItem> GetAllLogEntries();
     }
 }

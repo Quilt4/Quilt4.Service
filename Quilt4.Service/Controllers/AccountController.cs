@@ -76,17 +76,17 @@ namespace Quilt4.Service.Controllers
         {
             var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
-            var userInfo = _repository.GetUser(User.Identity.Name);
+            var userInfo = _repository.GetUserInfo(User.Identity.Name);
 
             return new UserInfoViewModel
             {
                 UserName = User.Identity.GetUserName(),
-                Email = userInfo.EMail,
+                Email = userInfo.Email,
                 FirstName = userInfo.FirstName,
                 LastName = userInfo.LastName,
                 AvatarUrl = userInfo.AvatarUrl,
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,                
             };
         }
 
@@ -412,14 +412,11 @@ namespace Quilt4.Service.Controllers
 
             try
             {
-
-                var userId = UserManager.FindByName(user.UserName).Id;
-                _repository.AddUserExtraInfo(userId, model.FirstName, model.LastName, defaultAvatarUrl);
+                _repository.AddUserExtraInfo(user.UserName, model.FirstName, model.LastName, defaultAvatarUrl);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                
-                throw e;
+                throw;
             }
         }
 

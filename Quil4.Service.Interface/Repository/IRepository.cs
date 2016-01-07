@@ -13,9 +13,11 @@ namespace Quilt4.Service.Interface.Repository
         User GetUserByUserKey(string userKey);
         User GetUserByUserName(string userName);
         User GetUserByEMail(string email);
+        UserInfo GetUserInfo(string userName);
         IEnumerable<User> GetUsers();
         IEnumerable<Role> GetRolesByUser(string userName);
         void AddUserToRole(string userName, string roleName);
+        void AddUserExtraInfo(string userName, string firstName, string lastName, string defaultAvatarUrl);
 
         //Role
         void CreateRole(Role role);
@@ -68,9 +70,6 @@ namespace Quilt4.Service.Interface.Repository
         IEnumerable<Setting> GetSettings();
         Setting GetSetting(string settingName);
         void SetSetting(string settingName, string value);
-        void AddUserExtraInfo(string id, string firstName, string lastName, string defaultAvatarUrl);
-        ProjectMember GetUser(string name);
-        IEnumerable<ProjectMember> GetUsersStartingWith(string email);
 
         DatabaseInfo GetDatabaseInfo();
     }

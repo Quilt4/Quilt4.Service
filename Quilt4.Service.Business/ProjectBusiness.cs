@@ -53,11 +53,6 @@ namespace Quilt4.Service.Business
             return _readRepository.GetVersions(userId, projectId, applicationId);
         }
 
-        public IEnumerable<ProjectMember> GetMembers(string email)
-        {
-            return _repository.GetUsersStartingWith(email);
-        }
-
         public void CreateProject(string userName, Guid projectKey, string name, string dashboardColor)
         {
             var projectApiKey = RandomUtility.GetRandomString(32);

@@ -112,7 +112,7 @@ namespace Quilt4.Service
                         issueLevel = ExceptionIssueLevel.Warning;
                         break;
                     case LogLevel.Information:
-                        issueLevel = ExceptionIssueLevel.Warning; //TODO: Change this to information when that option is available
+                        issueLevel = ExceptionIssueLevel.Information;
                         break;
                     case LogLevel.SystemError:
                         issueLevel = null;

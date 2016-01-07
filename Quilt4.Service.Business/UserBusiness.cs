@@ -25,7 +25,7 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<User> SearchUsers(string searchString, string callerIp)
         {
-            //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)
+            //TODO: Set the maximum calls from the same origin within a certain time interval (Log violations)
 
             var minUserSearchStringLength = _settingBusiness.GetSetting("MinUserSearchStringLength", 3);
             if (searchString.Length < minUserSearchStringLength)

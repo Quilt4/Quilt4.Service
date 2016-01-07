@@ -170,19 +170,19 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Entity.ProjectMember[] GetProjectUsers(Guid projectKey)
+        public ProjectMember[] GetProjectUsers(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, true, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
+                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new ProjectMember(x.UserName, x.Email, true, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
             }
         }
 
-        public Entity.ProjectMember[] GetProjectInvitation(Guid projectKey)
+        public ProjectMember[] GetProjectInvitation(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new Entity.ProjectMember(x.UserName, x.Email, false, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
+                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new ProjectMember(x.UserName, x.Email, false, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
             }
         }
 
@@ -249,12 +249,11 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void AddUserExtraInfo(string id, string firstName, string lastName, string defaultAvatarUrl)
+        public void AddUserExtraInfo(string userName, string firstName, string lastName, string defaultAvatarUrl)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => x.UserKey == id);
-
+                var user = context.Users.SingleOrDefault(x => x.UserName == userName);
                 if (user == null) return;
 
                 user.FirstName = firstName;
@@ -265,25 +264,16 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public ProjectMember GetUser(string name)
+        public UserInfo GetUserInfo(string userName)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => x.UserName == name);
-
-                return new ProjectMember(user.UserName, user.Email, false, null, user.FirstName, user.LastName, user.AvatarUrl);
+                var user = context.Users.SingleOrDefault(x => x.UserName == userName);
+                if (user == null) return null;
+                return new Entity.UserInfo(user.UserKey, user.UserName, user.Email, user.FirstName, user.LastName, user.AvatarUrl);
             }
         }
-
-        public IEnumerable<ProjectMember> GetUsersStartingWith(string email)
-        {
-            using (var context = GetDataContext())
-            {
-                //TODO: Sorry, bör byta från projectMemeber
-                return context.Users.Where(x => x.Email.StartsWith(email)).Select(x => new ProjectMember(x.UserName, x.Email, true, null, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
-            }
-        }
-
+        
         public DatabaseInfo GetDatabaseInfo()
         {
             try

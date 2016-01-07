@@ -80,6 +80,7 @@
     <Compile Include="Setting.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserDataRequestEntity.cs" />
+    <Compile Include="UserInfo.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="VersionPageIssueType.cs" />
     <Compile Include="VersionPageVersion.cs" />

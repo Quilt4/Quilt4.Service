@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Http;
 using Quilt4.Service.Controllers.Web.DataTransfer;
 using Quilt4.Service.Converters;
 using Quilt4.Service.DataTransfer;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
+using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Web
 {
@@ -13,12 +16,14 @@ namespace Quilt4.Service.Controllers.Web
     public class WebProjectController : ApiController
     {
         private readonly IProjectBusiness _projectBusiness;
+        private readonly IUserBusiness _userBusiness;
 
-        public WebProjectController(IProjectBusiness projectBusiness)
+        public WebProjectController(IProjectBusiness projectBusiness, IUserBusiness userBusiness)
         {
             _projectBusiness = projectBusiness;
+            _userBusiness = userBusiness;
         }
-        
+
         [HttpGet]
         [Authorize]
         [Route("api/project/{projectId}")]
@@ -68,20 +73,14 @@ namespace Quilt4.Service.Controllers.Web
         [HttpPost]
         [Authorize]
         [Route("api/project/getUsers")]
-        public IEnumerable<ProjectMember> GetUsers(GetUsersRequest request)
+        public IEnumerable<QueryUserResponse> GetUsers(QueryUserRequest queryUserRequest)
         {
-            if (request == null && string.IsNullOrEmpty(request.Email))
+            if (queryUserRequest == null && string.IsNullOrEmpty(queryUserRequest.SearchString))
                 return null;
 
-            var members = _projectBusiness.GetMembers(request.Email);
-
-            return members;
+            var callerIp = HttpContext.Current.Request.UserHostAddress;
+            var response = _userBusiness.SearchUsers(queryUserRequest.SearchString, callerIp).Select(x => new QueryUserResponse { UserName = x.Username, EMail = x.Email });
+            return response;
         } 
-
-    }
-
-    public class GetUsersRequest
-    {
-        public string Email { get; set; }
     }
 }

@@ -8,7 +8,6 @@ using Quilt4.Service.Converters;
 using Quilt4.Service.DataTransfer;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
-using Quilt4Net.Core.DataTransfer;
 
 namespace Quilt4.Service.Controllers.Web
 {
@@ -70,17 +69,25 @@ namespace Quilt4.Service.Controllers.Web
             return members;
         }
 
+        //TODO: Change response type not to be "ProjectMember" but some other more specific type. (Can QueryUserResponse be used?)
         [HttpPost]
         [Authorize]
         [Route("api/project/getUsers")]
-        public IEnumerable<QueryUserResponse> GetUsers(QueryUserRequest queryUserRequest)
+        public IEnumerable<ProjectMember> GetUsers(GetUsersRequest request)
         {
-            if (queryUserRequest == null && string.IsNullOrEmpty(queryUserRequest.SearchString))
+            if (request == null || string.IsNullOrEmpty(request.Email))
                 return null;
 
             var callerIp = HttpContext.Current.Request.UserHostAddress;
-            var response = _userBusiness.SearchUsers(queryUserRequest.SearchString, callerIp).Select(x => new QueryUserResponse { UserName = x.Username, EMail = x.Email });
-            return response;
+            var members = _userBusiness.SearchUsers(request.Email, callerIp).Select(x => new ProjectMember(x.Username, x.Email, false, null, x.FirstName, x.LastName, x.AvatarUrl));
+
+            return members;
         } 
+
+    }
+
+    public class GetUsersRequest
+    {
+        public string Email { get; set; }
     }
 }

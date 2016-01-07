@@ -5,7 +5,7 @@ namespace Quilt4.Service.Interface.Business
 {
     public interface IUserBusiness
     {
-        IEnumerable<User> GetList();
-        IEnumerable<User> SearchUsers(string searchString, string callerIp);
+        IEnumerable<UserInfo> GetList();
+        IEnumerable<UserInfo> SearchUsers(string searchString, string callerIp);
     }
 }

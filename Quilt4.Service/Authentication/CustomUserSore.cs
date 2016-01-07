@@ -61,7 +61,12 @@ namespace Quilt4.Service.Authentication
 
         private static ApplicationUser ToApplicationUser(User user)
         {
-            return new ApplicationUser { Id = user.UserKey, UserName = user.Username, Email = user.Email };
+            return new ApplicationUser { Id = user.UserKey, UserName = user.Username, Email = user.Email, PasswordHash = user.PasswordHash };
+        }
+
+        private static ApplicationUser ToApplicationUser(UserInfo user)
+        {
+            return new ApplicationUser { Id = user.UserKey, UserName = user.Username, Email = user.Email, PasswordHash = null };
         }
 
         public async Task SetPasswordHashAsync(T user, string passwordHash)

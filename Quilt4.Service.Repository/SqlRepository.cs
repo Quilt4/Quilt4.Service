@@ -67,11 +67,11 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public IEnumerable<Entity.User> GetUsers()
+        public IEnumerable<UserInfo> GetUsers()
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Select(dbUser => new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash)).ToArray();
+                return context.Users.Select(dbUser => new UserInfo(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.FirstName, dbUser.LastName, dbUser.AvatarUrl)).ToArray();
             }
         }
 
@@ -281,7 +281,7 @@ namespace Quilt4.Service.SqlRepository
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName == userName);
                 if (user == null) return null;
-                return new Entity.UserInfo(user.UserKey, user.UserName, user.Email, user.FirstName, user.LastName, user.AvatarUrl);
+                return new UserInfo(user.UserKey, user.UserName, user.Email, user.FirstName, user.LastName, user.AvatarUrl);
             }
         }
         

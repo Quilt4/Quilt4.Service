@@ -14,7 +14,7 @@ namespace Quilt4.Service.Interface.Repository
         User GetUserByUserName(string userName);
         User GetUserByEMail(string email);
         UserInfo GetUserInfo(string userName);
-        IEnumerable<User> GetUsers();
+        IEnumerable<UserInfo> GetUsers();
         IEnumerable<Role> GetRolesByUser(string userName);
         void AddUserToRole(string userName, string roleName);
         void AddUserExtraInfo(string userName, string firstName, string lastName, string defaultAvatarUrl);

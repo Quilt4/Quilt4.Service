@@ -2,8 +2,9 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.Client
+namespace Quilt4.Service.Controllers
 {
+    [Authorize(Roles = Constants.Administrators)]
     public class ServiceController : ApiController
     {
         private readonly IServiceBusiness _serviceBusiness;
@@ -14,7 +15,7 @@ namespace Quilt4.Service.Controllers.Client
         }
 
         [HttpPost]
-        [Route("api/Client/Service/QueryInfo")]
+        [Route("api/Service/QueryInfo")]
         public ServiceInfoResponse QueryInfo()
         {
             var data = _serviceBusiness.GetServiceInfo();

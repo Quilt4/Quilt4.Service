@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Models
 {
     public class LoginUserBindingModel
     {

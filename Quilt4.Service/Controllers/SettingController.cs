@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.Client
+namespace Quilt4.Service.Controllers
 {
     [Authorize(Roles = Constants.Administrators)]
     public class SettingController : ApiController
@@ -17,34 +16,36 @@ namespace Quilt4.Service.Controllers.Client
             _settingBusiness = settingBusiness;
         }
 
-        [Route("api/Client/Setting")]
+        [Route("api/Setting")]
         public IEnumerable<SettingResponse> Get()
         {
             return _settingBusiness.GetSettings().Select(x => new SettingResponse { Name = x.Name, Value = x.Value });
         }
 
-        [Route("api/Client/Setting/{id}")]
-        public SettingResponse Get(Guid id)
+        [Route("api/Setting/{id}")]
+        public SettingResponse Get(string id)
         {
-            throw new NotImplementedException();
+            var value = _settingBusiness.GetSetting<string>(id);
+            var response = new SettingResponse { Name = id, Value = value };
+            return response;
         }
 
-        [Route("api/Client/Setting")]
+        [Route("api/Setting")]
         public void Post([FromBody]SettingResponse value)
         {
-            throw new NotImplementedException();
+            _settingBusiness.SetSetting<string>(value.Name, value.Value);
         }
 
-        [Route("api/Client/Setting/{id}")]
-        public void Put(Guid id, [FromBody]SettingResponse value)
+        [Route("api/Setting/{id}")]
+        public void Put(string id, [FromBody]SettingResponse value)
         {
-            throw new NotImplementedException();
+            _settingBusiness.SetSetting<string>(id, value.Value);
         }
 
-        [Route("api/Client/Setting/{id}")]
-        public void Delete(Guid id)
+        [Route("api/Setting/{id}")]
+        public void Delete(string id)
         {
-            throw new NotImplementedException();
+            _settingBusiness.DeleteSetting(id);
         }
     }
 }

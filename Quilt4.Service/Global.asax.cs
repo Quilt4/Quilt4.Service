@@ -9,6 +9,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Quilt4.Service.Business;
 using Quilt4.Service.Injection;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -154,7 +155,7 @@ namespace Quilt4.Service
         private static bool HasOwnProjectApiKey()
         {
             var settingBusiness = _container.Resolve<ISettingBusiness>();
-            var hasOwnProjectApiKey = settingBusiness.HasSetting("ProjectApiKey");
+            var hasOwnProjectApiKey = settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
             return hasOwnProjectApiKey;
         }
 

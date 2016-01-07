@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 using Quilt4Net.Core.Interfaces;
@@ -30,7 +29,7 @@ namespace Quilt4.Service.Business
 
             Exception exception;
             var canWriteToLog = _serviceLog.CanWriteToLog(out exception);            
-            var hasOwnProjectApiKey = databaseInfo.CanConnect && _settingBusiness.HasSetting("ProjectApiKey");
+            var hasOwnProjectApiKey = databaseInfo.CanConnect && _settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
 
             return new Entity.ServiceInfo(version, environment, _quilt4NetClient.Session.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);
         }

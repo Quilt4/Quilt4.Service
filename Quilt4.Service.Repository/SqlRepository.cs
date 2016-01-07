@@ -236,15 +236,26 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var val = context.Settings.SingleOrDefault(x => x.Name == settingName);
-                if (val == null)
+                var setting = context.Settings.SingleOrDefault(x => x.Name == settingName);
+                if (setting == null)
                 {
-                    val = new Setting { Name = settingName };
-                    context.Settings.InsertOnSubmit(val);
+                    setting = new Setting { Name = settingName };
+                    context.Settings.InsertOnSubmit(setting);
                 }
 
-                val.Value = value;
+                setting.Value = value;
 
+                context.SubmitChanges();
+            }
+        }
+
+        public void DeleteSettng(string settingName)
+        {
+            using (var context = GetDataContext())
+            {
+                var setting = context.Settings.SingleOrDefault(x => x.Name == settingName);
+                if (setting == null) return;
+                context.Settings.DeleteOnSubmit(setting);
                 context.SubmitChanges();
             }
         }

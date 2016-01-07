@@ -239,9 +239,9 @@
     <Compile Include="Controllers\Client\ClientServiceLogController.cs" />
     <Compile Include="Controllers\Client\ClientUserController.cs" />
     <Compile Include="Controllers\Client\ClientVersionController.cs" />
-    <Compile Include="Controllers\Client\ServiceController.cs" />
-    <Compile Include="Controllers\Client\SettingController.cs" />
-    <Compile Include="Controllers\LoginUserBindingModel.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Models\LoginUserBindingModel.cs" />
     <Compile Include="Controllers\Web\DataTransfer\ProjectInvitationResponse.cs" />
     <Compile Include="Converters\DataTransferConverters.cs" />
     <Compile Include="Converters\EntityConverters.cs" />

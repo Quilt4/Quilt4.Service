@@ -44,11 +44,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Quilt4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.52\lib\net45\Quilt4Net.dll</HintPath>
+      <HintPath>..\packages\Quilt4Net.2.0.0.62-beta\lib\net45\Quilt4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quilt4Net.Core, Version=2.0.0.52, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.52\lib\net45\Quilt4Net.Core.dll</HintPath>
+    <Reference Include="Quilt4Net.Core, Version=2.0.0.62, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quilt4Net.2.0.0.62-beta\lib\net45\Quilt4Net.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

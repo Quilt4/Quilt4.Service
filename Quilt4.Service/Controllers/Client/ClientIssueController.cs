@@ -26,14 +26,11 @@ namespace Quilt4.Service.Controllers.Client
             return new IssueResponse
             {
                 Ticket = response.Ticket.ToString(),
-                ClientTime = issueRequest.ClientTime,
-                Data = issueRequest.Data,
-                IssueType = issueRequest.IssueType,
-                SessionToken = issueRequest.SessionToken,
                 IssueKey = issueRequest.IssueKey,
-                IssueThreadKey = issueRequest.IssueThreadKey,
-                UserHandle = issueRequest.UserHandle,
-                ServerTime = response.ServerTime,                
+                ServerTime = response.ServerTime,
+                //TODO: Append correct paths here
+                IssueTypeUrl = "http://www.quilt4.com/SomePathToIssueType",
+                IssueUrl = "http://www.quilt4.com/SomePathToIssue",
             };
         }
     }

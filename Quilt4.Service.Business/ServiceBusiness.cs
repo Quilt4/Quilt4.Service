@@ -10,28 +10,28 @@ namespace Quilt4.Service.Business
         private readonly IRepository _repository;
         private readonly IServiceLog _serviceLog;
         private readonly ISettingBusiness _settingBusiness;
-        private readonly IQuilt4NetClient _quilt4NetClient;
+        private readonly ISessionHandler _sessionHandler;
 
-        public ServiceBusiness(IRepository repository, IServiceLog serviceLog, ISettingBusiness settingBusiness, IQuilt4NetClient quilt4NetClient)
+        public ServiceBusiness(IRepository repository, IServiceLog serviceLog, ISettingBusiness settingBusiness, ISessionHandler sessionHandler)
         {
             _repository = repository;
             _serviceLog = serviceLog;
             _settingBusiness = settingBusiness;
-            _quilt4NetClient = quilt4NetClient;
+            _sessionHandler = sessionHandler;
         }
 
         public Entity.ServiceInfo GetServiceInfo()
         {
             var databaseInfo = _repository.GetDatabaseInfo();
 
-            var version = _quilt4NetClient.Information.Aplication.Version;
-            var environment = _quilt4NetClient.Session.Environment;
+            var version = _sessionHandler.Client.Information.Aplication.GetApplicationData().Version;
+            var environment = _sessionHandler.Environment;
 
             Exception exception;
             var canWriteToLog = _serviceLog.CanWriteToLog(out exception);            
             var hasOwnProjectApiKey = databaseInfo.CanConnect && _settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
 
-            return new Entity.ServiceInfo(version, environment, _quilt4NetClient.Session.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);
+            return new Entity.ServiceInfo(version, environment, _sessionHandler.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);
         }
     }
 }

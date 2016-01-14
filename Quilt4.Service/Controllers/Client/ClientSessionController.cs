@@ -38,14 +38,10 @@ namespace Quilt4.Service.Controllers.Client
             var response = _sessionBusiness.RegisterSession(data);
             return new SessionResponse
             {
-                SessionToken = response.SessionToken,
-                Application = sessionRequest.Application,
-                ClientEndTime = null,
-                ClientStartTime = sessionRequest.ClientStartTime,
-                Environment = sessionRequest.Environment,
-                Machine = sessionRequest.Machine,
+                SessionKey = response.SessionKey,
                 ServerStartTime = response.ServerStartTime,
-                User = sessionRequest.User,
+                //TODO: Append a correct path here
+                SessionUrl = "http://www.quilt4net.com/SomePathToSession"
             };
         }
 
@@ -54,9 +50,9 @@ namespace Quilt4.Service.Controllers.Client
         [Route("api/Client/Session/End")]
         public void End([FromBody] object value)
         {
-            var sessionToken = value.ToString();
+            var sessionKey = value.ToString();
             var callerIp = HttpContext.Current.Request.UserHostAddress;
-            _sessionBusiness.EndSession(sessionToken, callerIp);
+            _sessionBusiness.EndSession(sessionKey, callerIp);
         }
     }
 }

@@ -3756,7 +3756,7 @@ namespace Quilt4.Service.SqlRepository
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionToken", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string SessionToken
+		public string SessionKey
 		{
 			get
 			{

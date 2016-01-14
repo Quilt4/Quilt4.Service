@@ -1,11 +1,10 @@
-﻿using System;
-using Quilt4.Service.Entity;
+﻿using Quilt4.Service.Entity;
 
 namespace Quilt4.Service.Interface.Business
 {
     public interface ISessionBusiness
     {
         RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity data);
-        void EndSession(string sessionToken, string callerIp);
+        void EndSession(string sessionKey, string callerIp);
     }
 }

@@ -4,7 +4,7 @@ namespace Quilt4.Service.Entity
 {
     public class Session
     {
-        public string SessionToken { get; set; }
+        public string SessionKey { get; set; }
         public Guid ProjectKey { get; set; }
         public Guid ApplicationKey { get; set; }
         public Guid VersionKey { get; set; }

@@ -9,7 +9,7 @@
 
             return new Entity.Session
             {
-                SessionToken = item.SessionToken,
+                SessionKey = item.SessionKey,
                 ProjectKey = item.Version.Application.Project.ProjectKey,
                 ApplicationKey = item.Version.Application.ApplicationKey,
                 VersionKey = item.Version.VersionKey,

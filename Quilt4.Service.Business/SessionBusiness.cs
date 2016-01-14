@@ -18,6 +18,8 @@ namespace Quilt4.Service.Business
 
         public RegisterSessionResponseEntity RegisterSession(RegisterSessionRequestEntity request)
         {
+            //TODO: Log the latest incoming data for each project, so that the user can view it.
+
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
             if (request.Application == null) throw new ArgumentException("No application provided.");
             if (string.IsNullOrEmpty(request.Application.Name)) throw new ArgumentException("No application name provided.");
@@ -72,23 +74,23 @@ namespace Quilt4.Service.Business
             }
 
             // Add/Update Session
-            var sessionToken = RandomUtility.GetRandomString(32); //TODO: Check that this session is really unique.            
-            _repository.CreateSession(sessionToken, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
+            var sessionKey = RandomUtility.GetRandomString(32); //TODO: Check that this session is really unique.            
+            _repository.CreateSession(sessionKey, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
             _writeBusiness.RunRecalculate();
 
-            return new RegisterSessionResponseEntity { SessionToken = sessionToken, ServerStartTime = serverTime};
+            return new RegisterSessionResponseEntity { SessionKey = sessionKey, ServerStartTime = serverTime};
         }
 
-        public void EndSession(string sessionToken, string callerIp)
+        public void EndSession(string sessionKey, string callerIp)
         {
-            var session = _repository.GetSession(sessionToken);
+            var session = _repository.GetSession(sessionKey);
             if (session.CallerIp != callerIp)
             {
                 throw new InvalidOperationException("The call for this session comes from a different origin than the initial call.");
             }
 
-            _repository.SetSessionEnd(sessionToken, DateTime.UtcNow);
+            _repository.SetSessionEnd(sessionKey, DateTime.UtcNow);
         }
     }
 }

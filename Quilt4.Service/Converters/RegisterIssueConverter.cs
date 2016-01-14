@@ -1,5 +1,4 @@
-﻿using System;
-using Quilt4.Service.DataTransfer;
+﻿using Quilt4.Service.DataTransfer;
 using Quilt4.Service.Entity;
 
 namespace Quilt4.Service.Converters
@@ -17,37 +16,38 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static RegisterIssueRequestEntity ToRegisterIssueRequestEntity(this RegisterIssueRequest item)
-        {
-            if (item == null)
-                return null;
+        //public static RegisterIssueRequestEntity ToRegisterIssueRequestEntity(this Quilt4Net.Core.DataTransfer.IssueRequest item)
+        //{
+        //    if (item == null)
+        //        return null;
 
-            return new RegisterIssueRequestEntity
-            {
-                IssueKey = Guid.Parse(item.Id),
-                SessionToken = item.SessionId,
-                ClientTime = item.ClientTime,
-                Data = item.Data,
-                IssueType = item.IssueType.ToIssueTypeRequestEntity(),
-                IssueThreadId = string.IsNullOrEmpty(item.IssueThreadId) ? (Guid?) null : Guid.Parse(item.IssueThreadId),
-                UserHandle = item.UserHandle,
-                UserInput = item.UserInput,
-            };
-        }
+        //    return new RegisterIssueRequestEntity
+        //    {
+        //        IssueKey = item.IssueKey,
+        //        SessionKey = item.SessionKey,
+        //        ClientTime = item.ClientTime,
+        //        //Data = item.Data,
+        //        //IssueType = item.IssueType.Select(x => x.ToIssueTypeRequestEntity()) , //.ToIssueTypeRequestEntity(),
+        //        IssueThreadId = string.IsNullOrEmpty(item.IssueThreadId) ? (Guid?) null : Guid.Parse(item.IssueThreadId),
+        //        UserHandle = item.UserHandle,
+        //        UserInput = item.UserInput,
+        //        //Level = item
+        //    };
+        //}
 
-        public static IssueTypeRequestEntity ToIssueTypeRequestEntity(this IssueTypeRequest item)
-        {
-            if (item == null)
-                return null; 
+        //public static IssueTypeRequestEntity ToIssueTypeRequestEntity(this IssueTypeRequest item)
+        //{
+        //    if (item == null)
+        //        return null; 
 
-            return new IssueTypeRequestEntity
-            {
-                Message = item.Message,
-                StackTrace = item.StackTrace,
-                IssueLevel = item.IssueLevel,
-                Type = item.Type,
-                Inner = item.Inner.ToIssueTypeRequestEntity()
-            };
-        }
+        //    return new IssueTypeRequestEntity
+        //    {
+        //        Message = item.Message,
+        //        StackTrace = item.StackTrace,
+        //        IssueLevel = item.IssueLevel,
+        //        Type = item.Type,
+        //        Inner = item.Inner.ToIssueTypeRequestEntity()
+        //    };
+        //}
     }
 }

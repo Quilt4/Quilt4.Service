@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4Net.Core.DataTransfer;
 
@@ -14,13 +15,13 @@ namespace Quilt4.Service.Converters
             return new RegisterIssueRequestEntity
             {
                 IssueKey = item.IssueKey,
-                SessionToken = item.SessionToken,
-                IssueType = ToIssueType(item.IssueType),
                 ClientTime = item.ClientTime,
-                Data = item.Data,
-                UserHandle = item.UserHandle,
                 IssueThreadId = item.IssueThreadKey,
-                UserInput = null
+                Level = item.IssueLevel,
+                SessionKey = item.SessionKey,
+                IssueType = ToIssueType(item.IssueType),
+                UserHandle = item.UserHandle,
+                UserInput = null,                
             };
         }
 
@@ -32,10 +33,10 @@ namespace Quilt4.Service.Converters
             return new IssueTypeRequestEntity
             {
                 Type = item.Type,
-                IssueLevel = item.IssueLevel.ToString(),
+                Data = item.Data,
                 Message = item.Message,
                 StackTrace = item.StackTrace,
-                Inner = item.Inner.ToIssueType()
+                Inner = item.InnerIssueTypes.Select(x => x.ToIssueType()).ToArray(),
             };
         }
 

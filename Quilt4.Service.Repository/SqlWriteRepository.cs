@@ -107,6 +107,8 @@ namespace Quilt4.Service.SqlRepository
 
                         AddIssueTypePageIssue(issue, issueType, version, application, project, session, context);
 
+                        //TODO: Enable theese...
+
                         //AddUpdateIssueTypePageIssueType(context, issueType, version, application, project);
 
                         //AddUpdateVersionPageIssueType(context, issueType, version, application, project);
@@ -377,7 +379,7 @@ namespace Quilt4.Service.SqlRepository
                 IssueTypeKey = issueType.IssueTypeKey,
                 Data = dataDictionary,
                 Enviroment = session.Enviroment,
-                ApplicationUserName = session.ApplicationUser.UserName,
+                ApplicationUserName = session.ApplicationUser != null ? session.ApplicationUser.UserName : "Unknown",
                 LastUpdateServerTime = issue.CreationServerTime,                
             };
 

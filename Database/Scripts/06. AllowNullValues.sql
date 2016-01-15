@@ -1,0 +1,4 @@
+ALTER TABLE [Session] ALTER COLUMN MachineId int NULL
+GO
+ALTER TABLE [Session] ALTER COLUMN ApplicationUserId int NULL
+GO

@@ -159,10 +159,10 @@
       <Column Name="EndServerTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="CallerIp" Type="System.String" DbType="VarChar(45) NOT NULL" CanBeNull="false" />
       <Column Name="Enviroment" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
-      <Column Name="MachineId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MachineId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ApplicationUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SessionToken" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SessionKey" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Session_Issue" Member="Issues" ThisKey="SessionId" OtherKey="SessionId" Type="Issue" />
       <Association Name="ApplicationUser_Session" Member="ApplicationUser" ThisKey="ApplicationUserId" OtherKey="ApplicationUserId" Type="ApplicationUser" IsForeignKey="true" />
       <Association Name="Machine_Session" Member="Machine" ThisKey="MachineId" OtherKey="MachineId" Type="Machine" IsForeignKey="true" />

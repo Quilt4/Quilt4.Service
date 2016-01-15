@@ -3490,13 +3490,13 @@ namespace Quilt4.Service.SqlRepository
 		
 		private string _Enviroment;
 		
-		private int _MachineId;
+		private System.Nullable<int> _MachineId;
 		
-		private int _ApplicationUserId;
+		private System.Nullable<int> _ApplicationUserId;
 		
 		private int _VersionId;
 		
-		private string _SessionToken;
+		private string _SessionKey;
 		
 		private EntitySet<Issue> _Issues;
 		
@@ -3524,14 +3524,14 @@ namespace Quilt4.Service.SqlRepository
     partial void OnCallerIpChanged();
     partial void OnEnviromentChanging(string value);
     partial void OnEnviromentChanged();
-    partial void OnMachineIdChanging(int value);
+    partial void OnMachineIdChanging(System.Nullable<int> value);
     partial void OnMachineIdChanged();
-    partial void OnApplicationUserIdChanging(int value);
+    partial void OnApplicationUserIdChanging(System.Nullable<int> value);
     partial void OnApplicationUserIdChanged();
     partial void OnVersionIdChanging(int value);
     partial void OnVersionIdChanged();
-    partial void OnSessionTokenChanging(string value);
-    partial void OnSessionTokenChanged();
+    partial void OnSessionKeyChanging(string value);
+    partial void OnSessionKeyChanged();
     #endregion
 		
 		public Session()
@@ -3683,8 +3683,8 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MachineId", DbType="Int NOT NULL")]
-		public int MachineId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MachineId", DbType="Int")]
+		public System.Nullable<int> MachineId
 		{
 			get
 			{
@@ -3707,8 +3707,8 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationUserId", DbType="Int NOT NULL")]
-		public int ApplicationUserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationUserId", DbType="Int")]
+		public System.Nullable<int> ApplicationUserId
 		{
 			get
 			{
@@ -3755,22 +3755,22 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionToken", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionKey", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
 		public string SessionKey
 		{
 			get
 			{
-				return this._SessionToken;
+				return this._SessionKey;
 			}
 			set
 			{
-				if ((this._SessionToken != value))
+				if ((this._SessionKey != value))
 				{
-					this.OnSessionTokenChanging(value);
+					this.OnSessionKeyChanging(value);
 					this.SendPropertyChanging();
-					this._SessionToken = value;
-					this.SendPropertyChanged("SessionToken");
-					this.OnSessionTokenChanged();
+					this._SessionKey = value;
+					this.SendPropertyChanged("SessionKey");
+					this.OnSessionKeyChanged();
 				}
 			}
 		}
@@ -3815,7 +3815,7 @@ namespace Quilt4.Service.SqlRepository
 					}
 					else
 					{
-						this._ApplicationUserId = default(int);
+						this._ApplicationUserId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("ApplicationUser");
 				}
@@ -3849,7 +3849,7 @@ namespace Quilt4.Service.SqlRepository
 					}
 					else
 					{
-						this._MachineId = default(int);
+						this._MachineId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Machine");
 				}

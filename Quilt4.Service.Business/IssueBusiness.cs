@@ -28,10 +28,27 @@ namespace Quilt4.Service.Business
             if (request.IssueType == null) throw new ArgumentException("No IssueType object in request was provided. Need object '{ \"IssueType\":{...} }' in root.");
             if (string.IsNullOrEmpty(request.IssueType.Message)) throw new ArgumentException("No message in issue type provided.");
             //if (string.IsNullOrEmpty(request.IssueType.IssueLevel)) throw new ArgumentException("No issue level in issue type provided.");
-            if (string.IsNullOrEmpty(request.IssueType.Type)) throw new ArgumentException("No issue type provided.");
-            if (request.ClientTime == DateTime.MinValue) throw new ArgumentException("No client time provided.");
+            //if (string.IsNullOrEmpty(request.IssueType.Type)) throw new ArgumentException("No issue type provided.");
+            //if (request.ClientTime == DateTime.MinValue) throw new ArgumentException("No client time provided.");
+
+            var issueKey = request.IssueKey;
+            if (issueKey == Guid.Empty)
+            {
+                issueKey = Guid.NewGuid();
+            }
+
+            var value = request.IssueType.Type;
+            if (string.IsNullOrEmpty(value))
+            {
+                value = "Message";
+            }
 
             var serverTime = DateTime.UtcNow;
+            var clientTime = request.ClientTime;
+            if (request.ClientTime == DateTime.MinValue)
+            {
+                clientTime = serverTime;
+            }
 
             var session = _repository.GetSession(request.SessionKey);
             if (session == null)
@@ -47,14 +64,14 @@ namespace Quilt4.Service.Business
             var ticket = GetTicket(session.ProjectKey, 10);
 
             // Add/Update IssueType
-            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, request.IssueType.Type, request.Level, request.IssueType.Message, request.IssueType.StackTrace);
+            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, value, request.Level, request.IssueType.Message, request.IssueType.StackTrace);
             if (issueTypeKey == null)
             {
                 issueTypeKey = Guid.NewGuid();
-                _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, request.IssueType.Type, request.Level, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
+                _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, value, request.Level, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
             }
-            //TODO: Check if the issue key already exists. _repository.GetIssue(request.IssueKey);
-            _repository.CreateIssue(request.IssueKey, issueTypeKey.Value, session.SessionKey, request.ClientTime, GetData(request), serverTime);
+            //TODO: Check if the issue key already exists. _repository.GetIssue(issueKey);
+            _repository.CreateIssue(issueKey, issueTypeKey.Value, session.SessionKey, clientTime, GetData(request), serverTime);
 
             _writeBusiness.RunRecalculate();
 

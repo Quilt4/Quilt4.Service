@@ -24,9 +24,14 @@ namespace Quilt4.Service.Business
             if (request.Application == null) throw new ArgumentException("No application provided.");
             if (string.IsNullOrEmpty(request.Application.Name)) throw new ArgumentException("No application name provided.");
             if (string.IsNullOrEmpty(request.Application.Version)) throw new ArgumentException("No application version provided.");
-            if(request.ClientStartTime == DateTime.MinValue) throw new ArgumentException("No client start time provided.");
 
             var serverTime = DateTime.UtcNow;
+            var clientTime = serverTime;
+            if (request.ClientStartTime != DateTime.MinValue)
+            {
+                clientTime = request.ClientStartTime;
+            }
+
             var projectKey = _repository.GetProjectKey(request.ProjectApiKey);
             if (projectKey == null)
             {
@@ -75,7 +80,7 @@ namespace Quilt4.Service.Business
 
             // Add/Update Session
             var sessionKey = RandomUtility.GetRandomString(32); //TODO: Check that this session is really unique.            
-            _repository.CreateSession(sessionKey, request.ClientStartTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
+            _repository.CreateSession(sessionKey, clientTime, request.CallerIp, versionKey.Value, applicationUserKey, machineKey, ValidationHelper.SetIfEmpty(request.Environment, null), serverTime);
 
             _writeBusiness.RunRecalculate();
 

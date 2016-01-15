@@ -455,8 +455,8 @@ namespace Quilt4.Service.SqlRepository
                     StartServerTime = serverTime,
                     LastUsedServerTime = serverTime,
                     EndServerTime = null,
-                    ApplicationUserId = context.ApplicationUsers.Single(x => x.ApplicationUserKey == applicationUserKey).ApplicationUserId,
-                    MachineId = context.Machines.Single(x => x.MachineKey == machineKey).MachineId,
+                    ApplicationUserId = applicationUserKey != null ? context.ApplicationUsers.Single(x => x.ApplicationUserKey == applicationUserKey).ApplicationUserId : (int?)null,
+                    MachineId = machineKey != null ? context.Machines.Single(x => x.MachineKey == machineKey).MachineId : (int?)null,
                     Enviroment = environment,
                     VersionId = context.Versions.Single(x => x.VersionKey == versionKey).VersionId,                    
                 };

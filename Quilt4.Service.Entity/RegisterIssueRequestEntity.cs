@@ -8,7 +8,6 @@ namespace Quilt4.Service.Entity
         public Guid IssueKey { get; set; }
         public string SessionKey { get; set; }
         public DateTime ClientTime { get; set; }
-        //public IDictionary<string, string> Data { get; set; }
         public IssueTypeRequestEntity IssueType { get; set; }
         public Guid? IssueThreadId { get; set; }
         public string UserHandle { get; set; }

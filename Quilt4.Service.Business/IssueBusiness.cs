@@ -91,6 +91,9 @@ namespace Quilt4.Service.Business
 
         private IEnumerable<KeyValuePair<string,string>> GetData(IssueTypeRequestEntity issueTypeRequestEntity)
         {
+            if (issueTypeRequestEntity == null)
+                yield break;
+
             foreach (var data in issueTypeRequestEntity.Data)
             {
                 yield return new KeyValuePair<string, string>(data.Key, data.Value);

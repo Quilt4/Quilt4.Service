@@ -2,19 +2,19 @@
 
 namespace Quilt4.Service.Controllers
 {
-    public class HomeController : Controller
+    public class PlatformController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Net()
         {
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Node()
         {
             return View();
         }
 
-        public ActionResult Contribute()
+        public ActionResult Unity()
         {
             return View();
         }

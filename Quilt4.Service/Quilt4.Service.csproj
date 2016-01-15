@@ -65,12 +65,12 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quilt4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.62-beta\lib\net45\Quilt4Net.dll</HintPath>
+    <Reference Include="Quilt4Net, Version=2.0.0.64, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quilt4Net.2.0.0.64-beta\lib\net45\Quilt4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quilt4Net.Core, Version=2.0.0.62, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.62-beta\lib\net45\Quilt4Net.Core.dll</HintPath>
+    <Reference Include="Quilt4Net.Core, Version=2.0.0.64, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quilt4Net.2.0.0.64-beta\lib\net45\Quilt4Net.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -239,6 +239,7 @@
     <Compile Include="Controllers\Client\ClientServiceLogController.cs" />
     <Compile Include="Controllers\Client\ClientUserController.cs" />
     <Compile Include="Controllers\Client\ClientVersionController.cs" />
+    <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Models\LoginUserBindingModel.cs" />
@@ -290,9 +291,14 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\csharp.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\Node.png" />
+    <Content Include="images\Quilt4.png" />
+    <Content Include="images\Unity3d.png" />
+    <Content Include="images\VisualStudio.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -342,6 +348,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Contribute.cshtml" />
+    <Content Include="Views\Platform\Net.cshtml" />
+    <Content Include="Views\Platform\Node.cshtml" />
+    <Content Include="Views\Platform\Unity.cshtml" />
     <None Include="Web.CI.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

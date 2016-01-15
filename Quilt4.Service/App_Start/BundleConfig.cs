@@ -22,6 +22,7 @@ namespace Quilt4.Service
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/csharp.css",
                       "~/Content/site.css"));
         }
     }

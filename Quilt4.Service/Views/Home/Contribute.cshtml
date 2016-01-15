@@ -1,0 +1,198 @@
+﻿
+@{
+    //ViewBag.Title = "Contribute";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Just start sending json</h2>
+
+<p>
+    Quilt4 service has an open WebAPI that anyone can send requests to.
+    You can send json from your own application if you want to.
+    If you want to create a component that helps developers to automatically send their data to the service, this is how you can do it.
+</p>
+
+<p>
+    Start by contacting us and we will create a repository on <a href="https://github.com/Quilt4" target="_blank">GitHub</a> and make you a contributer.
+</p>
+
+<h2>The three steps</h2>
+
+<ol>
+    <li>Start a session</li>
+    <li>Register issues</li>
+    <li>End the session</li>
+</ol>
+
+<h3>To start a session this is the data to send to the server.</h3>
+
+<p>
+    POST: api/Client/Session
+</p>
+
+<h4>Minimal version</h4>
+
+<p>
+    This is an example of a minimal json document needed to start a new session.
+</p>
+
+<pre class="csharpcode">
+{
+    <span class="str">"ProjectApiKey"</span>: <span title="The ProjectApiKey the user will get when creating a project on the Quilt4 Web." class="str">"AB44JFFUKC82HT2SKL9S0SQ24H6KK5M"</span>,
+    <span class="str" title="This section contains data about the application.">"Application"</span>: 
+    {
+        <span class="str">"Fingerprint"</span>: <span title="Unique value for the application and version. Preferably a combination of the application name, version, toolkit version, project api and build time. Then use Md5Hash on the values to get a fingerprnt." class="str">"AI1:DF555F7F12FE59129EF729065F81FE86"</span>,
+        <span class="str">"Name"</span>: <span title="Name of the application." class="str">"MyApplication"</span>,
+        <span class="str">"Version"</span>: <span title="Version number of the application." class="str">"1.0.0.0"</span>,
+    },
+}</pre>
+
+<h4>Full version</h4>
+
+<pre class="csharpcode">
+{
+    <span class="str">"ProjectApiKey"</span>: <span title="The ProjectApiKey the user will get when creating a project on the Quilt4 Web." class="str">"AB44JFFUKC82HT2SKL9S0SQ24H6KK5M"</span>,
+    <span class="str">"ClientStartTime"</span>: <span title="Provide the UTC time of the client." class="str">"2016-01-14T13:27:44.0776595Z"</span>,
+    <span class="str">"Environment"</span>: <span title="Any string describing the environment where the application is running." class="str">"Test"</span>,
+    <span class="str" title="This section contains data about the application.">"Application"</span>: 
+    {
+        <span class="str">"Fingerprint"</span>: <span title="Unique value for the application and version. Preferably a combination of the application name, version, toolkit version, project api and build time. Then use Md5Hash on the values to get a fingerprnt." class="str">"AI1:DF555F7F12FE59129EF729065F81FE86"</span>,
+        <span class="str">"Name"</span>: <span title="Name of the application." class="str">"MyApplication"</span>,
+        <span class="str">"Version"</span>: <span title="Version number of the application." class="str">"1.0.0.0"</span>,
+        <span class="str">"SupportToolkitNameVersion"</span>: <span title="Name and version of the client you are creating." class="str">"Quilt4Node 1.0.0.0"</span>,
+        <span class="str">"BuildTime"</span>: <span title="Date and time of the time the application was build, if you choose to trach every build independent of version number." class="str">null</span>
+    },
+    <span class="str">"Machine"</span>: 
+    {
+        <span class="str">"Fingerprint"</span>: <span title="Unique id for the machine. For instance a Md5Hash of cpuId, driveSerial and machineName. If you cannot get a unique id from the device, as can be the case for mobile devices, you can create a unique id and store it on the device." class="str">"MI1:9B95F3ECDD7A951DE91EE13456028DAC"</span>,
+        <span class="str">"Name"</span>: <span title="Name of the machine." class="str">"WKS13593"</span>,
+        <span class="str" title="Any data you like to provide about the machine.">"Data"</span>:
+        {
+            <span class="str">"OsName"</span>: <span class="str">"Microsoft Windows 7 Enterprise "</span>,
+            <span class="str">"Model"</span>: <span class="str">"Intel(R) Xeon(R) CPU E3-1231 v3 @@ 3.40GHz"</span>,
+            <span class="str">"Type"</span>: <span class="str">"Desktop"</span>,
+            <span class="str">"Screen"</span>: <span class="str">"1920x1200"</span>,
+            <span class="str">"TimeZone"</span>: <span class="str">"W. Europe Standard Time"</span>,
+            <span class="str">"Language"</span>: <span class="str">"sv-SE"</span>
+        }
+    },
+    <span class="str">"User"</span>: 
+    {
+        <span class="str">"Fingerprint"</span>: <span title="Suggestion Md5Hash of userSid, domainName and userName." class="str">"UI1:CABF88EE7798B55475CD1E611B3719B8"</span>,
+        <span class="str">"UserName"</span>: <span class="str">"BOB_LOBLAW"</span>
+    }
+}</pre>
+
+<h4>Response</h4>
+
+<p>
+    This is the data you will get back from the server if the session was created correctly.
+</p>
+
+<pre class="csharpcode">
+{
+    <span class="str">"sessionKey"</span>: <span title="The session key is used for all communication with the server from now on, as long as the application lives." class="str">"432LWXWWSQ4IXGC4Q1M0ZXIS36OH4YVD"</span>,
+    <span class="str">"serverStartTime"</span>: <span title="The UTC time of the server as soon as the message was recieved." class="str">"2016-01-14T13:46:53.9606825Z"</span>,
+    <span class="str">"sessionUrl"</span>: <span title="Link to the quilt4 web where information about the session can be seen." class="str">"https://www.quilt4.com/SomePathToTheSession"</span>
+}</pre>
+
+<h3>To register an issue.</h3>
+
+<p>
+    POST: api/Client/Issue
+</p>
+
+<h4>Minimal version</h4>
+
+<p>
+    This is an example of a minimal json document needed to register an issue
+</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Minimal version
+{
+    <span class="str">"SessionKey"</span>: <span title="Provide the session key that was returned when starting the session." class="str">"432LWXWWSQ4IXGC4Q1M0ZXIS36OH4YVD"</span>,
+    <span class="str">"IssueLevel"</span>: <span title="The type of issue; Error, Warning or Information." class="str">"Error"</span>,
+    <span class="str">"IssueType"</span>:
+    {
+        <span class="str">"Message"</span>: <span title="The message for this issue. Could be any information, but keep variables out of here, they should be in the data part of the exception." class="str">"Some Message"</span>,
+    },
+}</pre>
+
+<h4>Full version</h4>
+
+<pre class="csharpcode">
+{
+    <span class="str">"IssueKey"</span>: <span class="str">"ea9ff973-532f-410f-acea-da0ba40fd481"</span>,
+    <span class="str">"SessionKey"</span>: <span title="Provide the session key that was returned when starting the session." class="str">"432LWXWWSQ4IXGC4Q1M0ZXIS36OH4YVD"</span>,
+    <span class="str">"ClientTime"</span>: <span class="str">"2016-01-14T16:23:37.5477283Z"</span>,
+    <span class="str">"IssueLevel"</span>: <span title="The type of issue; Error, Warning or Information." class="str">"Error"</span>,
+    <span class="str">"IssueType"</span>:
+    {
+        <span class="str">"Message"</span>: <span class="str">"Some exception"</span>,
+        <span class="str">"StackTrace"</span>: <span class="str">"   at Quilt4Net.Sample.CastleWindsor.SomeBusiness1.Execute() in Z:\\Dev\\git\\Quilt4\\Quilt4Net\\Quilt4Net.Sample.CastleWindsor\\Program.cs:line 192"</span>,
+        <span class="str">"Type"</span>: <span class="str">"System.InvalidOperationException"</span>,
+        <span class="str">"InnerIssueTypes"</span>: 
+        [{
+            <span class="str">"Message"</span>: <span class="str">"Some inner exception."</span>,
+            <span class="str">"StackTrace"</span>: <span class="str">"   at Quilt4Net.Sample.CastleWindsor.SomeBusiness1.Execute() in Z:\\Dev\\git\\Quilt4\\Quilt4Net\\Quilt4Net.Sample.CastleWindsor\\Program.cs:line 186"</span>,
+            <span class="str">"Type"</span>: <span class="str">"System.InvalidOperationException"</span>,
+            <span class="str">"InnerIssueTypes"</span>: 
+            [{
+                <span class="str">"Message"</span>: <span class="str">"One or more errors occurred."</span>,
+                <span class="str">"StackTrace"</span>: <span class="str">"   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)\r\n   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)\r\n   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)\r\n   at Quilt4Net.Sample.CastleWindsor.SomeBusiness1.Execute() in Z:\\Dev\\git\\Quilt4\\Quilt4Net\\Quilt4Net.Sample.CastleWindsor\\Program.cs:line 182"</span>,
+                <span class="str">"Type"</span>: <span class="str">"System.AggregateException"</span>,
+                <span class="str">"InnerIssueTypes"</span>: 
+                [{
+                    <span class="str">"Message"</span>: <span class="str">"First"</span>,
+                    <span class="str">"StackTrace"</span>: <span class="str">"   at Quilt4Net.Sample.CastleWindsor.SomeBusiness1.&lt;&gt;c.&lt;Execute&gt;b__9_0() in Z:\\Dev\\git\\Quilt4\\Quilt4Net\\Quilt4Net.Sample.CastleWindsor\\Program.cs:line 174\r\nat System.Threading.Tasks.Task`1.InnerInvoke()\r\n   at System.Threading.Tasks.Task.Execute()"</span>,
+                    <span class="str">"Type"</span>: <span class="str">"System.InvalidOperationException"</span>,
+                    <span class="str">"InnerIssueTypes"</span>: [<span class="kwrd">null</span>],
+                    <span class="str">"Data"</span>: {}
+                },
+                {
+                    <span class="str">"Message"</span>: <span class="str">"Second"</span>,
+                    <span class="str">"StackTrace"</span>: <span class="str">"   at Quilt4Net.Sample.CastleWindsor.SomeBusiness1.&lt;&gt;c.&lt;Execute&gt;b__9_1() in Z:\\Dev\\git\\Quilt4\\Quilt4Net\\Quilt4Net.Sample.CastleWindsor\\Program.cs:line 179\r\n   at System.Threading.Tasks.Task`1.InnerInvoke()\r\n   at System.Threading.Tasks.Task.Execute()"</span>,
+                    <span class="str">"Type"</span>: <span class="str">"System.InvalidOperationException"</span>,
+                    <span class="str">"InnerIssueTypes"</span>: [<span class="kwrd">null</span>],
+                    <span class="str">"Data"</span>: {}
+                }],
+                <span class="str">"Data"</span>: {}
+            }],
+            <span class="str">"Data"</span>: 
+            {
+                <span class="str">"A"</span>: <span class="str">"1"</span>,
+                <span class="str">"B"</span>: <span class="str">"2"</span>
+            }
+        }],
+        <span class="str">"Data"</span>: 
+        {
+            <span class="str">"B"</span>: <span class="str">"22"</span>,
+            <span class="str">"C"</span>: <span class="str">"3"</span>
+        }
+    },
+    <span class="str">"IssueThreadKey"</span>: <span class="str">"83349423-d16d-4744-866f-6e807ebf8ec1"</span>,
+    <span class="str">"UserHandle"</span>: <span class="str">"Bob Loblaw"</span>
+}</pre>
+
+<h4>Response</h4>
+
+<p>
+    This is the data you will get back from the server if the session was created correctly.
+</p>
+
+<pre class="csharpcode">
+{
+    <span class="str">"issueKey"</span>: <span title="Unique key for the issue. If not provided by the client this value will be generated by the server." class="str">"5953f28a-884a-4d39-bae4-c39a6aa6a1be"</span>,
+    <span class="str">"serverTime"</span>: <span title="The UTC time when the server recieved this message." class="str">"2016-01-14T13:27:44.0776595Z"</span>,
+    <span class="str">"ticket"</span>: <span title="This value is a short unique identifier of the issue type. It is unique for each project." class="str">"123"</span>,
+    <span class="str">"issueTypeUrl"</span>: <span title="A direct address back to the type of issue that was registered." class="str">"http://www.quilt4.com/SomePathToTheIssueType"</span>,
+    <span class="str">"issueUrl"</span>: <span title="A direct address back to the instance of the issue type that was registered." class="str">"http://www.quilt4.com/SomePathToTheIssue"</span>
+}</pre>
+
+<h3>Ending the session.</h3>
+
+<p>
+    More to come...
+</p>

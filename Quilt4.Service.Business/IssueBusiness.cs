@@ -53,6 +53,7 @@ namespace Quilt4.Service.Business
                 issueTypeKey = Guid.NewGuid();
                 _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, request.IssueType.Type, request.Level, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
             }
+            //TODO: Check if the issue key already exists. _repository.GetIssue(request.IssueKey);
             _repository.CreateIssue(request.IssueKey, issueTypeKey.Value, session.SessionKey, request.ClientTime, GetData(request), serverTime);
 
             _writeBusiness.RunRecalculate();
@@ -94,16 +95,22 @@ namespace Quilt4.Service.Business
             if (issueTypeRequestEntity == null)
                 yield break;
 
-            foreach (var data in issueTypeRequestEntity.Data)
+            if (issueTypeRequestEntity.Data != null)
             {
-                yield return new KeyValuePair<string, string>(data.Key, data.Value);
+                foreach (var data in issueTypeRequestEntity.Data)
+                {
+                    yield return new KeyValuePair<string, string>(data.Key, data.Value);
+                }
             }
 
-            foreach (var inner in issueTypeRequestEntity.Inner)
+            if (issueTypeRequestEntity.Inner != null)
             {
-                var response = GetData(inner);
-                foreach (var item in response)
-                    yield return item;
+                foreach (var inner in issueTypeRequestEntity.Inner)
+                {
+                    var response = GetData(inner);
+                    foreach (var item in response)
+                        yield return item;
+                }
             }
         }
 

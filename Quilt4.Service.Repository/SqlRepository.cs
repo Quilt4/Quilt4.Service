@@ -624,6 +624,9 @@ namespace Quilt4.Service.SqlRepository
                 };
 
                 context.Issues.InsertOnSubmit(issue);
+                context.SubmitChanges();
+
+                //var issueId = context.Issues.Single(x => x.IssueKey == issueKey).IssueId;
 
                 if (data != null)
                 {
@@ -631,9 +634,10 @@ namespace Quilt4.Service.SqlRepository
                     {
                         var issueData = new IssueData
                         {
+                            //IssueId = issueId,
                             IssueId = issue.IssueId,
                             Name = d.Key,
-                            Value = d.Value,                                                  
+                            Value = d.Value,                             
                         };
 
                         context.IssueDatas.InsertOnSubmit(issueData);

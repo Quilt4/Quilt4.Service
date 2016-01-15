@@ -36,7 +36,7 @@ namespace Quilt4.Service.Converters
                 Data = item.Data,
                 Message = item.Message,
                 StackTrace = item.StackTrace,
-                Inner = item.InnerIssueTypes.Select(x => x.ToIssueType()).ToArray(),
+                Inner = item.InnerIssueTypes != null ? item.InnerIssueTypes.Select(x => x.ToIssueType()).ToArray() : null,
             };
         }
 

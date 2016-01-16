@@ -1,5 +1,9 @@
-param($p1) #File where a list of connectionstrings can be read
-
+Param(
+    [parameter(Mandatory=$true)]
+    [alias("f")]
+    $fileName
+	)
+	
 $pathTime = get-date
 $failCounter = 0
 $lf = @"
@@ -8,7 +12,7 @@ $lf = @"
 "@
 
 #For each connection strings provided
-$connectionStrings = Get-Content $p1
+$connectionStrings = Get-Content $fileName
 foreach($connectionString in $connectionStrings)
 {
 	Try
@@ -69,7 +73,7 @@ foreach($connectionString in $connectionStrings)
 	#Create the DBVersion patch table if needed
 	$patchTime = Get-Date -format "yyyy-MM-dd HH:mm:ss"
 	$SqlCmd1 = New-Object System.Data.SqlClient.SqlCommand
-	$SqlCmd1.CommandText = "IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DBVersion')) BEGIN CREATE TABLE DBVersion ( PatchName varchar(250) PRIMARY KEY NOT NULL, PatchTime DateTime NOT NULL, VersionNumber INT NOT NULL ) INSERT INTO DBVersion ( PatchName, PatchTime, VersionNumber ) VALUES ('Initial','" + $patchTime + "', 0) END"
+	$SqlCmd1.CommandText = "IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DBVersion')) BEGIN CREATE TABLE DBVersion ( PatchName varchar(250) PRIMARY KEY NOT NULL, PatchTime DateTime NOT NULL, VersionNumber INT NOT NULL, Checksum varchar(50) NULL ) INSERT INTO DBVersion ( PatchName, PatchTime, VersionNumber ) VALUES ('Initial','" + $patchTime + "', 0) END"
 	$SqlCmd1.Connection = $SqlConnection
 	$reqult1 = $SqlCmd1.ExecuteNonQuery()	
 		

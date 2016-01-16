@@ -1,2 +1,2 @@
-@powershell .\PatchDatabase.ps1 'DatabasesToPatch_Local.txt'
+@powershell .\PatchDatabase.ps1 -f 'DatabasesToPatch_Local.txt'
 PAUSE

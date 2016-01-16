@@ -71,8 +71,23 @@ namespace Quilt4.Service
 
         void Application_Error(object sender, EventArgs e)
         {
-            var lastError = Server.GetLastError();
-            LogException(lastError, LogLevel.SystemError);
+            Exception lastError = null;
+            try
+            {
+                lastError = Server.GetLastError();
+                LogException(lastError, LogLevel.SystemError);
+            }
+            catch (Exception exception)
+            {
+                HttpContext.Current.Response.Write("<html><body>");
+                HttpContext.Current.Response.Write("Error in the error handler. " + exception.Message + "</br>");
+                if (lastError != null)
+                {
+                    HttpContext.Current.Response.Write("Original error. " + lastError.Message + "</br>");
+                }
+
+                HttpContext.Current.Response.End();
+            }
         }
 
         private void RegisterSession()

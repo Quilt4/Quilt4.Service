@@ -10,6 +10,14 @@
     <h1>Error.</h1>
     <h2>An error occurred while processing your request.</h2>
 </hgroup>
-@WebApiApplication.LogException(Model.Exception, LogLevel.Error);
+@try
+{
+    WebApiApplication.LogException(Model.Exception, LogLevel.Error);
+}
+catch (Exception exception)
+{
+    @Html.Raw("Error in the error handler. " + exception.Message);
+    @Html.Raw("Original error. " + Model.Exception);
+}
 </body>
 </html>

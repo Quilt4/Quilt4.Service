@@ -191,6 +191,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Build\AssemblyVersionInfo.cs">
+      <Link>Properties\AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="App_Start\ApplicationRoleManager.cs" />
     <Compile Include="Authentication\ApplicationRole.cs" />
     <Compile Include="Authentication\CustomRoleStore.cs" />

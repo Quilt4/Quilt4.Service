@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -55,12 +56,15 @@ namespace Quilt4.Service
         private static void ConfigureWindsor(HttpConfiguration configuration)
         {
             _container = new WindsorContainer();
-            _container.Install(FromAssembly.This());
+            //_container.Install(FromAssembly.This());
 
             _container.Install(new WindsorApplicationInstaller());
             _container.Kernel.Resolver.AddSubResolver(new CollectionResolver(_container.Kernel, true));
             var dependencyResolver = new WindsorDependencyResolver(_container);
             configuration.DependencyResolver = dependencyResolver;
+
+            var castleControllerFactory = new CastleControllerFactory(_container);
+            ControllerBuilder.Current.SetControllerFactory(castleControllerFactory);
         }
 
         protected void Application_End()

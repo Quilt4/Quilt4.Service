@@ -29,8 +29,8 @@ namespace Quilt4.Service.Controllers.Client
                 IssueKey = issueRequest.IssueKey,
                 ServerTime = response.ServerTime,
                 //TODO: Append correct paths here
-                IssueTypeUrl = "http://www.quilt4.com/SomePathToIssueType",
-                IssueUrl = "http://www.quilt4.com/SomePathToIssue",
+                IssueTypeUrl = "p1/SomePathToIssueType",
+                IssueUrl = "p2/SomePathToIssue",
             };
         }
     }

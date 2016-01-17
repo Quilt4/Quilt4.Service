@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3ED38EA3
 		Build\Release.msbuild = Build\Release.msbuild
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.Business.Tests", "Quilt4.Service.Business.Tests\Quilt4.Service.Business.Tests.csproj", "{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CI|Any CPU = CI|Any CPU
@@ -58,6 +60,12 @@ Global
 		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.CI|Any CPU.ActiveCfg = Release|Any CPU
+		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.CI|Any CPU.Build.0 = Release|Any CPU
+		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

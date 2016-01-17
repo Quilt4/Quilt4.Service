@@ -63,8 +63,9 @@ namespace Quilt4.Service
             var dependencyResolver = new WindsorDependencyResolver(_container);
             configuration.DependencyResolver = dependencyResolver;
 
-            var castleControllerFactory = new CastleControllerFactory(_container);
-            ControllerBuilder.Current.SetControllerFactory(castleControllerFactory);
+            //Note: Was supposed to register regular mvc controllers, but this did not fit well with previous stuff.
+            //var castleControllerFactory = new CastleControllerFactory(_container);
+            //ControllerBuilder.Current.SetControllerFactory(castleControllerFactory);
         }
 
         protected void Application_End()

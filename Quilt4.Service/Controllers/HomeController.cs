@@ -6,13 +6,13 @@ namespace Quilt4.Service.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISessionHandler _sessionHandler;
-        private readonly IServiceBusiness _serviceBusiness;
+        //private readonly ISessionHandler _sessionHandler;
+        //private readonly IServiceBusiness _serviceBusiness;
 
-        public HomeController(ISessionHandler sessionHandler, IServiceBusiness serviceBusiness)
+        public HomeController() //ISessionHandler sessionHandler, IServiceBusiness serviceBusiness)
         {
-            _sessionHandler = sessionHandler;
-            _serviceBusiness = serviceBusiness;
+            //_sessionHandler = sessionHandler;
+            //_serviceBusiness = serviceBusiness;
         }
 
         public ActionResult Index()
@@ -32,18 +32,18 @@ namespace Quilt4.Service.Controllers
 
         public ActionResult System()
         {
-            var applicationData = _sessionHandler.Client.Information.Aplication.GetApplicationData();
-            @ViewBag.Version = applicationData.Version + " (" + _sessionHandler.Environment + ")";
-            @ViewBag.StartInfo = _sessionHandler.ClientStartTime + " (" + _sessionHandler.IsRegisteredOnServer + ")";
+            //var applicationData = _sessionHandler.Client.Information.Aplication.GetApplicationData();
+            //@ViewBag.Version = applicationData.Version + " (" + _sessionHandler.Environment + ")";
+            //@ViewBag.StartInfo = _sessionHandler.ClientStartTime + " (" + _sessionHandler.IsRegisteredOnServer + ")";
 
-            var serviceInfo = _serviceBusiness.GetServiceInfo();
-            @ViewBag.CanWriteToSystemLog = serviceInfo.CanWriteToSystemLog;
-            @ViewBag.HasOwnProjectApiKey = serviceInfo.HasOwnProjectApiKey;
+            //var serviceInfo = _serviceBusiness.GetServiceInfo();
+            //@ViewBag.CanWriteToSystemLog = serviceInfo.CanWriteToSystemLog;
+            //@ViewBag.HasOwnProjectApiKey = serviceInfo.HasOwnProjectApiKey;
 
-            var databaseInfo = serviceInfo.DatabaseInfo;
-            @ViewBag.DatabaseInfo = $"{databaseInfo.DataSource}.{databaseInfo.Database} (Version: {databaseInfo.Version}) {(databaseInfo.CanConnect ? "Online" : "Offline")}";
+            //var databaseInfo = serviceInfo.DatabaseInfo;
+            //@ViewBag.DatabaseInfo = $"{databaseInfo.DataSource}.{databaseInfo.Database} (Version: {databaseInfo.Version}) {(databaseInfo.CanConnect ? "Online" : "Offline")}";
 
-            @ViewBag.UserName = _sessionHandler.Client.Information.User.GetDataUser().UserName;
+            //@ViewBag.UserName = _sessionHandler.Client.Information.User.GetDataUser().UserName;
 
             return View();
         }

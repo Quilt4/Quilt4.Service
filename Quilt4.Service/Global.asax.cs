@@ -56,7 +56,7 @@ namespace Quilt4.Service
         private static void ConfigureWindsor(HttpConfiguration configuration)
         {
             _container = new WindsorContainer();
-            //_container.Install(FromAssembly.This());
+            _container.Install(FromAssembly.This());
 
             _container.Install(new WindsorApplicationInstaller());
             _container.Kernel.Resolver.AddSubResolver(new CollectionResolver(_container.Kernel, true));

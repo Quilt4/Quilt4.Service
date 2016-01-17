@@ -18,5 +18,10 @@ namespace Quilt4.Service.Controllers
         {
             return View();
         }
+
+        public ActionResult Express()
+        {
+            return View();
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace Quilt4.Service.Controllers
             @ViewBag.HasOwnProjectApiKey = serviceInfo.HasOwnProjectApiKey;
 
             var databaseInfo = serviceInfo.DatabaseInfo;
-            @ViewBag.DatabaseInfo = string.Format("{0}.{1} (Version: {2}) {3}", databaseInfo.DataSource, databaseInfo.Database, databaseInfo.Version, databaseInfo.CanConnect ? "Online" : "Offline");
+            @ViewBag.DatabaseInfo = $"{databaseInfo.DataSource}.{databaseInfo.Database} (Version: {databaseInfo.Version}) {(databaseInfo.CanConnect ? "Online" : "Offline")}";
 
             @ViewBag.UserName = _sessionHandler.Client.Information.User.GetDataUser().UserName;
 

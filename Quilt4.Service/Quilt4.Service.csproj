@@ -301,6 +301,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\Express.png" />
     <Content Include="images\Node.png" />
     <Content Include="images\Quilt4.png" />
     <Content Include="images\Unity3d.png" />
@@ -354,6 +355,7 @@
     <Content Include="Views\Platform\Node.cshtml" />
     <Content Include="Views\Platform\Unity.cshtml" />
     <Content Include="Views\Home\System.cshtml" />
+    <Content Include="Views\Platform\Express.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

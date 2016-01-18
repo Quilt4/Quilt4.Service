@@ -36,7 +36,7 @@ namespace Quilt4.Service
             container.Register(Component.For<ISessionHandler>().ImplementedBy(typeof(Quilt4Net.SessionHandler)).LifestyleSingleton());
             container.Register(Component.For<IIssueHandler>().ImplementedBy(typeof(Quilt4Net.IssueHandler)).LifestyleSingleton());
 
-            var corsAttr = new EnableCorsAttribute("*", "*", "*");
+            var corsAttr = new EnableCorsAttribute("*", "*", "GET, POST, PUT, DELETE, OPTIONS");
             config.EnableCors(corsAttr);
 
             // Web API configuration and services

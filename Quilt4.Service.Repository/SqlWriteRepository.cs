@@ -107,21 +107,19 @@ namespace Quilt4.Service.SqlRepository
 
                         AddIssueTypePageIssue(issue, issueType, version, application, project, session, context);
 
-                        //TODO: Enable theese...
+                        AddUpdateIssueTypePageIssueType(context, issueType, version, application, project);
 
-                        //AddUpdateIssueTypePageIssueType(context, issueType, version, application, project);
+                        AddUpdateVersionPageIssueType(context, issueType, version, application, project);
 
-                        //AddUpdateVersionPageIssueType(context, issueType, version, application, project);
+                        AddUpdateVersionPageVersion(context, version, application, project);
 
-                        //AddUpdateVersionPageVersion(context, version, application, project);
+                        AddUpdateProjectPageVersion(context, version, application, project);
 
-                        //AddUpdateProjectPageVersion(context, version, application, project);
+                        AddUpdateProjectPageApplication(context, application, project);
 
-                        //AddUpdateProjectPageApplication(context, application, project);
+                        AddUpdateProjectPageProject(context, project);
 
-                        //AddUpdateProjectPageProject(context, project);
-
-                        //AddUpdateDashboardPageProject(context, project);
+                        AddUpdateDashboardPageProject(context, project);
 
                         context.SubmitChanges();
                     }

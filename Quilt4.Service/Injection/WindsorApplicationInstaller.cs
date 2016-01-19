@@ -12,17 +12,11 @@ namespace Quilt4.Service.Injection
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            ////Quilt4Net
-            //try
-            //{
-            //    container.Register(Component.For<IConfiguration>().ImplementedBy(typeof(Quilt4Net.Configuration)).LifestyleSingleton());
-            //    container.Register(Component.For<IQuilt4NetClient>().ImplementedBy(typeof(Quilt4Net.Quilt4NetClient)).LifestyleSingleton());
-            //    container.Register(Component.For<ISessionHandler>().ImplementedBy(typeof(Quilt4Net.SessionHandler)).LifestyleSingleton());
-            //    container.Register(Component.For<IIssueHandler>().ImplementedBy(typeof(Quilt4Net.IssueHandler)).LifestyleSingleton());
-            //}
-            //catch (Exception)
-            //{
-            //}
+            //Quilt4Net
+            container.Register(Component.For<IConfiguration>().ImplementedBy(typeof(Quilt4Net.Configuration)).LifestyleSingleton());
+            container.Register(Component.For<IQuilt4NetClient>().ImplementedBy(typeof(Quilt4Net.Quilt4NetClient)).LifestyleSingleton());
+            container.Register(Component.For<ISessionHandler>().ImplementedBy(typeof(Quilt4Net.SessionHandler)).LifestyleSingleton());
+            container.Register(Component.For<IIssueHandler>().ImplementedBy(typeof(Quilt4Net.IssueHandler)).LifestyleSingleton());
 
             //Repository
             container.Register(
@@ -43,10 +37,10 @@ namespace Quilt4.Service.Injection
                 .BasedOn<ApiController>()
                 .LifestylePerWebRequest());
 
-            ////Register controllers
-            //container.Register(Classes.FromThisAssembly()
-            //    .BasedOn<Controller>()
-            //    .LifestylePerWebRequest());
+            //Register controllers
+            container.Register(Classes.FromThisAssembly()
+                .BasedOn<Controller>()
+                .LifestylePerWebRequest());
         }
     }
 }

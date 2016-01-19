@@ -55,18 +55,18 @@ namespace Quilt4.Service
             public string Message { get; set; }
             public Dictionary<string, string> Data { get; set; }
         }
-        
+
         private static Error ToError(Exception exception)
         {
             var type = exception?.GetType().FullName ?? "Unknown";
             var message = exception?.Message ?? "Unknown error.";
-            var dictionary = exception?.Data.Cast<DictionaryEntry>().Where(x => x.Value != null).ToDictionary(item => item.Key.ToString(), item => item.Value.ToString());
+            //var dictionary = exception?.Data.Cast<DictionaryEntry>().Where(x => x.Value != null).ToDictionary(item => item.Key.ToString(), item => item.Value.ToString());
             var a = new Error
             {
                 Code = 1,
                 Type = type,
-                Message = message,
-                Data = dictionary,                
+                Message = message.Replace(Environment.NewLine, " "),
+                //Data = dictionary,
             };
             return a;
         }

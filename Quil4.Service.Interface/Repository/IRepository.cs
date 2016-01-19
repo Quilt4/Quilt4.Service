@@ -64,7 +64,9 @@ namespace Quilt4.Service.Interface.Repository
         void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
         void CreateIssue(Guid issueKey, Guid issueTypeKey, string sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
         int GetNextTicket(Guid projectKey);
+        //IEnumerable<IssueType> GetIssueTypes(string userName);
         IEnumerable<IssueType> GetIssueTypes(string userName, Guid versionKey);
+        IEnumerable<RegisterIssueResponseEntity> GetIssues(string userName, Guid versionKey);
 
         //Setting
         IEnumerable<Setting> GetSettings();

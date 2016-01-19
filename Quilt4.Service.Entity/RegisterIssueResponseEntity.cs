@@ -6,5 +6,6 @@ namespace Quilt4.Service.Entity
     {
         public int Ticket { get; set; }
         public DateTime ServerTime { get; set; }
+        public Guid IssueKey { get; set; }
     }
 }

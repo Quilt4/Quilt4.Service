@@ -77,9 +77,16 @@ namespace Quilt4.Service.Business
 
             return new RegisterIssueResponseEntity
             {
-                Ticket = ticket
+                Ticket = ticket,
+                ServerTime = serverTime,
+                IssueKey = issueKey,
             };
         }
+
+        //public IEnumerable<IssueType> GetIssueTypeList(string userName)
+        //{
+        //    return _repository.GetIssueTypes(userName);
+        //}
 
         private Dictionary<string, string> GetData(RegisterIssueRequestEntity request)
         {
@@ -134,6 +141,11 @@ namespace Quilt4.Service.Business
         public IEnumerable<IssueType> GetIssueTypeList(string userName, Guid versionKey)
         {
             return _repository.GetIssueTypes(userName, versionKey);
+        }
+
+        public IEnumerable<RegisterIssueResponseEntity> GetIssueList(string userName, Guid versionKey)
+        {
+            return _repository.GetIssues(userName, versionKey);
         }
 
         private int GetTicket(Guid projectKey, int tryCount)

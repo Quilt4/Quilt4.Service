@@ -247,6 +247,8 @@
     <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Controllers\WebAPI\ServiceController.cs" />
     <Compile Include="Controllers\WebAPI\SettingController.cs" />
+    <Compile Include="Converters\IssueResponseConverter.cs" />
+    <Compile Include="Converters\IssueTypeConverter.cs" />
     <Compile Include="Injection\CastleControllerFactory.cs" />
     <Compile Include="Models\LoginUserBindingModel.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\ProjectInvitationResponse.cs" />

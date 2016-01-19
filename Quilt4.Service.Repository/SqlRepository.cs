@@ -206,6 +206,22 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public IEnumerable<RegisterIssueResponseEntity> GetIssues(string userName, Guid versionKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Issues.Where(x => x.IssueType.Version.Application.Project.User.UserName == userName && x.IssueType.Version.VersionKey == versionKey).Select(x => new RegisterIssueResponseEntity { IssueKey = x.IssueKey, ServerTime = x.CreationServerTime, Ticket = x.IssueType.Ticket });
+            }
+        }
+
+        //public IEnumerable<Entity.IssueType> GetIssueTypes(string userName)
+        //{
+        //    using (var context = GetDataContext())
+        //    {
+        //        return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerTime)).ToArray();
+        //    }
+        //}
+
         public IEnumerable<Entity.IssueType> GetIssueTypes(string userName, Guid versionKey)
         {
             using (var context = GetDataContext())

@@ -22,8 +22,20 @@ namespace Quilt4.Service.SqlRepository
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
                 var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectKey == projectKey);
-
                 return context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject(projectPageApplicaitons);
+
+                var applications = context.Applications.Where(x => x.Project.User.UserName == userName);
+                var project = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey);
+                //var response = new ProjectPageProject
+                //{
+                //    DashboardColor = project.DashboardColor,
+                //    Name = project.Name,
+                //    ProjectKey = project.ProjectKey,
+                //    ProjectApiKey = project.ProjectApiKey,
+                //    ProjectPageProjectId = -1,
+                //};
+
+                //return response;
             }
         }
 
@@ -87,9 +99,21 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
-                var projectKeys = context.ProjectUsers.Where(x => x.UserId == user.UserId).Select(x => x.Project.ProjectKey);
-                return context.DashboardPageProjects.Where(x => projectKeys.Contains(x.ProjectKey)).ToDashboardProjects().ToArray();
+                return context.Projects.Select(x => new Entity.DashboardPageProject
+                {
+                    ProjectKey = x.ProjectKey,
+                    Sessions = context.Sessions.Count(y => y.Version.Application.Project.User.UserName == userName),
+                    Issues = context.Issues.Count(y => y.IssueType.Version.Application.Project.User.UserName == userName),
+                    DashboardColor = x.DashboardColor,
+                    Name = x.Name,
+                    IssueTypes = context.IssueTypes.Count(y => y.Version.Application.Project.User.UserName == userName),
+                    Versions = context.Versions.Count(y => y.Application.Project.User.UserName == userName),
+                });
+
+                //NOTE: Old code that did not work because the tables where not updated
+                //var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
+                //var projectKeys = context.ProjectUsers.Where(x => x.UserId == user.UserId).Select(x => x.Project.ProjectKey);
+                //return context.DashboardPageProjects.Where(x => projectKeys.Contains(x.ProjectKey)).ToDashboardProjects().ToArray();
             }
         }
     }

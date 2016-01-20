@@ -11,15 +11,18 @@
       <Association Name="Project_Application" Member="Project" ThisKey="ProjectId" OtherKey="ProjectId" Type="Project" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="Query.VersionPageVersion" Member="VersionPageVersions">
-    <Type Name="VersionPageVersion">
-      <Column Name="VersionPageVersionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+  <Table Name="dbo.Version" Member="Versions">
+    <Type Name="Version">
+      <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ProjectName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationName" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
+      <Column Name="ApplicationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="BuildTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="SupportToolkitVersion" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="VersionId" OtherKey="VersionId" Type="IssueType" />
+      <Association Name="Version_Session" Member="Sessions" ThisKey="VersionId" OtherKey="VersionId" Type="Session" />
+      <Association Name="Application_Version" Member="Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="Application" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ApplicationUser" Member="ApplicationUsers">
@@ -39,6 +42,7 @@
       <Column Name="PatchName" Type="System.String" DbType="VarChar(250) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="PatchTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="VersionNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Checksum" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Issue" Member="Issues">
@@ -201,110 +205,6 @@
       <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Role_UserRole" Member="Role" ThisKey="RoleId" OtherKey="RoleId" Type="Role" IsForeignKey="true" />
       <Association Name="User_UserRole" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Version" Member="Versions">
-    <Type Name="Version">
-      <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="BuildTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="SupportToolkitVersion" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
-      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="VersionId" OtherKey="VersionId" Type="IssueType" />
-      <Association Name="Version_Session" Member="Sessions" ThisKey="VersionId" OtherKey="VersionId" Type="Session" />
-      <Association Name="Application_Version" Member="Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="Application" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="Query.DashboardPageProject" Member="DashboardPageProjects">
-    <Type Name="DashboardPageProject">
-      <Column Name="DashboardPageProjectId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="VersionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SessionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IssueTypeCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IssueCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DashboardColor" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="Query.IssueTypePageIssue" Member="IssueTypePageIssues">
-    <Type Name="IssueTypePageIssue">
-      <Column Name="IssueTypePageIssueId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="LastUpdateServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationUserName" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
-      <Column Name="Enviroment" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
-      <Column Name="Data" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="Query.IssueTypePageIssueType" Member="IssueTypePageIssueTypes">
-    <Type Name="IssueTypePageIssueType">
-      <Column Name="IssueTypePageIssueTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ProjectName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationName" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
-      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
-      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="StackTrace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="Query.ProjectPageApplication" Member="ProjectPageApplications">
-    <Type Name="ProjectPageApplication">
-      <Column Name="ProjectPageApplicationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="VersionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="Query.ProjectPageProject" Member="ProjectPageProjects">
-    <Type Name="ProjectPageProject">
-      <Column Name="ProjectPageProjectId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="DashboardColor" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="ProjectApiKey" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="Query.ProjectPageVersion" Member="ProjectPageVersions">
-    <Type Name="ProjectPageVersion">
-      <Column Name="ProjectPageVersionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionNumber" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="SessionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IssueTypeCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IssueCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LastUpdateServerTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="Query.VersionPageIssueType" Member="VersionPageIssueTypes">
-    <Type Name="VersionPageIssueType">
-      <Column Name="VersionPageIssueTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
-      <Column Name="IssueCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastIssueServerTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Enviroments" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

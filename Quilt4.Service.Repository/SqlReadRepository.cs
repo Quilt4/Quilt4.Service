@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -87,11 +88,11 @@ namespace Quilt4.Service.SqlRepository
                     ApplicationId = x.Application.ApplicationKey,
                     Enviroments = x.Application.Versions.SelectMany(y => y.Sessions).Select(y => y.Enviroment).ToArray(),
                     Issues = x.Application.Versions.SelectMany(y => y.Sessions).SelectMany(y => y.Issues).Count(),
-                    IssueTypes = -1, //x.Application.Versions.SelectMany(y => y.Sessions).SelectMany(y => y.Issues).SelectMany(y => y.IssueTypeId).Count(),
+                    IssueTypes = x.IssueTypes.Count,
                     Sessions = x.Application.Versions.SelectMany(y => y.Sessions).Count(),
                     ProjectId = x.Application.Project.ProjectKey,
-                    Last = null //NOTE: What is this?
-                });
+                    Last = x.IssueTypes.Max(y => y.CreationServerTime)
+                }).ToArray();
                 //return context.ProjectPageVersions.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey).ToProjectPageVersions().ToArray();
             }
         }
@@ -107,8 +108,27 @@ namespace Quilt4.Service.SqlRepository
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
 
-                //TODO: Fix!
-                var versionPageIssueTypes = context.Versions.Select(x => new Entity.VersionPageVersion()).FirstOrDefault();
+                //TODO: Not sure that this is correct. And it is very slow.
+                var versionPageIssueTypes = context.Versions.Select(x => new Entity.VersionPageVersion
+                {
+                    ApplicationId = x.Application.ApplicationKey,
+                    Version = x.VersionNumber,
+                    Id = x.VersionKey,
+                    ProjectId = x.Application.Project.ProjectKey,
+                    ApplicationName = x.Application.Name,
+                    ProjectName = x.Application.Project.Name,
+                    IssueTypes = x.IssueTypes.Select(y => new VersionPageIssueType
+                    {
+                        Id = y.IssueTypeKey,
+                        Level = y.Level,
+                        Message = y.Message,
+                        Issues = y.Issues.Count,
+                        Ticket = y.Ticket,
+                        LastIssue = y.Issues.Max(z => x.CreationServerTime),
+                        Type = y.Type,
+                        Enviroments = context.Sessions.Where(z => z.Issues.Any(z1 => z1.IssueType.IssueTypeKey == y.IssueTypeKey)).Select(y2 => y2.Enviroment)
+                    }).ToArray()
+                }).FirstOrDefault();
                 return versionPageIssueTypes;
                 //var versionPageIssueTypes = context.VersionPageIssueTypes.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey);
                 //return context.VersionPageVersions.SingleOrDefault(x => x.VersionKey == versionKey && x.ProjectKey == projectKey && x.ApplicationKey == applicationKey).ToVersionPageVersion(versionPageIssueTypes);
@@ -127,11 +147,41 @@ namespace Quilt4.Service.SqlRepository
                 if (projectUser == null)
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
-                //TODO: Fix!
-                return context.IssueTypes.Select(x => new IssueTypePageIssueType { }).FirstOrDefault();
+                //TODO: Not sure that this is correct. And it is very slow.
+                var resp = context.IssueTypes.Select(x => new IssueTypePageIssueType
+                {
+                    Id = x.IssueTypeKey,
+                    Message = x.Message,
+                    Ticket = x.Ticket,
+                    Type = x.Type,
+                    Version = x.Version.VersionNumber,
+                    ApplicationName = x.Version.Application.Name,
+                    Level = x.Level,
+                    ProjectName = x.Version.Application.Project.Name,
+                    StackTrace = x.StackTrace,
+                    VersionId = x.Version.VersionKey,
+                    ApplicationId = x.Version.Application.ApplicationKey,
+                    ProjectId = x.Version.Application.Project.ProjectKey,
+                    Issues = x.Issues.Select(y => ToIssueTypePageIssue(y)).ToArray()
+                }).FirstOrDefault();
+
+                return resp;
                 //var issueTypePageIssues = context.IssueTypePageIssues.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey && x.IssueTypeKey == issueTypeKey);
                 //return context.IssueTypePageIssueTypes.SingleOrDefault(x => x.IssueTypeKey == issueTypeKey && x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey).ToIssueTypePageIssueType(issueTypePageIssues);
             }
+        }
+
+        private static IssueTypePageIssue ToIssueTypePageIssue(Issue y)
+        {
+            var response = new IssueTypePageIssue
+            {
+                Id = y.IssueKey,
+                User = y.Session.ApplicationUser.UserName,
+                Data = y.IssueDatas.ToDictionary(yy => yy.Name, yy => yy.Value),
+                Enviroment = y.Session.Enviroment,
+                Time = y.CreationServerTime,
+            };
+            return response;
         }
 
         public IEnumerable<Entity.DashboardPageProject> GetDashboardProjects(string userName)

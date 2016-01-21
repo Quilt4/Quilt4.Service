@@ -33,6 +33,12 @@ namespace Quilt4.Service.SqlRepository
                     Name = project.Name,
                     ProjectKey = project.ProjectKey,
                     ProjectApiKey = project.ProjectApiKey,
+                    Applications = project.Applications.Select(x => new ProjectPageApplication
+                    {
+                        Id = x.ApplicationKey,
+                        Name = x.Name,
+                        Versions = x.Versions.Count,
+                    }).ToArray()
                 };
 
                 return response;
@@ -132,7 +138,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Projects.Select(x => new Entity.DashboardPageProject
+                var response = context.Projects.Select(x => new Entity.DashboardPageProject
                 {
                     ProjectKey = x.ProjectKey,
                     Sessions = context.Sessions.Count(y => y.Version.Application.Project.User.UserName == userName),
@@ -141,7 +147,9 @@ namespace Quilt4.Service.SqlRepository
                     Name = x.Name,
                     IssueTypes = context.IssueTypes.Count(y => y.Version.Application.Project.User.UserName == userName),
                     Versions = context.Versions.Count(y => y.Application.Project.User.UserName == userName),
-                });
+                }).ToArray();
+
+                return response;
 
                 //NOTE: Old code that did not work because the tables where not updated
                 //var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());

@@ -18,7 +18,7 @@ namespace Quilt4.Service.Converters
                 Name = item.Name,
                 DashboardColor = item.DashboardColor,
                 ClientToken = item.ProjectApiKey,
-                Applications = item.Applications.ToProjectPageApplicationResponses().ToArray()
+                Applications = item.Applications?.ToProjectPageApplicationResponses().ToArray() ?? new ProjectPageApplicationResponse[] {}
             };
         }
 

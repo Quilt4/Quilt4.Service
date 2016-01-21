@@ -4,7 +4,7 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.Client
+namespace Quilt4.Service.Controllers.WebAPI.Client
 {
     [Authorize]
     public class ClientInvitationController : ApiController
@@ -16,9 +16,9 @@ namespace Quilt4.Service.Controllers.Client
             _invitationBusiness = invitationBusiness;
         }
 
-        [HttpPost]
-        [Route("api/Client/Invitation/UserInvitationQuery")]
-        public IEnumerable<InvitationResponse> UserInvitationQuery()
+        [HttpGet]
+        [Route("api/Client/Invitation")]
+        public IEnumerable<InvitationResponse> Gety()
         {
             var response = _invitationBusiness.GetUserInvitations(User.Identity.Name).Select(x => new InvitationResponse
             {

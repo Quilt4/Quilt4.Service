@@ -342,16 +342,19 @@ namespace Quilt4.Service.Controllers
             return logins;
         }
 
+        //TODO: Change this into a GET function. Use post directly to the /Token if that is perfered.
         // POST api/Account/Login
         [HttpPost]
+        //[HttpGet]
         [AllowAnonymous]
         [Route("Login")]
-        public async Task<HttpResponseMessage> LoginUser(LoginUserBindingModel model)
+        //public async Task<HttpResponseMessage> LoginUser([FromUri]LoginUserBindingModel model)
+        public async Task<HttpResponseMessage> LoginUser([FromBody]LoginUserBindingModel model)
         {
             // Invoke the "token" OWIN service to perform the login: /api/token
             // Ugly hack: I use a server-side HTTP POST because I cannot directly invoke the service (it is deeply hidden in the OAuthAuthorizationServerHandler class)
             var request = HttpContext.Current.Request;
-            var tokenServiceUrl = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath + "/Token";
+            var tokenServiceUrl = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath + "/api/Account/Token";
             using (var client = new HttpClient())
             {
                 var requestParams = new List<KeyValuePair<string, string>>

@@ -14,9 +14,9 @@ namespace Quilt4.Service.Controllers
             _serviceBusiness = serviceBusiness;
         }
 
-        [HttpPost]
-        [Route("api/Service/QueryInfo")]
-        public ServiceInfoResponse QueryInfo()
+        [HttpGet]
+        [Route("api/Service")]
+        public ServiceInfoResponse Get()
         {
             var data = _serviceBusiness.GetServiceInfo();
             return new ServiceInfoResponse

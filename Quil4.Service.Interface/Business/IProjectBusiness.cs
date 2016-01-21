@@ -8,7 +8,7 @@ namespace Quilt4.Service.Interface.Business
     {
         ProjectPageProject GetProject(string userName, Guid projectId);
         IEnumerable<ProjectPageProject> GetProjects(string userName);
-        ProjectPageProject GetProject(Guid projectId);
+        ProjectPageProject GetProject(Guid projectKey);
         void CreateProject(string userName, Guid projectKey, string name, string dashboardColor);
         void UpdateProject(Guid projectKey, string name, string dashboardColor, string userName);
         void DeleteProject(Guid projectKey);

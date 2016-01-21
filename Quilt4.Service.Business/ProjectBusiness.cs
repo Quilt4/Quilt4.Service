@@ -25,9 +25,9 @@ namespace Quilt4.Service.Business
             return _readRepository.GetProject(userName, projectId);
         }
 
-        public ProjectPageProject GetProject(Guid projectId)
+        public ProjectPageProject GetProject(Guid projectKey)
         {
-            return _readRepository.GetProject(projectId);
+            return _readRepository.GetProject(projectKey);
         }
 
         public IEnumerable<ProjectPageProject> GetProjects(string userName)

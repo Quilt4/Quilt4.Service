@@ -5,7 +5,7 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.Client
+namespace Quilt4.Service.Controllers.WebAPI.Client
 {
     [Authorize]
     public class ClientUserController : ApiController
@@ -25,11 +25,12 @@ namespace Quilt4.Service.Controllers.Client
             return response;
         }
         
-        [Route("api/Client/User/UserQuery")]
-        public IEnumerable<QueryUserResponse> UserQuery([FromBody]QueryUserRequest queryUserRequest)
+        [HttpGet]
+        [Route("api/Client/User/{searchString}")]
+        public IEnumerable<QueryUserResponse> Get([FromUri]string searchString)
         {
             var callerIp = HttpContext.Current.Request.UserHostAddress;
-            var response = _userBusiness.SearchUsers(queryUserRequest.SearchString, callerIp).Select(x => new QueryUserResponse { UserName = x.Username, EMail = x.Email });
+            var response = _userBusiness.SearchUsers(searchString, callerIp).Select(x => new QueryUserResponse { UserName = x.Username, EMail = x.Email });
             return response;
         }
     }

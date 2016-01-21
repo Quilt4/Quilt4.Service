@@ -25,10 +25,10 @@ namespace Quilt4.Service.Controllers.Client
             return projects.Select(x => x.ToProjectData());
         }
 
-        [Route("api/Client/Project/{id}")]
-        public ProjectResponse Get(Guid id)
+        [Route("api/Client/Project/{projectKey}")]
+        public ProjectResponse Get(Guid projectKey)
         {
-            return _projectBusiness.GetProject(id).ToProjectData();
+            return _projectBusiness.GetProject(projectKey).ToProjectData();
         }
 
         [Route("api/Client/Project")]
@@ -52,9 +52,9 @@ namespace Quilt4.Service.Controllers.Client
             _projectBusiness.DeleteProject(id);
         }
 
-        [HttpPost]
-        [Route("api/Client/Project/ProjectMemberQuery")]
-        public IEnumerable<MemberResponse> ProjectMemberQuery([FromBody] Guid projectKey)
+        [HttpGet]
+        [Route("api/Client/Project/Members/{projectKey}")]
+        public IEnumerable<MemberResponse> GetMembers([FromUri] Guid projectKey)
         {
             return _projectBusiness.GetMembers(projectKey).Select(x => new MemberResponse { UserName = x.UserName, EMail = x.EMail, Confirmed = x.Confirmed, Role = x.Role });
         }

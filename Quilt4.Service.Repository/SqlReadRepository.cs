@@ -81,7 +81,8 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Versions.Select(x => new Entity.ProjectPageVersion
+                return context.Versions.Where(x => x.Application.ApplicationKey == applicationKey && x.Application.Project.ProjectKey == projectKey)
+                    .Select(x => new Entity.ProjectPageVersion
                 {
                     Id = x.VersionKey,
                     Version = x.VersionNumber,
@@ -191,12 +192,13 @@ namespace Quilt4.Service.SqlRepository
                 var response = context.Projects.Select(x => new Entity.DashboardPageProject
                 {
                     ProjectKey = x.ProjectKey,
-                    Sessions = context.Sessions.Count(y => y.Version.Application.Project.User.UserName == userName),
-                    Issues = context.Issues.Count(y => y.IssueType.Version.Application.Project.User.UserName == userName),
-                    DashboardColor = x.DashboardColor,
                     Name = x.Name,
-                    IssueTypes = context.IssueTypes.Count(y => y.Version.Application.Project.User.UserName == userName),
-                    Versions = context.Versions.Count(y => y.Application.Project.User.UserName == userName),
+                    DashboardColor = x.DashboardColor,
+                    Applications = x.Applications.Count(),
+                    Versions = x.Applications.SelectMany(y => y.Versions).Count(),
+                    IssueTypes = x.Applications.SelectMany(y => y.Versions).SelectMany(y => y.IssueTypes).Count(),
+                    Issues = x.Applications.SelectMany(y => y.Versions).SelectMany(y => y.IssueTypes).SelectMany(y => y.Issues).Count(),
+                    Sessions = x.Applications.SelectMany(y => y.Versions).SelectMany(y => y.Sessions).Count(),
                 }).ToArray();
 
                 return response;

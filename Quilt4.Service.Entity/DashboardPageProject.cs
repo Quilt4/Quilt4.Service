@@ -6,6 +6,7 @@ namespace Quilt4.Service.Entity
     {
         public Guid ProjectKey { get; set; }
         public string Name { get; set; }
+        public int Applications { get; set; }
         public int Versions { get; set; }
         public int Sessions { get; set; }
         public int IssueTypes { get; set; }

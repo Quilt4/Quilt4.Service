@@ -108,9 +108,9 @@ namespace Quilt4.Service.SqlRepository
                 if (projectUser == null)
                     throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
-
                 //TODO: Not sure that this is correct. And it is very slow.
-                var versionPageIssueTypes = context.Versions.Select(x => new Entity.VersionPageVersion
+                var versionPageIssueTypes = context.Versions.Where(x => x.VersionKey == versionKey && x.Application.ApplicationKey == applicationKey && x.Application.Project.ProjectKey == projectKey)
+                    .Select(x => new Entity.VersionPageVersion
                 {
                     ApplicationId = x.Application.ApplicationKey,
                     Version = x.VersionNumber,

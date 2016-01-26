@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Quilt4.Service.Authentication;
+using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Models;
 using Quilt4Net.Core.DataTransfer;
@@ -25,22 +26,27 @@ namespace Quilt4.Service.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private readonly IRepository _repository;
+        private readonly IUserBusiness _userBusiness;
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
 
-        public AccountController(IRepository repository)
+        [Obsolete("Acces via the business layer.")]
+        private readonly IRepository _repository;
+
+        public AccountController(IUserBusiness userBusiness, IRepository repository)
         {
+            _userBusiness = userBusiness;
             _repository = repository;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IRepository repository)
+        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IRepository repository, IUserBusiness userBusiness)
         {
             _repository = repository;
             UserManager = userManager;
             RoleManager = roleManager;
             AccessTokenFormat = accessTokenFormat;
+            _userBusiness = userBusiness;
         }
 
         public ApplicationUserManager UserManager
@@ -75,10 +81,10 @@ namespace Quilt4.Service.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            
+            var userInfo = _userBusiness.GetUser(User.Identity.Name);
 
-            var userInfo = _repository.GetUserInfo(User.Identity.Name);
-
-            return new UserInfoViewModel
+            var response = new UserInfoViewModel
             {
                 UserName = User.Identity.GetUserName(),
                 Email = userInfo.Email,
@@ -88,6 +94,7 @@ namespace Quilt4.Service.Controllers
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,                
             };
+            return response;
         }
 
         // POST api/Account/Logout
@@ -411,10 +418,12 @@ namespace Quilt4.Service.Controllers
         private async Task AddExtraInfo(ApplicationUser user, RegisterBindingModel model)
         {
             //TODO: Get from settings in db;
-            var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
+            //var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
+            var defaultAvatarUrl = (string)null;
 
             try
             {
+                //TODO: Access through business layer
                 _repository.AddUserExtraInfo(user.UserName, model.FirstName, model.LastName, defaultAvatarUrl);
             }
             catch (Exception)

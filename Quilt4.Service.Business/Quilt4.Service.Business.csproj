@@ -58,6 +58,7 @@
     <Compile Include="ApplicationBusiness.cs" />
     <Compile Include="DashboardBusiness.cs" />
     <Compile Include="EmailSender.cs" />
+    <Compile Include="GravatarHelper.cs" />
     <Compile Include="HelperExtension.cs" />
     <Compile Include="InvitationBusiness.cs" />
     <Compile Include="IssueBusiness.cs" />

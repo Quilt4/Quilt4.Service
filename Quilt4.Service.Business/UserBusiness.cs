@@ -18,9 +18,19 @@ namespace Quilt4.Service.Business
             _settingBusiness = settingBusiness;
         }
 
+        public UserInfo GetUser(string userName)
+        {
+            var x = _repository.GetUserInfo(userName);
+            var userInfo = new UserInfo(x.UserKey, x.Username, x.Email, x.FirstName, x.LastName, x.Email.GetGravatarPath());
+            return userInfo;
+        }
+
         public IEnumerable<UserInfo> GetList()
         {
-            return _repository.GetUsers();
+            return _repository
+                .GetUsers()
+                .Select(x => new UserInfo(x.UserKey, x.Username, x.Email,x.FirstName,x.LastName, x.Email.GetGravatarPath()))
+                .ToArray();
         }
 
         public IEnumerable<UserInfo> SearchUsers(string searchString, string callerIp)
@@ -31,7 +41,11 @@ namespace Quilt4.Service.Business
             if (searchString.Length < minUserSearchStringLength)
                 return new List<UserInfo>();
 
-            return _repository.GetUsers().Where(x => x.Username.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase) || x.Email.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase));
+            return _repository
+                .GetUsers()
+                .Where(x => x.Username.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase) || x.Email.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
+                .Select(x => new UserInfo(x.UserKey, x.Username, x.Email, x.FirstName, x.LastName, x.Email.GetGravatarPath()))
+                .ToArray();
         }
     }
 }

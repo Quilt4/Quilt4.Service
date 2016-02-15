@@ -200,7 +200,7 @@
     <Compile Include="Authentication\ApplicationRole.cs" />
     <Compile Include="Authentication\CustomRoleStore.cs" />
     <Compile Include="Authentication\OldSystemPasswordHasher.cs" />
-    <Compile Include="Authentication\CustomUserSore.cs" />
+    <Compile Include="Authentication\CustomUserStore.cs" />
     <Compile Include="Authentication\ApplicationUser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

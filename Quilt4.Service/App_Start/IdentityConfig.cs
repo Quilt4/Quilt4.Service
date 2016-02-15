@@ -9,12 +9,12 @@ namespace Quilt4.Service
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         private ApplicationUserManager(IRepository repository) 
-            : base(new CustomUserSore<ApplicationUser>(repository))
+            : base(new CustomUserStore<ApplicationUser>(repository))
         {
             PasswordHasher = new OldSystemPasswordHasher();
         }
 
-        public override IQueryable<ApplicationUser> Users => ((CustomUserSore<ApplicationUser>)Store).GetAll().AsQueryable();
+        public override IQueryable<ApplicationUser> Users => ((CustomUserStore<ApplicationUser>)Store).GetAll().AsQueryable();
 
         protected override Task<bool> VerifyPasswordAsync(IUserPasswordStore<ApplicationUser, string> store, ApplicationUser user, string password)
         {

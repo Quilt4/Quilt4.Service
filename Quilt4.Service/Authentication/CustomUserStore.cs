@@ -8,12 +8,12 @@ using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Authentication
 {
-    public class CustomUserSore<T> 
+    public class CustomUserStore<T> 
         : IUserPasswordStore<T>, IUserRoleStore<T>, IUserStore<T> where T : ApplicationUser
     {
         private readonly IRepository _repository;
 
-        public CustomUserSore(IRepository repository)
+        public CustomUserStore(IRepository repository)
         {
             _repository = repository;
         }

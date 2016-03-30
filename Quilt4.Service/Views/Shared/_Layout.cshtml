@@ -1,4 +1,5 @@
 ﻿@using System
+@using Quilt4.Service.Logging
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,20 @@
         </div>
     </div>
     <div class="container body-content">
+        @{
+            //Checking if it is possible to log data to the event log
+            var serviceLog = new EventLogger();
+            Exception exception;
+            var canWriteToLog = serviceLog.CanWriteToLog(out exception);
+            if (!canWriteToLog)
+            {
+                <p style="background-color: pink;">Cannot access the event log. Run this service with elevated priviligues once, so that a section for the event log can be created.</p>
+            }
+
+            var logEntries = serviceLog.GetAllLogEntries().Where(x => x.Level != "Information").ToArray();
+            @Html.Raw("There are " + logEntries.Length + " entries in the event log.")
+        }
+
         @RenderBody()
         <hr />
         <footer>

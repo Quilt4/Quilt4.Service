@@ -2,7 +2,7 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize(Roles = Constants.Administrators)]
     public class ServiceController : ApiController
@@ -15,24 +15,48 @@ namespace Quilt4.Service.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("api/Service")]
         public ServiceInfoResponse Get()
         {
+            var isAuthenticated = User.Identity.IsAuthenticated;
+            var isAdministrator = User.IsInRole("Administrators");
+
             var data = _serviceBusiness.GetServiceInfo();
-            return new ServiceInfoResponse
+            var response = new ServiceInfoResponse
             {
-                Version = data.Version,
-                StartTime = data.StartTime,
-                Environment = data.Environment,
-                Database = new DatabaseInfoResponse
-                {
-                    Version = data.DatabaseInfo.Version,
-                    CanConnect = data.DatabaseInfo.CanConnect,
-                    Database = data.DatabaseInfo.Database,
-                },
-                CanWriteToSystemLog = data.CanWriteToSystemLog,
-                HasOwnProjectApiKey = data.HasOwnProjectApiKey,
+                Version = data.Version
             };
+
+            if (isAuthenticated)
+            {
+                response.Environment = data.Environment;
+
+                if (isAdministrator)
+                {
+                    response.StartTime = data.StartTime;
+                    response.Database = new DatabaseInfoResponse
+                    {
+                        Version = data.DatabaseInfo.Version,
+                        CanConnect = data.DatabaseInfo.CanConnect,
+                        Database = data.DatabaseInfo.Database,
+                    };
+                    response.CanWriteToSystemLog = data.CanWriteToSystemLog;
+                    response.HasOwnProjectApiKey = data.HasOwnProjectApiKey;
+                }
+                else
+                {
+                    //TODO: Enable message when supported.
+                    //response.Message = "Logon as a user with administrative rights to get more information.";
+                }
+            }
+            else
+            {
+                //TODO: Enable message when supported.
+                //response.Message = "Logon to get more information.";
+            }
+
+            return response;
         }
     }    
 }

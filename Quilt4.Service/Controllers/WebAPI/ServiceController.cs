@@ -46,14 +46,12 @@ namespace Quilt4.Service.Controllers.WebAPI
                 }
                 else
                 {
-                    //TODO: Enable message when supported.
-                    //response.Message = "Logon as a user with administrative rights to get more information.";
+                    response.Message = "Login as a user with administrative rights to get more information.";
                 }
             }
             else
             {
-                //TODO: Enable message when supported.
-                //response.Message = "Logon to get more information.";
+                response.Message = "Login to get more information.";
             }
 
             return response;

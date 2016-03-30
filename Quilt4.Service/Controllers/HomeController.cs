@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using Quilt4.Service.Interface.Business;
-using Quilt4Net.Core.Interfaces;
+using Quilt4Net.Interfaces;
 
 namespace Quilt4.Service.Controllers
 {
@@ -32,7 +32,7 @@ namespace Quilt4.Service.Controllers
 
         public ActionResult System()
         {
-            var applicationData = _sessionHandler.Client.Information.Aplication.GetApplicationData();
+            var applicationData = _sessionHandler.Client.Information.Application.GetApplicationData();
             @ViewBag.Version = applicationData.Version + " (" + _sessionHandler.Environment + ")";
             @ViewBag.StartInfo = _sessionHandler.ClientStartTime + " (" + _sessionHandler.IsRegisteredOnServer + ")";
 

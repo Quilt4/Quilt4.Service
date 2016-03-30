@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 

@@ -12,7 +12,7 @@ namespace Quilt4.Service.Business
         private readonly ISettingBusiness _settingBusiness;
         private readonly ISessionHandler _sessionHandler;
 
-        public ServiceBusiness(IRepository repository, IServiceLog serviceLog, ISettingBusiness settingBusiness, ISessionHandler sessionHandler)
+        public ServiceBusiness(IRepository repository, IServiceLog serviceLog, ISettingBusiness settingBusiness, Quilt4Net.Interfaces.ISessionHandler sessionHandler)
         {
             _repository = repository;
             _serviceLog = serviceLog;
@@ -24,7 +24,7 @@ namespace Quilt4.Service.Business
         {
             var databaseInfo = _repository.GetDatabaseInfo();
 
-            var version = _sessionHandler.Client.Information.Aplication.GetApplicationData().Version;
+            var version = _sessionHandler.Client.Information.Application.GetApplicationData().Version;
             var environment = _sessionHandler.Environment;
 
             Exception exception;

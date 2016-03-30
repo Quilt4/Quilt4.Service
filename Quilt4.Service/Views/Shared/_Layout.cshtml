@@ -39,8 +39,11 @@
                 <p style="background-color: pink;">Cannot access the event log. Run this service with elevated priviligues once, so that a section for the event log can be created.</p>
             }
 
-            var logEntries = serviceLog.GetAllLogEntries().Where(x => x.Level != "Information").ToArray();
-            @Html.Raw("There are " + logEntries.Length + " entries in the event log.")
+            var logEntries = serviceLog.GetAllLogEntries().Where(x => x.Level != "Error").ToArray();
+            if (logEntries.Any())
+            {
+                <p style="background-color: pink;">There are errors in the service log.</p>
+            }
         }
 
         @RenderBody()

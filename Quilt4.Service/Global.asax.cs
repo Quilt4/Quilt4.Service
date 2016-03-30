@@ -96,8 +96,8 @@ namespace Quilt4.Service
 
         private void RegisterSession()
         {
-            var sessionHandler = _container.Resolve<ISessionHandler>();
-            sessionHandler.Application.SetFirstAssembly(Assembly.GetAssembly(typeof(WebApiApplication)));
+            var sessionHandler = _container.Resolve<Quilt4Net.Interfaces.ISessionHandler>();
+            sessionHandler.SetFirstAssembly(Assembly.GetAssembly(typeof(WebApiApplication)));
 
             if (!HasOwnProjectApiKey())
                 return;

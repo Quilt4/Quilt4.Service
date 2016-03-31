@@ -486,8 +486,17 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var userData = context.ApplicationUsers.SingleOrDefault(x => x.Fingerprint == fingerprint && x.Project.ProjectKey == projectKey);
-                return userData?.ApplicationUserKey;
+                try
+                {
+                    var userData = context.ApplicationUsers.SingleOrDefault(x => x.Fingerprint == fingerprint && x.Project.ProjectKey == projectKey);
+                    return userData?.ApplicationUserKey;
+                }
+                catch (Exception exception)
+                {
+                    exception.Data.Add("Fingerprint", fingerprint);
+                    exception.Data.Add("ProjectKey", projectKey);
+                    throw;
+                }
             }
         }
 

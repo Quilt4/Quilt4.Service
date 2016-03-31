@@ -76,7 +76,7 @@
       <Name>Quilt4.Service.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">
-      <Project>{2806EE69-F5CB-4D21-87C1-EEA837B034AE}</Project>
+      <Project>{2806ee69-f5cb-4d21-87c1-eea837b034ae}</Project>
       <Name>Quilt4.Service.Entity</Name>
     </ProjectReference>
   </ItemGroup>

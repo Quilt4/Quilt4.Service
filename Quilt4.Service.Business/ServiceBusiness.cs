@@ -1,4 +1,5 @@
 using System;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 using Quilt4Net.Core.Interfaces;
@@ -7,6 +8,8 @@ namespace Quilt4.Service.Business
 {
     public class ServiceBusiness : IServiceBusiness
     {
+        private static DatabaseInfo _databaseInfo;
+
         private readonly IRepository _repository;
         private readonly IServiceLog _serviceLog;
         private readonly ISettingBusiness _settingBusiness;
@@ -20,9 +23,14 @@ namespace Quilt4.Service.Business
             _sessionHandler = sessionHandler;
         }
 
-        public Entity.ServiceInfo GetServiceInfo()
+        public DatabaseInfo GetDatabaseInfo()
         {
-            var databaseInfo = _repository.GetDatabaseInfo();
+            return _databaseInfo ?? (_databaseInfo = _repository.GetDatabaseInfo());
+        }
+
+        public ServiceInfo GetServiceInfo()
+        {
+            var databaseInfo = GetDatabaseInfo();
 
             var version = _sessionHandler.Client.Information.Application.GetApplicationData().Version;
             var environment = _sessionHandler.Environment;
@@ -31,7 +39,7 @@ namespace Quilt4.Service.Business
             var canWriteToLog = _serviceLog.CanWriteToLog(out exception);            
             var hasOwnProjectApiKey = databaseInfo.CanConnect && _settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
 
-            return new Entity.ServiceInfo(version, environment, _sessionHandler.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);
+            return new ServiceInfo(version, environment, _sessionHandler.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);
         }
     }
 }

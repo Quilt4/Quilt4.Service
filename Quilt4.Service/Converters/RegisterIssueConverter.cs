@@ -1,4 +1,4 @@
-﻿using Quilt4.Service.DataTransfer;
+﻿using Quilt4.Service.Controllers.WebAPI.Web.DataTransfer;
 using Quilt4.Service.Entity;
 
 namespace Quilt4.Service.Converters

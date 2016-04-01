@@ -11,14 +11,22 @@ namespace Quilt4.Service.Logging
 {
     public class EventLogger : IServiceLog
     {
+        private static bool? _canWriteToLog;
         private const string EventLogName = "Quilt4";
         private const string EventSourceName = "Quilt4.Service";
         private const string EventLogInitialMessage = "Eventlog works as it should.";
 
         public bool CanWriteToLog(out Exception exception)
         {
-            exception = AssureEventLogSource();
-            return exception == null;
+            if (_canWriteToLog == null)
+            {
+                exception = AssureEventLogSource();
+                _canWriteToLog = exception == null;
+                return _canWriteToLog ?? false;
+            }
+
+            exception = null;
+            return _canWriteToLog ?? false;
         }
 
         public IEnumerable<IServiceLogItem> GetAllLogEntries()

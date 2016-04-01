@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4Net.Core.DataTransfer;
 

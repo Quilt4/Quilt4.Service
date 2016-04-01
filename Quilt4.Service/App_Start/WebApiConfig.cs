@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection;
+﻿using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
-using System.Web.Mvc;
-using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Quilt4.Service.Controllers;
 using Quilt4.Service.Injection;
-using Quilt4Net.Core.Interfaces;
 
 namespace Quilt4.Service
 {

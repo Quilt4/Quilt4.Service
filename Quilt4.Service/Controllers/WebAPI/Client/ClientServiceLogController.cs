@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers.Client
+namespace Quilt4.Service.Controllers.WebAPI.Client
 {
     [Authorize(Roles = Constants.Administrators)]
     public class ClientServiceLogController : ApiController

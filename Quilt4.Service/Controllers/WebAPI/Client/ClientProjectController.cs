@@ -6,7 +6,7 @@ using Quilt4.Service.Converters;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.Client
+namespace Quilt4.Service.Controllers.WebAPI.Client
 {
     [Authorize]
     public class ClientProjectController : ApiController

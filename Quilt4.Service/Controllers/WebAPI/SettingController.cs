@@ -4,7 +4,7 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize(Roles = Constants.Administrators)]
     public class SettingController : ApiController

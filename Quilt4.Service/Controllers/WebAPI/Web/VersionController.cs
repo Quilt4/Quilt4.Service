@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
+using Quilt4.Service.Controllers.WebAPI.Web.DataTransfer;
 using Quilt4.Service.Converters;
-using Quilt4.Service.DataTransfer;
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Controllers.WebAPI.Web
 {
     public class VersionController : ApiController
     {

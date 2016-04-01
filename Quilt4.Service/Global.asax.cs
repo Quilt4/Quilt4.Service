@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Web;
@@ -173,9 +174,17 @@ namespace Quilt4.Service
 
         private static bool HasOwnProjectApiKey()
         {
-            var settingBusiness = _container.Resolve<ISettingBusiness>();
-            var hasOwnProjectApiKey = settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
-            return hasOwnProjectApiKey;
+            try
+            {
+                var settingBusiness = _container.Resolve<ISettingBusiness>();
+                var hasOwnProjectApiKey = settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
+                return hasOwnProjectApiKey;
+            }
+            catch (SqlException)
+            {
+                //TODO: This should be visible on the site
+                return false;
+            }
         }
 
         private static void IssueHandler_IssueRegistrationCompletedEvent(object sender, Quilt4Net.Core.Events.IssueRegistrationCompletedEventArgs e)

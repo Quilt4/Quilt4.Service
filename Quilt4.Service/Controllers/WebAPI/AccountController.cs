@@ -20,7 +20,7 @@ using Quilt4Net.Core.DataTransfer;
 using ChangePasswordBindingModel = Quilt4.Service.Models.ChangePasswordBindingModel;
 using UserInfoViewModel = Quilt4.Service.Models.UserInfoViewModel;
 
-namespace Quilt4.Service.Controllers
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize]
     [RoutePrefix("api/Account")]

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Quilt4.Service.DataTransfer
+namespace Quilt4.Service.Controllers.WebAPI.Web.DataTransfer
 {
     public class ProjectPageVersionResponse
     {

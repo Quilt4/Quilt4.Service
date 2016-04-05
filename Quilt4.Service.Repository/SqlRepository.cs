@@ -210,7 +210,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Issues.Where(x => x.IssueType.Version.Application.Project.User.UserName == userName && x.IssueType.Version.VersionKey == versionKey).Select(x => new RegisterIssueResponseEntity { IssueKey = x.IssueKey, ServerTime = x.CreationServerTime, Ticket = x.IssueType.Ticket });
+                return context.Issues.Where(x => x.IssueType.Version.Application.Project.User.UserName == userName && x.IssueType.Version.VersionKey == versionKey).Select(x => new RegisterIssueResponseEntity { IssueKey = x.IssueKey, ServerTime = x.CreationServerTime, Ticket = x.IssueType.Ticket }).ToArray();
             }
         }
         

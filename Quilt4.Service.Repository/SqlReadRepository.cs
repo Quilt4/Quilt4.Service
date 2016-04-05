@@ -6,6 +6,7 @@ using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
+using Quilt4Net;
 
 namespace Quilt4.Service.SqlRepository
 {
@@ -136,17 +137,15 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Entity.IssueTypePageIssueType GetIssueType(string userName, Guid projectKey, Guid applicationKey,
-            Guid versionKey, Guid issueTypeKey)
+        public IssueTypePageIssueType GetIssueType(string userName, Guid projectKey, Guid applicationKey, Guid versionKey, Guid issueTypeKey)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
+                var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
+                if (user == null) throw new InvalidOperationException("Cannot find specified user.").AddData("userName", userName);
 
                 var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
-
-                if (projectUser == null)
-                    throw new InvalidOperationException("The user doesn't have access to the provided project.");
+                if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("projectKey", projectKey);
 
                 //TODO: Not sure that this is correct. And it is very slow.
                 var resp = context.IssueTypes.Select(x => new IssueTypePageIssueType
@@ -167,8 +166,6 @@ namespace Quilt4.Service.SqlRepository
                 }).FirstOrDefault();
 
                 return resp;
-                //var issueTypePageIssues = context.IssueTypePageIssues.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey && x.IssueTypeKey == issueTypeKey);
-                //return context.IssueTypePageIssueTypes.SingleOrDefault(x => x.IssueTypeKey == issueTypeKey && x.ProjectKey == projectKey && x.ApplicationKey == applicationKey && x.VersionKey == versionKey).ToIssueTypePageIssueType(issueTypePageIssues);
             }
         }
 
@@ -178,7 +175,7 @@ namespace Quilt4.Service.SqlRepository
             {
                 Id = y.IssueKey,
                 User = y.Session.ApplicationUser.UserName,
-                Data = y.IssueDatas.ToDictionary(yy => yy.Name, yy => yy.Value),
+                Data = y.IssueDatas != null ? y.IssueDatas.ToDictionary(yy => yy.Name, yy => yy.Value) : new Dictionary<string, string>(),
                 Enviroment = y.Session.Enviroment,
                 Time = y.CreationServerTime,
             };

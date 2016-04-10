@@ -21,13 +21,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("WebAPI", "Index", "Help", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, null)</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @Html.Action("_SystemStatus", "Shared")
+        @Html.Action("_SystemStatus", "Shared", new { area = "" })
         @RenderBody()
         <hr/>
         <footer>

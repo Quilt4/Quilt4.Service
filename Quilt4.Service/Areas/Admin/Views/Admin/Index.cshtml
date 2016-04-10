@@ -1,0 +1,22 @@
+﻿@model Quilt4.Service.Areas.Admin.Models.SettingsModel
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin</h2>
+
+<h3>Settings</h3>
+<table>
+    <tr>
+        <th>Setting</th>
+        <th>Value</th>
+    </tr>
+    @foreach (var setting in Model.Values)
+    {
+        <tr>
+            <td>@setting.Key</td>
+            <td>@setting.Value</td>
+        </tr>
+    }
+</table>

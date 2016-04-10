@@ -21,7 +21,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
         [Route("api/Client/User")]
         public IEnumerable<UserResponse> Get()
         {
-            var response = _userBusiness.GetList().Select(x => new UserResponse { UserName = x.Username, EMail = x.Email });
+            var response = _userBusiness.GetAllUsers().Select(x => new UserResponse { UserName = x.Username, EMail = x.Email });
             return response;
         }
         

@@ -2,21 +2,19 @@
 {
     public class UserInfo
     {
-        public UserInfo(string userKey, string username, string email, string firstName, string lastName, string avatarUrl)
+        public UserInfo(string userKey, string username, string email, string fullName, string avatarUrl)
         {
             UserKey = userKey;
             Username = username;
             Email = email;
-            FirstName = firstName;
-            LastName = lastName;
+            FullName = fullName;
             AvatarUrl = avatarUrl;
         }
 
         public string UserKey { get; }
         public string Username { get; }
         public string Email { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
+        public string FullName { get; }
         public string AvatarUrl { get; }
     }
 }

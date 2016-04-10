@@ -51,7 +51,8 @@ namespace Quilt4.Service
         {
             config.MapHttpAttributeRoutes();
             //config.Routes.MapHttpRoute("DefaultApi", "api/{area}/{controller}/{id}", new { id = RouteParameter.Optional, area = RouteParameter.Optional });
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            //config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional }, new[] { "Quilt4.Service.Controllers" });
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional } );
         }
 
         private static void RegisterControllerActivator(IWindsorContainer container)

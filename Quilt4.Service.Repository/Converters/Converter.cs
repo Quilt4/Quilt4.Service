@@ -38,5 +38,20 @@ namespace Quilt4.Service.SqlRepository.Converters
             };
             return response;
         }
+
+        public static ProjectPageProject ToProjectPageProject(this Project x)
+        {
+            return new ProjectPageProject(x.ProjectKey, x.Name, x.DashboardColor, x.ProjectApiKey, x.Applications.Select(y => y.ToProjectPageApplication()).ToArray());
+        }
+
+        public static ProjectPageApplication ToProjectPageApplication(this Application x)
+        {
+            return new ProjectPageApplication
+            {
+                Id = x.ApplicationKey,
+                Name = x.Name,
+                Versions = x.Versions.Count,
+            };
+        }
     }
 }

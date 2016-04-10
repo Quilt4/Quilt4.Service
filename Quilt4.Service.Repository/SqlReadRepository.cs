@@ -12,61 +12,27 @@ namespace Quilt4.Service.SqlRepository
     public class SqlReadRepository : IReadRepository
     {
 
-        public Entity.ProjectPageProject GetProject(string userName, Guid projectKey)
+        public ProjectPageProject GetProject(string userName, Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
+                var user = context.Users.SingleOrDefault(x => x.UserName == userName);
 
                 var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
-                if (projectUser == null)
-                    throw new InvalidOperationException("The user doesn't have access to the provided project.");
+                if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("projectKey", projectKey);
 
-                //var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectKey == projectKey);
-                //return context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject(projectPageApplicaitons);
-
-                var applications = context.Applications.Where(x => x.Project.User.UserName == userName);
-                var project = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey);
-                var response = new Entity.ProjectPageProject
-                {
-                    DashboardColor = project.DashboardColor,
-                    Name = project.Name,
-                    ProjectKey = project.ProjectKey,
-                    ProjectApiKey = project.ProjectApiKey,
-                    Applications = project.Applications.Select(x => new ProjectPageApplication
-                    {
-                        Id = x.ApplicationKey,
-                        Name = x.Name,
-                        Versions = x.Versions.Count,
-                    }).ToArray()
-                };
-
+                var response = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject();
                 return response;
             }
         }
 
-        public Entity.ProjectPageProject GetProject(Guid projectKey)
+        public ProjectPageProject GetProject(Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                var project = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey);
-                return new Entity.ProjectPageProject
-                {
-                    ProjectKey = project.ProjectKey,
-                    DashboardColor = project.DashboardColor,
-                    Name = project.Name,
-                    ProjectApiKey = project.ProjectApiKey,
-                    Applications = context.Applications.Where(x => true).Select(x => new Entity.ProjectPageApplication
-                    {
-                        Name = x.Name,
-                        Id = x.ApplicationKey,
-                        Versions = context.Versions.Count(y => y.Application.ApplicationKey == x.ApplicationKey)
-                    }).ToArray(),
-                };
-
-                //var projectPageApplicaitons = context.ProjectPageApplications.Where(x => x.ProjectKey == projectKey);
-                //return context.ProjectPageProjects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject(projectPageApplicaitons);
+                var response = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject();
+                return response;
             }
         }
 
@@ -77,28 +43,30 @@ namespace Quilt4.Service.SqlRepository
             return new Quilt4DataContext(connectionString);
         }
 
-        public IEnumerable<Entity.ProjectPageVersion> GetVersions(string userName, Guid projectKey, Guid applicationKey)
+        public IEnumerable<ProjectPageVersion> GetVersions(string userName, Guid projectKey, Guid applicationKey)
         {
             using (var context = GetDataContext())
             {
-                return context.Versions.Where(x => x.Application.ApplicationKey == applicationKey && x.Application.Project.ProjectKey == projectKey)
-                    .Select(x => new Entity.ProjectPageVersion
-                {
-                    Id = x.VersionKey,
-                    Version = x.VersionNumber,
-                    ApplicationId = x.Application.ApplicationKey,
-                    Enviroments = x.Application.Versions.SelectMany(y => y.Sessions).Select(y => y.Enviroment).ToArray(),
-                    Issues = x.Application.Versions.SelectMany(y => y.Sessions).SelectMany(y => y.Issues).Count(),
-                    IssueTypes = x.IssueTypes.Count,
-                    Sessions = x.Application.Versions.SelectMany(y => y.Sessions).Count(),
-                    ProjectId = x.Application.Project.ProjectKey,
-                    Last = x.IssueTypes.Max(y => y.CreationServerTime)
-                }).ToArray();
-                //return context.ProjectPageVersions.Where(x => x.ProjectKey == projectKey && x.ApplicationKey == applicationKey).ToProjectPageVersions().ToArray();
+                return context.Versions
+                    .Where(x => x.Application.ApplicationKey == applicationKey && x.Application.Project.ProjectKey == projectKey)
+                    .Select(x => new ProjectPageVersion
+                    {
+                        VersionKey = x.VersionKey,
+                        Version = x.VersionNumber,
+                        ApplicationKey = x.Application.ApplicationKey,
+                        Enviroments = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).Select(y => y.Enviroment).ToArray(),
+                        IssueCount = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).SelectMany(y => y.Issues).Count(),
+                        IssueTypeCount = x.IssueTypes.Count,
+                        SessionCount = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).Count(),
+                        ProjectKey = x.Application.Project.ProjectKey,
+                        LastIssue = x.IssueTypes.Max(y => y.CreationServerTime),
+                        LastSession = x.Sessions.Where(z => z.Version.VersionKey == x.VersionKey).Max(y => y.LastUsedServerTime),
+                        FirstSession = x.Sessions.Where(z => z.Version.VersionKey == x.VersionKey).Min(y => y.LastUsedServerTime),
+                    }).ToArray();
             }
         }
 
-        public Entity.VersionPageVersion GetVersion(string userName, Guid projectKey, Guid applicationKey, Guid versionKey)
+        public VersionPageVersion GetVersion(string userName, Guid projectKey, Guid applicationKey, Guid versionKey)
         {
             using (var context = GetDataContext())
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Quilt4.Service.Business.Converters;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -20,17 +21,14 @@ namespace Quilt4.Service.Business
 
         public UserInfo GetUser(string userName)
         {
-            var x = _repository.GetUserInfo(userName);
-            var userInfo = new UserInfo(x.UserKey, x.Username, x.Email, x.FirstName, x.LastName, x.Email.GetGravatarPath());
-            return userInfo;
+            var result = _repository.GetUserInfo(userName).ToUserInfo();
+            return result;
         }
 
-        public IEnumerable<UserInfo> GetList()
+        public IEnumerable<UserInfo> GetAllUsers()
         {
-            return _repository
-                .GetUsers()
-                .Select(x => new UserInfo(x.UserKey, x.Username, x.Email,x.FirstName,x.LastName, x.Email.GetGravatarPath()))
-                .ToArray();
+            var result = _repository.GetUsers().Select(x => x.ToUserInfo()).ToArray();
+            return result;
         }
 
         public IEnumerable<UserInfo> SearchUsers(string searchString, string callerIp)
@@ -41,11 +39,13 @@ namespace Quilt4.Service.Business
             if (searchString.Length < minUserSearchStringLength)
                 return new List<UserInfo>();
 
-            return _repository
+            var result = _repository
                 .GetUsers()
                 .Where(x => x.Username.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase) || x.Email.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
-                .Select(x => new UserInfo(x.UserKey, x.Username, x.Email, x.FirstName, x.LastName, x.Email.GetGravatarPath()))
+                .Select(x => x.ToUserInfo())
                 .ToArray();
+
+            return result;
         }
     }
 }

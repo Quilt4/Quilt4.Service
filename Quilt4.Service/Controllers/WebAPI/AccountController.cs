@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -9,12 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Quilt4.Service.Authentication;
 using Quilt4.Service.Interface.Business;
-using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.Models;
 using Quilt4Net.Core.DataTransfer;
 using ChangePasswordBindingModel = Quilt4.Service.Models.ChangePasswordBindingModel;
@@ -88,8 +85,7 @@ namespace Quilt4.Service.Controllers.WebAPI
             {
                 UserName = User.Identity.GetUserName(),
                 Email = userInfo.Email,
-                FirstName = userInfo.FirstName,
-                LastName = userInfo.LastName,
+                FullName = userInfo.FullName,
                 AvatarUrl = userInfo.AvatarUrl,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,                

@@ -17,7 +17,7 @@ namespace Quilt4.Service.Interface.Repository
         IEnumerable<UserInfo> GetUsers();
         IEnumerable<Role> GetRolesByUser(string userName);
         void AddUserToRole(string userName, string roleName);
-        void AddUserExtraInfo(string userName, string firstName, string lastName, string defaultAvatarUrl);
+        void AddUserExtraInfo(string userName, string fullName, string defaultAvatarUrl);
 
         //Role
         void CreateRole(Role role);
@@ -25,6 +25,7 @@ namespace Quilt4.Service.Interface.Repository
 
         //Project
         Guid? GetProjectKey(string projectApiKey);
+        ProjectPageProject[] GetAllProjects();
         ProjectPageProject[] GetProjects(string userName);
         ProjectInvitation[] GetInvitations();
         ProjectInvitation[] GetInvitations(string userName);

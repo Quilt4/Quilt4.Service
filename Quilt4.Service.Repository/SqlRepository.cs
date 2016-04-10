@@ -6,6 +6,7 @@ using System.Transactions;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
+using Quilt4.Service.SqlRepository.Converters;
 
 namespace Quilt4.Service.SqlRepository
 {    
@@ -45,7 +46,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var dbUser = context.Users.SingleOrDefault(x => x.UserName == username);
+                var dbUser = context.Users.SingleOrDefault(x => x.UserName.ToLower() == username.ToLower());
                 return dbUser == null ? null : new Entity.User(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.PasswordHash);
             }
         }
@@ -72,7 +73,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Select(dbUser => new UserInfo(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.FirstName, dbUser.LastName, dbUser.AvatarUrl)).ToArray();
+                return context.Users.Select(dbUser => new UserInfo(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.FullName, dbUser.AvatarUrl)).ToArray();
             }
         }
 
@@ -175,7 +176,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new ProjectMember(x.UserName, x.Email, true, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
+                return context.Users.Where(x => context.ProjectUsers.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new ProjectMember(x.UserName, x.Email, true, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FullName, x.AvatarUrl)).ToArray();
             }
         }
 
@@ -183,7 +184,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new ProjectMember(x.UserName, x.Email, false, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FirstName, x.LastName, x.AvatarUrl)).ToArray();
+                return context.Users.Where(x => context.ProjectInvitations.Any(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey)).Select(x => new ProjectMember(x.UserName, x.Email, false, x.ProjectUsers.Single(y => y.UserId == x.UserId && y.Project.ProjectKey == projectKey).Role, x.FullName, x.AvatarUrl)).ToArray();
             }
         }
 
@@ -269,15 +270,14 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void AddUserExtraInfo(string userName, string firstName, string lastName, string defaultAvatarUrl)
+        public void AddUserExtraInfo(string userName, string fullName, string defaultAvatarUrl)
         {
             using (var context = GetDataContext())
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName == userName);
                 if (user == null) return;
 
-                user.FirstName = firstName;
-                user.LastName = lastName;
+                user.FullName = fullName;
                 user.AvatarUrl = defaultAvatarUrl;
 
                 context.SubmitChanges();
@@ -290,7 +290,7 @@ namespace Quilt4.Service.SqlRepository
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName == userName);
                 if (user == null) return null;
-                return new UserInfo(user.UserKey, user.UserName, user.Email, user.FirstName, user.LastName, user.AvatarUrl);
+                return new UserInfo(user.UserKey, user.UserName, user.Email, user.FullName, user.AvatarUrl);
             }
         }
         
@@ -733,12 +733,21 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public Entity.ProjectPageProject[] GetProjects(string userName)
+        public ProjectPageProject[] GetAllProjects()
+        {
+            using (var context = GetDataContext())
+            {
+                var projectPageApplicaitons = context.Projects;
+                return projectPageApplicaitons.Select(x => x.ToProjectPageProject()).ToArray();
+            }
+        }
+
+        public ProjectPageProject[] GetProjects(string userName)
         {
             using (var context = GetDataContext())
             {
                 var projectPageApplicaitons = context.Projects.Where(x => x.User.UserName == userName || x.ProjectUsers.Any(y => y.User.UserName == userName && x.ProjectId == y.ProjectId));
-                return projectPageApplicaitons.Select(x => new Entity.ProjectPageProject { Name = x.Name, DashboardColor = x.DashboardColor, ProjectKey = x.ProjectKey, ProjectApiKey = x.ProjectApiKey }).ToArray();
+                return projectPageApplicaitons.Select(x => x.ToProjectPageProject()).ToArray();
             }
         }
 

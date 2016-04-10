@@ -18,7 +18,9 @@ namespace Quilt4.Service.Areas.HelpPage
             context.MapRoute(
                 "HelpPage_Default",
                 "Help/{action}/{apiId}",
-                new { controller = "Help", action = "Index", apiId = UrlParameter.Optional });
+                new { controller = "Help", action = "Index", apiId = UrlParameter.Optional },
+                new[] { "Quilt4.Service.Areas.HelpPage.Controllers" }
+                );
 
             HelpPageConfig.Register(GlobalConfiguration.Configuration);
         }

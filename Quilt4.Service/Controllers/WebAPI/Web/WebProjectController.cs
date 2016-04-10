@@ -78,7 +78,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Web
                 return null;
 
             var callerIp = HttpContext.Current.Request.UserHostAddress;
-            var members = _userBusiness.SearchUsers(request.Email, callerIp).Select(x => new ProjectMember(x.Username, x.Email, false, null, x.FirstName, x.LastName, x.AvatarUrl));
+            var members = _userBusiness.SearchUsers(request.Email, callerIp).Select(x => new ProjectMember(x.Username, x.Email, false, null, x.FullName, x.AvatarUrl));
 
             return members;
         } 

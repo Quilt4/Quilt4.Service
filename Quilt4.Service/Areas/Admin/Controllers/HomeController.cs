@@ -6,12 +6,12 @@ using Quilt4.Service.Interface.Business;
 namespace Quilt4.Service.Areas.Admin.Controllers
 {
     [Authorize(Roles = Constants.Administrators)]
-    public class AdminController : Controller
+    public class HomeController : Controller
     {
         private readonly IServiceLog _serviceLog;
         private readonly ISettingBusiness _settingBusiness;
         
-        public AdminController(IServiceLog serviceLog, ISettingBusiness settingBusiness)
+        public HomeController(IServiceLog serviceLog, ISettingBusiness settingBusiness)
         {
             _serviceLog = serviceLog;
             _settingBusiness = settingBusiness;

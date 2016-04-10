@@ -5,8 +5,6 @@ using Microsoft.Owin.Security;
 
 namespace Quilt4.Service.Models
 {
-    // Models returned by AccountController actions.
-
     public class ExternalLoginViewModel
     {
         public string Name { get; set; }
@@ -16,28 +14,13 @@ namespace Quilt4.Service.Models
         public string State { get; set; }
     }
 
-    //public class ManageInfoViewModel
-    //{
-    //    public string LocalLoginProvider { get; set; }
-
-    //    public string Username { get; set; }
-
-    //    public IEnumerable<UserLoginInfoViewModel> Logins { get; set; }
-
-    //    public IEnumerable<ExternalLoginViewModel> ExternalLoginProviders { get; set; }
-    //}
-
     public class UserInfoViewModel
     {
         public string UserName { get; set; }
-
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public string AvatarUrl { get; set; }
-
         public bool HasRegistered { get; set; }
-
         public string LoginProvider { get; set; }
     }
 

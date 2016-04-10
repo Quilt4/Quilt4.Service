@@ -7,14 +7,18 @@ namespace Quilt4.Service.Business
     {
         public static string GetGravatarPath(this string email)
         {
-            byte[] data = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(email));
-            StringBuilder sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
+            var response = string.Empty;
+            if (!string.IsNullOrEmpty(email))
             {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
+                byte[] data = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(email));
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
 
-            var response = sBuilder.ToString();           
+                response = sBuilder.ToString();
+            }
 
             return "http://www.gravatar.com/avatar/" + response;
         }

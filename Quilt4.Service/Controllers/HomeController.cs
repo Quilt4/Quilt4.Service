@@ -8,15 +8,18 @@ namespace Quilt4.Service.Controllers
     {
         private readonly ISessionHandler _sessionHandler;
         private readonly IServiceBusiness _serviceBusiness;
+        private readonly ISettingBusiness _settingBusiness;
 
-        public HomeController(ISessionHandler sessionHandler, IServiceBusiness serviceBusiness)
+        public HomeController(ISessionHandler sessionHandler, IServiceBusiness serviceBusiness, ISettingBusiness settingBusiness)
         {
             _sessionHandler = sessionHandler;
             _serviceBusiness = serviceBusiness;
+            _settingBusiness = settingBusiness;
         }
 
         public ActionResult Index()
         {
+            ViewBag.WebUrl = _settingBusiness.GetSetting("WebUrl", "https://quilt4.com/");
             return View();
         }
 

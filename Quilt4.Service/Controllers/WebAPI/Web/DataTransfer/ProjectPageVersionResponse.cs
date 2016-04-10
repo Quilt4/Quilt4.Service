@@ -5,14 +5,16 @@ namespace Quilt4.Service.Controllers.WebAPI.Web.DataTransfer
 {
     public class ProjectPageVersionResponse
     {
-        public string Id { get; set; }
-        public string ProjectId { get; set; }
-        public string ApplicationId { get; set; }
+        public string VersionKey { get; set; }
+        public string ProjectKey { get; set; }
+        public string ApplicationKey { get; set; }
         public string Version { get; set; }
-        public int Sessions { get; set; }
-        public int IssueTypes { get; set; }
-        public int Issues { get; set; }
-        public DateTime? Last { get; set; }
+        public int SessionCount { get; set; }
+        public int IssueTypeCount { get; set; }
+        public int IssueCount { get; set; }
+        public DateTime FirstSession { get; set; }
+        public DateTime LastSession { get; set; }
+        public DateTime? LastIssue { get; set; }
         public IEnumerable<string> Enviroments { get; set; }
     }
 }

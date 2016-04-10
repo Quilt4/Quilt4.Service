@@ -22,8 +22,7 @@ namespace Quilt4.Service.Converters
             };
         }
 
-        public static IEnumerable<ProjectPageApplicationResponse> ToProjectPageApplicationResponses(
-            this IEnumerable<ProjectPageApplication> items)
+        public static IEnumerable<ProjectPageApplicationResponse> ToProjectPageApplicationResponses(this IEnumerable<ProjectPageApplication> items)
         {
             return items?.Select(x => x.ToProjectPageApplicationResponse());
         }
@@ -54,14 +53,16 @@ namespace Quilt4.Service.Converters
 
             return new ProjectPageVersionResponse
             {
-                Id = item.Id.ToString(),
-                ProjectId = item.ProjectId.ToString(),
-                ApplicationId = item.ApplicationId.ToString(),
+                VersionKey = item.VersionKey.ToString(),
+                ProjectKey = item.ProjectKey.ToString(),
+                ApplicationKey = item.ApplicationKey.ToString(),
                 Version = item.Version,
-                Sessions = item.Sessions,
-                IssueTypes = item.IssueTypes,
-                Issues = item.Issues,
-                Last = item.Last,
+                SessionCount = item.SessionCount,
+                IssueTypeCount = item.IssueTypeCount,
+                IssueCount = item.IssueCount,
+                LastSession = item.LastSession,
+                FirstSession = item.FirstSession,
+                LastIssue = item.LastIssue,
                 Enviroments = item.Enviroments
             };
         }

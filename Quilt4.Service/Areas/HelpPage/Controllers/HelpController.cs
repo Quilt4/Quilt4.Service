@@ -6,9 +6,6 @@ using Quilt4.Service.Areas.HelpPage.Models;
 
 namespace Quilt4.Service.Areas.HelpPage.Controllers
 {
-    /// <summary>
-    /// The controller that will handle requests for the help page.
-    /// </summary>
     public class HelpController : Controller
     {
         private const string ErrorViewName = "Error";

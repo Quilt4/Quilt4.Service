@@ -92,155 +92,155 @@
         <elementListCompartment Id="4b118e0b-0cce-471f-8afb-51f9722accdf" absoluteBounds="3.765, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="d2f41a21-4e1e-4676-ae41-faf334f08975" absoluteBounds="0.75, 9.75, 2, 2.7324039713541666">
-      <DataClassMoniker Name="/Quilt4DataContext/User" />
-      <nestedChildShapes>
-        <elementListCompartment Id="10ead0c2-be9d-44b9-aecd-2dba3c55e0e5" absoluteBounds="0.765, 10.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="116cc52b-b03c-4bea-81b4-e804e6834d42" absoluteBounds="3.5, 9.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/Quilt4DataContext/UserRole" />
       <nestedChildShapes>
         <elementListCompartment Id="60bc5433-6911-4fba-8bb2-a59e83f0b2de" absoluteBounds="3.515, 10.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.25 : 12.7604484049479); (9 : 12.7604484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 12.7604484049479); (9 : 12.7604484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Application/Application_Version" />
       <nodes>
         <classShapeMoniker Id="3474766a-250e-403a-ba5d-ccfbc1ffa6b4" />
         <classShapeMoniker Id="138b7f54-4e8b-4d8f-ba19-3a58b4bda95b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(16.5 : 12.7892976888021); (17.25 : 12.7892976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(16.5 : 12.7892976888021); (17.25 : 12.7892976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Issue/Issue_IssueData" />
       <nodes>
         <classShapeMoniker Id="91e01f9b-747c-481d-bcd3-e76682e6a44b" />
         <classShapeMoniker Id="d0ade082-70e4-4096-9d58-51e4825e377a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(13.75 : 12.7315991210937); (14.5 : 12.7315991210937)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(13.75 : 12.7315991210937); (14.5 : 12.7315991210937)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/IssueType/IssueType_Issue" />
       <nodes>
         <classShapeMoniker Id="e1be9064-439f-4fa6-a3cf-d2ab7d742f13" />
         <classShapeMoniker Id="91e01f9b-747c-481d-bcd3-e76682e6a44b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11 : 12.7027498372396); (11.0729166666667 : 12.7027498372396 : JumpStart); (11.2395833333333 : 12.7027498372396 : JumpEnd); (11.75 : 12.7027498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11 : 12.7027498372396); (11.75 : 12.7027498372396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Version/Version_IssueType" />
       <nodes>
         <classShapeMoniker Id="138b7f54-4e8b-4d8f-ba19-3a58b4bda95b" />
         <classShapeMoniker Id="e1be9064-439f-4fa6-a3cf-d2ab7d742f13" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 18.5104484049479); (9 : 18.5104484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 18.5104484049479); (9 : 18.5104484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Machine/Machine_MachineData" />
       <nodes>
         <classShapeMoniker Id="25aa0106-4a7e-4ab0-b589-eeae5089822c" />
         <classShapeMoniker Id="76d7374c-b24e-4330-a7af-2b138e4ae36c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 12.8229484049479); (6.25 : 12.8229484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 12.8229484049479); (6.25 : 12.8229484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_Application" />
       <nodes>
         <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
         <classShapeMoniker Id="3474766a-250e-403a-ba5d-ccfbc1ffa6b4" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.5 : 14.3478011067708); (4.5 : 15.7315991210938); (4.94791916666667 : 15.7315991210938 : JumpStart); (5.11458583333333 : 15.7315991210938 : JumpEnd); (6.25 : 15.7315991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5 : 14.3478011067708); (4.5 : 15.7315991210938); (4.94791916666667 : 15.7315991210938 : JumpStart); (5.11458583333333 : 15.7315991210938 : JumpEnd); (6.25 : 15.7315991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_ApplicationUser" />
       <nodes>
         <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
         <classShapeMoniker Id="2abce650-c24e-46e3-b3d5-2c9d86587f4b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.0312525 : 14.3478011067708); (5.0312525 : 18.4815991210938); (6.25 : 18.4815991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.0312525 : 14.3478011067708); (5.0312525 : 18.4815991210938); (6.25 : 18.4815991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_Machine" />
       <nodes>
         <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
         <classShapeMoniker Id="25aa0106-4a7e-4ab0-b589-eeae5089822c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 14.095400390625); (11.15625 : 14.095400390625); (11.15625 : 10.1554996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 14.095400390625); (11.15625 : 14.095400390625); (11.15625 : 10.1554996744792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_ProjectInvitation" />
       <nodes>
         <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
         <classShapeMoniker Id="0aaca29f-3f61-4ae1-948f-fda72aa65c3f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 12); (5.875 : 11.625); (5.875 : 10.0392976888021); (6.25 : 10.0392976888021)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 12); (5.875 : 11.625); (5.875 : 11.2035953776042); (6.25 : 10.8285953776042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Project/Project_ProjectUser" />
       <nodes>
         <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
         <classShapeMoniker Id="2e3fbb28-7abc-4528-8cfb-eb061607f9d8" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(13.75 : 16.5873527018229); (15.5 : 16.5873527018229); (15.5 : 13.7131982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(13.75 : 16.5873527018229); (15.5 : 16.5873527018229); (15.5 : 13.7131982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Session/Session_Issue" />
       <nodes>
         <classShapeMoniker Id="83242c18-51ea-45e9-bb69-212ecc18958d" />
         <classShapeMoniker Id="91e01f9b-747c-481d-bcd3-e76682e6a44b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 15.9190991210938); (11.2916666666667 : 15.9190991210938 : JumpStart); (11.4583333333333 : 15.9190991210938 : JumpEnd); (11.75 : 15.9190991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 15.9190991210938); (11.2916666666667 : 15.9190991210938 : JumpStart); (11.4583333333333 : 15.9190991210938 : JumpEnd); (11.75 : 15.9190991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/ApplicationUser/ApplicationUser_Session" />
       <nodes>
         <classShapeMoniker Id="2abce650-c24e-46e3-b3d5-2c9d86587f4b" />
         <classShapeMoniker Id="83242c18-51ea-45e9-bb69-212ecc18958d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.25 : 17.53125); (11.75 : 17.53125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 17.53125); (11.75 : 17.53125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Machine/Machine_Session" />
       <nodes>
         <classShapeMoniker Id="25aa0106-4a7e-4ab0-b589-eeae5089822c" />
         <classShapeMoniker Id="83242c18-51ea-45e9-bb69-212ecc18958d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11 : 13.7804996744792); (11.0973244349011 : 13.8778241093803 : JumpStart); (11.2151755650989 : 13.995675239578 : JumpEnd); (11.375 : 14.1554996744792); (11.375 : 16.7251745605469); (11.75 : 16.7251745605469)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11 : 13.7804996744792); (11.0973244349011 : 13.8778241093803 : JumpStart); (11.2151755650989 : 13.9956752395781 : JumpEnd); (11.375 : 14.1554996744792); (11.375 : 16.7251745605469); (11.75 : 16.7251745605469)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Version/Version_Session" />
       <nodes>
         <classShapeMoniker Id="138b7f54-4e8b-4d8f-ba19-3a58b4bda95b" />
         <classShapeMoniker Id="83242c18-51ea-45e9-bb69-212ecc18958d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 12.2412019856771); (3.5 : 12.2412019856771)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/Quilt4DataContext/User/User_Project" />
-      <nodes>
-        <classShapeMoniker Id="d2f41a21-4e1e-4676-ae41-faf334f08975" />
-        <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 11.2267976888021); (5.79166666666667 : 11.2267976888021 : JumpStart); (5.95833333333333 : 11.2267976888021 : JumpEnd); (11.1249975 : 11.2267976888021); (11.1249975 : 10.1554996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectInvitation" />
-      <nodes>
-        <classShapeMoniker Id="d2f41a21-4e1e-4676-ae41-faf334f08975" />
-        <classShapeMoniker Id="0aaca29f-3f61-4ae1-948f-fda72aa65c3f" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 11.0276940332031); (5.79166666666667 : 11.0276940332031 : JumpStart); (5.95833333333333 : 11.0276940332031 : JumpEnd); (11.1875025 : 11.0276940332031); (11.1875025 : 10.1554996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectInvitation1" />
-      <nodes>
-        <classShapeMoniker Id="d2f41a21-4e1e-4676-ae41-faf334f08975" />
-        <classShapeMoniker Id="0aaca29f-3f61-4ae1-948f-fda72aa65c3f" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 9.75); (1.75 : 9.40625); (4.41666666666667 : 9.40625 : JumpStart); (4.58333333333333 : 9.40625 : JumpEnd); (6.25 : 9.40625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectUser" />
-      <nodes>
-        <classShapeMoniker Id="d2f41a21-4e1e-4676-ae41-faf334f08975" />
-        <classShapeMoniker Id="2e3fbb28-7abc-4528-8cfb-eb061607f9d8" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 8.22199625651042); (4.5 : 8.22199625651042); (4.5 : 9.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 8.22199625651042); (4.5 : 8.22199625651042); (4.5 : 9.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/Quilt4DataContext/Role/Role_UserRole" />
       <nodes>
         <classShapeMoniker Id="2c2e5407-0427-49d1-b730-011c04c63214" />
         <classShapeMoniker Id="116cc52b-b03c-4bea-81b4-e804e6834d42" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 10.2844962565104); (3.5 : 10.2844962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <classShape Id="3cf2a46d-2298-4d7c-9ff3-8f814a331fd6" absoluteBounds="0.75, 9.25, 2, 2.5401025390625">
+      <DataClassMoniker Name="/Quilt4DataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="52f3ecaf-ab40-4142-af09-4c2e070f75c3" absoluteBounds="0.76499999999999968, 9.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.75 : 11.7901025390625); (1.75 : 13.1739005533854); (3.5 : 13.1739005533854)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/Quilt4DataContext/User/User_Project" />
+      <nodes>
+        <classShapeMoniker Id="3cf2a46d-2298-4d7c-9ff3-8f814a331fd6" />
+        <classShapeMoniker Id="d389eb74-193c-4e04-910a-554c38d1cbc0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 11.2267976888021); (11.1249975 : 11.2267976888021); (11.1249975 : 10.1554996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectInvitation" />
+      <nodes>
+        <classShapeMoniker Id="3cf2a46d-2298-4d7c-9ff3-8f814a331fd6" />
+        <classShapeMoniker Id="0aaca29f-3f61-4ae1-948f-fda72aa65c3f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 11.0276940332031); (5.96756801106774 : 11.0276940332031 : JumpStart); (6.13423467773441 : 11.0276940332031 : JumpEnd); (11.1875025 : 11.0276940332031); (11.1875025 : 10.1554996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectInvitation1" />
+      <nodes>
+        <classShapeMoniker Id="3cf2a46d-2298-4d7c-9ff3-8f814a331fd6" />
+        <classShapeMoniker Id="0aaca29f-3f61-4ae1-948f-fda72aa65c3f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 9.40625); (4.41666666666667 : 9.40625 : JumpStart); (4.58333333333333 : 9.40625 : JumpEnd); (6.25 : 9.40625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/Quilt4DataContext/User/User_ProjectUser" />
+      <nodes>
+        <classShapeMoniker Id="3cf2a46d-2298-4d7c-9ff3-8f814a331fd6" />
+        <classShapeMoniker Id="2e3fbb28-7abc-4528-8cfb-eb061607f9d8" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 10.2219962565104); (3.5 : 10.2219962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/Quilt4DataContext/User/User_UserRole" />
       <nodes>
-        <classShapeMoniker Id="d2f41a21-4e1e-4676-ae41-faf334f08975" />
+        <classShapeMoniker Id="3cf2a46d-2298-4d7c-9ff3-8f814a331fd6" />
         <classShapeMoniker Id="116cc52b-b03c-4bea-81b4-e804e6834d42" />
       </nodes>
     </associationConnector>

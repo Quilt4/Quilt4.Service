@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using Microsoft.AspNet.Identity
 
 @if (Request.IsAuthenticated)
 {
@@ -9,8 +11,14 @@
         <ul class="nav navbar-nav navbar-right">
             @if (User.IsInRole("Administrators"))
             {
-                <li>
-                    @Html.ActionLink("Admin", "Index", "Admin", new { area = "" }, null)
+                <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "Admin" }, null)</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Projects", "Index", "Project", new { area = "Admin" }, null)</li>
+                            <li>@Html.ActionLink("Users", "Index", "User", new { area = "Admin" }, null)</li>
+                        </ul>
                 </li>
             }
             <li>

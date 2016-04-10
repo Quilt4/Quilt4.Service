@@ -7,17 +7,17 @@ namespace Quilt4.Service.Converters
 {
     public static class VersionPageConverter
     {
-        public static VersionPageVersionResponse ToVersionPageVersionResponse(this VersionPageVersion item)
+        public static VersionPageVersionResponse ToVersionPageVersionResponse(this VersionDetail item)
         {
             if (item == null)
                 return null;
 
             return new VersionPageVersionResponse
             {
-                Id = item.Id.ToString(),
-                ProjectId = item.ProjectId.ToString(),
-                ApplicationId = item.ApplicationId.ToString(),
-                Version = item.Version,
+                Id = item.VersionKey.ToString(),
+                ProjectId = item.ProjectKey.ToString(),
+                ApplicationId = item.ApplicationKey.ToString(),
+                Version = item.VersionNumber,
                 ProjectName = item.ProjectName,
                 ApplicationName = item.ApplicationName,
                 IssueTypes = item.IssueTypes.ToVersionPageIssueTypeResponses()
@@ -25,22 +25,22 @@ namespace Quilt4.Service.Converters
         }
 
         public static IEnumerable<VersionPageIssueTypeResponse> ToVersionPageIssueTypeResponses(
-            this IEnumerable<VersionPageIssueType> items)
+            this IEnumerable<IssueTypeDetail> items)
         {
             return items?.Select(x => x.ToVersionPageIssueTypeResponse());
         }
 
-        public static VersionPageIssueTypeResponse ToVersionPageIssueTypeResponse(this VersionPageIssueType item)
+        public static VersionPageIssueTypeResponse ToVersionPageIssueTypeResponse(this IssueTypeDetail item)
         {
             if (item == null)
                 return null;
 
             return new VersionPageIssueTypeResponse
             {
-                Id = item.Id.ToString(),
+                Id = item.IssueTypeKey.ToString(),
                 Ticket = item.Ticket,
                 Type = item.Type,
-                Issues = item.Issues,
+                Issues = item.IssueCount,
                 Level = item.Level,
                 LastIssue = item.LastIssue,
                 Enviroments = item.Enviroments,

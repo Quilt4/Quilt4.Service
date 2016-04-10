@@ -8,9 +8,10 @@ namespace Quilt4.Service.Interface.Repository
     {
         ProjectPageProject GetProject(string userName, Guid projectKey);
         ProjectPageProject GetProject(Guid projectKey);
-        IEnumerable<ProjectPageVersion> GetVersions(string userName, Guid projectKey, Guid applicationKey);
-        VersionPageVersion GetVersion(string userName, Guid projectKey, Guid applicationKey, Guid versionKey);
+        IEnumerable<ProjectPageVersion> GetVersions(Guid applicationKey);
+        VersionDetail GetVersion(Guid versionKey);
         IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey);
         IEnumerable<DashboardPageProject> GetDashboardProjects(string userName);
+        IEnumerable<string> GetProjectUsers(Guid projectKey);
     }
 }

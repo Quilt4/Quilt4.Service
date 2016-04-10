@@ -73,8 +73,8 @@
     <Compile Include="UserDataRequestEntity.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="Version.cs" />
-    <Compile Include="VersionPageIssueType.cs" />
-    <Compile Include="VersionPageVersion.cs" />
+    <Compile Include="IssueTypeDetail.cs" />
+    <Compile Include="VersionDetail.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

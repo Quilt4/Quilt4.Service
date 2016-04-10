@@ -18,7 +18,8 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.VersionNumber)
+            @*@Html.DisplayFor(modelItem => item.VersionNumber)*@
+            @Html.ActionLink(item.VersionNumber, "Details", "Version", new { id = item.VersionKey }, null)
         </td>
         @*<td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 
 namespace Quilt4.Service.Entity
 {
-    public class VersionPageIssueType
+    public class IssueTypeDetail
     {
-        public Guid Id { get; set; }
+        public Guid IssueTypeKey { get; set; }
         public int Ticket { get; set; }
         public string Type { get; set; }
-        public int Issues { get; set; }
+        public int IssueCount { get; set; }
         public string Level { get; set; }
-        public DateTime? LastIssue { get; set; }
+        public DateTime FirstIssue { get; set; }
+        public DateTime LastIssue { get; set; }
         public IEnumerable<string> Enviroments { get; set; }
         public string Message { get; set; }
     }

@@ -53,9 +53,26 @@ namespace Quilt4.Service.Business
             return a.Union(b);
         }
 
-        public IEnumerable<ProjectPageVersion> GetVersions(string userId, Guid projectId, Guid applicationId)
+        public IEnumerable<ProjectPageVersion> GetVersions(string userName, Guid applicationKey)
         {
-            return _readRepository.GetVersions(userId, projectId, applicationId);
+            var versions = _readRepository.GetVersions(applicationKey).ToArray();
+            AssureUserAccess(userName, versions);
+            return versions;
+        }
+
+        private void AssureUserAccess(string userName, ProjectPageVersion[] versions)
+        {
+            Guid? lastProjectKey = null;
+            string[] projectUsers = null;
+            foreach (var version in versions)
+            {
+                if (lastProjectKey != version.ProjectKey)
+                {
+                    lastProjectKey = version.ProjectKey;
+                    projectUsers = _readRepository.GetProjectUsers(lastProjectKey.Value).ToArray();
+                }
+                if (projectUsers.All(x => x != userName)) throw new InvalidOperationException();
+            }
         }
 
         public void CreateProject(string userName, Guid projectKey, string name, string dashboardColor)

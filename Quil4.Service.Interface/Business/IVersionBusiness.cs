@@ -7,7 +7,8 @@ namespace Quilt4.Service.Interface.Business
 {
     public interface IVersionBusiness
     {
-        VersionPageVersion GetVersion(string userName, Guid projectId, Guid applicationId, Guid versionId);
+        VersionDetail GetVersion(string userName, Guid versionKey);
+        VersionDetail GetVersion(Guid versionKey);
         IEnumerable<Version> GetVersions(string userName, Guid applicationKey);
         IEnumerable<Version> GetVersions(Guid applicationKey);
     }

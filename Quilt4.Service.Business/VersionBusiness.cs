@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -18,12 +19,23 @@ namespace Quilt4.Service.Business
             _readRepository = readRepository;
         }
 
-        public VersionPageVersion GetVersion(string userName, Guid projectId, Guid applicationId, Guid versionId)
+        public VersionDetail GetVersion(string userName, Guid versionKey)
         {
-            return _readRepository.GetVersion(userName, projectId, applicationId, versionId);
+            var response = _readRepository.GetVersion(versionKey);
+
+            var projectUsers = _readRepository.GetProjectUsers(response.ProjectKey);
+            if (projectUsers.All(x => x != userName)) throw new InvalidOperationException("The user doesn't have access to the provided project.");
+
+            return response;
         }
 
-        public IEnumerable<Entity.Version> GetVersions(string userName, Guid applicationKey)
+        public VersionDetail GetVersion(Guid versionKey)
+        {
+            var response = _readRepository.GetVersion(versionKey);
+            return response;
+        }
+
+        public IEnumerable<Version> GetVersions(string userName, Guid applicationKey)
         {
             return _repository.GetVersions(userName, applicationKey);
         }

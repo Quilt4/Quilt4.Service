@@ -199,7 +199,6 @@
     <Compile Include="App_Start\ApplicationRoleManager.cs" />
     <Compile Include="App_Start\ApplicationSignInManager.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\App_Start\Class1.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Models\IndexModel.cs" />
     <Compile Include="Areas\Admin\Models\SettingsModel.cs" />

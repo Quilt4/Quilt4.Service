@@ -5,6 +5,6 @@ namespace Quilt4.Service.Interface.Business
 {
     public interface IIssueTypeBusiness
     {
-        IssueTypePageIssueType GetIssueType(string userName, Guid projectId, Guid applicationId, Guid versionId, Guid issueTypeId);
+        IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey);
     }
 }

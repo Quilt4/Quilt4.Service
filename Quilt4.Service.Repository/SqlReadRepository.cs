@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
-using Quilt4.Service.SqlRepository.Extensions;
 using Quilt4Net;
+using Quilt4.Service.SqlRepository.Converters;
 
 namespace Quilt4.Service.SqlRepository
 {
@@ -78,7 +77,7 @@ namespace Quilt4.Service.SqlRepository
             return new Quilt4DataContext(connectionString);
         }
 
-        public IEnumerable<Entity.ProjectPageVersion> GetVersions(string userId, Guid projectKey, Guid applicationKey)
+        public IEnumerable<Entity.ProjectPageVersion> GetVersions(string userName, Guid projectKey, Guid applicationKey)
         {
             using (var context = GetDataContext())
             {
@@ -137,49 +136,20 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public IssueTypePageIssueType GetIssueType(string userName, Guid projectKey, Guid applicationKey, Guid versionKey, Guid issueTypeKey)
+        public IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => string.Equals(x.UserName, userName, StringComparison.CurrentCultureIgnoreCase));
+                var user = context.Users.SingleOrDefault(x => x.UserName == userName);
                 if (user == null) throw new InvalidOperationException("Cannot find specified user.").AddData("userName", userName);
 
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
-                if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("projectKey", projectKey);
+                var issueType = context.IssueTypes.Single(x => x.IssueTypeKey == issueTypeKey);
 
-                //TODO: Not sure that this is correct. And it is very slow.
-                var resp = context.IssueTypes.Select(x => new IssueTypePageIssueType
-                {
-                    Id = x.IssueTypeKey,
-                    Message = x.Message,
-                    Ticket = x.Ticket,
-                    Type = x.Type,
-                    Version = x.Version.VersionNumber,
-                    ApplicationName = x.Version.Application.Name,
-                    Level = x.Level,
-                    ProjectName = x.Version.Application.Project.Name,
-                    StackTrace = x.StackTrace,
-                    VersionId = x.Version.VersionKey,
-                    ApplicationId = x.Version.Application.ApplicationKey,
-                    ProjectId = x.Version.Application.Project.ProjectKey,
-                    Issues = x.Issues.Select(y => ToIssueTypePageIssue(y)).ToArray()
-                }).FirstOrDefault();
+                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == issueType.Version.Application.Project.ProjectKey && x.UserId == user.UserId);
+                if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("issueTypeKey", issueTypeKey).AddData("projectKey", issueType.Version.Application.Project.ProjectKey);
 
-                return resp;
+                return issueType.ToIssueTypePageIssueType();
             }
-        }
-
-        private static IssueTypePageIssue ToIssueTypePageIssue(Issue y)
-        {
-            var response = new IssueTypePageIssue
-            {
-                Id = y.IssueKey,
-                User = y.Session.ApplicationUser.UserName,
-                Data = y.IssueDatas != null ? y.IssueDatas.ToDictionary(yy => yy.Name, yy => yy.Value) : new Dictionary<string, string>(),
-                Enviroment = y.Session.Enviroment,
-                Time = y.CreationServerTime,
-            };
-            return response;
         }
 
         public IEnumerable<Entity.DashboardPageProject> GetDashboardProjects(string userName)

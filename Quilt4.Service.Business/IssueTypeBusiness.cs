@@ -14,10 +14,9 @@ namespace Quilt4.Service.Business
             _readRepository = readRepository;
         }
 
-        public IssueTypePageIssueType GetIssueType(string userName, Guid projectId, Guid applicationId, Guid versionId,
-            Guid issueTypeId)
+        public IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey)
         {
-            return _readRepository.GetIssueType(userName, projectId, applicationId, versionId, issueTypeId);
+            return _readRepository.GetIssueType(userName, issueTypeKey);
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Quilt4.Service.Entity;
+
+namespace Quilt4.Service.SqlRepository.Converters
+{
+    internal static class Converter
+    {
+        public static IssueTypePageIssueType ToIssueTypePageIssueType(this IssueType x)
+        {
+            return new IssueTypePageIssueType
+            {
+                Id = x.IssueTypeKey,
+                Message = x.Message,
+                Ticket = x.Ticket,
+                Type = x.Type,
+                Version = x.Version.VersionNumber,
+                ApplicationName = x.Version.Application.Name,
+                Level = x.Level,
+                ProjectName = x.Version.Application.Project.Name,
+                StackTrace = x.StackTrace,
+                VersionId = x.Version.VersionKey,
+                ApplicationId = x.Version.Application.ApplicationKey,
+                ProjectId = x.Version.Application.Project.ProjectKey,
+                Issues = x.Issues.Select(y => ToIssueTypePageIssue(y)).ToArray()
+            };
+        }
+
+        public static IssueTypePageIssue ToIssueTypePageIssue(this Issue y)
+        {
+            var response = new IssueTypePageIssue
+            {
+                Id = y.IssueKey,
+                User = y.Session.ApplicationUser != null ? y.Session.ApplicationUser.UserName : "",
+                Data = y.IssueDatas != null ? y.IssueDatas.ToDictionary(yy => yy.Name, yy => yy.Value) : new Dictionary<string, string>(),
+                Enviroment = y.Session.Enviroment,
+                Time = y.CreationServerTime,
+            };
+            return response;
+        }
+    }
+}

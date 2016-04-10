@@ -17,12 +17,9 @@ namespace Quilt4.Service.Controllers.WebAPI.Web
 
         [Authorize]
         [Route("api/project/{projectId}/application/{applicationId}/version/{versionId}/issuetype/{issueTypeId}")]
-        public IssueTypePageIssueTypeResponse GetIssueType(string projectId, string applicationId, string versionId,
-            string issueTypeId)
+        public IssueTypePageIssueTypeResponse GetIssueType(string projectId, string applicationId, string versionId, string issueTypeId)
         {
-
-            return _issueTypeBusiness.GetIssueType(User.Identity.Name, Guid.Parse(projectId), Guid.Parse(applicationId),
-                    Guid.Parse(versionId), Guid.Parse(issueTypeId)).ToIssueTypePageIssueTypeResponse();
+            return _issueTypeBusiness.GetIssueType(User.Identity.Name, Guid.Parse(issueTypeId)).ToIssueTypePageIssueTypeResponse();
         }
     }
 }

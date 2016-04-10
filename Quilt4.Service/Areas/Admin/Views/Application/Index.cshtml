@@ -27,7 +27,8 @@
             @Html.DisplayFor(modelItem => item.ApplicationKey)
         </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @*@Html.DisplayFor(modelItem => item.Name)*@
+            @Html.ActionLink(item.Name, "Index", "Version", new { id = item.ApplicationKey }, null)
         </td>
         @*<td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

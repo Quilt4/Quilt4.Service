@@ -58,5 +58,10 @@ namespace Quilt4.Service.SqlRepository.Converters
         {
             return new Entity.Application(x.ApplicationKey, x.Name);
         }
+
+        public static Entity.Version ToVersion(this Version x)
+        {
+            return new Entity.Version(x.VersionKey, x.VersionNumber);
+        }
     }
 }

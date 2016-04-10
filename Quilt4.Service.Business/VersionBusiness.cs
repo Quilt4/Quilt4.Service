@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
+using Version = Quilt4.Service.Entity.Version;
 
 namespace Quilt4.Service.Business
 {
@@ -25,6 +26,11 @@ namespace Quilt4.Service.Business
         public IEnumerable<Entity.Version> GetVersions(string userName, Guid applicationKey)
         {
             return _repository.GetVersions(userName, applicationKey);
+        }
+
+        public IEnumerable<Version> GetVersions(Guid applicationKey)
+        {
+            return _repository.GetVersions(applicationKey);
         }
     }
 }

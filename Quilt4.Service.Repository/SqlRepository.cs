@@ -395,7 +395,15 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Versions.Where(x => x.Application.Project.User.UserName == userName && x.Application.ApplicationKey == applicationKey).Select(x => new Entity.Version(x.VersionKey, x.VersionNumber)).ToArray();
+                return context.Versions.Where(x => x.Application.Project.User.UserName == userName && x.Application.ApplicationKey == applicationKey).Select(x => x.ToVersion()).ToArray();
+            }
+        }
+
+        public IEnumerable<Entity.Version> GetVersions(Guid applicationKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Versions.Where(x => x.Application.ApplicationKey == applicationKey).Select(x => x.ToVersion()).ToArray();
             }
         }
 

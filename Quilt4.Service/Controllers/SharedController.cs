@@ -22,8 +22,9 @@ namespace Quilt4.Service.Controllers
             var systemStatus = new SystemStatus
             {
                 CanWriteToLog = _serviceLog.CanWriteToLog(out exception),
-                CanConnectToDatabase = _serviceBusiness.GetDatabaseInfo().CanConnect
+                CanConnectToDatabase = _serviceBusiness.GetDatabaseInfo().CanConnect,
             };
+
             return PartialView(systemStatus);
         }
     }

@@ -200,7 +200,9 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\App_Start\Class1.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Models\IndexModel.cs" />
     <Compile Include="Areas\Admin\Models\SettingsModel.cs" />
+    <Compile Include="Areas\Admin\Models\SystemLogViewModel.cs" />
     <Compile Include="Authentication\ApplicationRole.cs" />
     <Compile Include="Authentication\CustomRoleStore.cs" />
     <Compile Include="Authentication\OldSystemPasswordHasher.cs" />

@@ -1,10 +1,10 @@
-﻿@model Quilt4.Service.Areas.Admin.Models.SettingsModel
+﻿@model Quilt4.Service.Areas.Admin.Models.IndexModel
 @{
     ViewBag.Title = "Admin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Admin</h2>
+<h2>Administration</h2>
 
 <h3>Settings</h3>
 <table>
@@ -12,11 +12,28 @@
         <th>Setting</th>
         <th>Value</th>
     </tr>
-    @foreach (var setting in Model.Values)
+    @foreach (var setting in Model.Settings.Values)
     {
         <tr>
             <td>@setting.Key</td>
             <td>@setting.Value</td>
+        </tr>
+    }
+</table>
+
+<h3>Event log</h3>
+<table>
+    <tr>
+        <th>Log time</th>
+        <th>Level</th>
+        <th>Message</th>
+    </tr>
+    @foreach (var entry in Model.SystemLog.Entries)
+    {
+        <tr>
+            <td>@entry.LogTime</td>
+            <td>@entry.Level</td>
+            <td>@entry.Message</td>
         </tr>
     }
 </table>

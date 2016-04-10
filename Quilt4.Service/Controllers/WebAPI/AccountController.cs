@@ -31,47 +31,47 @@ namespace Quilt4.Service.Controllers.WebAPI
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
 
-        [Obsolete("Acces via the business layer.")]
-        private readonly IRepository _repository;
+        //[Obsolete("Acces via the business layer.")]
+        //private readonly IRepository _repository;
 
-        public AccountController(IUserBusiness userBusiness, IRepository repository)
+        public AccountController(IUserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
-            _repository = repository;
+            //_repository = repository;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IRepository repository, IUserBusiness userBusiness)
-        {
-            _repository = repository;
-            UserManager = userManager;
-            RoleManager = roleManager;
-            AccessTokenFormat = accessTokenFormat;
-            _userBusiness = userBusiness;
-        }
+        //public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IRepository repository, IUserBusiness userBusiness)
+        //{
+        //    _repository = repository;
+        //    UserManager = userManager;
+        //    RoleManager = roleManager;
+        //    AccessTokenFormat = accessTokenFormat;
+        //    _userBusiness = userBusiness;
+        //}
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public ApplicationUserManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
-        public ApplicationRoleManager RoleManager
-        {
-            get
-            {
-                return _roleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
-            }
-            private set
-            {
-                _roleManager = value;
-            }
-        }
+        //public ApplicationRoleManager RoleManager
+        //{
+        //    get
+        //    {
+        //        return _roleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+        //    }
+        //    private set
+        //    {
+        //        _roleManager = value;
+        //    }
+        //}
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
@@ -140,7 +140,7 @@ namespace Quilt4.Service.Controllers.WebAPI
         //    //return new ManageInfoViewModel
         //    //{
         //    //    LocalLoginProvider = LocalLoginProvider,
-        //    //    Email = user.UserName,
+        //    //    Username = user.UserName,
         //    //    Logins = logins,
         //    //    ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
         //    //};
@@ -150,106 +150,110 @@ namespace Quilt4.Service.Controllers.WebAPI
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
+            //IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+            //    model.NewPassword);
             
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
-            return Ok();
+            //return Ok();
         }
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            //IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
-            return Ok();
+            //return Ok();
         }
 
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            //Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-            AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
+            //AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
-            {
-                return BadRequest("External login failure.");
-            }
+            //if (ticket == null || ticket.Identity == null || (ticket.Properties != null
+            //    && ticket.Properties.ExpiresUtc.HasValue
+            //    && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+            //{
+            //    return BadRequest("External login failure.");
+            //}
 
-            ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
+            //ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
-            if (externalData == null)
-            {
-                return BadRequest("The external login is already associated with an account.");
-            }
+            //if (externalData == null)
+            //{
+            //    return BadRequest("The external login is already associated with an account.");
+            //}
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
-                new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
+            //IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            //    new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
-            return Ok();
+            //return Ok();
         }
 
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            IdentityResult result;
+            //IdentityResult result;
 
-            if (model.LoginProvider == LocalLoginProvider)
-            {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
-            }
-            else
-            {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
-            }
+            //if (model.LoginProvider == LocalLoginProvider)
+            //{
+            //    result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+            //}
+            //else
+            //{
+            //    result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+            //        new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+            //}
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
-            return Ok();
+            //return Ok();
         }
 
         //// GET api/Account/ExternalLogin
@@ -390,83 +394,87 @@ namespace Quilt4.Service.Controllers.WebAPI
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            //var user = new ApplicationUser { UserName = model.UserName, Username = model.Username };
 
-            var callerIp = HttpContext.Current.Request.UserHostAddress;
-            var result = await UserManager.CreateAsync(user, model.Password, callerIp);
-            if (result.Succeeded)
-            {
-                result = await AutoAdminAssignment(user) ?? result;
-                
-                await AddExtraInfo(user, model);
+            //var callerIp = HttpContext.Current.Request.UserHostAddress;
+            //var result = await UserManager.CreateAsync(user, model.Password, callerIp);
+            //if (result.Succeeded)
+            //{
+            //    result = await AutoAdminAssignment(user) ?? result;
 
-            }
+            //    await AddExtraInfo(user, model);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //}
 
-            return Ok();
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
+
+            //return Ok();
         }
 
         private async Task AddExtraInfo(ApplicationUser user, RegisterBindingModel model)
         {
-            //TODO: Get from settings in db;
-            //var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
-            var defaultAvatarUrl = (string)null;
+            throw new NotImplementedException();
+            ////TODO: Get from settings in db;
+            ////var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
+            //var defaultAvatarUrl = (string)null;
 
-            try
-            {
-                //TODO: Access through business layer
-                _repository.AddUserExtraInfo(user.UserName, model.FirstName, model.LastName, defaultAvatarUrl);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //try
+            //{
+            //    //TODO: Access through business layer
+            //    _repository.AddUserExtraInfo(user.UserName, model.FirstName, model.LastName, defaultAvatarUrl);
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
         }
 
         private async Task<IdentityResult> AutoAdminAssignment(ApplicationUser user)
         {
-            var autoAdminCountString = System.Configuration.ConfigurationManager.AppSettings["AutoAdminCount"];
-            int autoAdminCount;
-            if (!int.TryParse(autoAdminCountString, out autoAdminCount))
-            {
-                autoAdminCount = 2;
-            }
+            throw new NotImplementedException();
+            //var autoAdminCountString = System.Configuration.ConfigurationManager.AppSettings["AutoAdminCount"];
+            //int autoAdminCount;
+            //if (!int.TryParse(autoAdminCountString, out autoAdminCount))
+            //{
+            //    autoAdminCount = 2;
+            //}
 
-            IdentityResult result = null;
-            if (UserManager.Users.Count() <= autoAdminCount)
-            {
-                var role = await RoleManager.FindByNameAsync(Constants.Administrators);
-                if (role == null)
-                {
-                    result = await RoleManager.CreateAsync(new ApplicationRole { Name = Constants.Administrators });
-                }
+            //IdentityResult result = null;
+            //if (UserManager.Users.Count() <= autoAdminCount)
+            //{
+            //    var role = await RoleManager.FindByNameAsync(Constants.Administrators);
+            //    if (role == null)
+            //    {
+            //        result = await RoleManager.CreateAsync(new ApplicationRole { Name = Constants.Administrators });
+            //    }
 
-                if (result == null || result.Succeeded)
-                {
-                    var userId = UserManager.FindByName(user.UserName).Id;
-                    result = await UserManager.AddToRoleAsync(userId, Constants.Administrators);
-                }
-            }
+            //    if (result == null || result.Succeeded)
+            //    {
+            //        var userId = UserManager.FindByName(user.UserName).Id;
+            //        result = await UserManager.AddToRoleAsync(userId, Constants.Administrators);
+            //    }
+            //}
 
-            return result;
+            //return result;
         }
 
         [Authorize(Roles = Constants.Administrators)]
         [Route("Role/Assign")]
         public async Task<IHttpActionResult> AddRole(AddRoleModel addRoleModel)
         {
-            var result = await UserManager.AddToRoleAsync(addRoleModel.UserName, addRoleModel.Role);
+            throw new NotImplementedException();
+            //var result = await UserManager.AddToRoleAsync(addRoleModel.UserName, addRoleModel.Role);
 
-            return Ok();
+            //return Ok();
         }
 
         // POST api/Account/RegisterExternal
@@ -475,31 +483,32 @@ namespace Quilt4.Service.Controllers.WebAPI
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            var info = await Authentication.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                return InternalServerError();
-            }
+            //var info = await Authentication.GetExternalLoginInfoAsync();
+            //if (info == null)
+            //{
+            //    return InternalServerError();
+            //}
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            //var user = new ApplicationUser { UserName = model.Username, Username = model.Username };
 
-            IdentityResult result = await UserManager.CreateAsync(user);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //IdentityResult result = await UserManager.CreateAsync(user);
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
-            result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result); 
-            }
-            return Ok();
+            //result = await UserManager.AddLoginAsync(user.Id, info.Login);
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result); 
+            //}
+            //return Ok();
         }
 
         protected override void Dispose(bool disposing)

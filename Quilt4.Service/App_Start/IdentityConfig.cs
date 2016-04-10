@@ -31,6 +31,6 @@ namespace Quilt4.Service
         public static ApplicationUserManager Create(IRepository repository)
         {
             return new ApplicationUserManager(repository);
-        }
+        }        
     }
 }

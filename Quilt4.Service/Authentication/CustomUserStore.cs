@@ -8,8 +8,8 @@ using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service.Authentication
 {
-    public class CustomUserStore<T> 
-        : IUserPasswordStore<T>, IUserRoleStore<T>, IUserStore<T> where T : ApplicationUser
+    public class CustomUserStore<T>
+        : IUserPasswordStore<T>, IUserRoleStore<T>, IUserStore<T>, IUserLockoutStore<T, string>, IUserTwoFactorStore<T, string>, IUserLoginStore<T, string>, IUserPhoneNumberStore<T, string> where T : ApplicationUser
     {
         private readonly IRepository _repository;
 
@@ -110,6 +110,95 @@ namespace Quilt4.Service.Authentication
         {
             var response = _repository.GetUsers().Select(ToApplicationUser);
             return response;
+        }
+
+        public async Task<DateTimeOffset> GetLockoutEndDateAsync(T user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task SetLockoutEndDateAsync(T user, DateTimeOffset lockoutEnd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> IncrementAccessFailedCountAsync(T user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ResetAccessFailedCountAsync(T user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> GetAccessFailedCountAsync(T user)
+        {
+            var response = await Task.Run(() => 0);
+            return response;
+        }
+
+        public async Task<bool> GetLockoutEnabledAsync(T user)
+        {
+            var response = await Task.Run(() => false);
+            return response;
+        }
+
+        public async Task SetLockoutEnabledAsync(T user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task SetTwoFactorEnabledAsync(T user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> GetTwoFactorEnabledAsync(T user)
+        {
+            var response = await Task.Run(() => false);
+            return response;
+        }
+
+        public async Task AddLoginAsync(T user, UserLoginInfo login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RemoveLoginAsync(T user, UserLoginInfo login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync(T user)
+        {
+            var response = await Task.Run(() => new UserLoginInfo[] { });
+            return response;
+        }
+
+        public async Task<T> FindAsync(UserLoginInfo login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task SetPhoneNumberAsync(T user, string phoneNumber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> GetPhoneNumberAsync(T user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> GetPhoneNumberConfirmedAsync(T user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task SetPhoneNumberConfirmedAsync(T user, bool confirmed)
+        {
+            throw new NotImplementedException();
         }
     }
 }

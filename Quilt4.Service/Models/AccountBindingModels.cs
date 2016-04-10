@@ -37,7 +37,7 @@ namespace Quilt4.Service.Models
         public string UserName { get; set; }
 
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Username")]
         public string Email { get; set; }
 
         [Required]
@@ -65,7 +65,7 @@ namespace Quilt4.Service.Models
     public class RegisterExternalBindingModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Username")]
         public string Email { get; set; }
     }
 

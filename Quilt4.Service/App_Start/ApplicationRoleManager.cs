@@ -5,8 +5,8 @@ using Quilt4.Service.Interface.Repository;
 namespace Quilt4.Service
 {
     public class ApplicationRoleManager : RoleManager<ApplicationRole>
-    {        
-        public ApplicationRoleManager(IRepository repository)
+    {
+        private ApplicationRoleManager(IRepository repository)
             : base(new CustomRoleStore<ApplicationRole>(repository))
         {
         }

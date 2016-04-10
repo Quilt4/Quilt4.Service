@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Quilt4.Service.Areas.Admin.Models
 {
@@ -7,6 +8,12 @@ namespace Quilt4.Service.Areas.Admin.Models
         public Guid VersionKey { get; set; }
         public string VersionNumber { get; set; }
         public IssueTypeModel[] IssueTypes { get; set; }
+        public SessionModel[] Sessions { get; set; }
+    }
+
+    public class SessionModel
+    {
+        public DateTime LastUsedServerTime { get; set; }
     }
 
     public class IssueTypeModel

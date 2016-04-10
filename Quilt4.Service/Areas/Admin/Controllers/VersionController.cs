@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using Quilt4.Service.Areas.Admin.Models;
 using Quilt4.Service.Interface.Business;
@@ -41,6 +42,10 @@ namespace Quilt4.Service.Areas.Admin.Controllers
                     Enviroments = x.Enviroments.ToArray(),
                     FirstIssue = x.FirstIssue,
                     Ticket = x.Ticket
+                }).ToArray(),
+                Sessions = version.Sessions.Select(x => new SessionModel
+                {
+                    LastUsedServerTime = x.LastUsedServerTime
                 }).ToArray()
             });
         }

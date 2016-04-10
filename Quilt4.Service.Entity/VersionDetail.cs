@@ -12,5 +12,6 @@ namespace Quilt4.Service.Entity
         public string ProjectName { get; set; }
         public string ApplicationName { get; set; }
         public IEnumerable<IssueTypeDetail> IssueTypes { get; set; }
+        public IEnumerable<SessionDetail> Sessions { get; set; }
     }
 }

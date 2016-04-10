@@ -8,8 +8,8 @@
 <h2>Version Details</h2>
 
 <div>
-    <h4>VersionDetailsModel</h4>
-    <hr />
+    <h4>Version</h4>
+    <hr/>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.VersionKey)
@@ -26,8 +26,47 @@
         <dd>
             @Html.DisplayFor(model => model.VersionNumber)
         </dd>
-
     </dl>
+</div>
+<div>
+    <h4>Issue Types</h4>
+    <table>
+        <tr>
+            <th>Last Time</th>
+            <th>Type</th>
+            <th>Level</th>
+            <th>Issues</th>
+            <th>Ticket</th>
+            <th>Message</th>
+            <th>Enviroments</th>
+        </tr>
+        @foreach (var issueType in Model.IssueTypes)
+        {
+            <tr>
+                <td>@issueType.LastIssue</td>
+                <td>@issueType.Type</td>
+                <td>@issueType.Level</td>
+                <td>@issueType.IssueCount</td>
+                <td>@issueType.Ticket</td>
+                <td>@issueType.Message</td>
+                <td>@string.Join(", ", issueType.Enviroments)</td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    <h4>Sessions</h4>
+    <table>
+        <tr>
+            <th>Time</th>
+        </tr>
+        @foreach (var session in Model.Sessions)
+        {
+            <tr>
+                <td>@session.LastUsedServerTime</td>
+            </tr>
+        }
+    </table>
 </div>
 @*<p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |

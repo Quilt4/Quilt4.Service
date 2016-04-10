@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace Quilt4.Service.Entity
 {
+    public class SessionDetail
+    {
+        public DateTime LastUsedServerTime { get; set; }
+    }
+
     public class IssueTypeDetail
     {
         public Guid IssueTypeKey { get; set; }

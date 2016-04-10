@@ -88,6 +88,10 @@ namespace Quilt4.Service.SqlRepository
                             LastIssue = y.Issues.Max(z => x.CreationServerTime),
                             Type = y.Type,
                             Enviroments = context.Sessions.Where(z => z.Issues.Any(z1 => z1.IssueType.IssueTypeKey == y.IssueTypeKey)).Select(y2 => y2.Enviroment)
+                        }).ToArray(),
+                        Sessions = x.Sessions.Select(z => new SessionDetail
+                        {
+                            LastUsedServerTime = z.LastUsedServerTime
                         }).ToArray()
                     }).FirstOrDefault();
                 return versionPageIssueTypes;

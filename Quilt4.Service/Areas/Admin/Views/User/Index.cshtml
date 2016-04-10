@@ -2,51 +2,31 @@
 @model IEnumerable<Quilt4.Service.Areas.Admin.Models.UserModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Users</h2>
 
 @*<p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserKey)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AvatarUrl)
-        </th>
+        <th></th>
+        <th>Username</th>
+        <th>Email</th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserKey)
-        </td>
+        <td><img src="@item.AvatarUrl" height="26" title="@item.FullName"/></td>
         <td>
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AvatarUrl)
         </td>
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@

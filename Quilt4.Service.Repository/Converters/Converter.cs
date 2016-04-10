@@ -22,7 +22,7 @@ namespace Quilt4.Service.SqlRepository.Converters
                 VersionId = x.Version.VersionKey,
                 ApplicationId = x.Version.Application.ApplicationKey,
                 ProjectId = x.Version.Application.Project.ProjectKey,
-                Issues = x.Issues.Select(y => ToIssueTypePageIssue(y)).ToArray()
+                Issues = x.Issues.Select(y => y.ToIssueTypePageIssue()).ToArray()
             };
         }
 
@@ -52,6 +52,11 @@ namespace Quilt4.Service.SqlRepository.Converters
                 Name = x.Name,
                 Versions = x.Versions.Count,
             };
+        }
+
+        public static Entity.Application ToApplication(this Application x)
+        {
+            return new Entity.Application(x.ApplicationKey, x.Name);
         }
     }
 }

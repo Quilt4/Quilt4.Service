@@ -10,6 +10,11 @@ namespace Quilt4.Service.Business
     {
         private readonly IRepository _repository;
 
+        public IEnumerable<Application> GetApplications(Guid projectKey)
+        {
+            return _repository.GetApplications(projectKey);
+        }
+
         public IEnumerable<Application> GetApplications(string userName, Guid projectKey)
         {
             return _repository.GetApplications(userName, projectKey);

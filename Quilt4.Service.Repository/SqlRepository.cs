@@ -347,11 +347,19 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public IEnumerable<Entity.Application> GetApplications(Guid projectKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.Applications.Where(x => x.Project.ProjectKey == projectKey).Select(x => x.ToApplication()).ToArray();
+            }
+        }
+
         public IEnumerable<Entity.Application> GetApplications(string userName, Guid projectKey)
         {
             using (var context = GetDataContext())
             {
-                return context.Applications.Where(x => x.Project.User.UserName == userName && x.Project.ProjectKey == projectKey).Select(x => new Entity.Application(x.ApplicationKey, x.Name)).ToArray();
+                return context.Applications.Where(x => x.Project.User.UserName == userName && x.Project.ProjectKey == projectKey).Select(x => x.ToApplication()).ToArray();
             }
         }
 

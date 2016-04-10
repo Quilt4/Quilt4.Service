@@ -2,18 +2,18 @@
 @model IEnumerable<Quilt4.Service.Areas.Admin.Models.ProjectModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin Projects";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Projects</h2>
 
 @*<p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
 <table class="table">
     <tr>
-        <th>Project Key</th>
+        @*<th>Project Key</th>*@
         <th>Name</th>
         <th>Applications</th>
         <th></th>
@@ -21,14 +21,15 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.ProjectKey)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ApplicationCount)
+            @Html.ActionLink("Details", "Index", "Application", new { id = item.ProjectKey }, null)
         </td>
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@

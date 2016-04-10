@@ -6,11 +6,10 @@ namespace Quilt4.Service.Interface.Repository
 {
     public interface IReadRepository
     {
-        ProjectPageProject GetProject(string userName, Guid projectKey);
         ProjectPageProject GetProject(Guid projectKey);
         IEnumerable<ProjectPageVersion> GetVersions(Guid applicationKey);
         VersionDetail GetVersion(Guid versionKey);
-        IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey);
+        IssueTypePageIssueType GetIssueType(Guid issueTypeKey);
         IEnumerable<DashboardPageProject> GetDashboardProjects(string userName);
         IEnumerable<string> GetProjectUsers(Guid projectKey);
     }

@@ -71,6 +71,7 @@
     <Compile Include="SessionBusiness.cs" />
     <Compile Include="SettingBusiness.cs" />
     <Compile Include="ConstantSettingKey.cs" />
+    <Compile Include="UserAccessBusiness.cs" />
     <Compile Include="UserBusiness.cs" />
     <Compile Include="ValidationHelper.cs" />
     <Compile Include="VersionBusiness.cs" />

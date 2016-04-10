@@ -12,17 +12,21 @@ namespace Quilt4.Service.Business
         private readonly IReadRepository _readRepository;
         private readonly IRepository _repository;
         private readonly IWriteRepository _writeRepository;
+        private readonly IUserAccessBusiness _userAccessBusiness;
 
-        public ProjectBusiness(IReadRepository readRepository, IRepository repository, IWriteRepository writeRepository)
+        public ProjectBusiness(IReadRepository readRepository, IRepository repository, IWriteRepository writeRepository, IUserAccessBusiness userAccessBusiness)
         {
             _readRepository = readRepository;
             _repository = repository;
             _writeRepository = writeRepository;
+            _userAccessBusiness = userAccessBusiness;
         }
 
-        public ProjectPageProject GetProject(string userName, Guid projectId)
+        public ProjectPageProject GetProject(string userName, Guid projectKey)
         {
-            return _readRepository.GetProject(userName, projectId);
+            var result = _readRepository.GetProject(projectKey);
+            _userAccessBusiness.AssureAccess(userName, result.ProjectKey);
+            return result;
         }
 
         public IEnumerable<ProjectPageProject> GetAllProjects()
@@ -56,23 +60,8 @@ namespace Quilt4.Service.Business
         public IEnumerable<ProjectPageVersion> GetVersions(string userName, Guid applicationKey)
         {
             var versions = _readRepository.GetVersions(applicationKey).ToArray();
-            AssureUserAccess(userName, versions);
+            _userAccessBusiness.AssureAccess(userName, versions.Select(x => x.ProjectKey));
             return versions;
-        }
-
-        private void AssureUserAccess(string userName, ProjectPageVersion[] versions)
-        {
-            Guid? lastProjectKey = null;
-            string[] projectUsers = null;
-            foreach (var version in versions)
-            {
-                if (lastProjectKey != version.ProjectKey)
-                {
-                    lastProjectKey = version.ProjectKey;
-                    projectUsers = _readRepository.GetProjectUsers(lastProjectKey.Value).ToArray();
-                }
-                if (projectUsers.All(x => x != userName)) throw new InvalidOperationException();
-            }
         }
 
         public void CreateProject(string userName, Guid projectKey, string name, string dashboardColor)

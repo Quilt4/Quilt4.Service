@@ -208,19 +208,23 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public IEnumerable<RegisterIssueResponseEntity> GetIssues(string userName, Guid versionKey)
+        public IEnumerable<RegisterIssueResponseEntity> GetIssues(Guid versionKey)
         {
             using (var context = GetDataContext())
             {
-                return context.Issues.Where(x => x.IssueType.Version.Application.Project.User.UserName == userName && x.IssueType.Version.VersionKey == versionKey).Select(x => new RegisterIssueResponseEntity { IssueKey = x.IssueKey, ServerTime = x.CreationServerTime, Ticket = x.IssueType.Ticket }).ToArray();
+                return context.Issues
+                    .Where(x => x.IssueType.Version.VersionKey == versionKey)
+                    .Select(x => new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey)).ToArray();
             }
         }
         
-        public IEnumerable<Entity.IssueType> GetIssueTypes(string userName, Guid versionKey)
+        public IEnumerable<Entity.IssueType> GetIssueTypes(Guid versionKey)
         {
             using (var context = GetDataContext())
             {
-                return context.IssueTypes.Where(x => x.Version.Application.Project.User.UserName == userName && x.Version.VersionKey == versionKey).Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerTime)).ToArray();
+                return context.IssueTypes
+                    .Where(x => x.Version.VersionKey == versionKey)
+                    .Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.Application.Project.ProjectKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerTime)).ToArray();
             }
         }
 

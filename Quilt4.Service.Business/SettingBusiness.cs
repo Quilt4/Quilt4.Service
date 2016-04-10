@@ -65,5 +65,11 @@ namespace Quilt4.Service.Business
         {
             _repository.DeleteSettng(settingName);
         }
+
+        public string WebUrl
+        {
+            get { return GetSetting("WebUrl", "https://quilt4.com/"); }
+            set { SetSetting("WebUrl", value); }
+        }
     }
 }

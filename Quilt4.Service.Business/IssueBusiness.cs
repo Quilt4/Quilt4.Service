@@ -12,11 +12,13 @@ namespace Quilt4.Service.Business
     {
         private readonly IRepository _repository;
         private readonly IWriteBusiness _writeBusiness;
+        private readonly IUserAccessBusiness _userAccessBusiness;
 
-        public IssueBusiness(IRepository repository, IWriteBusiness writeBusiness)
+        public IssueBusiness(IRepository repository, IWriteBusiness writeBusiness, IUserAccessBusiness userAccessBusiness)
         {
             _repository = repository;
             _writeBusiness = writeBusiness;
+            _userAccessBusiness = userAccessBusiness;
         }
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
@@ -75,12 +77,7 @@ namespace Quilt4.Service.Business
 
             _writeBusiness.RunRecalculate();
 
-            return new RegisterIssueResponseEntity
-            {
-                Ticket = ticket,
-                ServerTime = serverTime,
-                IssueKey = issueKey,
-            };
+            return new RegisterIssueResponseEntity(issueKey, ticket, serverTime, session.ProjectKey);
         }
 
         //public IEnumerable<IssueType> GetIssueTypeList(string userName)
@@ -140,12 +137,16 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<IssueType> GetIssueTypeList(string userName, Guid versionKey)
         {
-            return _repository.GetIssueTypes(userName, versionKey);
+            var result = _repository.GetIssueTypes(versionKey).ToArray();
+            _userAccessBusiness.AssureAccess(userName, result.Select(x => x.ProjectKey));
+            return result;
         }
 
         public IEnumerable<RegisterIssueResponseEntity> GetIssueList(string userName, Guid versionKey)
         {
-            return _repository.GetIssues(userName, versionKey);
+            var result = _repository.GetIssues(versionKey).ToArray();
+            _userAccessBusiness.AssureAccess(userName, result.Select(x => x.ProjectKey));
+            return result;
         }
 
         private int GetTicket(Guid projectKey, int tryCount)

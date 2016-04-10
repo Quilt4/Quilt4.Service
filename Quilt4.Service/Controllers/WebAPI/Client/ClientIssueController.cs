@@ -14,10 +14,12 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
     public class ClientIssueController : ApiController
     {
         private readonly IIssueBusiness _issueBusiness;
+        private readonly ISettingBusiness _settingBusiness;
 
-        public ClientIssueController(IIssueBusiness issueBusiness)
+        public ClientIssueController(IIssueBusiness issueBusiness, ISettingBusiness settingBusiness)
         {
             _issueBusiness = issueBusiness;
+            _settingBusiness = settingBusiness;
         }
 
         [HttpGet]
@@ -25,7 +27,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
         public IEnumerable<IssueResponse> Get([FromUri]Guid versionKey)
         {
             var result = _issueBusiness.GetIssueList(User.Identity.GetUserName(), versionKey);
-            var response = result.Select(x => x.ToIssueResponse());
+            var response = result.Select(x => x.ToIssueResponse(_settingBusiness.WebUrl));
             return response;
         }
 
@@ -36,7 +38,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
             var issueRequest = value.ToIssueRequest();
             var data = issueRequest.ToRegisterIssueRequestEntity(HttpContext.Current.Request.UserHostAddress);
             var response = _issueBusiness.RegisterIssue(data);
-            return response.ToIssueResponse();
+            return response.ToIssueResponse(_settingBusiness.WebUrl);
         }
     }
 }

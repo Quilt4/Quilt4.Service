@@ -11,20 +11,20 @@ namespace Quilt4.Service.SqlRepository
 {
     public class SqlReadRepository : IReadRepository
     {
-        public ProjectPageProject GetProject(string userName, Guid projectKey)
-        {
-            using (var context = GetDataContext())
-            {
-                var user = context.Users.SingleOrDefault(x => x.UserName == userName);
+        //public ProjectPageProject GetProject(string userName, Guid projectKey)
+        //{
+        //    using (var context = GetDataContext())
+        //    {
+        //        var user = context.Users.SingleOrDefault(x => x.UserName == userName);
 
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
+        //        var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == projectKey && x.UserId == user.UserId);
 
-                if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("projectKey", projectKey);
+        //        if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("projectKey", projectKey);
 
-                var response = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject();
-                return response;
-            }
-        }
+        //        var response = context.Projects.SingleOrDefault(x => x.ProjectKey == projectKey).ToProjectPageProject();
+        //        return response;
+        //    }
+        //}
 
         public ProjectPageProject GetProject(Guid projectKey)
         {
@@ -94,18 +94,11 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey)
+        public IssueTypePageIssueType GetIssueType(Guid issueTypeKey)
         {
             using (var context = GetDataContext())
             {
-                var user = context.Users.SingleOrDefault(x => x.UserName == userName);
-                if (user == null) throw new InvalidOperationException("Cannot find specified user.").AddData("userName", userName);
-
                 var issueType = context.IssueTypes.Single(x => x.IssueTypeKey == issueTypeKey);
-
-                var projectUser = context.ProjectUsers.SingleOrDefault(x => x.Project.ProjectKey == issueType.Version.Application.Project.ProjectKey && x.UserId == user.UserId);
-                if (projectUser == null) throw new InvalidOperationException("The user doesn't have access to the provided project.").AddData("userName", userName).AddData("issueTypeKey", issueTypeKey).AddData("projectKey", issueType.Version.Application.Project.ProjectKey);
-
                 return issueType.ToIssueTypePageIssueType();
             }
         }
@@ -114,7 +107,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var response = context.Projects.Select(x => new Entity.DashboardPageProject
+                var response = context.Projects.Where(x => x.ProjectUsers.Any(y => y.User.UserName.ToLower() == userName.ToLower())).Select(x => new DashboardPageProject
                 {
                     ProjectKey = x.ProjectKey,
                     Name = x.Name,
@@ -127,11 +120,6 @@ namespace Quilt4.Service.SqlRepository
                 }).ToArray();
 
                 return response;
-
-                //NOTE: Old code that did not work because the tables where not updated
-                //var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == userName.ToLower());
-                //var projectKeys = context.ProjectUsers.Where(x => x.UserId == user.UserId).Select(x => x.Project.ProjectKey);
-                //return context.DashboardPageProjects.Where(x => projectKeys.Contains(x.ProjectKey)).ToDashboardProjects().ToArray();
             }
         }
 

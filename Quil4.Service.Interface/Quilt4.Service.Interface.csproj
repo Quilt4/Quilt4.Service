@@ -55,6 +55,7 @@
     <Compile Include="Business\IServiceLogItem.cs" />
     <Compile Include="Business\ISessionBusiness.cs" />
     <Compile Include="Business\ISettingBusiness.cs" />
+    <Compile Include="Business\IUserAccessBusiness.cs" />
     <Compile Include="Business\IUserBusiness.cs" />
     <Compile Include="Business\IVersionBusiness.cs" />
     <Compile Include="Business\IWriteBusiness.cs" />

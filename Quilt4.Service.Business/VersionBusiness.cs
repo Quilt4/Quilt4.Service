@@ -12,20 +12,19 @@ namespace Quilt4.Service.Business
     {
         private readonly IRepository _repository;
         private readonly IReadRepository _readRepository;
+        private readonly IUserAccessBusiness _userAccessBusiness;
 
-        public VersionBusiness(IRepository repository, IReadRepository readRepository)
+        public VersionBusiness(IRepository repository, IReadRepository readRepository, IUserAccessBusiness userAccessBusiness)
         {
             _repository = repository;
             _readRepository = readRepository;
+            _userAccessBusiness = userAccessBusiness;
         }
 
         public VersionDetail GetVersion(string userName, Guid versionKey)
         {
             var response = _readRepository.GetVersion(versionKey);
-
-            var projectUsers = _readRepository.GetProjectUsers(response.ProjectKey);
-            if (projectUsers.All(x => x != userName)) throw new InvalidOperationException("The user doesn't have access to the provided project.");
-
+            _userAccessBusiness.AssureAccess(userName, response.ProjectKey);
             return response;
         }
 
@@ -37,7 +36,9 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<Version> GetVersions(string userName, Guid applicationKey)
         {
-            return _repository.GetVersions(userName, applicationKey);
+            var result = _repository.GetVersions(applicationKey).ToArray();
+            _userAccessBusiness.AssureAccess(userName, result.Select(x => x.ProjectKey));
+            return result;
         }
 
         public IEnumerable<Version> GetVersions(Guid applicationKey)

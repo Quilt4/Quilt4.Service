@@ -48,10 +48,8 @@ namespace Quilt4.Service.Interface.Repository
         Guid? GetApplicationKey(Guid projectKey, string name);
         void SaveApplication(Guid applicationKey, Guid projectKey, string name, DateTime serverTime);
         IEnumerable<Application> GetApplications(Guid projectKey);
-        IEnumerable<Application> GetApplications(string userName, Guid projectKey);
         Guid? GetVersionKey(Guid applicaitonKey, string versionNumber, DateTime? buildTime);
         void SaveVersion(Guid versionKey, Guid applicaitonKey, string versionNumber, DateTime? buildTime, string supportToolkitNameVersion, DateTime serverTime);
-        IEnumerable<Version> GetVersions(string userName, Guid applicationKey);
         IEnumerable<Version> GetVersions(Guid applicationKey);
 
         //ApplicationUser
@@ -61,15 +59,14 @@ namespace Quilt4.Service.Interface.Repository
         //Machine
         Guid? GetMachineKey(Guid projectKey, string fingerprint);
         void SaveMachine(Guid machineKey, Guid projectKey, string fingerprint, string name, IDictionary<string, string> data, DateTime serverTime);
-
+        
         //Issue
         Guid? GetIssueTypeKey(Guid versionKey, string type, string issueLevel, string message, string stackTrace);
         void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime);
         void CreateIssue(Guid issueKey, Guid issueTypeKey, string sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime);
         int GetNextTicket(Guid projectKey);
-        //IEnumerable<IssueType> GetIssueTypes(string userName);
-        IEnumerable<IssueType> GetIssueTypes(string userName, Guid versionKey);
-        IEnumerable<RegisterIssueResponseEntity> GetIssues(string userName, Guid versionKey);
+        IEnumerable<IssueType> GetIssueTypes(Guid versionKey);
+        IEnumerable<RegisterIssueResponseEntity> GetIssues(Guid versionKey);
 
         //Setting
         IEnumerable<Setting> GetSettings();

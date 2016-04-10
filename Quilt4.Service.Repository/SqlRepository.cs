@@ -36,6 +36,7 @@ namespace Quilt4.Service.SqlRepository
                 var dbUser = context.Users.Single(x => x.UserKey == user.UserKey);
                 dbUser.UserName = user.Username;
                 dbUser.Email = user.Email;
+                dbUser.PasswordHash = user.PasswordHash;
                 context.SubmitChanges();
             }
         }

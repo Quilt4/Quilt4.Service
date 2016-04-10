@@ -21,6 +21,11 @@ namespace Quilt4.Service
             return base.VerifyPasswordAsync(store, user, password);
         }
 
+        protected override Task<IdentityResult> UpdatePassword(IUserPasswordStore<ApplicationUser, string> passwordStore, ApplicationUser user, string newPassword)
+        {
+            return base.UpdatePassword(passwordStore, user, newPassword);
+        }
+
         public Task<IdentityResult> CreateAsync(ApplicationUser user, string password, string callerIp)
         {
             //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)

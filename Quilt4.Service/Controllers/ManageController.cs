@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        //private ApplicationSignInManager _signInManager;
+        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public ManageController()
@@ -27,17 +27,17 @@ namespace WebApplication1.Controllers
         //    SignInManager = signInManager;
         //}
 
-        //public ApplicationSignInManager SignInManager
-        //{
-        //    get
-        //    {
-        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    }
-        //    private set
-        //    {
-        //        _signInManager = value;
-        //    }
-        //}
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            //private set
+            //{
+            //    _signInManager = value;
+            //}
+        }
 
         public ApplicationUserManager UserManager
         {
@@ -45,10 +45,10 @@ namespace WebApplication1.Controllers
             {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set
-            {
-                _userManager = value;
-            }
+            //private set
+            //{
+            //    _userManager = value;
+            //}
         }
 
         //
@@ -224,8 +224,7 @@ namespace WebApplication1.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
-            throw new NotImplementedException();
-            //return View();
+            return View();
         }
 
         //
@@ -234,23 +233,22 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            throw new NotImplementedException();
-            //if (!ModelState.IsValid)
-            //{
-            //    return System.Web.UI.WebControls.View(model);
-            //}
-            //var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            //if (result.Succeeded)
-            //{
-            //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            //    if (user != null)
-            //    {
-            //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            //    }
-            //    return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            //}
-            //AddErrors(result);
-            //return System.Web.UI.WebControls.View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+            }
+            AddErrors(result);
+            return View(model);
         }
 
         //

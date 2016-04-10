@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace Quilt4.Service.Models
 {
@@ -62,6 +63,12 @@ namespace Quilt4.Service.Models
         public bool RememberMe { get; set; }
     }
 
+    public class ManageLoginsViewModel
+    {
+        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        public IList<AuthenticationDescription> OtherLogins { get; set; }
+    }
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
@@ -90,9 +97,8 @@ namespace Quilt4.Service.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
         [Display(Name = "Username")]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

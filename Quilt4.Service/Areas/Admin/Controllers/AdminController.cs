@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Quilt4.Service.Areas.Admin.Models;
 using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service.Areas.Admin.Controllers
 {
+    [Authorize(Roles = Constants.Administrators)]
     public class AdminController : Controller
     {
         private readonly IServiceLog _serviceLog;

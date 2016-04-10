@@ -20,7 +20,7 @@ namespace Quilt4.Service.Areas.Admin
                 "Admin/{action}/{id}",
                 new { controller = "Admin", action = "Index", id = UrlParameter.Optional });
 
-            AdminPageConfig.Register(GlobalConfiguration.Configuration);
+            //AdminPageConfig.Register(GlobalConfiguration.Configuration);
         }
     }
 }

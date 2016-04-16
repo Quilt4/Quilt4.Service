@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Linq;
 using System.Linq;
 using System.Transactions;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
 using Quilt4.Service.SqlRepository.Converters;
+using Quilt4Net;
 
 namespace Quilt4.Service.SqlRepository
 {    
@@ -466,9 +468,20 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                var session = context.Sessions.Single(x => x.SessionKey == sessionKey);
-                session.LastUsedServerTime = serverDateTime;
-                context.SubmitChanges();
+                try
+                {
+                    var session = context.Sessions.SingleOrDefault(x => x.SessionKey == sessionKey);
+                    if (session == null)
+                    {
+                        throw new InvalidOperationException("There is no session with provided key.").AddData("sessionKey", sessionKey);
+                    }
+                    session.LastUsedServerTime = serverDateTime;
+                    context.SubmitChanges();
+                }
+                catch (ChangeConflictException)
+                {
+                    //Some other thread changed the session, ignore this change.
+                }
             }
         }
 

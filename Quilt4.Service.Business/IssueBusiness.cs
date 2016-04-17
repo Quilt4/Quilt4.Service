@@ -13,6 +13,8 @@ namespace Quilt4.Service.Business
         private readonly IRepository _repository;
         private readonly IWriteBusiness _writeBusiness;
         private readonly IUserAccessBusiness _userAccessBusiness;
+        private readonly Random _random = new Random();
+        private static readonly object _syncRoot = new object();
 
         public IssueBusiness(IRepository repository, IWriteBusiness writeBusiness, IUserAccessBusiness userAccessBusiness)
         {
@@ -29,9 +31,6 @@ namespace Quilt4.Service.Business
             if (string.IsNullOrEmpty(request.SessionKey)) throw new ArgumentException("No valid session provided.");
             if (request.IssueType == null) throw new ArgumentException("No IssueType object in request was provided. Need object '{ \"IssueType\":{...} }' in root.");
             if (string.IsNullOrEmpty(request.IssueType.Message)) throw new ArgumentException("No message in issue type provided.");
-            //if (string.IsNullOrEmpty(request.IssueType.IssueLevel)) throw new ArgumentException("No issue level in issue type provided.");
-            //if (string.IsNullOrEmpty(request.IssueType.Type)) throw new ArgumentException("No issue type provided.");
-            //if (request.ClientTime == DateTime.MinValue) throw new ArgumentException("No client time provided.");
 
             var issueKey = request.IssueKey;
             if (issueKey == Guid.Empty)
@@ -61,9 +60,13 @@ namespace Quilt4.Service.Business
             {
                 throw new InvalidOperationException("The session has already been marked as ended. Create a new session to register issues.");
             }
-            _repository.SetSessionUsed(session.SessionKey, serverTime);
 
-            var ticket = GetTicket(session.ProjectKey, 10);
+            int ticket;
+            lock (_syncRoot)
+            {
+                _repository.SetSessionUsed(session.SessionKey, serverTime);
+                ticket = GetTicket(session.ProjectKey, 10);
+            }
 
             // Add/Update IssueType
             var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, value, request.Level, request.IssueType.Message, request.IssueType.StackTrace);
@@ -160,8 +163,10 @@ namespace Quilt4.Service.Business
             {
                 if (tryCount > 0)
                 {
-                    Thread.Sleep((10 - tryCount) * 10);
+                    var waitTimeMs = tryCount * _random.Next(1, 100);
                     tryCount--;
+                    System.Diagnostics.Debug.WriteLine("Waiting for {1} ms, will continue to wait {0} more times if needed.", tryCount, waitTimeMs);
+                    Thread.Sleep(waitTimeMs);
                     ticket = GetTicket(projectKey, tryCount);
                 }
                 else

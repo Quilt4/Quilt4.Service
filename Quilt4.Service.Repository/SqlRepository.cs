@@ -464,6 +464,8 @@ namespace Quilt4.Service.SqlRepository
 
         private static void CreateIssueTypeDetail(IssueTypeRequestEntity[] innerIssueTypes, IssueTypeDetail detail, Quilt4DataContext context)
         {
+            if (innerIssueTypes == null) return;
+
             foreach (var issueTypeRequestEntity in innerIssueTypes)
             {
                 if (issueTypeRequestEntity == null) return;

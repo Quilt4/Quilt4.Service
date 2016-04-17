@@ -20,8 +20,8 @@
       <Column Name="BuildTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="SupportToolkitVersion" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
       <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="VersionId" OtherKey="VersionId" Type="IssueType" />
       <Association Name="Version_Session" Member="Sessions" ThisKey="VersionId" OtherKey="VersionId" Type="Session" />
+      <Association Name="Version_IssueType" Member="IssueTypes" ThisKey="VersionId" OtherKey="VersionId" Type="IssueType" />
       <Association Name="Application_Version" Member="Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="Application" IsForeignKey="true" />
     </Type>
   </Table>
@@ -45,19 +45,6 @@
       <Column Name="Checksum" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Issue" Member="Issues">
-    <Type Name="Issue">
-      <Column Name="IssueId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IssueKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IssueTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CreationClientTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Issue_IssueData" Member="IssueDatas" ThisKey="IssueId" OtherKey="IssueId" Type="IssueData" />
-      <Association Name="IssueType_Issue" Member="IssueType" ThisKey="IssueTypeId" OtherKey="IssueTypeId" Type="IssueType" IsForeignKey="true" />
-      <Association Name="Session_Issue" Member="Session" ThisKey="SessionId" OtherKey="SessionId" Type="Session" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.IssueData" Member="IssueDatas">
     <Type Name="IssueData">
       <Column Name="IssueDataId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -65,21 +52,6 @@
       <Column Name="Name" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
       <Column Name="Value" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="Issue_IssueData" Member="Issue" ThisKey="IssueId" OtherKey="IssueId" Type="Issue" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.IssueType" Member="IssueTypes">
-    <Type Name="IssueType">
-      <Column Name="IssueTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
-      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="StackTrace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="IssueType_Issue" Member="Issues" ThisKey="IssueTypeId" OtherKey="IssueTypeId" Type="Issue" />
-      <Association Name="Version_IssueType" Member="Version" ThisKey="VersionId" OtherKey="VersionId" Type="Version" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Machine" Member="Machines">
@@ -204,6 +176,46 @@
       <Association Name="User_ProjectInvitation1" Member="ProjectInvitations1" ThisKey="UserId" OtherKey="UserId" Type="ProjectInvitation" />
       <Association Name="User_ProjectUser" Member="ProjectUsers" ThisKey="UserId" OtherKey="UserId" Type="ProjectUser" />
       <Association Name="User_UserRole" Member="UserRoles" ThisKey="UserId" OtherKey="UserId" Type="UserRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Issue" Member="Issues">
+    <Type Name="Issue">
+      <Column Name="IssueId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IssueKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="IssueTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreationClientTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IssueThreadKey" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="Issue_IssueData" Member="IssueDatas" ThisKey="IssueId" OtherKey="IssueId" Type="IssueData" />
+      <Association Name="Session_Issue" Member="Session" ThisKey="SessionId" OtherKey="SessionId" Type="Session" IsForeignKey="true" />
+      <Association Name="IssueType_Issue" Member="IssueType" ThisKey="IssueTypeId" OtherKey="IssueTypeId" Type="IssueType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.IssueTypeDetail" Member="IssueTypeDetails">
+    <Type Name="IssueTypeDetail">
+      <Column Name="IssueTypeDetailId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ParentIssueTypeDetailId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="StackTrace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(2048) NOT NULL" CanBeNull="false" />
+      <Association Name="IssueTypeDetail_IssueTypeDetail" Member="IssueTypeDetails" ThisKey="IssueTypeDetailId" OtherKey="ParentIssueTypeDetailId" Type="IssueTypeDetail" />
+      <Association Name="IssueTypeDetail_IssueType" Member="IssueTypes" ThisKey="IssueTypeDetailId" OtherKey="IssueTypeDetailId" Type="IssueType" />
+      <Association Name="IssueTypeDetail_IssueTypeDetail" Member="IssueTypeDetail1" ThisKey="ParentIssueTypeDetailId" OtherKey="IssueTypeDetailId" Type="IssueTypeDetail" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.IssueType" Member="IssueTypes">
+    <Type Name="IssueType">
+      <Column Name="IssueTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IssueTypeKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="VersionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ticket" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreationServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IssueTypeDetailId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="IssueType_Issue" Member="Issues" ThisKey="IssueTypeId" OtherKey="IssueTypeId" Type="Issue" />
+      <Association Name="IssueTypeDetail_IssueType" Member="IssueTypeDetail" ThisKey="IssueTypeDetailId" OtherKey="IssueTypeDetailId" Type="IssueTypeDetail" IsForeignKey="true" />
+      <Association Name="Version_IssueType" Member="Version" ThisKey="VersionId" OtherKey="VersionId" Type="Version" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

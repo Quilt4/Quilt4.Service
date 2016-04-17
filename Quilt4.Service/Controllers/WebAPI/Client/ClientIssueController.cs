@@ -35,6 +35,8 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
         [Route("api/Client/Issue")]
         public IssueResponse Post([FromBody] object value)
         {
+            //TODO: Log the latest incoming raw data for each project, so that the user can view it.
+
             var issueRequest = value.ToIssueRequest();
             var data = issueRequest.ToRegisterIssueRequestEntity(HttpContext.Current.Request.UserHostAddress);
             var response = _issueBusiness.RegisterIssue(data);

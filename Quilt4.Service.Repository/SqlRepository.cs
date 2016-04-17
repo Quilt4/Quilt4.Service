@@ -226,7 +226,7 @@ namespace Quilt4.Service.SqlRepository
             {
                 return context.IssueTypes
                     .Where(x => x.Version.VersionKey == versionKey)
-                    .Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.Application.Project.ProjectKey, x.Version.VersionKey, x.Type, x.Level, x.Message, x.StackTrace, x.Ticket, x.CreationServerTime)).ToArray();
+                    .Select(x => new Entity.IssueType(x.IssueTypeKey, x.Version.Application.Project.ProjectKey, x.Version.VersionKey, x.IssueTypeDetail.Type, x.Level, x.IssueTypeDetail.Message, x.IssueTypeDetail.StackTrace, x.Ticket, x.CreationServerTime)).ToArray();
             }
         }
 
@@ -421,36 +421,63 @@ namespace Quilt4.Service.SqlRepository
                     context.IssueTypes.SingleOrDefault(
                         x =>
                             x.Version.VersionKey == versionKey && 
-                            x.Type.Equals(type) && 
+                            x.IssueTypeDetail.Type.Equals(type) && 
                             x.Level.Equals(issueLevel) &&
-                            x.Message.Equals(message) &&
-                            (stackTrace == null ? x.StackTrace == null : x.StackTrace == stackTrace));
+                            x.IssueTypeDetail.Message.Equals(message) &&
+                            (stackTrace == null ? x.IssueTypeDetail.StackTrace == null : x.IssueTypeDetail.StackTrace == stackTrace));
 
                 return issueType?.IssueTypeKey;
             }
         }
 
-        public void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime)
+        public void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime, IssueTypeRequestEntity[] innerIssueTypes)
         {
             using (var context = GetDataContext())
             {
                 var itk = GetIssueTypeKey(issueTypeKey, type, issueLevel, message, stackTrace);
                 if (itk != null) throw new InvalidOperationException("A IssueType with this signature already exists.");
 
+                var detail = new IssueTypeDetail
+                {
+                    Type = type,
+                    Message = message,
+                    StackTrace = stackTrace,                        
+                };
+                context.IssueTypeDetails.InsertOnSubmit(detail);
+
                 var newIssueType = new IssueType
                 {
                     IssueTypeKey = issueTypeKey,
                     VersionId = context.Versions.Single(x => x.VersionKey == versionKey).VersionId,
                     Ticket = ticket,
-                    Type = type,
                     Level = issueLevel,
-                    Message = message,
-                    StackTrace = stackTrace,
                     CreationServerTime = serverTime,
+                    IssueTypeDetail = detail
                 };
-
                 context.IssueTypes.InsertOnSubmit(newIssueType);
+
+                CreateIssueTypeDetail(innerIssueTypes, detail, context);
+
                 context.SubmitChanges();
+            }
+        }
+
+        private static void CreateIssueTypeDetail(IssueTypeRequestEntity[] innerIssueTypes, IssueTypeDetail detail, Quilt4DataContext context)
+        {
+            foreach (var issueTypeRequestEntity in innerIssueTypes)
+            {
+                if (issueTypeRequestEntity == null) return;
+
+                var issueTypeDetail = new IssueTypeDetail
+                {
+                    Type = issueTypeRequestEntity.Type,
+                    Message = issueTypeRequestEntity.Message,
+                    StackTrace = issueTypeRequestEntity.StackTrace,
+                    IssueTypeDetail1 = detail
+                };
+                context.IssueTypeDetails.InsertOnSubmit(issueTypeDetail);
+
+                CreateIssueTypeDetail(issueTypeRequestEntity.Inner, issueTypeDetail, context);
             }
         }
 
@@ -661,7 +688,7 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void CreateIssue(Guid issueKey, Guid issueTypeKey, string sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime)
+        public void CreateIssue(Guid issueKey, Guid issueTypeKey, Guid? issueThreadKey, string sessionKey, DateTime clientTime, IDictionary<string, string> data, DateTime serverTime)
         {
             using (var context = GetDataContext())
             {
@@ -671,7 +698,8 @@ namespace Quilt4.Service.SqlRepository
                     IssueTypeId = context.IssueTypes.Single(x => x.IssueTypeKey == issueTypeKey).IssueTypeId,
                     CreationClientTime = clientTime,
                     CreationServerTime = serverTime,
-                    SessionId = context.Sessions.Single(x => x.SessionKey == sessionKey).SessionId,                    
+                    SessionId = context.Sessions.Single(x => x.SessionKey == sessionKey).SessionId,
+                    IssueThreadKey = issueThreadKey,
                 };
 
                 context.Issues.InsertOnSubmit(issue);

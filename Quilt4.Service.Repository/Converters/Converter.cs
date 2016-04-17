@@ -6,23 +6,23 @@ namespace Quilt4.Service.SqlRepository.Converters
 {
     internal static class Converter
     {
-        public static IssueTypePageIssueType ToIssueTypePageIssueType(this IssueType x)
+        public static IssueTypePageIssueType ToIssueTypePageIssueType(this IssueType x, IssueTypeDetail d)
         {
             return new IssueTypePageIssueType
             {
                 Id = x.IssueTypeKey,
-                Message = x.Message,
+                Message = d.Message,
                 Ticket = x.Ticket,
-                Type = x.Type,
+                Type = d.Type,
                 Version = x.Version.VersionNumber,
                 ApplicationName = x.Version.Application.Name,
                 Level = x.Level,
                 ProjectName = x.Version.Application.Project.Name,
-                StackTrace = x.StackTrace,
+                StackTrace = d.StackTrace,
                 VersionId = x.Version.VersionKey,
                 ApplicationId = x.Version.Application.ApplicationKey,
                 ProjectId = x.Version.Application.Project.ProjectKey,
-                Issues = x.Issues.Select(y => y.ToIssueTypePageIssue()).ToArray()
+                Issues = x.Issues.Select(y => y.ToIssueTypePageIssue()).ToArray(),                
             };
         }
 

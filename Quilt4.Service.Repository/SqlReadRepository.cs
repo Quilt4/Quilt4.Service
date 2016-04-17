@@ -78,15 +78,15 @@ namespace Quilt4.Service.SqlRepository
                         ProjectKey = x.Application.Project.ProjectKey,
                         ApplicationName = x.Application.Name,
                         ProjectName = x.Application.Project.Name,
-                        IssueTypes = x.IssueTypes.Select(y => new IssueTypeDetail
+                        IssueTypes = x.IssueTypes.Select(y => new Entity.IssueTypeDetail
                         {
                             IssueTypeKey = y.IssueTypeKey,
                             Level = y.Level,
-                            Message = y.Message,
+                            Message = y.IssueTypeDetail.Message,
                             IssueCount = y.Issues.Count,
                             Ticket = y.Ticket,
                             LastIssue = y.Issues.Max(z => x.CreationServerTime),
-                            Type = y.Type,
+                            Type = y.IssueTypeDetail.Type,
                             Enviroments = context.Sessions.Where(z => z.Issues.Any(z1 => z1.IssueType.IssueTypeKey == y.IssueTypeKey)).Select(y2 => y2.Enviroment)
                         }).ToArray(),
                         Sessions = x.Sessions.Select(z => new SessionDetail
@@ -103,7 +103,7 @@ namespace Quilt4.Service.SqlRepository
             using (var context = GetDataContext())
             {
                 var issueType = context.IssueTypes.Single(x => x.IssueTypeKey == issueTypeKey);
-                return issueType.ToIssueTypePageIssueType();
+                return issueType.ToIssueTypePageIssueType(issueType.IssueTypeDetail);
             }
         }
 

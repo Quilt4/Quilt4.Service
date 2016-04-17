@@ -25,8 +25,6 @@ namespace Quilt4.Service.Business
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
         {
-            //TODO: Log the latest incoming data for each project, so that the user can view it.
-
             if (request == null) throw new ArgumentNullException(nameof(request), "No request object provided.");
             if (string.IsNullOrEmpty(request.SessionKey)) throw new ArgumentException("No valid session provided.");
             if (request.IssueType == null) throw new ArgumentException("No IssueType object in request was provided. Need object '{ \"IssueType\":{...} }' in root.");
@@ -69,24 +67,20 @@ namespace Quilt4.Service.Business
             }
 
             // Add/Update IssueType
-            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, value, request.Level, request.IssueType.Message, request.IssueType.StackTrace);
+            var issueTypeKey = _repository.GetIssueTypeKey(session.VersionKey, value, request.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace);
             if (issueTypeKey == null)
             {
                 issueTypeKey = Guid.NewGuid();
-                _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, value, request.Level, request.IssueType.Message, request.IssueType.StackTrace, serverTime);
+                _repository.CreateIssueType(issueTypeKey.Value, session.VersionKey, ticket, value, request.IssueLevel, request.IssueType.Message, request.IssueType.StackTrace, serverTime, request.IssueType.Inner);
             }
+
             //TODO: Check if the issue key already exists. _repository.GetIssue(issueKey);
-            _repository.CreateIssue(issueKey, issueTypeKey.Value, session.SessionKey, clientTime, GetData(request), serverTime);
+            _repository.CreateIssue(issueKey, issueTypeKey.Value, request.IssueThreadKey, session.SessionKey, clientTime, GetData(request), serverTime);
 
             _writeBusiness.RunRecalculate();
 
             return new RegisterIssueResponseEntity(issueKey, ticket, serverTime, session.ProjectKey);
         }
-
-        //public IEnumerable<IssueType> GetIssueTypeList(string userName)
-        //{
-        //    return _repository.GetIssueTypes(userName);
-        //}
 
         private Dictionary<string, string> GetData(RegisterIssueRequestEntity request)
         {

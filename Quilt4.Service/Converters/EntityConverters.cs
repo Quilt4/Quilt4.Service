@@ -15,8 +15,8 @@ namespace Quilt4.Service.Converters
             {
                 IssueKey = item.IssueKey,
                 ClientTime = item.ClientTime,
-                IssueThreadId = item.IssueThreadKey,
-                Level = item.IssueLevel,
+                IssueThreadKey = item.IssueThreadKey,
+                IssueLevel = item.IssueLevel,
                 SessionKey = item.SessionKey,
                 IssueType = ToIssueType(item.IssueType),
                 UserHandle = item.UserHandle,

@@ -68,6 +68,7 @@
     <Compile Include="SecurityType.cs" />
     <Compile Include="ServiceInfo.cs" />
     <Compile Include="Session.cs" />
+    <Compile Include="SessionDetail.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserDataRequestEntity.cs" />

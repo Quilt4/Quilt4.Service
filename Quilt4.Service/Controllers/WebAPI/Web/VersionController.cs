@@ -16,8 +16,8 @@ namespace Quilt4.Service.Controllers.WebAPI.Web
         }
 
         [Authorize]
-        [Route("api/project/{projectId}/application/{applicationId}/version/{versionId}")]
-        public VersionPageVersionResponse GetVersion(string projectId, string applicationId, string versionId)
+        [Route("api/version/{versionId}")]
+        public VersionPageVersionResponse GetVersion(string versionId)
         {
             return _versionBusiness.GetVersion(User.Identity.Name, Guid.Parse(versionId)).ToVersionPageVersionResponse();
         }

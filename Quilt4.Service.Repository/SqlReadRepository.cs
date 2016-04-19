@@ -91,7 +91,15 @@ namespace Quilt4.Service.SqlRepository
                         }).ToArray(),
                         Sessions = x.Sessions.Select(z => new SessionDetail
                         {
-                            LastUsedServerTime = z.LastUsedServerTime
+                            SessionKey = z.SessionKey,
+                            StartClientTime = z.StartClientTime,
+                            StartServerTime = z.StartServerTime,
+                            LastUsedServerTime = z.LastUsedServerTime,
+                            EndServerTime = z.EndServerTime,
+                            MachineName = z.Machine.Name,
+                            UserName = z.ApplicationUser.UserName,
+                            Environment = z.Enviroment,
+                            CallerIp = z.CallerIp,
                         }).ToArray()
                     }).FirstOrDefault();
                 return versionPageIssueTypes;

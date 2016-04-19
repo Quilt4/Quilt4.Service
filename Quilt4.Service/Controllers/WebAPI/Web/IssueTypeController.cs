@@ -16,10 +16,10 @@ namespace Quilt4.Service.Controllers.WebAPI.Web
         }
 
         [Authorize]
-        [Route("api/project/{projectId}/application/{applicationId}/version/{versionId}/issuetype/{issueTypeId}")]
-        public IssueTypePageIssueTypeResponse GetIssueType(string projectId, string applicationId, string versionId, string issueTypeId)
+        [Route("api/issuetype/{issueTypeKey}")]
+        public IssueTypePageIssueTypeResponse GetIssueType(string issueTypeKey)
         {
-            return _issueTypeBusiness.GetIssueType(User.Identity.Name, Guid.Parse(issueTypeId)).ToIssueTypePageIssueTypeResponse();
+            return _issueTypeBusiness.GetIssueType(User.Identity.Name, Guid.Parse(issueTypeKey)).ToIssueTypePageIssueTypeResponse();
         }
     }
 }

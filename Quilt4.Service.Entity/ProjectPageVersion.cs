@@ -8,7 +8,7 @@ namespace Quilt4.Service.Entity
         public Guid VersionKey { get; set; }
         public Guid ProjectKey { get; set; }
         public Guid ApplicationKey { get; set; }
-        public string Version { get; set; }
+        public string VersionNumber { get; set; }
         public int SessionCount { get; set; }
         public int IssueTypeCount { get; set; }
         public int IssueCount { get; set; }

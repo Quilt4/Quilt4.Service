@@ -56,7 +56,7 @@ namespace Quilt4.Service.Converters
                 VersionKey = item.VersionKey.ToString(),
                 ProjectKey = item.ProjectKey.ToString(),
                 ApplicationKey = item.ApplicationKey.ToString(),
-                Version = item.Version,
+                VersionNumber = item.VersionNumber,
                 SessionCount = item.SessionCount,
                 IssueTypeCount = item.IssueTypeCount,
                 IssueCount = item.IssueCount,

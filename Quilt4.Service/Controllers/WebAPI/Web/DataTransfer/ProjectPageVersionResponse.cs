@@ -8,7 +8,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Web.DataTransfer
         public string VersionKey { get; set; }
         public string ProjectKey { get; set; }
         public string ApplicationKey { get; set; }
-        public string Version { get; set; }
+        public string VersionNumber { get; set; }
         public int SessionCount { get; set; }
         public int IssueTypeCount { get; set; }
         public int IssueCount { get; set; }

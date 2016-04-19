@@ -35,7 +35,8 @@ namespace Quilt4.Service.Controllers.WebAPI.Web
         [Route("api/project/{projectId}/application/{applicationId}/version")]
         public IEnumerable<ProjectPageVersionResponse> GetVersions(string projectId, string applicationId)
         {
-            return _projectBusiness.GetVersions(null, Guid.Parse(applicationId)).ToProjectPageVersionResponses();
+            var response  = _projectBusiness.GetVersions(User.Identity.Name, Guid.Parse(applicationId)).ToProjectPageVersionResponses().ToArray();
+            return response;
         }
 
         [HttpPost]

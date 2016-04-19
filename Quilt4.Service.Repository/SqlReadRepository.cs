@@ -51,7 +51,7 @@ namespace Quilt4.Service.SqlRepository
                     .Select(x => new ProjectPageVersion
                     {
                         VersionKey = x.VersionKey,
-                        Version = x.VersionNumber,
+                        VersionNumber = x.VersionNumber,
                         ApplicationKey = x.Application.ApplicationKey,
                         Enviroments = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).Select(y => y.Enviroment).ToArray(),
                         IssueCount = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).SelectMany(y => y.Issues).Count(),

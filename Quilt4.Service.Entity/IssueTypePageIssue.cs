@@ -5,10 +5,11 @@ namespace Quilt4.Service.Entity
 {
     public class IssueTypePageIssue
     {
-        public Guid Id { get; set; }
-        public DateTime Time { get; set; }
-        public string User { get; set; }
+        public Guid IssueKey { get; set; }
+        public DateTime CreationServerTime { get; set; }
+        public string UserName { get; set; }
         public string Enviroment { get; set; }
         public IDictionary<string, string> Data { get; set; }
+        public IDictionary<string, string> IssueThreadKeys { get; set; }
     }
 }

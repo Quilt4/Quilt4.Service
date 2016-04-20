@@ -14,24 +14,24 @@ namespace Quilt4.Service.Converters
 
             return new IssueTypePageIssueTypeResponse
             {
-                Id = item.Id.ToString(),
-                ProjectId = item.ProjectId.ToString(),
-                ApplicationId = item.ApplicationId.ToString(),
-                VersionId = item.VersionId.ToString(),
+                IssueTypeKey = item.IssueTypeKey.ToString(),
+                ProjectKey = item.ProjectId.ToString(),
+                ApplicationKey = item.ApplicationId.ToString(),
+                VersionKey = item.VersionId.ToString(),
                 ProjectName = item.ProjectName,
                 ApplicationName = item.ApplicationName,
-                Version = item.Version,
+                VersionNumber = item.Version,
                 Ticket = item.Ticket,
                 Type = item.Type,
                 Level = item.Level,
                 Message = item.Message,
                 StackTrace = item.StackTrace,
-                Issues = item.Issues.ToIssueTypePageIssueResponses().ToArray()
+                Issues = item.Issues.ToIssueTypePageIssueResponses().ToArray(),
+                InnerIssueType = new List<InnerIssueTypeResponse> { new InnerIssueTypeResponse { Message = "A" }, new InnerIssueTypeResponse { Message = "B" } }                
             };
         }
 
-        public static IEnumerable<IssueTypePageIssueResponse> ToIssueTypePageIssueResponses(
-            this IEnumerable<IssueTypePageIssue> items)
+        public static IEnumerable<IssueTypePageIssueResponse> ToIssueTypePageIssueResponses(this IEnumerable<IssueTypePageIssue> items)
         {
             return items?.Select(x => x.ToIssueTypePageIssueResponse());
         }
@@ -43,11 +43,12 @@ namespace Quilt4.Service.Converters
 
             return new IssueTypePageIssueResponse
             {
-                Id = item.Id.ToString(),
-                Time = item.Time,
-                User = item.User,
+                IssueKey = item.IssueKey.ToString(),
+                CreationServerTime = item.CreationServerTime,
+                UserName = item.UserName,
                 Enviroment = item.Enviroment,
-                Data = item.Data
+                Data = item.Data,
+                IssueThreadKeys = item.IssueThreadKeys
             };
         }
     }

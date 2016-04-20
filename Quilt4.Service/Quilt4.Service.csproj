@@ -265,6 +265,7 @@
     <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Controllers\WebAPI\ServiceController.cs" />
     <Compile Include="Controllers\WebAPI\SettingController.cs" />
+    <Compile Include="Controllers\WebAPI\Web\DataTransfer\InnerIssueTypeResponse.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\IssueTypePageIssueResponse.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\VersionPageSessionResponse.cs" />
     <Compile Include="Converters\IssueResponseConverter.cs" />
@@ -294,7 +295,6 @@
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\ProjectPageApplicationResponse.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\ProjectPageProjectResponse.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\ProjectPageVersionResponse.cs" />
-    <Compile Include="Controllers\WebAPI\Web\DataTransfer\RegisterIssueRequest.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\RegisterIssueResponse.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\VersionPageIssueTypeResponse.cs" />
     <Compile Include="Controllers\WebAPI\Web\DataTransfer\VersionPageVersionResponse.cs" />

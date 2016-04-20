@@ -63,8 +63,8 @@ namespace Quilt4.Service.Converters
                 SessionKey = item.SessionKey,
                 UserName = item.UserName,
                 ServerStartTime = item.StartServerTime,
-                LastUsedServerTime = item.LastUsedServerTime,
-                EndServerTime = item.EndServerTime,
+                Duration = item.LastUsedServerTime - item.StartServerTime,
+                MarkedAsEnded = item.EndServerTime != null,
                 CallerIp = item.CallerIp,
                 Environment = item.Environment,
                 MachineName = item.MachineName

@@ -5,7 +5,7 @@ namespace Quilt4.Service.Entity
 {
     public class IssueTypePageIssueType
     {
-        public Guid Id { get; set; }
+        public Guid IssueTypeKey { get; set; }
         public Guid ProjectId { get; set; }
         public Guid ApplicationId { get; set; }
         public Guid VersionId { get; set; }

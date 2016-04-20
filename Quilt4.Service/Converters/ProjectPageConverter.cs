@@ -14,7 +14,7 @@ namespace Quilt4.Service.Converters
 
             return new ProjectPageProjectResponse
             {
-                Id = item.ProjectKey.ToString(),
+                ProjectKey = item.ProjectKey.ToString(),
                 Name = item.Name,
                 DashboardColor = item.DashboardColor,
                 ClientToken = item.ProjectApiKey,
@@ -34,9 +34,9 @@ namespace Quilt4.Service.Converters
 
             return new ProjectPageApplicationResponse
             {
-                Id = item.Id.ToString(),
+                ApplicationKey = item.ApplicationKey.ToString(),
                 Name = item.Name,
-                Versions = item.Versions
+                VersionCount = item.VersionCount
             };
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Quilt4.Service.Entity;
 
@@ -10,7 +11,7 @@ namespace Quilt4.Service.SqlRepository.Converters
         {
             return new IssueTypePageIssueType
             {
-                Id = x.IssueTypeKey,
+                IssueTypeKey = x.IssueTypeKey,
                 Message = d.Message,
                 Ticket = x.Ticket,
                 Type = d.Type,
@@ -30,11 +31,12 @@ namespace Quilt4.Service.SqlRepository.Converters
         {
             var response = new IssueTypePageIssue
             {
-                Id = y.IssueKey,
-                User = y.Session.ApplicationUser != null ? y.Session.ApplicationUser.UserName : "",
+                IssueKey = y.IssueKey,
+                UserName = y.Session.ApplicationUser != null ? y.Session.ApplicationUser.UserName : "",
                 Data = y.IssueDatas != null ? y.IssueDatas.ToDictionary(yy => yy.Name, yy => yy.Value) : new Dictionary<string, string>(),
                 Enviroment = y.Session.Enviroment,
-                Time = y.CreationServerTime,
+                CreationServerTime = y.CreationServerTime,
+                IssueThreadKeys = y.IssueThreadKey != null ? new Dictionary<string, string> { { "Other IssueKey", "Other issue description" } } : new Dictionary<string, string>()
             };
             return response;
         }
@@ -48,9 +50,9 @@ namespace Quilt4.Service.SqlRepository.Converters
         {
             return new ProjectPageApplication
             {
-                Id = x.ApplicationKey,
+                ApplicationKey = x.ApplicationKey,
                 Name = x.Name,
-                Versions = x.Versions.Count,
+                VersionCount = x.Versions.Count,
             };
         }
 

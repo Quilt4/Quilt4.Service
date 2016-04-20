@@ -20,12 +20,12 @@ namespace Quilt4.Service.Converters
 
             return new DashboardPageProjectResponse
             {
-                Id = item.ProjectKey.ToString(),
+                ProjectKey = item.ProjectKey.ToString(),
                 Name = item.Name,
-                Versions = item.Versions,
-                Sessions = item.Sessions,
-                IssueTypes = item.IssueTypes,
-                Issues = item.Issues,
+                VersionCount = item.Versions,
+                SessionCount = item.Sessions,
+                IssueTypeCount = item.IssueTypes,
+                IssueCount = item.Issues,
                 DashboardColor = item.DashboardColor
             };
         }

@@ -6,8 +6,8 @@ namespace Quilt4.Service.Controllers.WebAPI.Web.DataTransfer
     {
         public string SessionKey { get; set; }
         public DateTime ServerStartTime { get; set; }
-        public DateTime LastUsedServerTime { get; set; }
-        public DateTime? EndServerTime { get; set; }
+        public TimeSpan Duration { get; set; }
+        public bool MarkedAsEnded { get; set; }
         public string MachineName { get; set; }
         public string UserName { get; set; }
         public string Environment { get; set; }

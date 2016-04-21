@@ -53,7 +53,7 @@ namespace Quilt4.Service.SqlRepository
                         VersionKey = x.VersionKey,
                         VersionNumber = x.VersionNumber,
                         ApplicationKey = x.Application.ApplicationKey,
-                        Enviroments = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).Select(y => y.Enviroment).ToArray(),
+                        Enviroments = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).Select(y => y.Enviroment).Distinct().ToArray(),
                         IssueCount = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).SelectMany(y => y.Issues).Count(),
                         IssueTypeCount = x.IssueTypes.Count,
                         SessionCount = x.Application.Versions.SelectMany(y => y.Sessions.Where(z => z.Version.VersionKey == x.VersionKey)).Count(),
@@ -87,7 +87,7 @@ namespace Quilt4.Service.SqlRepository
                             Ticket = y.Ticket,
                             LastIssue = y.Issues.Max(z => x.CreationServerTime),
                             Type = y.IssueTypeDetail.Type,
-                            Enviroments = context.Sessions.Where(z => z.Issues.Any(z1 => z1.IssueType.IssueTypeKey == y.IssueTypeKey)).Select(y2 => y2.Enviroment)
+                            Enviroments = context.Sessions.Where(z => z.Issues.Any(z1 => z1.IssueType.IssueTypeKey == y.IssueTypeKey)).Select(y2 => y2.Enviroment).Distinct()
                         }).ToArray(),
                         Sessions = x.Sessions.Select(z => new SessionDetail
                         {

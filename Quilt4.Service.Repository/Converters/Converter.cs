@@ -23,7 +23,7 @@ namespace Quilt4.Service.SqlRepository.Converters
                 VersionId = x.Version.VersionKey,
                 ApplicationId = x.Version.Application.ApplicationKey,
                 ProjectId = x.Version.Application.Project.ProjectKey,
-                Issues = x.Issues.Select(y => y.ToIssueTypePageIssue()).ToArray(),                
+                Issues = x.Issues.Count() != 0 ? x.Issues.Select(y => y.ToIssueTypePageIssue()).ToArray() : null,                
             };
         }
 

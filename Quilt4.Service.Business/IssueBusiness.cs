@@ -79,7 +79,7 @@ namespace Quilt4.Service.Business
 
             _writeBusiness.RunRecalculate();
 
-            return new RegisterIssueResponseEntity(issueKey, ticket, serverTime, session.ProjectKey);
+            return new RegisterIssueResponseEntity(issueKey, ticket, serverTime, session.ProjectKey, issueTypeKey.Value);
         }
 
         private Dictionary<string, string> GetData(RegisterIssueRequestEntity request)

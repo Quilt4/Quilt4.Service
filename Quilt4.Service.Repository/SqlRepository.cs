@@ -216,7 +216,7 @@ namespace Quilt4.Service.SqlRepository
             {
                 return context.Issues
                     .Where(x => x.IssueType.Version.VersionKey == versionKey)
-                    .Select(x => new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey)).ToArray();
+                    .Select(x => new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey, x.IssueType.IssueTypeKey)).ToArray();
             }
         }
         

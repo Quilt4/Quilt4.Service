@@ -12,8 +12,8 @@ namespace Quilt4.Service.Converters
                 Ticket = response.Ticket.ToString(),
                 IssueKey = response.IssueKey,
                 ServerTime = response.ServerTime,
-                IssueTypeUrl = webUrl + "IssueType/" + response.Ticket,
-                IssueUrl = webUrl + "Issue/" + response.IssueKey,
+                IssueTypeUrl = webUrl + "#/issueType/" + response.IssueTypeKey,
+                IssueUrl = webUrl + "#/issue/" + response.IssueKey,
             };
         }
     }

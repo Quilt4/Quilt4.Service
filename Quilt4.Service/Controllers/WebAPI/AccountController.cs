@@ -396,7 +396,7 @@ namespace Quilt4.Service.Controllers.WebAPI
             //    return BadRequest(ModelState);
             //}
 
-            //var user = new ApplicationUser { UserName = model.UserName, Username = model.Username };
+            //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
             //var callerIp = HttpContext.Current.Request.UserHostAddress;
             //var result = await UserManager.CreateAsync(user, model.Password, callerIp);

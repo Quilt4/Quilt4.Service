@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service", "Quilt4.Service\Quilt4.Service.csproj", "{60A5B916-A503-417F-942E-3D16035B8706}"
 EndProject
@@ -15,7 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.SqlRepositor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3ED38EA3-A89C-4858-ABE0-977B4A1B30E7}"
 	ProjectSection(SolutionItems) = preProject
-		Build\AssemblyVersionInfo.cs = Build\AssemblyVersionInfo.cs
 		Build\build.tasks = Build\build.tasks
 		Build\CI.msbuild = Build\CI.msbuild
 		Build\Release.msbuild = Build\Release.msbuild

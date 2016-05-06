@@ -40,9 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Build\AssemblyVersionInfo.cs">
-      <Link>Properties\AssemblyVersionInfo.cs</Link>
-    </Compile>
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationDataRequestEntity.cs" />
     <Compile Include="DashboardPageProject.cs" />

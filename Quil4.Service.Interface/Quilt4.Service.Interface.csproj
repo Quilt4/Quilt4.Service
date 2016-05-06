@@ -40,9 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Build\AssemblyVersionInfo.cs">
-      <Link>Properties\AssemblyVersionInfo.cs</Link>
-    </Compile>
     <Compile Include="Business\IApplicationBusiness.cs" />
     <Compile Include="Business\IDashboardBusiness.cs" />
     <Compile Include="Business\IEmailSender.cs" />

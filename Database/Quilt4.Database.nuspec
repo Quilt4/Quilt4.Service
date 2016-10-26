@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Quilt4.Database</id>
+    <version>1.0.0</version>
+    <title>Quilt4 Database</title>
+	<authors>poxet</authors>
+	<description>Database</description>
+  </metadata>
+  <files>
+    <file src="PatchDatabase.ps1" target="lib" />
+	<file src="PatchLocal.bat" target="lib" />
+	<file src="Scripts\**\*.*" target="lib\Scripts" /> 
+  </files>
+</package>

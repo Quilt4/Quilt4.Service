@@ -1,7 +1,16 @@
 Param(
-    [parameter(Mandatory=$true)]
+    [parameter(Mandatory=$false)]
     [alias("f")]
-    $fileName
+    $fileName,
+    [parameter(Mandatory=$false)]
+    [alias("c")]
+    $connectionString,	
+    [parameter(Mandatory=$false)]
+    [alias("s")]
+    $sourceFolder,
+    [parameter(Mandatory=$false)]
+    [alias("m")]
+    $merchants
 	)
 	
 $pathTime = get-date
@@ -11,10 +20,67 @@ $lf = @"
 
 "@
 
+function StartTran
+{
+	$SqlTran = New-Object System.Data.SqlClient.SqlCommand
+	$SqlTran.CommandText = 'BEGIN TRAN Patch'
+	$SqlTran.Connection = $SqlConnection
+	$requltTran = $SqlTran.ExecuteNonQuery()	
+}
+
+function CommitTran
+{
+	$SqlTran = New-Object System.Data.SqlClient.SqlCommand
+	$SqlTran.CommandText = 'COMMIT TRAN Patch'
+	$SqlTran.Connection = $SqlConnection
+	$requltTran = $SqlTran.ExecuteNonQuery()	
+}
+
+function RollbackTran
+{
+	$SqlTran = New-Object System.Data.SqlClient.SqlCommand
+	$SqlTran.CommandText = 'COMMIT TRAN Patch'
+	$SqlTran.Connection = $SqlConnection
+	$requltTran = $SqlTran.ExecuteNonQuery()	
+}
+
+if ($sourceFolder) {} else
+{
+	$sourceFolder = "Scripts"
+}
+
+if ($fileName)
+{
+	#A file with connection strings
+	Write-Host ("FileName: " + $fileName) -f yellow
+	$connectionStrings = Get-Content $fileName
+}
+else
+{
+	if ($merchants)
+	{
+		#A connection string as parameter and a list of merchants
+		$connectionStrings = New-Object System.Collections.ArrayList($null)
+	
+		$ms = $merchants.Split(";")
+		foreach($merchant in $ms)
+		{
+			Write-Host ("Merchant: " + $merchant) -f yellow
+			$tmp = $connectionStrings.Add($connectionString.Replace('{0}',$merchant))
+		}
+	}
+	else
+	{
+		#A connection string as parameter
+		Write-Host ("Single CS: " + $connectionString) -f yellow
+		$connectionStrings = $connectionString
+	}
+}
+
 #For each connection strings provided
-$connectionStrings = Get-Content $fileName
 foreach($connectionString in $connectionStrings)
 {
+	Write-Host ("ConnectionString: " + $connectionString) -f yellow
 	Try
 	{
 		$SqlConnection = New-Object System.Data.SqlClient.SqlConnection
@@ -72,13 +138,14 @@ foreach($connectionString in $connectionStrings)
 	
 	#Create the DBVersion patch table if needed
 	$patchTime = Get-Date -format "yyyy-MM-dd HH:mm:ss"
+
 	$SqlCmd1 = New-Object System.Data.SqlClient.SqlCommand
 	$SqlCmd1.CommandText = "IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DBVersion')) BEGIN CREATE TABLE DBVersion ( PatchName varchar(250) PRIMARY KEY NOT NULL, PatchTime DateTime NOT NULL, VersionNumber INT NOT NULL, Checksum varchar(50) NULL ) INSERT INTO DBVersion ( PatchName, PatchTime, VersionNumber ) VALUES ('Initial','" + $patchTime + "', 0) END"
 	$SqlCmd1.Connection = $SqlConnection
 	$reqult1 = $SqlCmd1.ExecuteNonQuery()	
-		
+
 	#Get a list of all patches that is to be ran (file system)
-	$Dir = get-childitem "Scripts" -recurse
+	$Dir = get-childitem $sourceFolder -recurse
 	$List = $Dir | where {$_.extension -eq ".sql"}
 		
 	$sort = @()
@@ -95,6 +162,8 @@ foreach($connectionString in $connectionStrings)
 
 	foreach ($item in $sort | Sort-Object Number | Select-Object Name, fullname) 
 	{
+		StartTran
+
 		#Check if this perticular item
 		$SqlCmd2 = New-Object System.Data.SqlClient.SqlCommand
 		$SqlCmd2.CommandText = "SELECT * FROM DBVersion WHERE PatchName='" + $item.Name + "'"
@@ -103,10 +172,12 @@ foreach($connectionString in $connectionStrings)
 		if($result2.Read())
 		{
 			$version = $result2[2]
+			$checkSum = $result2[3]
 		}
 		else
 		{
 			$version = -1
+			$checkSum = '?'
 		}
 		$result2.Close()
 		
@@ -150,12 +221,14 @@ foreach($connectionString in $connectionStrings)
 					$failCounter = $failCounter + 1
 					write-host ("  - Failed '" + $item.Name + "'") -foreground "red"
 					write-host ($error[0]) -ForegroundColor "red"
+					RollbackTran
 					exit 1
 					return
 				}
 				
 				if ($failCounter -gt 0)
 				{
+					RollbackTran
 					exit $failCounter
 					return
 				}
@@ -172,18 +245,62 @@ foreach($connectionString in $connectionStrings)
 			}
 			$result5.Close()
 		
+			#GET THE CHECKSUM
+			$SqlCmdCS = New-Object System.Data.SqlClient.SqlCommand
+			$SqlCmdCS.Connection = $SqlConnection
+			$SqlCmdCS.CommandText = "SELECT CHECKSUM_AGG(cz) FROM (
+--SPs and views
+SELECT checksum(DEFINITION) cz FROM sys.sql_modules
+UNION ALL
+--Tables
+SELECT CHECKSUM(
+t.TABLE_SCHEMA
+, t.TABLE_NAME
+, t.TABLE_TYPE
+, c.COLUMN_NAME
+, c.ORDINAL_POSITION
+, c.COLUMN_DEFAULT
+, c.IS_NULLABLE
+, c.DATA_TYPE
+, c.CHARACTER_MAXIMUM_LENGTH
+, c.CHARACTER_OCTET_LENGTH
+, c.NUMERIC_PRECISION
+, c.NUMERIC_PRECISION_RADIX
+, c.NUMERIC_SCALE
+, c.DATETIME_PRECISION
+, c.CHARACTER_SET_CATALOG
+, c.CHARACTER_SET_SCHEMA
+, c.CHARACTER_SET_NAME
+, c.COLLATION_CATALOG
+, c.COLLATION_SCHEMA
+, c.COLLATION_NAME
+, c.DOMAIN_SCHEMA
+, c.DOMAIN_NAME) cz
+FROM INFORMATION_SCHEMA.TABLES AS t LEFT OUTER JOIN
+INFORMATION_SCHEMA.COLUMNS AS c ON t.TABLE_NAME = c.TABLE_NAME
+
+) AS A"
+			$resultCS = $SqlCmdCS.ExecuteReader()
+			if($resultCS.Read())
+			{
+				$checkSum = $resultCS[0]
+			}
+			$resultCS.Close()
+		
 			#INSERT PATCH INFORMATION TO DATABASE
 			$SqlCmd3 = New-Object System.Data.SqlClient.SqlCommand
-			$SqlCmd3.CommandText = "INSERT INTO DBVersion ( PatchName, PatchTime, VersionNumber ) VALUES ('" + $item.Name + "','" + $patchTime + "', " + $version + ")"
+			$SqlCmd3.CommandText = "INSERT INTO DBVersion ( PatchName, PatchTime, VersionNumber, Checksum ) VALUES ('" + $item.Name + "','" + $patchTime + "', " + $version + ", '" + $checkSum + "')"
 			$SqlCmd3.Connection = $SqlConnection
 			$result3 = $SqlCmd3.ExecuteNonQuery()
 			write-host ("Applied '" + $item.Name + "'") -foreground "green"
 			
 			$failCounter = $failCounter + 0
 		}
+		
+		CommitTran
 	}
 
-	write-host ("Database '" + $SqlConnection.Database + "' is patched to version " + $version + ".")
+	write-host ("Database '" + $SqlConnection.Database + "' is patched to version " + $version + " (CheckSum: " + $checkSum + ").")
 
 	$SqlConnection.Close()
 }

@@ -43,14 +43,17 @@ Try
 
 			$version = "{0}.{1}.{2}.0" -f $fileVersion.Major, $fileVersion.Minor, $build			
 			$buildNumber = "{0}.{1}.{2}{3}" -f $fileVersion.Major, $fileVersion.Minor, $build, $prerelease
+			$majorminor = "{0}.{1}" -f $fileVersion.Major, $fileVersion.Minor
 
 			write-host "##teamcity[setParameter name='version' value='$version']"
 			write-host "##teamcity[buildNumber '$buildNumber']"
 			write-host "##teamcity[setParameter name='prerelease' value='$pre']"
+			write-host "##teamcity[setParameter name='majorminor' value='$majorminor']"
 
 			write-host ("TeamCity variable 'version' set to '" + $version + "'.") -f green
 			write-host ("TeamCity variable 'buildNumber' set to '" + $buildNumber + "'.") -f green			
 			write-host ("TeamCity variable 'prerelease' set to '" + $pre + "'.") -f green
+			write-host ("TeamCity variable 'majorminor' set to '" + $majorminor + "'.") -f green
 		}
 	}
 

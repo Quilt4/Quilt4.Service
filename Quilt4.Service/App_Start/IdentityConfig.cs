@@ -1,17 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using Quilt4.Service.Authentication;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 
 namespace Quilt4.Service
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        private ApplicationUserManager(IRepository repository) 
+        private readonly IRepository _repository;
+
+        private ApplicationUserManager(IRepository repository)
             : base(new CustomUserStore<ApplicationUser>(repository))
         {
-            PasswordHasher = new OldSystemPasswordHasher();
+            _repository = repository;
+            PasswordHasher = new OldSystemPasswordHasher();            
         }
 
         public override IQueryable<ApplicationUser> Users => ((CustomUserStore<ApplicationUser>)Store).GetAll().AsQueryable();
@@ -26,16 +32,49 @@ namespace Quilt4.Service
             return base.UpdatePassword(passwordStore, user, newPassword);
         }
 
-        public Task<IdentityResult> CreateAsync(ApplicationUser user, string password, string callerIp)
+        public override async Task<IdentityResult> CreateAsync(ApplicationUser user)
         {
-            //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)
+            var response = await base.CreateAsync(user);
+            if (response.Succeeded)
+                AssureAdministrator(user);
+            return response;
+        }
 
-            return base.CreateAsync(user, password);
+        public override async Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+        {
+            var response = await base.CreateAsync(user, password);
+            return response;
+        }
+
+        //public async Task<IdentityResult> CreateAsync(ApplicationUser user, string password, string callerIp)
+        //{
+        //
+        //    //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)
+
+        //    var response = await base.CreateAsync(user, password);
+        //    if (response.Succeeded)
+        //        AssureAdministrator(user);
+        //    return response;
+        //}
+
+        private void AssureAdministrator(ApplicationUser user)
+        {
+            var cntStr = System.Configuration.ConfigurationManager.AppSettings["MakeFirstUsersAdmin"];
+            int cnt;
+            if (!int.TryParse(cntStr, out cnt))
+                cnt = 2;
+
+            if (_repository.GetUsers().Count() <= cnt)
+            {
+                if ( _repository.GetRole(Constants.Administrators) == null )
+                    _repository.CreateRole(new Role(Constants.Administrators));
+                _repository.AddUserToRole(user.UserName, Constants.Administrators);
+            }
         }
 
         public static ApplicationUserManager Create(IRepository repository)
         {
             return new ApplicationUserManager(repository);
-        }        
+        }
     }
 }

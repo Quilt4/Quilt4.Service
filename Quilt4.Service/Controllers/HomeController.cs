@@ -19,7 +19,7 @@ namespace Quilt4.Service.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.WebUrl = _settingBusiness.GetSetting("WebUrl", "https://quilt4.com/");
+            ViewBag.WebUrl = _settingBusiness.GetSetting("WebUrl", Request.Url.AbsoluteUri);
             return View();
         }
 

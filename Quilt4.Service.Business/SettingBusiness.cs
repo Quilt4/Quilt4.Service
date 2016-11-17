@@ -68,7 +68,7 @@ namespace Quilt4.Service.Business
 
         public string WebUrl
         {
-            get { return GetSetting("WebUrl", "https://quilt4.com/"); }
+            get { return GetSetting<string>("WebUrl"); }
             set { SetSetting("WebUrl", value); }
         }
     }

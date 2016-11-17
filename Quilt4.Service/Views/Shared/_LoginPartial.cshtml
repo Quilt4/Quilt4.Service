@@ -9,7 +9,7 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole("Administrators"))
+            @if (User.IsInRole(Quilt4.Service.Constants.Administrators))
             {
                 <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin <b class="caret"></b></a>

@@ -11,7 +11,7 @@ using Quilt4.Service.SqlRepository.Converters;
 using Quilt4Net;
 
 namespace Quilt4.Service.SqlRepository
-{    
+{
     public class SqlRepository : IRepository
     {
         public void CreateUser(Entity.User user, DateTime serverTime)
@@ -144,7 +144,7 @@ namespace Quilt4.Service.SqlRepository
                     ServerCreateTime = serverTime,
                     UserEmail = email,
                     UserId = user?.UserId,
-                    InviterUserId = context.Users.Single(x => x.UserName == userName).UserId,                    
+                    InviterUserId = context.Users.Single(x => x.UserName == userName).UserId,
                 });
                 context.SubmitChanges();
             }
@@ -219,7 +219,7 @@ namespace Quilt4.Service.SqlRepository
                     .Select(x => new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey, x.IssueType.IssueTypeKey)).ToArray();
             }
         }
-        
+
         public IEnumerable<Entity.IssueType> GetIssueTypes(Guid versionKey)
         {
             using (var context = GetDataContext())

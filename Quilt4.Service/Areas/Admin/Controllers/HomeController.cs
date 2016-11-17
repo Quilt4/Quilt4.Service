@@ -10,7 +10,7 @@ namespace Quilt4.Service.Areas.Admin.Controllers
     {
         private readonly IServiceLog _serviceLog;
         private readonly ISettingBusiness _settingBusiness;
-        
+
         public HomeController(IServiceLog serviceLog, ISettingBusiness settingBusiness)
         {
             _serviceLog = serviceLog;

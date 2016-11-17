@@ -36,7 +36,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
                 SessionKey = response.SessionKey,
                 ServerStartTime = response.ServerStartTime,
                 //TODO: Append a correct path here
-                SessionUrl = _settingBusiness.GetSetting("WebUrl", "https://quilt4.com/") + string.Format("/#/project/{0}/application/{1}/version/{2}", prokectKey, applicationKey, versionKey)
+                SessionUrl = _settingBusiness.GetSetting("WebUrl", Request.RequestUri.AbsoluteUri) + string.Format("/#/project/{0}/application/{1}/version/{2}", prokectKey, applicationKey, versionKey)
             };
         }
 

@@ -20,7 +20,7 @@ namespace Quilt4.Service.Controllers.WebAPI
         public ServiceInfoResponse Get()
         {
             var isAuthenticated = User.Identity.IsAuthenticated;
-            var isAdministrator = User.IsInRole("Administrators");
+            var isAdministrator = User.IsInRole(Constants.Administrators);
 
             var data = _serviceBusiness.GetServiceInfo();
             var response = new ServiceInfoResponse

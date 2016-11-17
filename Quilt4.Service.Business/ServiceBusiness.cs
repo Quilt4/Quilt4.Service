@@ -36,7 +36,7 @@ namespace Quilt4.Service.Business
             var environment = _sessionHandler.Environment;
 
             Exception exception;
-            var canWriteToLog = _serviceLog.CanWriteToLog(out exception);            
+            var canWriteToLog = _serviceLog.CanWriteToLog(out exception);
             var hasOwnProjectApiKey = databaseInfo.CanConnect && _settingBusiness.HasSetting(ConstantSettingKey.ProjectApiKey, true);
 
             return new ServiceInfo(version, environment, _sessionHandler.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);

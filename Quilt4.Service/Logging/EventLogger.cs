@@ -31,11 +31,18 @@ namespace Quilt4.Service.Logging
 
         public IEnumerable<IServiceLogItem> GetAllLogEntries()
         {
-            var eventLogEntries = new List<EventLogEntry>();
-            var myLog = new EventLog(EventLogName);
-            eventLogEntries.AddRange(myLog.Entries.Cast<EventLogEntry>());
+            try
+            {
+                var eventLogEntries = new List<EventLogEntry>();
+                var myLog = new EventLog(EventLogName);
+                eventLogEntries.AddRange(myLog.Entries.Cast<EventLogEntry>());
 
-            return eventLogEntries.Where(x => x.Source == EventSourceName).Select(x => new ServiceLogItem { Message = x.Message, LogTime = x.TimeGenerated, Level = x.EntryType.ToString() });
+                return eventLogEntries.Where(x => x.Source == EventSourceName).Select(x => new ServiceLogItem { Message = x.Message, LogTime = x.TimeGenerated, Level = x.EntryType.ToString() });
+            }
+            catch (InvalidOperationException exception)
+            {
+                return new List<IServiceLogItem> {  new ServiceLogItem { Level = "Error", LogTime = DateTime.UtcNow, Message = "Unable to get list of Service Log. (" + exception.Message + ")"} };
+            }
         }
 
         public void LogInformation(string message)

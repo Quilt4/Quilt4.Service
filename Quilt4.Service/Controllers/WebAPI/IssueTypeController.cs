@@ -6,20 +6,20 @@ using Quilt4.Service.Converters;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.WebAPI.Client
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize]
-    public class ClientIssueTypeController : ApiController
+    public class IssueTypeController : ApiController
     {
         private readonly IIssueBusiness _issueBusiness;
 
-        public ClientIssueTypeController(IIssueBusiness issueBusiness)
+        public IssueTypeController(IIssueBusiness issueBusiness)
         {
             _issueBusiness = issueBusiness;
         }
 
         [HttpGet]
-        [Route("api/Client/IssueType/{versionKey}")]
+        [Route("api/IssueType/{versionKey}")]
         public IEnumerable<IssueTypeResponse> Get([FromUri]Guid versionKey)
         {
             var response = _issueBusiness.GetIssueTypeList(User.Identity.Name, versionKey).Select(x => x.ToIssueTypeResponse());

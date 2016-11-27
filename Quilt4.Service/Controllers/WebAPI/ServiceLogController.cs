@@ -2,19 +2,19 @@
 using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 
-namespace Quilt4.Service.Controllers.WebAPI.Client
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize(Roles = Constants.Administrators)]
-    public class ClientServiceLogController : ApiController
+    public class ServiceLogController : ApiController
     {
         private readonly IServiceLog _serviceLog;
 
-        public ClientServiceLogController(IServiceLog serviceLog)
+        public ServiceLogController(IServiceLog serviceLog)
         {
             _serviceLog = serviceLog;
         }
 
-        [Route("api/Client/Service/Log")]
+        [Route("api/Service/Log")]
         public IEnumerable<IServiceLogItem> Get()
         {
             return _serviceLog.GetAllLogEntries();

@@ -39,7 +39,7 @@ namespace Quilt4.Service.Controllers.WebAPI
                     {
                         Version = data.DatabaseInfo.Version,
                         CanConnect = data.DatabaseInfo.CanConnect,
-                        Database = data.DatabaseInfo.Database,
+                        Database = data.DatabaseInfo.Database
                     };
                     response.CanWriteToSystemLog = data.CanWriteToSystemLog;
                     response.HasOwnProjectApiKey = data.HasOwnProjectApiKey;
@@ -56,5 +56,5 @@ namespace Quilt4.Service.Controllers.WebAPI
 
             return response;
         }
-    }    
+    }
 }

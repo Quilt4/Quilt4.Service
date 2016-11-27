@@ -8,22 +8,22 @@ using Quilt4.Service.Converters;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.WebAPI.Client
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize]
-    public class ClientIssueController : ApiController
+    public class IssueController : ApiController
     {
         private readonly IIssueBusiness _issueBusiness;
         private readonly ISettingBusiness _settingBusiness;
 
-        public ClientIssueController(IIssueBusiness issueBusiness, ISettingBusiness settingBusiness)
+        public IssueController(IIssueBusiness issueBusiness, ISettingBusiness settingBusiness)
         {
             _issueBusiness = issueBusiness;
             _settingBusiness = settingBusiness;
         }
 
         [HttpGet]
-        [Route("api/Client/Issue/{versionKey}")]
+        [Route("api/Issue/{versionKey}")]
         public IEnumerable<IssueResponse> Get([FromUri] Guid versionKey)
         {
             var result = _issueBusiness.GetIssueList(User.Identity.GetUserName(), versionKey);
@@ -32,7 +32,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
         }
 
         [AllowAnonymous]
-        [Route("api/Client/Issue")]
+        [Route("api/Issue")]
         public IssueResponse Post([FromBody] object value)
         {
             var issueRequest = value.ToIssueRequest();

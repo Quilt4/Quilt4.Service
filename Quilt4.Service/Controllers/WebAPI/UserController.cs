@@ -5,20 +5,20 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.WebAPI.Client
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize]
-    public class ClientUserController : ApiController
+    public class UserController : ApiController
     {
         private readonly IUserBusiness _userBusiness;
 
-        public ClientUserController(IUserBusiness userBusiness)
+        public UserController(IUserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
         }
 
         [Authorize(Roles = Constants.Administrators)]
-        [Route("api/Client/User")]
+        [Route("api/User")]
         public IEnumerable<UserResponse> Get()
         {
             var response = _userBusiness.GetAllUsers().Select(x => new UserResponse { UserName = x.Username, EMail = x.Email });
@@ -26,7 +26,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
         }
         
         [HttpGet]
-        [Route("api/Client/User/{searchString}")]
+        [Route("api/User/{searchString}")]
         public IEnumerable<QueryUserResponse> Get([FromUri]string searchString)
         {
             var callerIp = HttpContext.Current.Request.UserHostAddress;

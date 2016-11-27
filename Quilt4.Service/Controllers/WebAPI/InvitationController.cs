@@ -4,20 +4,20 @@ using System.Web.Http;
 using Quilt4.Service.Interface.Business;
 using Quilt4Net.Core.DataTransfer;
 
-namespace Quilt4.Service.Controllers.WebAPI.Client
+namespace Quilt4.Service.Controllers.WebAPI
 {
     [Authorize]
-    public class ClientInvitationController : ApiController
+    public class InvitationController : ApiController
     {
         private readonly IInvitationBusiness _invitationBusiness;
 
-        public ClientInvitationController(IInvitationBusiness invitationBusiness)
+        public InvitationController(IInvitationBusiness invitationBusiness)
         {
             _invitationBusiness = invitationBusiness;
         }
 
         [HttpGet]
-        [Route("api/Client/Invitation")]
+        [Route("api/Invitation")]
         public IEnumerable<InvitationResponse> Gety()
         {
             var response = _invitationBusiness.GetUserInvitations(User.Identity.Name).Select(x => new InvitationResponse
@@ -33,16 +33,16 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
             return response;
         }
 
-        [Route("api/Client/Invitation/InviteCommand")]
+        [Route("api/Invitation/InviteCommand")]
         public void InviteCommand(InviteRequest inviteRequest)
         {
             _invitationBusiness.Invite(User.Identity.Name, inviteRequest.ProjectKey, inviteRequest.User);
         }
 
-        [Route("api/Client/Invitation/AcceptCommand")]
+        [Route("api/Invitation/AcceptCommand")]
         public void AcceptCommand(InviteAcceptRequest inviteRequest)
         {
             _invitationBusiness.Accept(User.Identity.Name, inviteRequest.InviteCode);
         }
-    }    
+    }
 }

@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Castle.Windsor.Diagnostics;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Quilt4.Service.Authentication;
@@ -19,6 +21,46 @@ using UserInfoViewModel = Quilt4.Service.Models.UserInfoViewModel;
 
 namespace Quilt4.Service.Controllers.WebAPI
 {
+    //public static class ApiCallHelper
+    //{
+    //    public static void Execute(object input, Action action)
+    //    {
+    //        var response = ExecuteAsync<bool>(input, () =>
+    //        {
+    //            Task.Run(action);
+    //            return Task.FromResult(true);
+    //        });
+    //    }
+
+    //    public static T Execute<T>(object input, Func<T> action)
+    //    {
+    //        var response = ExecuteAsync(input, () => Task.Run(action));
+    //        return response.Result;
+    //    }
+
+    //    public static async Task<T> ExecuteAsync<T>(object input, Func<Task<T>> action)
+    //    {
+    //        try
+    //        {
+    //            var model = ""; //TODO: Serialize input to json
+    //            var time = DateTime.UtcNow;
+    //            var callerIp = HttpContext.Current.Request.UserHostAddress;
+    //            var user = ""; //TODO: Check if there is an active logged on user connected
+
+    //            var result = await action();
+
+    //            //TODO: Attach the result to the action
+
+    //            return result;
+    //        }
+    //        catch (Exception exception)
+    //        {
+    //            //TODO: Attach exception information to the message
+    //            throw;
+    //        }
+    //    }
+    //}
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -26,7 +68,7 @@ namespace Quilt4.Service.Controllers.WebAPI
         private readonly IUserBusiness _userBusiness;
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
-        private ApplicationRoleManager _roleManager;
+        //private ApplicationRoleManager _roleManager;
 
         //[Obsolete("Acces via the business layer.")]
         //private readonly IRepository _repository;
@@ -46,17 +88,17 @@ namespace Quilt4.Service.Controllers.WebAPI
         //    _userBusiness = userBusiness;
         //}
 
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         //public ApplicationRoleManager RoleManager
         //{
@@ -78,7 +120,7 @@ namespace Quilt4.Service.Controllers.WebAPI
         public UserInfoViewModel GetUserInfo()
         {
             var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-            
+
             var userInfo = _userBusiness.GetUser(User.Identity.Name);
 
             var response = new UserInfoViewModel
@@ -88,7 +130,7 @@ namespace Quilt4.Service.Controllers.WebAPI
                 FullName = userInfo.FullName,
                 AvatarUrl = userInfo.AvatarUrl,
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,                
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
             };
             return response;
         }
@@ -154,7 +196,7 @@ namespace Quilt4.Service.Controllers.WebAPI
 
             //IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
             //    model.NewPassword);
-            
+
             //if (!result.Succeeded)
             //{
             //    return GetErrorResult(result);
@@ -356,7 +398,7 @@ namespace Quilt4.Service.Controllers.WebAPI
         [AllowAnonymous]
         [Route("Login")]
         //public async Task<HttpResponseMessage> LoginUser([FromUri]LoginUserBindingModel model)
-        public async Task<HttpResponseMessage> LoginUser([FromBody]LoginUserBindingModel model)
+        public async Task<HttpResponseMessage> LoginUser([FromBody] LoginUserBindingModel model)
         {
             // Invoke the "token" OWIN service to perform the login: /api/token
             // Ugly hack: I use a server-side HTTP POST because I cannot directly invoke the service (it is deeply hidden in the OAuthAuthorizationServerHandler class)
@@ -388,80 +430,77 @@ namespace Quilt4.Service.Controllers.WebAPI
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(RegisterViewModel model)
         {
-            throw new NotImplementedException();
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            var user = new ApplicationUser { UserName = model.Username, Email = model.EMail };
 
-            //var callerIp = HttpContext.Current.Request.UserHostAddress;
-            //var result = await UserManager.CreateAsync(user, model.Password, callerIp);
-            //if (result.Succeeded)
-            //{
-            //    result = await AutoAdminAssignment(user) ?? result;
+            var callerIp = HttpContext.Current.Request.UserHostAddress;
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                //result = await AutoAdminAssignment(user) ?? result;
+                UserManager.AddExtraInfo(user, model, callerIp);
+            }
 
-            //    await AddExtraInfo(user, model);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
 
-            //}
-
-            //if (!result.Succeeded)
-            //{
-            //    return GetErrorResult(result);
-            //}
-
-            //return Ok();
+            return Ok();
         }
 
-        private async Task AddExtraInfo(ApplicationUser user, RegisterBindingModel model)
-        {
-            throw new NotImplementedException();
-            ////TODO: Get from settings in db;
-            ////var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
-            //var defaultAvatarUrl = (string)null;
+        //private async Task AddExtraInfo(ApplicationUser user, RegisterBindingModel model)
+        //{
+        //    throw new NotImplementedException();
+        //    ////TODO: Get from settings in db;
+        //    ////var defaultAvatarUrl = "http://ci.quilt4.com/master/web/images/avatar5.png";
+        //    //var defaultAvatarUrl = (string)null;
 
-            //try
-            //{
-            //    //TODO: Access through business layer
-            //    _repository.AddUserExtraInfo(user.UserName, model.FirstName, model.LastName, defaultAvatarUrl);
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
-        }
+        //    //try
+        //    //{
+        //    //    //TODO: Access through business layer
+        //    //    _repository.AddUserExtraInfo(user.UserName, model.FirstName, model.LastName, defaultAvatarUrl);
+        //    //}
+        //    //catch (Exception)
+        //    //{
+        //    //    throw;
+        //    //}
+        //}
 
-        private async Task<IdentityResult> AutoAdminAssignment(ApplicationUser user)
-        {
-            throw new NotImplementedException();
-            //var autoAdminCountString = System.Configuration.ConfigurationManager.AppSettings["AutoAdminCount"];
-            //int autoAdminCount;
-            //if (!int.TryParse(autoAdminCountString, out autoAdminCount))
-            //{
-            //    autoAdminCount = 2;
-            //}
+        //private async Task<IdentityResult> AutoAdminAssignment(ApplicationUser user)
+        //{
+        //    throw new NotImplementedException();
+        //    //var autoAdminCountString = System.Configuration.ConfigurationManager.AppSettings["AutoAdminCount"];
+        //    //int autoAdminCount;
+        //    //if (!int.TryParse(autoAdminCountString, out autoAdminCount))
+        //    //{
+        //    //    autoAdminCount = 2;
+        //    //}
 
-            //IdentityResult result = null;
-            //if (UserManager.Users.Count() <= autoAdminCount)
-            //{
-            //    var role = await RoleManager.FindByNameAsync(Constants.Administrators);
-            //    if (role == null)
-            //    {
-            //        result = await RoleManager.CreateAsync(new ApplicationRole { Name = Constants.Administrators });
-            //    }
+        //    //IdentityResult result = null;
+        //    //if (UserManager.Users.Count() <= autoAdminCount)
+        //    //{
+        //    //    var role = await RoleManager.FindByNameAsync(Constants.Administrators);
+        //    //    if (role == null)
+        //    //    {
+        //    //        result = await RoleManager.CreateAsync(new ApplicationRole { Name = Constants.Administrators });
+        //    //    }
 
-            //    if (result == null || result.Succeeded)
-            //    {
-            //        var userId = UserManager.FindByName(user.UserName).Id;
-            //        result = await UserManager.AddToRoleAsync(userId, Constants.Administrators);
-            //    }
-            //}
+        //    //    if (result == null || result.Succeeded)
+        //    //    {
+        //    //        var userId = UserManager.FindByName(user.UserName).Id;
+        //    //        result = await UserManager.AddToRoleAsync(userId, Constants.Administrators);
+        //    //    }
+        //    //}
 
-            //return result;
-        }
+        //    //return result;
+        //}
 
         [Authorize(Roles = Constants.Administrators)]
         [Route("Role/Assign")]

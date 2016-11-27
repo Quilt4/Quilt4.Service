@@ -1,6 +1,4 @@
-﻿@using System.Web.Mvc
-@using System.Web.Mvc.Html
-@using System.Web.Optimization
+﻿@using System.Web.Mvc.Html
 @model Quilt4.Service.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
@@ -18,6 +16,18 @@
         @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EMail, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EMail, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">

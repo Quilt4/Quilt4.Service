@@ -218,4 +218,21 @@
       <Association Name="Version_IssueType" Member="Version" ThisKey="VersionId" OtherKey="VersionId" Type="Version" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.CallLog" Member="CallLogs">
+    <Type Name="CallLog">
+      <Column Name="CallLogId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CallKey" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="SessionKey" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ProjectKey" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ServerTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ElapsedMilliseconds" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CallerIp" Type="System.String" DbType="VarChar(45)" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="RequestType" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CallPath" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Request" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Response" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="IssueKey" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

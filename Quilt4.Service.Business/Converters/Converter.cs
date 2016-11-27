@@ -6,7 +6,7 @@ namespace Quilt4.Service.Business.Converters
     {
         public static UserInfo ToUserInfo(this UserInfo x)
         {
-            return new UserInfo(x.UserKey, x.Username, x.Email, x.FullName, x.Email.GetGravatarPath());
+            return new UserInfo(x.UserKey, x.Username, x.Email, x.FullName, x.Email.GetGravatarPath(), x.Roles);
         }
     }
 }

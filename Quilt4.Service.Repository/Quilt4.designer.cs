@@ -84,6 +84,9 @@ namespace Quilt4.Service.SqlRepository
     partial void InsertIssueType(IssueType instance);
     partial void UpdateIssueType(IssueType instance);
     partial void DeleteIssueType(IssueType instance);
+    partial void InsertCallLog(CallLog instance);
+    partial void UpdateCallLog(CallLog instance);
+    partial void DeleteCallLog(CallLog instance);
     #endregion
 		
 		public Quilt4DataContext() : 
@@ -257,6 +260,14 @@ namespace Quilt4.Service.SqlRepository
 			get
 			{
 				return this.GetTable<IssueType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CallLog> CallLogs
+		{
+			get
+			{
+				return this.GetTable<CallLog>();
 			}
 		}
 	}
@@ -4908,6 +4919,356 @@ namespace Quilt4.Service.SqlRepository
 		{
 			this.SendPropertyChanging();
 			entity.IssueType = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CallLog")]
+	public partial class CallLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CallLogId;
+		
+		private System.Guid _CallKey;
+		
+		private string _SessionKey;
+		
+		private System.Nullable<System.Guid> _ProjectKey;
+		
+		private System.DateTime _ServerTime;
+		
+		private int _ElapsedMilliseconds;
+		
+		private string _CallerIp;
+		
+		private string _UserName;
+		
+		private string _RequestType;
+		
+		private string _CallPath;
+		
+		private string _Request;
+		
+		private string _Response;
+		
+		private System.Nullable<System.Guid> _IssueKey;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCallLogIdChanging(int value);
+    partial void OnCallLogIdChanged();
+    partial void OnCallKeyChanging(System.Guid value);
+    partial void OnCallKeyChanged();
+    partial void OnSessionKeyChanging(string value);
+    partial void OnSessionKeyChanged();
+    partial void OnProjectKeyChanging(System.Nullable<System.Guid> value);
+    partial void OnProjectKeyChanged();
+    partial void OnServerTimeChanging(System.DateTime value);
+    partial void OnServerTimeChanged();
+    partial void OnElapsedMillisecondsChanging(int value);
+    partial void OnElapsedMillisecondsChanged();
+    partial void OnCallerIpChanging(string value);
+    partial void OnCallerIpChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnRequestTypeChanging(string value);
+    partial void OnRequestTypeChanged();
+    partial void OnCallPathChanging(string value);
+    partial void OnCallPathChanged();
+    partial void OnRequestChanging(string value);
+    partial void OnRequestChanged();
+    partial void OnResponseChanging(string value);
+    partial void OnResponseChanged();
+    partial void OnIssueKeyChanging(System.Nullable<System.Guid> value);
+    partial void OnIssueKeyChanged();
+    #endregion
+		
+		public CallLog()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CallLogId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CallLogId
+		{
+			get
+			{
+				return this._CallLogId;
+			}
+			set
+			{
+				if ((this._CallLogId != value))
+				{
+					this.OnCallLogIdChanging(value);
+					this.SendPropertyChanging();
+					this._CallLogId = value;
+					this.SendPropertyChanged("CallLogId");
+					this.OnCallLogIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CallKey", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid CallKey
+		{
+			get
+			{
+				return this._CallKey;
+			}
+			set
+			{
+				if ((this._CallKey != value))
+				{
+					this.OnCallKeyChanging(value);
+					this.SendPropertyChanging();
+					this._CallKey = value;
+					this.SendPropertyChanged("CallKey");
+					this.OnCallKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionKey", DbType="VarChar(50)")]
+		public string SessionKey
+		{
+			get
+			{
+				return this._SessionKey;
+			}
+			set
+			{
+				if ((this._SessionKey != value))
+				{
+					this.OnSessionKeyChanging(value);
+					this.SendPropertyChanging();
+					this._SessionKey = value;
+					this.SendPropertyChanged("SessionKey");
+					this.OnSessionKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProjectKey", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ProjectKey
+		{
+			get
+			{
+				return this._ProjectKey;
+			}
+			set
+			{
+				if ((this._ProjectKey != value))
+				{
+					this.OnProjectKeyChanging(value);
+					this.SendPropertyChanging();
+					this._ProjectKey = value;
+					this.SendPropertyChanged("ProjectKey");
+					this.OnProjectKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServerTime", DbType="DateTime NOT NULL")]
+		public System.DateTime ServerTime
+		{
+			get
+			{
+				return this._ServerTime;
+			}
+			set
+			{
+				if ((this._ServerTime != value))
+				{
+					this.OnServerTimeChanging(value);
+					this.SendPropertyChanging();
+					this._ServerTime = value;
+					this.SendPropertyChanged("ServerTime");
+					this.OnServerTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElapsedMilliseconds", DbType="Int NOT NULL")]
+		public int ElapsedMilliseconds
+		{
+			get
+			{
+				return this._ElapsedMilliseconds;
+			}
+			set
+			{
+				if ((this._ElapsedMilliseconds != value))
+				{
+					this.OnElapsedMillisecondsChanging(value);
+					this.SendPropertyChanging();
+					this._ElapsedMilliseconds = value;
+					this.SendPropertyChanged("ElapsedMilliseconds");
+					this.OnElapsedMillisecondsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CallerIp", DbType="VarChar(45)")]
+		public string CallerIp
+		{
+			get
+			{
+				return this._CallerIp;
+			}
+			set
+			{
+				if ((this._CallerIp != value))
+				{
+					this.OnCallerIpChanging(value);
+					this.SendPropertyChanging();
+					this._CallerIp = value;
+					this.SendPropertyChanged("CallerIp");
+					this.OnCallerIpChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(50)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RequestType", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string RequestType
+		{
+			get
+			{
+				return this._RequestType;
+			}
+			set
+			{
+				if ((this._RequestType != value))
+				{
+					this.OnRequestTypeChanging(value);
+					this.SendPropertyChanging();
+					this._RequestType = value;
+					this.SendPropertyChanged("RequestType");
+					this.OnRequestTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CallPath", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string CallPath
+		{
+			get
+			{
+				return this._CallPath;
+			}
+			set
+			{
+				if ((this._CallPath != value))
+				{
+					this.OnCallPathChanging(value);
+					this.SendPropertyChanging();
+					this._CallPath = value;
+					this.SendPropertyChanged("CallPath");
+					this.OnCallPathChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Request", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Request
+		{
+			get
+			{
+				return this._Request;
+			}
+			set
+			{
+				if ((this._Request != value))
+				{
+					this.OnRequestChanging(value);
+					this.SendPropertyChanging();
+					this._Request = value;
+					this.SendPropertyChanged("Request");
+					this.OnRequestChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Response", DbType="VarChar(MAX)")]
+		public string Response
+		{
+			get
+			{
+				return this._Response;
+			}
+			set
+			{
+				if ((this._Response != value))
+				{
+					this.OnResponseChanging(value);
+					this.SendPropertyChanging();
+					this._Response = value;
+					this.SendPropertyChanged("Response");
+					this.OnResponseChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueKey", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> IssueKey
+		{
+			get
+			{
+				return this._IssueKey;
+			}
+			set
+			{
+				if ((this._IssueKey != value))
+				{
+					this.OnIssueKeyChanging(value);
+					this.SendPropertyChanging();
+					this._IssueKey = value;
+					this.SendPropertyChanged("IssueKey");
+					this.OnIssueKeyChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Quilt4.Service.Entity;
+using Quilt4.Service.Interface.Business;
 using Version = Quilt4.Service.Entity.Version;
 
 namespace Quilt4.Service.Interface.Repository
@@ -17,7 +18,7 @@ namespace Quilt4.Service.Interface.Repository
         IEnumerable<UserInfo> GetUsers();
         IEnumerable<Role> GetRolesByUser(string userName);
         void AddUserToRole(string userName, string roleName);
-        void AddUserExtraInfo(string userName, string fullName, string defaultAvatarUrl);
+        void AddUserExtraInfo(string userName, string fullName);
 
         //Role
         void CreateRole(Role role);
@@ -59,7 +60,7 @@ namespace Quilt4.Service.Interface.Repository
         //Machine
         Guid? GetMachineKey(Guid projectKey, string fingerprint);
         void SaveMachine(Guid machineKey, Guid projectKey, string fingerprint, string name, IDictionary<string, string> data, DateTime serverTime);
-        
+
         //Issue
         Guid? GetIssueTypeKey(Guid versionKey, string type, string issueLevel, string message, string stackTrace);
         void CreateIssueType(Guid issueTypeKey, Guid versionKey, int ticket, string type, string issueLevel, string message, string stackTrace, DateTime serverTime, IssueTypeRequestEntity[] innerIssueTypes);
@@ -75,5 +76,6 @@ namespace Quilt4.Service.Interface.Repository
         void DeleteSettng(string settingName);
 
         DatabaseInfo GetDatabaseInfo();
+        void LogApiCall(Guid callKey, string sessionKey, Guid? projectKey, DateTime time, TimeSpan elapsed, string callerIp, string currentUserName, string requestType, string path, string request, string response, Guid? issueKey);
     }
 }

@@ -8,14 +8,15 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using Quilt4.Service.Interface.Business;
+using Quilt4Net;
 
 namespace Quilt4.Service
 {
     public class ExceptionHandlingAttribute : ExceptionFilterAttribute
     {
-        private readonly Action<Exception, LogLevel> _logException;
+        private readonly Func<Exception, LogLevel, Guid?> _logException;
 
-        public ExceptionHandlingAttribute(Action<Exception, LogLevel> logException)
+        public ExceptionHandlingAttribute(Func<Exception, LogLevel, Guid?> logException)
         {
             _logException = logException;
         }
@@ -26,15 +27,19 @@ namespace Quilt4.Service
             try
             {
                 var logLevel = GetLogLevel(context.Exception);
-                _logException(context.Exception, logLevel);
+                var issueKey = _logException(context.Exception, logLevel);
+                if (issueKey != null)
+                {
+                    context.Exception.AddData("IssueKey", issueKey);
+                }
 
                 var error = ToError(context.Exception);
                 var httpResponseMessage = new HttpResponseMessage
                 {
                     StatusCode = GetStatusCode(context.Exception),
-                    ReasonPhrase = context.Exception.Message,
+                    ReasonPhrase = context.Exception.Message.Replace(Environment.NewLine," "),
                     RequestMessage = context.Request,
-                    Content = new ObjectContent<Error>(error, new JsonMediaTypeFormatter(), "application/json"),                    
+                    Content = new ObjectContent<Error>(error, new JsonMediaTypeFormatter(), "application/json"),
                 };
                 exp = new HttpResponseException(httpResponseMessage);
             }
@@ -48,7 +53,7 @@ namespace Quilt4.Service
             throw exp;
         }
 
-        class Error
+        public class Error
         {
             public int Code { get; set; }
             public string Type { get; set; }
@@ -60,14 +65,23 @@ namespace Quilt4.Service
         {
             var type = exception?.GetType().FullName ?? "Unknown";
             var message = exception?.Message ?? "Unknown error.";
-            //var dictionary = exception?.Data.Cast<DictionaryEntry>().Where(x => x.Value != null).ToDictionary(item => item.Key.ToString(), item => item.Value.ToString());
+            var dictionary = exception?.Data.Cast<DictionaryEntry>().Where(x => x.Value != null).ToDictionary(item => item.Key.ToString(), item => item.Value.ToString());
             var a = new Error
             {
                 Code = 1,
                 Type = type,
                 Message = message.Replace(Environment.NewLine, " "),
-                //Data = dictionary,
+                Data = new Dictionary<string, string>(),
             };
+
+            if (dictionary != null)
+            {
+                if (dictionary.ContainsKey("IssueKey"))
+                    a.Data.Add("IssueKey", dictionary["IssueKey"]);
+                if (dictionary.ContainsKey("IssueThreadKey"))
+                    a.Data.Add("IssueThreadKey", dictionary["IssueThreadKey"]);
+            }
+
             return a;
         }
 

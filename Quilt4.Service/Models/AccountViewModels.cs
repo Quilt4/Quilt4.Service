@@ -84,6 +84,16 @@ namespace Quilt4.Service.Models
         public string Username { get; set; }
 
         [Required]
+        [Display(Name = "EMail")]
+        [EmailAddress]
+        public string EMail { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

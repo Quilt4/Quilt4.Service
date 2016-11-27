@@ -19,7 +19,7 @@ namespace Quilt4.Service.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var users = _userBusiness.GetAllUsers();
-            var userModels = users.Select(x => new UserModel { FullName = x.FullName, UserName = x.Username, AvatarUrl = x.AvatarUrl, Email = x.Email, UserKey = x.UserKey }).ToArray();
+            var userModels = users.Select(x => new UserModel { FullName = x.FullName, UserName = x.Username, AvatarUrl = x.AvatarUrl, Email = x.Email, UserKey = x.UserKey, Roles = x.Roles}).ToArray();
             return View(userModels);
         }
     }

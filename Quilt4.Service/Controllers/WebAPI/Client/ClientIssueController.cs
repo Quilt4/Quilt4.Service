@@ -24,7 +24,7 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
 
         [HttpGet]
         [Route("api/Client/Issue/{versionKey}")]
-        public IEnumerable<IssueResponse> Get([FromUri]Guid versionKey)
+        public IEnumerable<IssueResponse> Get([FromUri] Guid versionKey)
         {
             var result = _issueBusiness.GetIssueList(User.Identity.GetUserName(), versionKey);
             var response = result.Select(x => x.ToIssueResponse(_settingBusiness.WebUrl));
@@ -35,8 +35,6 @@ namespace Quilt4.Service.Controllers.WebAPI.Client
         [Route("api/Client/Issue")]
         public IssueResponse Post([FromBody] object value)
         {
-            //TODO: Log the latest incoming raw data for each project, so that the user can view it.
-
             var issueRequest = value.ToIssueRequest();
             var data = issueRequest.ToRegisterIssueRequestEntity(HttpContext.Current.Request.UserHostAddress);
             var response = _issueBusiness.RegisterIssue(data);

@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Net.Http;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Dependencies;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -11,7 +18,10 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Quilt4.Service.Business;
+using Quilt4.Service.Entity;
 using Quilt4.Service.Injection;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -20,6 +30,134 @@ using Quilt4Net.Core.Interfaces;
 
 namespace Quilt4.Service
 {
+    internal class CallMetadata
+    {
+        public string SessionKey { get; set; }
+        public string ProjectApiKey { get; set; }
+    }
+
+    //NOTE: Write something on how end, users should handle these kinds of calls in their applications
+    public class MessageHandler : DelegatingHandler
+    {
+        private readonly IServiceBusiness _serviceBusiness;
+
+        public MessageHandler(IServiceBusiness serviceBusiness)
+        {
+            _serviceBusiness = serviceBusiness;
+        }
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var time = DateTime.UtcNow;
+
+            var stopWatch = new Stopwatch();
+
+            var callKey = Guid.NewGuid();
+            var callerIp = HttpContext.Current.Request.UserHostAddress;
+            var currentUserName = HttpContext.Current.Request.LogonUserIdentity?.Name;
+            var requestType = HttpContext.Current.Request.RequestType;
+            var path = HttpContext.Current.Request.Url.AbsoluteUri;
+            var responseString = string.Empty;
+
+            try
+            {
+                stopWatch.Start();
+                var response = await base.SendAsync(request, cancellationToken);
+                stopWatch.Stop();
+
+                var issueKey = await GetError(response);
+
+                if (response.Content != null)
+                {
+                    responseString = await response.Content.ReadAsStringAsync();
+                }
+
+                var requestString = GetRequest();
+                Task.Run(() =>
+                {
+                    var CallMetadata = GetCallMetadata(requestString);
+                    _serviceBusiness.LogApiCall(callKey, CallMetadata.SessionKey, CallMetadata.ProjectApiKey, time, stopWatch.Elapsed, callerIp, currentUserName, requestType, path, requestString, responseString, issueKey);
+                });
+
+                return response;
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log this issue, then log the call
+                responseString = exception.Message;
+
+                var requestString = GetRequest();
+
+                var CallMetadata = GetCallMetadata(requestString);
+                _serviceBusiness.LogApiCall(callKey, CallMetadata.SessionKey, CallMetadata.ProjectApiKey, time, stopWatch.Elapsed, callerIp, currentUserName, requestType, path, requestString, responseString, Guid.Empty);
+
+                throw;
+            }
+        }
+
+        private static CallMetadata GetCallMetadata(string requestString)
+        {
+            var callMetadata = new CallMetadata();
+            try
+            {
+                IDictionary<string, JToken> jsonObject = JObject.Parse(requestString);
+
+                if (jsonObject.ContainsKey("SessionKey"))
+                {
+                    callMetadata.SessionKey = jsonObject["SessionKey"].Value<string>();
+                }
+
+                if (jsonObject.ContainsKey("ProjectApiKey"))
+                {
+                    callMetadata.ProjectApiKey = jsonObject["ProjectApiKey"].Value<string>();
+                }
+            }
+            catch(Exception exception)
+            {
+                Debug.WriteLine(exception.Message);
+            }
+
+            return callMetadata;
+        }
+
+        private static async Task<Guid?> GetError(HttpResponseMessage response)
+        {
+            Guid? issueKeyU = null;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                var error = JsonConvert.DeserializeObject<ExceptionHandlingAttribute.Error>(result);
+
+                if (error.Data != null && error.Data.ContainsKey("IssueKey"))
+                {
+                    Guid issueKey;
+                    if (Guid.TryParse(error.Data["IssueKey"], out issueKey))
+                    {
+                        issueKeyU = issueKey;
+                    }
+                }
+                else
+                    issueKeyU = Guid.Empty;
+            }
+            return issueKeyU;
+        }
+
+        private static string GetRequest()
+        {
+            string requestString;
+            if (HttpContext.Current.Request.InputStream.CanSeek)
+            {
+                HttpContext.Current.Request.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+            }
+            using (var reader = new StreamReader(HttpContext.Current.Request.InputStream))
+            {
+                requestString = reader.ReadToEnd();
+            }
+            return requestString;
+        }
+    }
+
     public class WebApiApplication : HttpApplication
     {
         private static IWindsorContainer _container;
@@ -36,6 +174,8 @@ namespace Quilt4.Service
             RegisterServiceLogger();
 
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new MessageHandler(_container.Resolve<IServiceBusiness>()));
 
             RegisterSession();
         }
@@ -115,9 +255,9 @@ namespace Quilt4.Service
             }
         }
 
-        public static void LogException(Exception exception, LogLevel logLevel)
+        public static Guid? LogException(Exception exception, LogLevel logLevel)
         {
-            if (exception == null) return;
+            if (exception == null) return null;
 
             try
             {
@@ -125,7 +265,7 @@ namespace Quilt4.Service
                 switch (logLevel)
                 {
                     case LogLevel.DoNotLog:
-                        return;
+                        return null;
                     case LogLevel.Error:
                         issueLevel = ExceptionIssueLevel.Error;
                         break;
@@ -148,18 +288,18 @@ namespace Quilt4.Service
                     issueLevel = null;
                 }
 
-                Quilt4Net.ExceptionExtensions.AddData(exception, "ExceptionKey", Guid.NewGuid());
-
                 if (issueLevel != null)
                 {
                     var issueHandler = _container.Resolve<IIssueHandler>();
                     issueHandler.IssueRegistrationCompletedEvent += IssueHandler_IssueRegistrationCompletedEvent;
-                    issueHandler.RegisterStart(exception, issueLevel.Value);
+                    var response = issueHandler.Register(exception, issueLevel.Value);
+                    return response.Response.IssueKey;
                 }
                 else
                 {
                     var log = _container.Resolve<IServiceLog>();
                     log.LogException(exception, logLevel);
+                    return Guid.Empty;
                 }
             }
             catch (Exception exp)
@@ -169,6 +309,7 @@ namespace Quilt4.Service
                 HttpContext.Current.Response.Write("The original exception that could not be logged: " + exception.Message + "</br>");
                 HttpContext.Current.Response.Write("</body></html>");
                 HttpContext.Current.Response.End();
+                return Guid.Empty;
             }
         }
 

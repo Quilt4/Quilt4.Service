@@ -41,5 +41,17 @@ namespace Quilt4.Service.Business
 
             return new ServiceInfo(version, environment, _sessionHandler.ClientStartTime, databaseInfo, canWriteToLog, hasOwnProjectApiKey);
         }
+
+        public void LogApiCall(Guid callKey, string sessionKey, string projectApiKey, DateTime time, TimeSpan elapsed, string callerIp, string currentUserName, string requestType, string path, string request, string response, Guid? issueKey)
+        {
+            var projectKey = _repository.GetProjectKey(projectApiKey);
+            if (projectKey == null && !string.IsNullOrEmpty(sessionKey))
+            {
+                projectKey = _repository.GetSession(sessionKey).ProjectKey;
+            }
+            _repository.LogApiCall(callKey, sessionKey, projectKey, time, elapsed, callerIp, currentUserName, requestType, path, request, response, issueKey);
+
+            //TODO: Send to optional alternative external logers here. (Theese loggers should be registered when starting the project)
+        }
     }
 }

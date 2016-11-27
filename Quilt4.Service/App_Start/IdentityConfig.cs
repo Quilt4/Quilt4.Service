@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Quilt4.Service.Authentication;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
+using Quilt4.Service.Models;
 
 namespace Quilt4.Service
 {
@@ -17,7 +18,7 @@ namespace Quilt4.Service
             : base(new CustomUserStore<ApplicationUser>(repository))
         {
             _repository = repository;
-            PasswordHasher = new OldSystemPasswordHasher();            
+            PasswordHasher = new OldSystemPasswordHasher();
         }
 
         public override IQueryable<ApplicationUser> Users => ((CustomUserStore<ApplicationUser>)Store).GetAll().AsQueryable();
@@ -45,18 +46,7 @@ namespace Quilt4.Service
             var response = await base.CreateAsync(user, password);
             return response;
         }
-
-        //public async Task<IdentityResult> CreateAsync(ApplicationUser user, string password, string callerIp)
-        //{
-        //
-        //    //TODO: Set the maximum calls from the same origin within a sertain time interval (Log violations)
-
-        //    var response = await base.CreateAsync(user, password);
-        //    if (response.Succeeded)
-        //        AssureAdministrator(user);
-        //    return response;
-        //}
-
+        
         private void AssureAdministrator(ApplicationUser user)
         {
             var cntStr = System.Configuration.ConfigurationManager.AppSettings["MakeFirstUsersAdmin"];
@@ -75,6 +65,11 @@ namespace Quilt4.Service
         public static ApplicationUserManager Create(IRepository repository)
         {
             return new ApplicationUserManager(repository);
+        }
+
+        public void AddExtraInfo(ApplicationUser user, RegisterViewModel model, string callerIp)
+        {
+            _repository.AddUserExtraInfo(user.UserName, model.FullName);
         }
     }
 }

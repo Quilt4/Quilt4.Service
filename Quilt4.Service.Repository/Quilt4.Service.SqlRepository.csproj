@@ -35,14 +35,6 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quilt4Net, Version=2.0.0.81, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.81-beta\lib\net45\Quilt4Net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Quilt4Net.Core, Version=2.0.0.81, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quilt4Net.2.0.0.81-beta\lib\net45\Quilt4Net.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />

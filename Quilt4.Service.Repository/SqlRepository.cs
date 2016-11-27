@@ -8,7 +8,6 @@ using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Repository;
 using Quilt4.Service.SqlRepository.Extensions;
 using Quilt4.Service.SqlRepository.Converters;
-using Quilt4Net;
 
 namespace Quilt4.Service.SqlRepository
 {
@@ -75,7 +74,7 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
-                return context.Users.Select(dbUser => new UserInfo(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.FullName, dbUser.AvatarUrl)).ToArray();
+                return context.Users.Select(dbUser => new UserInfo(dbUser.UserKey, dbUser.UserName, dbUser.Email, dbUser.FullName, dbUser.AvatarUrl, context.Roles.Where(x => x.UserRoles.Any(y => y.UserId == dbUser.UserId)).Select(x => x.RoleName).ToArray() )).ToArray();
             }
         }
 
@@ -123,6 +122,9 @@ namespace Quilt4.Service.SqlRepository
         {
             using (var context = GetDataContext())
             {
+                var projectUsers = context.ProjectUsers.Where(x => x.Project.ProjectKey == projectKey).ToArray();
+                context.ProjectUsers.DeleteAllOnSubmit(projectUsers);
+
                 var project = context.Projects.Single(x => x.ProjectKey == projectKey);
                 context.Projects.DeleteOnSubmit(project);
                 context.SubmitChanges();
@@ -276,7 +278,7 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
-        public void AddUserExtraInfo(string userName, string fullName, string defaultAvatarUrl)
+        public void AddUserExtraInfo(string userName, string fullName)
         {
             using (var context = GetDataContext())
             {
@@ -284,7 +286,6 @@ namespace Quilt4.Service.SqlRepository
                 if (user == null) return;
 
                 user.FullName = fullName;
-                user.AvatarUrl = defaultAvatarUrl;
 
                 context.SubmitChanges();
             }
@@ -296,10 +297,10 @@ namespace Quilt4.Service.SqlRepository
             {
                 var user = context.Users.SingleOrDefault(x => x.UserName == userName);
                 if (user == null) return null;
-                return new UserInfo(user.UserKey, user.UserName, user.Email, user.FullName, user.AvatarUrl);
+                return new UserInfo(user.UserKey, user.UserName, user.Email, user.FullName, user.AvatarUrl, user.UserRoles.Select(x => x.Role.RoleName).ToArray());
             }
         }
-        
+
         public DatabaseInfo GetDatabaseInfo()
         {
             try
@@ -315,6 +316,29 @@ namespace Quilt4.Service.SqlRepository
             catch (Exception)
             {
                 return new DatabaseInfo(false, null, null, -1);
+            }
+        }
+
+        public void LogApiCall(Guid callKey, string sessionKey, Guid? projectKey, DateTime time, TimeSpan elapsed, string callerIp, string currentUserName, string requestType, string path, string request, string response, Guid? issueKey)
+        {
+            using (var context = GetDataContext())
+            {
+                context.CallLogs.InsertOnSubmit(new CallLog
+                {
+                    ServerTime = time,
+                    CallKey = callKey,
+                    SessionKey = sessionKey,
+                    ProjectKey = projectKey,
+                    ElapsedMilliseconds = (int)elapsed.TotalMilliseconds,
+                    CallerIp = callerIp,
+                    UserName = currentUserName,
+                    RequestType = requestType,
+                    CallPath = path,
+                    Request = request,
+                    Response = response,
+                    IssueKey = issueKey,
+                });
+                context.SubmitChanges();
             }
         }
 
@@ -345,7 +369,7 @@ namespace Quilt4.Service.SqlRepository
                     ApplicationKey = applicationKey,
                     ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
                     Name = name,
-                    CreationServerTime = serverTime,                    
+                    CreationServerTime = serverTime,
                 };
 
                 context.Applications.InsertOnSubmit(newApplication);
@@ -389,7 +413,7 @@ namespace Quilt4.Service.SqlRepository
                     VersionNumber = versionNumber,
                     SupportToolkitVersion = supportToolkitNameVersion,
                     CreationServerTime = serverTime,
-                    BuildTime = buildTime,                    
+                    BuildTime = buildTime,
                 };
 
                 context.Versions.InsertOnSubmit(newVersion);
@@ -420,8 +444,8 @@ namespace Quilt4.Service.SqlRepository
                 var issueType =
                     context.IssueTypes.SingleOrDefault(
                         x =>
-                            x.Version.VersionKey == versionKey && 
-                            x.IssueTypeDetail.Type.Equals(type) && 
+                            x.Version.VersionKey == versionKey &&
+                            x.IssueTypeDetail.Type.Equals(type) &&
                             x.Level.Equals(issueLevel) &&
                             x.IssueTypeDetail.Message.Equals(message) &&
                             (stackTrace == null ? x.IssueTypeDetail.StackTrace == null : x.IssueTypeDetail.StackTrace == stackTrace));
@@ -441,7 +465,7 @@ namespace Quilt4.Service.SqlRepository
                 {
                     Type = type,
                     Message = message,
-                    StackTrace = stackTrace,                        
+                    StackTrace = stackTrace,
                 };
                 context.IssueTypeDetails.InsertOnSubmit(detail);
 
@@ -502,7 +526,9 @@ namespace Quilt4.Service.SqlRepository
                     var session = context.Sessions.SingleOrDefault(x => x.SessionKey == sessionKey);
                     if (session == null)
                     {
-                        throw new InvalidOperationException("There is no session with provided key.").AddData("sessionKey", sessionKey);
+                        var e = new InvalidOperationException("There is no session with provided key.");
+                        e.Data.Add("sessionKey", sessionKey);
+                        throw e;
                     }
                     session.LastUsedServerTime = serverDateTime;
                     context.SubmitChanges();
@@ -529,7 +555,7 @@ namespace Quilt4.Service.SqlRepository
                     ApplicationUserId = applicationUserKey != null ? context.ApplicationUsers.Single(x => x.ApplicationUserKey == applicationUserKey).ApplicationUserId : (int?)null,
                     MachineId = machineKey != null ? context.Machines.Single(x => x.MachineKey == machineKey).MachineId : (int?)null,
                     Enviroment = environment,
-                    VersionId = context.Versions.Single(x => x.VersionKey == versionKey).VersionId,                    
+                    VersionId = context.Versions.Single(x => x.VersionKey == versionKey).VersionId,
                 };
 
                 context.Sessions.InsertOnSubmit(newSession);
@@ -565,7 +591,7 @@ namespace Quilt4.Service.SqlRepository
                     ProjectId = context.Projects.Single(x => x.ProjectKey == projectKey).ProjectId,
                     Fingerprint = fingerprint,
                     UserName = userName,
-                    CreationServerTime = serverTime,                    
+                    CreationServerTime = serverTime,
                 };
 
                 context.ApplicationUsers.InsertOnSubmit(applicationUser);
@@ -676,10 +702,10 @@ namespace Quilt4.Service.SqlRepository
                     {
                         var machineData = new MachineData
                         {
-                            MachineId = newMachine.MachineId,                            
+                            MachineId = newMachine.MachineId,
                             Name = d.Key,
                             Value = d.Value,
-                            CreationServerTime = serverTime,                            
+                            CreationServerTime = serverTime,
                         };
 
                         context.MachineDatas.InsertOnSubmit(machineData);
@@ -715,7 +741,7 @@ namespace Quilt4.Service.SqlRepository
                         {
                             IssueId = issue.IssueId,
                             Name = d.Key,
-                            Value = d.Value,                             
+                            Value = d.Value,
                         };
 
                         context.IssueDatas.InsertOnSubmit(issueData);
@@ -749,7 +775,7 @@ namespace Quilt4.Service.SqlRepository
                     CreationServerTime = createTime,
                     ProjectApiKey = projectApiKey,
                     OwnerUserId = user.UserId,
-                    LastTicket = 0,                    
+                    LastTicket = 0,
                 };
 
                 context.Projects.InsertOnSubmit(project);
@@ -770,7 +796,7 @@ namespace Quilt4.Service.SqlRepository
         public void UpdateProject(Guid projectKey, string name, string dashboardColor)
         {
             using (var context = GetDataContext())
-            {                
+            {
                 var project = context.Projects.Single(x => x.ProjectKey == projectKey);
 
                 project.Name = name;

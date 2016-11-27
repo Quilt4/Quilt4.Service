@@ -15,7 +15,9 @@
     <tr>
         <th></th>
         <th>Username</th>
+        <th>Full Name</th>
         <th>Email</th>
+        <th>Roles</th>
         <th></th>
     </tr>
 
@@ -26,7 +28,13 @@
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.Raw(string.Join(", ", item.Roles))
         </td>
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@

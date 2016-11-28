@@ -68,6 +68,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Quilt4.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Read.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Read.dbml</DependentUpon>
+    </Compile>
     <Compile Include="SqlReadRepository.cs" />
     <Compile Include="SqlRepository.cs" />
     <Compile Include="SqlWriteRepository.cs" />
@@ -94,6 +99,11 @@
       <LastGenOutput>Quilt4.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
+    <None Include="Read.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Read.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -101,6 +111,11 @@
   <ItemGroup>
     <None Include="Quilt4.dbml.layout">
       <DependentUpon>Quilt4.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Read.dbml.layout">
+      <DependentUpon>Read.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

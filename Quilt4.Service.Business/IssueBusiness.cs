@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
@@ -11,16 +12,18 @@ namespace Quilt4.Service.Business
     public class IssueBusiness : IIssueBusiness
     {
         private readonly IRepository _repository;
-        private readonly IWriteBusiness _writeBusiness;
+        private readonly IReadModelBusiness _readModelBusiness;
         private readonly IUserAccessBusiness _userAccessBusiness;
+        private readonly ITargetAgentBusiness _targetAgentBusiness;
         private readonly Random _random = new Random();
         private static readonly object _syncRoot = new object();
 
-        public IssueBusiness(IRepository repository, IWriteBusiness writeBusiness, IUserAccessBusiness userAccessBusiness)
+        public IssueBusiness(IRepository repository, IUserAccessBusiness userAccessBusiness, ITargetAgentBusiness targetAgentBusiness, IReadModelBusiness readModelBusiness)
         {
             _repository = repository;
-            _writeBusiness = writeBusiness;
             _userAccessBusiness = userAccessBusiness;
+            _targetAgentBusiness = targetAgentBusiness;
+            _readModelBusiness = readModelBusiness;
         }
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
@@ -77,9 +80,44 @@ namespace Quilt4.Service.Business
             //TODO: Check if the issue key already exists. _repository.GetIssue(issueKey);
             _repository.CreateIssue(issueKey, issueTypeKey.Value, request.IssueThreadKey, session.SessionKey, clientTime, GetData(request), serverTime);
 
-            _writeBusiness.RunRecalculate();
+            var response = new RegisterIssueResponseEntity(issueKey, ticket, serverTime, session.ProjectKey, issueTypeKey.Value, session.SessionKey);
 
-            return new RegisterIssueResponseEntity(issueKey, ticket, serverTime, session.ProjectKey, issueTypeKey.Value);
+            Task.Run(() =>
+            {
+                _readModelBusiness.AddIssue(response.IssueKey);
+                SendToSubTargets(request, session, response);
+            });
+
+            return response;
+        }
+
+        private void SendToSubTargets(RegisterIssueRequestEntity request, Session session, RegisterIssueResponseEntity response)
+        {
+            var issue = _readModelBusiness.GetIssue(response.IssueKey);
+
+            var metadata = new Dictionary<string, object>
+            {
+                { "ProjectName", issue.ProjectName },
+                { "ApplicationName", issue.ApplicationName },
+                { "VersionNumber", issue.VersionNumber },
+                { "MachineName", issue.MachineName },
+            };
+
+            try
+            {
+                foreach (var targetAgent in _targetAgentBusiness.GetTargetAgents(session.ProjectKey))
+                {
+                    targetAgent.RegisterIssueAsync(request, response, metadata);
+                }
+            }
+            catch (Exception exception)
+            {
+                //TODO: Register that there was an issue sending data to target
+            }
+            finally
+            {
+                //TODO: Register that data has been sent successfully
+            }
         }
 
         private Dictionary<string, string> GetData(RegisterIssueRequestEntity request)

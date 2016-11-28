@@ -18,9 +18,10 @@ namespace Quilt4.Service.Business
 
         public IssueTypePageIssueType GetIssueType(string userName, Guid issueTypeKey)
         {
-            var result = _readRepository.GetIssueType(issueTypeKey);
-            _userAccessBusiness.AssureAccess(userName, result.ProjectId);
-            return result;
+            throw new NotImplementedException();
+            //var result = _readRepository.GetIssueType(issueTypeKey);
+            //_userAccessBusiness.AssureAccess(userName, result.ProjectId);
+            //return result;
         }
     }
 }

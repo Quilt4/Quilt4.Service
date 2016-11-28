@@ -20,7 +20,8 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<DashboardPageProject> GetProjects(string userName)
         {
-            return _readRepository.GetDashboardProjects(userName);
+            throw new NotImplementedException();
+            //return _readRepository.GetDashboardProjects(userName);
         }
 
         public IEnumerable<ProjectInvitation> GetInvitations(string userName)

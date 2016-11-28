@@ -17,8 +17,9 @@ namespace Quilt4.Service.Business
 
         public void AssureAccess(string userName, Guid projectKey)
         {
-            var projectUsers = _readRepository.GetProjectUsers(projectKey).ToArray();
-            if (projectUsers.All(x => x != userName)) throw new InvalidOperationException("The user doesn't have access to the provided project.");
+            throw new NotImplementedException();
+            //var projectUsers = _readRepository.GetProjectUsers(projectKey).ToArray();
+            //if (projectUsers.All(x => x != userName)) throw new InvalidOperationException("The user doesn't have access to the provided project.");
         }
 
         public void AssureAccess(string userName, IEnumerable<Guid> projectKeys)

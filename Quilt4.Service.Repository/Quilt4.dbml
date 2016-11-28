@@ -92,6 +92,7 @@
       <Association Name="Project_Machine" Member="Machines" ThisKey="ProjectId" OtherKey="ProjectId" Type="Machine" />
       <Association Name="Project_ProjectInvitation" Member="ProjectInvitations" ThisKey="ProjectId" OtherKey="ProjectId" Type="ProjectInvitation" />
       <Association Name="Project_ProjectUser" Member="ProjectUsers" ThisKey="ProjectId" OtherKey="ProjectId" Type="ProjectUser" />
+      <Association Name="Project_ProjectTarget" Member="ProjectTargets" ThisKey="ProjectId" OtherKey="ProjectId" Type="ProjectTarget" />
       <Association Name="User_Project" Member="User" ThisKey="OwnerUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
@@ -233,6 +234,16 @@
       <Column Name="Request" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Response" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="IssueKey" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProjectTarget" Member="ProjectTargets">
+    <Type Name="ProjectTarget">
+      <Column Name="ProjectTargetId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TargetType" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Connection" Type="System.String" DbType="NVarChar(1024) NOT NULL" CanBeNull="false" />
+      <Column Name="Enabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Project_ProjectTarget" Member="Project" ThisKey="ProjectId" OtherKey="ProjectId" Type="Project" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

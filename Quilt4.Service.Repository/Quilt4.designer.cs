@@ -87,6 +87,9 @@ namespace Quilt4.Service.SqlRepository
     partial void InsertCallLog(CallLog instance);
     partial void UpdateCallLog(CallLog instance);
     partial void DeleteCallLog(CallLog instance);
+    partial void InsertProjectTarget(ProjectTarget instance);
+    partial void UpdateProjectTarget(ProjectTarget instance);
+    partial void DeleteProjectTarget(ProjectTarget instance);
     #endregion
 		
 		public Quilt4DataContext() : 
@@ -268,6 +271,14 @@ namespace Quilt4.Service.SqlRepository
 			get
 			{
 				return this.GetTable<CallLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ProjectTarget> ProjectTargets
+		{
+			get
+			{
+				return this.GetTable<ProjectTarget>();
 			}
 		}
 	}
@@ -1872,6 +1883,8 @@ namespace Quilt4.Service.SqlRepository
 		
 		private EntitySet<ProjectUser> _ProjectUsers;
 		
+		private EntitySet<ProjectTarget> _ProjectTargets;
+		
 		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
@@ -1903,6 +1916,7 @@ namespace Quilt4.Service.SqlRepository
 			this._Machines = new EntitySet<Machine>(new Action<Machine>(this.attach_Machines), new Action<Machine>(this.detach_Machines));
 			this._ProjectInvitations = new EntitySet<ProjectInvitation>(new Action<ProjectInvitation>(this.attach_ProjectInvitations), new Action<ProjectInvitation>(this.detach_ProjectInvitations));
 			this._ProjectUsers = new EntitySet<ProjectUser>(new Action<ProjectUser>(this.attach_ProjectUsers), new Action<ProjectUser>(this.detach_ProjectUsers));
+			this._ProjectTargets = new EntitySet<ProjectTarget>(new Action<ProjectTarget>(this.attach_ProjectTargets), new Action<ProjectTarget>(this.detach_ProjectTargets));
 			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
@@ -2136,6 +2150,19 @@ namespace Quilt4.Service.SqlRepository
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_ProjectTarget", Storage="_ProjectTargets", ThisKey="ProjectId", OtherKey="ProjectId")]
+		public EntitySet<ProjectTarget> ProjectTargets
+		{
+			get
+			{
+				return this._ProjectTargets;
+			}
+			set
+			{
+				this._ProjectTargets.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Project", Storage="_User", ThisKey="OwnerUserId", OtherKey="UserId", IsForeignKey=true)]
 		public User User
 		{
@@ -2245,6 +2272,18 @@ namespace Quilt4.Service.SqlRepository
 		}
 		
 		private void detach_ProjectUsers(ProjectUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Project = null;
+		}
+		
+		private void attach_ProjectTargets(ProjectTarget entity)
+		{
+			this.SendPropertyChanging();
+			entity.Project = this;
+		}
+		
+		private void detach_ProjectTargets(ProjectTarget entity)
 		{
 			this.SendPropertyChanging();
 			entity.Project = null;
@@ -5247,6 +5286,205 @@ namespace Quilt4.Service.SqlRepository
 					this._IssueKey = value;
 					this.SendPropertyChanged("IssueKey");
 					this.OnIssueKeyChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ProjectTarget")]
+	public partial class ProjectTarget : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ProjectTargetId;
+		
+		private int _ProjectId;
+		
+		private string _TargetType;
+		
+		private string _Connection;
+		
+		private bool _Enabled;
+		
+		private EntityRef<Project> _Project;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProjectTargetIdChanging(int value);
+    partial void OnProjectTargetIdChanged();
+    partial void OnProjectIdChanging(int value);
+    partial void OnProjectIdChanged();
+    partial void OnTargetTypeChanging(string value);
+    partial void OnTargetTypeChanged();
+    partial void OnConnectionChanging(string value);
+    partial void OnConnectionChanged();
+    partial void OnEnabledChanging(bool value);
+    partial void OnEnabledChanged();
+    #endregion
+		
+		public ProjectTarget()
+		{
+			this._Project = default(EntityRef<Project>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProjectTargetId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ProjectTargetId
+		{
+			get
+			{
+				return this._ProjectTargetId;
+			}
+			set
+			{
+				if ((this._ProjectTargetId != value))
+				{
+					this.OnProjectTargetIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProjectTargetId = value;
+					this.SendPropertyChanged("ProjectTargetId");
+					this.OnProjectTargetIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProjectId", DbType="Int NOT NULL")]
+		public int ProjectId
+		{
+			get
+			{
+				return this._ProjectId;
+			}
+			set
+			{
+				if ((this._ProjectId != value))
+				{
+					if (this._Project.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProjectIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProjectId = value;
+					this.SendPropertyChanged("ProjectId");
+					this.OnProjectIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TargetType", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
+		public string TargetType
+		{
+			get
+			{
+				return this._TargetType;
+			}
+			set
+			{
+				if ((this._TargetType != value))
+				{
+					this.OnTargetTypeChanging(value);
+					this.SendPropertyChanging();
+					this._TargetType = value;
+					this.SendPropertyChanged("TargetType");
+					this.OnTargetTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Connection", DbType="NVarChar(1024) NOT NULL", CanBeNull=false)]
+		public string Connection
+		{
+			get
+			{
+				return this._Connection;
+			}
+			set
+			{
+				if ((this._Connection != value))
+				{
+					this.OnConnectionChanging(value);
+					this.SendPropertyChanging();
+					this._Connection = value;
+					this.SendPropertyChanged("Connection");
+					this.OnConnectionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Enabled", DbType="Bit NOT NULL")]
+		public bool Enabled
+		{
+			get
+			{
+				return this._Enabled;
+			}
+			set
+			{
+				if ((this._Enabled != value))
+				{
+					this.OnEnabledChanging(value);
+					this.SendPropertyChanging();
+					this._Enabled = value;
+					this.SendPropertyChanged("Enabled");
+					this.OnEnabledChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Project_ProjectTarget", Storage="_Project", ThisKey="ProjectId", OtherKey="ProjectId", IsForeignKey=true)]
+		public Project Project
+		{
+			get
+			{
+				return this._Project.Entity;
+			}
+			set
+			{
+				Project previousValue = this._Project.Entity;
+				if (((previousValue != value) 
+							|| (this._Project.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Project.Entity = null;
+						previousValue.ProjectTargets.Remove(this);
+					}
+					this._Project.Entity = value;
+					if ((value != null))
+					{
+						value.ProjectTargets.Add(this);
+						this._ProjectId = value.ProjectId;
+					}
+					else
+					{
+						this._ProjectId = default(int);
+					}
+					this.SendPropertyChanged("Project");
 				}
 			}
 		}

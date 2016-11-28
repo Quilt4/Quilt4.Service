@@ -42,5 +42,16 @@ namespace Quilt4.Service.SqlRepository.Properties {
                 return ((string)(this["Quilt4ConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=Quilt4;Integrated Security=True;Persist Sec" +
+            "urity Info=False")]
+        public string Quilt4ConnectionString2 {
+            get {
+                return ((string)(this["Quilt4ConnectionString2"]));
+            }
+        }
     }
 }

@@ -38,6 +38,7 @@ namespace Quilt4.Service.Interface.Repository
         void AddProjectMember(string userName, Guid projectKey, string role);
         ProjectMember[] GetProjectUsers(Guid projectKey);
         ProjectMember[] GetProjectInvitation(Guid projectKey);
+        IEnumerable<ProjectTarget> GetProjectTargets(Guid projectKey);
 
         //Session
         Session GetSession(string sessionKey);
@@ -68,6 +69,7 @@ namespace Quilt4.Service.Interface.Repository
         int GetNextTicket(Guid projectKey);
         IEnumerable<IssueType> GetIssueTypes(Guid versionKey);
         IEnumerable<RegisterIssueResponseEntity> GetIssues(Guid versionKey);
+        RegisterIssueResponseEntity GetIssue(Guid issueKey);
 
         //Setting
         IEnumerable<Setting> GetSettings();

@@ -24,9 +24,10 @@ namespace Quilt4.Service.Business
 
         public ProjectPageProject GetProject(string userName, Guid projectKey)
         {
-            var result = _readRepository.GetProject(projectKey);
-            _userAccessBusiness.AssureAccess(userName, result.ProjectKey);
-            return result;
+            throw new NotImplementedException();
+            //var result = _readRepository.GetProject(projectKey);
+            //_userAccessBusiness.AssureAccess(userName, result.ProjectKey);
+            //return result;
         }
 
         public IEnumerable<ProjectPageProject> GetAllProjects()
@@ -36,7 +37,8 @@ namespace Quilt4.Service.Business
 
         public ProjectPageProject GetProject(Guid projectKey)
         {
-            return _readRepository.GetProject(projectKey);
+            throw new NotImplementedException();
+            //return _readRepository.GetProject(projectKey);
         }
 
         public IEnumerable<ProjectPageProject> GetProjects(string userName)
@@ -59,9 +61,10 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<ProjectPageVersion> GetVersions(string userName, Guid applicationKey)
         {
-            var versions = _readRepository.GetVersions(applicationKey).ToArray();
-            _userAccessBusiness.AssureAccess(userName, versions.Select(x => x.ProjectKey));
-            return versions;
+            throw new NotImplementedException();
+            //var versions = _readRepository.GetVersions(applicationKey).ToArray();
+            //_userAccessBusiness.AssureAccess(userName, versions.Select(x => x.ProjectKey));
+            //return versions;
         }
 
         public void CreateProject(string userName, Guid projectKey, string name, string dashboardColor)
@@ -69,8 +72,8 @@ namespace Quilt4.Service.Business
             var projectApiKey = RandomUtility.GetRandomString(32);
 
             _repository.CreateProject(userName, projectKey, name, DateTime.UtcNow, dashboardColor ?? "blue", projectApiKey);
-            _writeRepository.UpdateDashboardPageProject(projectKey);
-            _writeRepository.UpdateProjectPageProject(projectKey);
+            //_writeRepository.UpdateDashboardPageProject(projectKey);
+            //_writeRepository.UpdateProjectPageProject(projectKey);
         }
 
         public void UpdateProject(Guid projectKey, string name, string dashboardColor, string userName)
@@ -80,8 +83,8 @@ namespace Quilt4.Service.Business
 
             _repository.UpdateProject(projectKey, name, dashboardColor);
 
-            _writeRepository.UpdateDashboardPageProject(projectKey);
-            _writeRepository.UpdateProjectPageProject(projectKey);
+            //_writeRepository.UpdateDashboardPageProject(projectKey);
+            //_writeRepository.UpdateProjectPageProject(projectKey);
         }
     }
 }

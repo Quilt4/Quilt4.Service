@@ -192,6 +192,16 @@ namespace Quilt4.Service.SqlRepository
             }
         }
 
+        public IEnumerable<Entity.ProjectTarget> GetProjectTargets(Guid projectKey)
+        {
+            using (var context = GetDataContext())
+            {
+                return context.ProjectTargets.Where(x => x.Project.ProjectKey == projectKey)
+                    .Select(x => new Entity.ProjectTarget(x.TargetType, x.Connection, x.Enabled))
+                    .ToArray();
+            }
+        }
+
         public int GetNextTicket(Guid projectKey)
         {
             using (var context = GetDataContext())
@@ -218,7 +228,18 @@ namespace Quilt4.Service.SqlRepository
             {
                 return context.Issues
                     .Where(x => x.IssueType.Version.VersionKey == versionKey)
-                    .Select(x => new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey, x.IssueType.IssueTypeKey)).ToArray();
+                    .Select(x => new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey, x.IssueType.IssueTypeKey, x.Session.SessionKey)).ToArray();
+            }
+        }
+
+        public RegisterIssueResponseEntity GetIssue(Guid issueKey)
+        {
+            using (var context = GetDataContext())
+            {
+                var x = context.Issues
+                    .Single(y => y.IssueKey == issueKey);
+                var result = new RegisterIssueResponseEntity(x.IssueKey, x.IssueType.Ticket, x.CreationServerTime, x.IssueType.Version.Application.Project.ProjectKey, x.IssueType.IssueTypeKey, x.Session.SessionKey);
+                return result;
             }
         }
 

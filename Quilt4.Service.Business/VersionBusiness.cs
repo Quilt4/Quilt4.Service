@@ -23,15 +23,17 @@ namespace Quilt4.Service.Business
 
         public VersionDetail GetVersion(string userName, Guid versionKey)
         {
-            var response = _readRepository.GetVersion(versionKey);
-            _userAccessBusiness.AssureAccess(userName, response.ProjectKey);
-            return response;
+            throw new NotImplementedException();
+            //var response = _readRepository.GetVersion(versionKey);
+            //_userAccessBusiness.AssureAccess(userName, response.ProjectKey);
+            //return response;
         }
 
         public VersionDetail GetVersion(Guid versionKey)
         {
-            var response = _readRepository.GetVersion(versionKey);
-            return response;
+            throw new NotImplementedException();
+            //var response = _readRepository.GetVersion(versionKey);
+            //return response;
         }
 
         public IEnumerable<Version> GetVersions(string userName, Guid applicationKey)

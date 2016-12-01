@@ -6,7 +6,6 @@ using InfluxDB.Net;
 using InfluxDB.Net.Enums;
 using InfluxDB.Net.Models;
 using Newtonsoft.Json.Linq;
-using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
 
@@ -14,13 +13,11 @@ namespace Quilt4.Service.Business
 {
     public class InfluxDbTargetAgent : ITargetAgent
     {
-        private readonly Action<Guid, Exception> _logException;
         private readonly InfluxDb _client;
         private readonly string _database;
 
-        public InfluxDbTargetAgent(string connection, Action<Guid, Exception> logException)
+        public InfluxDbTargetAgent(string connection)
         {
-            _logException = logException;
             IDictionary<string, JToken> jsonObject = JObject.Parse(connection);
 
             var url = jsonObject["url"].Value<string>();
@@ -31,65 +28,22 @@ namespace Quilt4.Service.Business
             _client = new InfluxDb(url, username, password, InfluxVersion.Auto);
         }
 
-        public async Task RegisterIssueAsync(RegisterIssueRequestEntity request, RegisterIssueResponseEntity response, Dictionary<string,object> metadata)
+        public async Task<bool> RegisterIssueAsync(Guid projectKey, string eventName, DateTime serverTime, Dictionary<string, object> tags, Dictionary<string, object> fields)
         {
-            try
+            var points = new[]
             {
-                var tags = new Dictionary<string, object>
+                new Point
                 {
-                    { "SessionKey", request.SessionKey },
-                    { "IssueKey", request.IssueKey },
-                    { "IssueLevel", request.IssueLevel },
-                    { "Ticket", response.Ticket },
-                    { "ProjectKey", response.ProjectKey },
-                    { "IssueType.Message", request.IssueType.Message },
-                    { "IssueType.Type", request.IssueType.Type },
-                };
-
-                if (request.IssueThreadKey != null)
-                    tags.Add("IssueThreadKey", request.IssueThreadKey);
-
-                if (request.UserHandle != null)
-                    tags.Add("UserHandle", request.UserHandle);
-
-                if (request.UserHandle != null)
-                    tags.Add("IssueType.StackTrace", request.IssueType.StackTrace);
-
-                if (request.IssueType.Data != null)
-                {
-                    foreach (var data in request.IssueType.Data)
-                    {
-                        tags.Add(data.Key, data.Value);
-                    }
+                    Measurement = eventName,
+                    Fields = fields.Where(x => x.Value == null).ToDictionary(x => x.Key, x => x.Value),
+                    Precision = TimeUnit.Milliseconds,
+                    Tags = tags.Where(x => x.Value == null).ToDictionary(x => x.Key, x => x.Value),
+                    Timestamp = serverTime
                 }
+            };
+            var response = await _client.WriteAsync(_database, points);
 
-                foreach (var data in metadata.Where(x => x.Value != null))
-                {
-                    tags.Add(data.Key, data.Value);
-                }
-
-                var fields = new Dictionary<string, object>
-                {
-                    { "Count", 1 }
-                };
-
-                var points = new[]
-                {
-                    new Point
-                    {
-                        Measurement = "Issue",
-                        Fields = fields,
-                        Precision = TimeUnit.Milliseconds,
-                        Tags = tags,
-                        Timestamp = response.ServerTime
-                    }
-                };
-                await _client.WriteAsync(_database, points);
-            }
-            catch (Exception exception)
-            {
-                _logException(response.ProjectKey, exception);
-            }
+            return response.Success;
         }
     }
 
@@ -114,23 +68,19 @@ namespace Quilt4.Service.Business
                 switch (projectTarget.TargetType)
                 {
                     case "InfluxDb":
-                        yield return new InfluxDbTargetAgent(projectTarget.Connection, LogException);
+                        yield return new InfluxDbTargetAgent(projectTarget.Connection);
                         break;
                     case "Kafka":
                     case "Splunk":
                     case "LogStash":
                     case "Custom":
                     case "Quilt4":
+                    case "EMail":
                         throw new NotImplementedException();
                     default:
                         throw new ArgumentOutOfRangeException($"Unknown target type {projectTarget.TargetType}.");
                 }
             }
-        }
-
-        private void LogException(Guid projectKey, Exception exception)
-        {
-            //TODO: Log issue on the project
         }
     }
 }

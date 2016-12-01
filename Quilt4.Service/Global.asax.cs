@@ -40,10 +40,12 @@ namespace Quilt4.Service
     public class MessageHandler : DelegatingHandler
     {
         private readonly IServiceBusiness _serviceBusiness;
+        private readonly IServiceLog _serviceLog;
 
-        public MessageHandler(IServiceBusiness serviceBusiness)
+        public MessageHandler(IServiceBusiness serviceBusiness, IServiceLog serviceLog)
         {
             _serviceBusiness = serviceBusiness;
+            _serviceLog = serviceLog;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -73,10 +75,19 @@ namespace Quilt4.Service
                 }
 
                 var requestString = GetRequest();
+#pragma warning disable 4014
                 Task.Run(() =>
+#pragma warning restore 4014
                 {
-                    var CallMetadata = GetCallMetadata(requestString);
-                    _serviceBusiness.LogApiCall(callKey, CallMetadata.SessionKey, CallMetadata.ProjectApiKey, time, stopWatch.Elapsed, callerIp, currentUserName, requestType, path, requestString, responseString, issueKey);
+                    try
+                    {
+                        var callMetadata = GetCallMetadata(requestString);
+                        _serviceBusiness.LogApiCall(callKey, callMetadata.SessionKey, callMetadata.ProjectApiKey, time, stopWatch.Elapsed, callerIp, currentUserName, requestType, path, requestString, responseString, issueKey);
+                    }
+                    catch (Exception exception)
+                    {
+                        _serviceLog.LogException(exception, LogLevel.SystemError);
+                    }
                 });
 
                 return response;
@@ -175,7 +186,7 @@ namespace Quilt4.Service
 
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new MessageHandler(_container.Resolve<IServiceBusiness>()));
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new MessageHandler(_container.Resolve<IServiceBusiness>(), _container.Resolve<IServiceLog>()));
 
             RegisterSession();
         }

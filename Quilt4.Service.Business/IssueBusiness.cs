@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
+using Quilt4Net;
 
 namespace Quilt4.Service.Business
 {
@@ -13,17 +15,19 @@ namespace Quilt4.Service.Business
     {
         private readonly IRepository _repository;
         private readonly IReadModelBusiness _readModelBusiness;
+        private readonly IServiceLog _serviceLog;
         private readonly IUserAccessBusiness _userAccessBusiness;
         private readonly ITargetAgentBusiness _targetAgentBusiness;
         private readonly Random _random = new Random();
         private static readonly object _syncRoot = new object();
 
-        public IssueBusiness(IRepository repository, IUserAccessBusiness userAccessBusiness, ITargetAgentBusiness targetAgentBusiness, IReadModelBusiness readModelBusiness)
+        public IssueBusiness(IRepository repository, IUserAccessBusiness userAccessBusiness, ITargetAgentBusiness targetAgentBusiness, IReadModelBusiness readModelBusiness, IServiceLog serviceLog)
         {
             _repository = repository;
             _userAccessBusiness = userAccessBusiness;
             _targetAgentBusiness = targetAgentBusiness;
             _readModelBusiness = readModelBusiness;
+            _serviceLog = serviceLog;
         }
 
         public RegisterIssueResponseEntity RegisterIssue(RegisterIssueRequestEntity request)
@@ -84,8 +88,15 @@ namespace Quilt4.Service.Business
 
             Task.Run(() =>
             {
-                _readModelBusiness.AddIssue(response.IssueKey);
-                SendToSubTargets(request, session, response);
+                try
+                {
+                    _readModelBusiness.AddIssue(response.IssueKey);
+                    SendToSubTargets(request, session, response);
+                }
+                catch (Exception exception)
+                {
+                    _serviceLog.LogException(exception, LogLevel.SystemError);
+                }
             });
 
             return response;
@@ -94,29 +105,90 @@ namespace Quilt4.Service.Business
         private void SendToSubTargets(RegisterIssueRequestEntity request, Session session, RegisterIssueResponseEntity response)
         {
             var issue = _readModelBusiness.GetIssue(response.IssueKey);
-
-            var metadata = new Dictionary<string, object>
+            
+            var tags = new Dictionary<string, object>
             {
+                { "SessionKey", request.SessionKey },
+                { "IssueKey", request.IssueKey },
+                { "IssueLevel", request.IssueLevel },
+                { "Ticket", response.Ticket },
+                { "ProjectKey", response.ProjectKey },
+                { "IssueType.Message", request.IssueType.Message },
+                { "IssueType.Type", request.IssueType.Type },
                 { "ProjectName", issue.ProjectName },
                 { "ApplicationName", issue.ApplicationName },
                 { "VersionNumber", issue.VersionNumber },
                 { "MachineName", issue.MachineName },
+                { "IssueThreadKey", request.IssueThreadKey },
+                { "UserHandle", request.UserHandle },
+                { "IssueType.StackTrace", request.IssueType.StackTrace }
             };
 
-            try
+            AppendData(tags, request.IssueType);
+
+            //if (request.IssueType.Data != null)
+            //{
+            //    //TODO: Aggregate data from all levels of inner exceptions
+            //    //request.IssueType.Inner.First().Data
+
+            //    foreach (var data in request.IssueType.Data)
+            //    {
+            //        tags.Add(data.Key, data.Value);
+            //    }
+            //}
+
+            var fields = new Dictionary<string, object>
             {
-                foreach (var targetAgent in _targetAgentBusiness.GetTargetAgents(session.ProjectKey))
+                { "Count", 1 }
+            };
+
+            foreach (var targetAgent in _targetAgentBusiness.GetTargetAgents(session.ProjectKey))
+            {
+                try
                 {
-                    targetAgent.RegisterIssueAsync(request, response, metadata);
+                    targetAgent.RegisterIssueAsync(response.ProjectKey, "Issue", response.ServerTime, tags, fields);
+                }
+                catch (Exception exception)
+                {
+                    exception.AddData("targetAgent", targetAgent).AddData("ProjectKey", response.ProjectKey);
+                    _serviceLog.LogException(exception, LogLevel.SystemError);
                 }
             }
-            catch (Exception exception)
+        }
+
+        private void AppendData(Dictionary<string, object> tags, IssueTypeRequestEntity requestIssueType)
+        {
+            foreach (var data in requestIssueType.Data)
             {
-                //TODO: Register that there was an issue sending data to target
+                if (tags.ContainsKey(data.Key))
+                {
+                    var tagValue = tags[data.Key];
+                    if (!tagValue.Equals(data.Value))
+                    {
+                        if (tagValue is List<object>)
+                        {
+                            var dl = ((List<object>)tagValue);
+                            if (!dl.Contains(data.Value))
+                            {
+                                dl.Add(data.Value);
+                            }
+                        }
+                        else
+                        {
+                            tags.Remove(data.Key);
+                            tags.Add(data.Key, new List<object> { tagValue, data.Value });
+                        }
+                    }
+                }
+                else
+                {
+                    tags.Add(data.Key, data.Value);
+                }
             }
-            finally
+
+            foreach (var inner in requestIssueType.Inner)
             {
-                //TODO: Register that data has been sent successfully
+                AppendData(tags, inner);
             }
         }
 

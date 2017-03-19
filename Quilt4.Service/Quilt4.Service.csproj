@@ -311,6 +311,7 @@
     <Content Include="images\Express.png" />
     <Content Include="images\Node.png" />
     <Content Include="images\Quilt4.png" />
+    <Content Include="images\Quilt4NetIcon-48.png" />
     <Content Include="images\Unity3d.png" />
     <Content Include="images\VisualStudio.png" />
     <Content Include="Scripts\bootstrap.js" />

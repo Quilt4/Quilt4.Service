@@ -48,11 +48,12 @@
     <Compile Include="ApplicationDataRequestEntity.cs" />
     <Compile Include="DashboardPageProject.cs" />
     <Compile Include="DatabaseInfo.cs" />
+    <Compile Include="IIssueRead.cs" />
+    <Compile Include="IssueRead.cs" />
     <Compile Include="IssueType.cs" />
     <Compile Include="IssueTypePageIssue.cs" />
     <Compile Include="IssueTypePageIssueType.cs" />
     <Compile Include="IssueTypeRequestEntity.cs" />
-    <Compile Include="LoginSession.cs" />
     <Compile Include="MachineDataRequestEntity.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="ProjectInvitation.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="RegisterSessionRequestEntity.cs" />
     <Compile Include="RegisterSessionResponseEntity.cs" />
     <Compile Include="Role.cs" />
-    <Compile Include="SecurityType.cs" />
     <Compile Include="ServiceInfo.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionDetail.cs" />

@@ -214,6 +214,8 @@
     <Compile Include="Areas\Admin\Models\SystemLogViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserModel.cs" />
     <Compile Include="Areas\Admin\Models\VersionModel.cs" />
+    <Compile Include="Areas\User\Controllers\ProjectController.cs" />
+    <Compile Include="Areas\User\DataAreaRegistration.cs" />
     <Compile Include="Authentication\ApplicationRole.cs" />
     <Compile Include="Authentication\CustomRoleStore.cs" />
     <Compile Include="Authentication\OldSystemPasswordHasher.cs" />
@@ -343,6 +345,8 @@
     <Content Include="Areas\Admin\Views\Application\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Version\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Version\Details.cshtml" />
+    <Content Include="Areas\User\Views\web.config" />
+    <Content Include="Areas\User\Views\Project\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -387,7 +391,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\User\Models\" />
+    <Folder Include="Areas\User\Views\Shared\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

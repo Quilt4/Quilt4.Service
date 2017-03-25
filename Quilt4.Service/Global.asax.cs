@@ -13,7 +13,7 @@ using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Quilt4.Service.Business;
-using Quilt4.Service.Command;
+using Quilt4.Service.Business.Command;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Injection;
 using Quilt4.Service.Interface.Business;
@@ -44,9 +44,6 @@ namespace Quilt4.Service
             GlobalConfiguration.Configuration.MessageHandlers.Add(new MessageHandler(_container.Resolve<ICommandQueue>())); //_container.Resolve<IServiceBusiness>(), _container.Resolve<IServiceLog>()));
 
             RegisterSession();
-
-            var cr = new CommandRunner(_container.Resolve<ICommandQueue>());
-            cr.Run();
         }
 
         protected void Application_BeginRequest()

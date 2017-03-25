@@ -428,14 +428,6 @@
       <Project>{2806ee69-f5cb-4d21-87c1-eea837b034ae}</Project>
       <Name>Quilt4.Service.Entity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Quilt4.Service.MemoryRepository\Quilt4.Service.MemoryRepository.csproj">
-      <Project>{C7D91362-4478-4365-B955-626EC200B735}</Project>
-      <Name>Quilt4.Service.MemoryRepository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Quilt4.Service.Repository\Quilt4.Service.SqlRepository.csproj">
-      <Project>{9B023F8B-855E-409E-8CB9-F2C57F9561BD}</Project>
-      <Name>Quilt4.Service.SqlRepository</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

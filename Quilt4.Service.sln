@@ -3,13 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service", "Quilt4.Service\Quilt4.Service.csproj", "{60A5B916-A503-417F-942E-3D16035B8706}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.Interface", "Quil4.Service.Interface\Quilt4.Service.Interface.csproj", "{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.Business", "Quilt4.Service.Business\Quilt4.Service.Business.csproj", "{AE1AC354-ED1D-43ED-B4AC-048E6727F7DD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.Entity", "Quilt4.Service.Entity\Quilt4.Service.Entity.csproj", "{2806EE69-F5CB-4D21-87C1-EEA837B034AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3ED38EA3-A89C-4858-ABE0-977B4A1B30E7}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,15 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3ED38EA3
 		Build\Release.msbuild = Build\Release.msbuild
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.Business.Tests", "Quilt4.Service.Business.Tests\Quilt4.Service.Business.Tests.csproj", "{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.SqlRepository", "Quilt4.Service.Repository\Quilt4.Service.SqlRepository.csproj", "{9B023F8B-855E-409E-8CB9-F2C57F9561BD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{933EF23A-684A-4D3E-9154-FDF70B1156E8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.Console", "Quilt4.Service.Console\Quilt4.Service.Console.csproj", "{6E74C917-2316-49DD-B5F2-0AE9FB7D7254}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quilt4.Service.MemoryRepository", "Quilt4.Service.MemoryRepository\Quilt4.Service.MemoryRepository.csproj", "{C7D91362-4478-4365-B955-626EC200B735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,44 +19,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{60A5B916-A503-417F-942E-3D16035B8706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60A5B916-A503-417F-942E-3D16035B8706}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60A5B916-A503-417F-942E-3D16035B8706}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60A5B916-A503-417F-942E-3D16035B8706}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F05FB9C6-6FE8-4483-A1E8-5E651B9C55F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AE1AC354-ED1D-43ED-B4AC-048E6727F7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE1AC354-ED1D-43ED-B4AC-048E6727F7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE1AC354-ED1D-43ED-B4AC-048E6727F7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE1AC354-ED1D-43ED-B4AC-048E6727F7DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2806EE69-F5CB-4D21-87C1-EEA837B034AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2806EE69-F5CB-4D21-87C1-EEA837B034AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2806EE69-F5CB-4D21-87C1-EEA837B034AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2806EE69-F5CB-4D21-87C1-EEA837B034AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C13A6B39-FAC8-49FB-B1B2-8AC5DDFCFA1B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B023F8B-855E-409E-8CB9-F2C57F9561BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E74C917-2316-49DD-B5F2-0AE9FB7D7254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E74C917-2316-49DD-B5F2-0AE9FB7D7254}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E74C917-2316-49DD-B5F2-0AE9FB7D7254}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E74C917-2316-49DD-B5F2-0AE9FB7D7254}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7D91362-4478-4365-B955-626EC200B735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7D91362-4478-4365-B955-626EC200B735}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7D91362-4478-4365-B955-626EC200B735}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7D91362-4478-4365-B955-626EC200B735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9B023F8B-855E-409E-8CB9-F2C57F9561BD} = {933EF23A-684A-4D3E-9154-FDF70B1156E8}
-		{C7D91362-4478-4365-B955-626EC200B735} = {933EF23A-684A-4D3E-9154-FDF70B1156E8}
 	EndGlobalSection
 EndGlobal

@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Quilt4.Service.Console.SourceCommands;
+﻿using Quilt4.Service.Console.SourceCommands;
 using Tharga.Toolkit.Console.Command;
 using Tharga.Toolkit.Console.Command.Base;
+using Quilt4.Service.Business;
+using Quilt4.Service.Business.Command;
 
 namespace Quilt4.Service.Console
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-            var rootCommand = new RootCommand(new ClientConsole());
-            rootCommand.RegisterCommand(new SourceCommand());
-            var engine = new Tharga.Toolkit.Console.CommandEngine(rootCommand);
-            engine.Run(args);
+            //TODO: Set up a signal-R back to the caller
+
+            var commandQueue = new CommandQueue();
+            var cr = new CommandRunner(commandQueue);
+            cr.Run();
+
+            using (new ServiceHost())
+            {
+                var rootCommand = new RootCommand(new ClientConsole());
+                rootCommand.RegisterCommand(new SourceCommand());
+                var engine = new Tharga.Toolkit.Console.CommandEngine(rootCommand);
+                engine.Run(args);
+            }
         }
     }
 }

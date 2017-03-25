@@ -10,67 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Quilt4.Service.Command;
-
-namespace Quilt4.Service.Command
-{
-    public class CommandRunner
-    {
-        private readonly Task _task;
-
-        public CommandRunner(ICommandQueue commandQueue)
-        {
-            _task = new Task(() =>
-            {
-                while (true)
-                {
-                    commandQueue.ItemAdded.WaitOne();
-
-                    HttpRequestMessage item;
-                    while (commandQueue.TryTake(out item))
-                    {
-                        //TODO: Handle the command
-                        //TODO: Fire event, returning the result, using signalR.
-                    }
-                }
-
-                System.Diagnostics.Debug.WriteLine("Exiting command loop.");
-            });
-        }
-
-        public void Run()
-        {
-            _task.Start();
-        }
-    }
-
-    public class CommandQueue : ICommandQueue
-    {
-        private readonly BlockingCollection<HttpRequestMessage> _queue = new BlockingCollection<HttpRequestMessage>();
-        private readonly AutoResetEvent _itemAdded = new AutoResetEvent(false);
-
-        public void Enqueue(HttpRequestMessage request)
-        {
-            //TODO: Store command in database (So that it can be replayed later)
-            _queue.Add(request);
-            _itemAdded.Set();
-        }
-
-        public bool TryTake(out HttpRequestMessage item)
-        {
-            return _queue.TryTake(out item);
-        }
-
-        public AutoResetEvent ItemAdded => _itemAdded;
-    }
-
-    public interface ICommandQueue
-    {
-        void Enqueue(HttpRequestMessage request);
-        bool TryTake(out HttpRequestMessage item);
-        AutoResetEvent ItemAdded { get; }
-    }
-}
+using Quilt4.Service.Business.Command;
 
 namespace Quilt4.Service
 {

@@ -68,12 +68,6 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IWriteRepository.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">
-      <Project>{2806EE69-F5CB-4D21-87C1-EEA837B034AE}</Project>
-      <Name>Quilt4.Service.Entity</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

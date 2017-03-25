@@ -8,11 +8,13 @@ namespace Quilt4.Service.Business
     public class SessionBusiness : ISessionBusiness
     {
         private readonly IRepository _repository;
+        private readonly IProjectRepository _projectRepository;
         //private readonly IWriteBusiness _writeBusiness;
 
-        public SessionBusiness(IRepository repository) //, IWriteBusiness writeBusiness)
+        public SessionBusiness(IRepository repository, IProjectRepository projectRepository) //, IWriteBusiness writeBusiness)
         {
             _repository = repository;
+            _projectRepository = projectRepository;
             //_writeBusiness = writeBusiness;
         }
 
@@ -32,7 +34,7 @@ namespace Quilt4.Service.Business
                 clientTime = request.ClientStartTime;
             }
 
-            var projectKey = _repository.GetProjectKey(request.ProjectApiKey);
+            var projectKey = _projectRepository.GetProjectKey(request.ProjectApiKey);
             if (projectKey == null)
             {
                 throw new ArgumentException("There is no project with provided projectApiKey.");

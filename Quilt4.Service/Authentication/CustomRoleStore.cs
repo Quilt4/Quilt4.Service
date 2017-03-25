@@ -9,11 +9,13 @@ namespace Quilt4.Service.Authentication
     public class CustomRoleStore<T>
         : IRoleStore<T> where T : ApplicationRole
     {
-        private readonly IRepository _repository;
+        private readonly IUserRepository _repository;
+        private readonly ISourceRepository _sourceRepository;
 
-        public CustomRoleStore(IRepository repository)
+        public CustomRoleStore(IUserRepository repository, ISourceRepository sourceRepository)
         {
             _repository = repository;
+            _sourceRepository = sourceRepository;
         }
 
         public void Dispose()
@@ -22,6 +24,8 @@ namespace Quilt4.Service.Authentication
 
         public async Task CreateAsync(T role)
         {
+            _sourceRepository.RegisterCommand();
+
             await Task.Run(() => _repository.CreateRole(new Role(role.Name)));
         }
 

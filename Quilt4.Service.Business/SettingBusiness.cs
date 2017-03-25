@@ -9,9 +9,9 @@ namespace Quilt4.Service.Business
 {
     public class SettingBusiness : ISettingBusiness
     {
-        private readonly IRepository _repository;
+        private readonly IConfigurationRepository _repository;
 
-        public SettingBusiness(IRepository repository)
+        public SettingBusiness(IConfigurationRepository repository)
         {
             _repository = repository;
         }

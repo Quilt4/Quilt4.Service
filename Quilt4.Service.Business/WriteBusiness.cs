@@ -9,12 +9,14 @@ namespace Quilt4.Service.Business
     public class ReadModelBusiness : IReadModelBusiness, IDisposable
     {
         private readonly IRepository _repository;
-        private readonly IReadRepository _readRepository;
+        private readonly IProjectRepository _projectRepository;
+        //private readonly IReadRepository _readRepository;
 
-        public ReadModelBusiness(IRepository repository, IReadRepository readRepository)
+        public ReadModelBusiness(IRepository repository, IProjectRepository projectRepository)
         {
             _repository = repository;
-            _readRepository = readRepository;
+            _projectRepository = projectRepository;
+            //_readRepository = readRepository;
         }
 
         public void Dispose()
@@ -25,7 +27,7 @@ namespace Quilt4.Service.Business
         {
             var issue = _repository.GetIssue(issueKey);
             var session = _repository.GetSession(issue.SessionKey);
-            var project = _repository.GetAllProjects().Single();
+            var project = _projectRepository.GetAllProjects().Single();
             var application = _repository.GetApplications(session.ProjectKey).Single();
             var version = _repository.GetVersions(application.ApplicationKey).Single();
             var issueType = _repository.GetIssueTypes(session.VersionKey).Single();
@@ -44,12 +46,13 @@ namespace Quilt4.Service.Business
                 ProjectName = project.Name,
                 MachineName = "?",
             };
-            _readRepository.AddIssue(issueRead);
+            //_readRepository.AddIssue(issueRead);
         }
 
         public IIssueRead GetIssue(Guid issueKey)
         {
-            return _readRepository.GetIssue(issueKey);
+            throw new NotImplementedException();
+            //return _readRepository.GetIssue(issueKey);
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace Quilt4.Service.Interface.Repository
 {
+    [Obsolete("Do not use this one!")]
     public interface IWriteRepository
     {
         //void UpdateDashboardPageProject(Guid projectKey);

@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
@@ -7,6 +9,7 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Quilt4.Service.Injection;
+using Quilt4.Service.Interface.Business;
 
 namespace Quilt4.Service
 {
@@ -18,7 +21,7 @@ namespace Quilt4.Service
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter());
 
-            MapRoutes(config);
+            MapRoutes(config, container);
 
             RegisterControllerActivator(container);
 
@@ -47,12 +50,23 @@ namespace Quilt4.Service
             config.Filters.Add(new ExceptionHandlingAttribute(WebApiApplication.LogException));
         }
 
-        private static void MapRoutes(HttpConfiguration config)
+        private static void MapRoutes(HttpConfiguration config, IWindsorContainer container)
         {
-            config.MapHttpAttributeRoutes();
-            //config.Routes.MapHttpRoute("DefaultApi", "api/{area}/{controller}/{id}", new { id = RouteParameter.Optional, area = RouteParameter.Optional });
-            //config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional }, new[] { "Quilt4.Service.Controllers" });
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional } );
+            //config.MapHttpAttributeRoutes();
+            //config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional } );
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+                //constraints: null,
+                //handler: HttpClientFactory.CreatePipeline(new HttpControllerDispatcher(config), new [] { new MessageHandler(container.Resolve<IServiceBusiness>(), container.Resolve<IServiceLog>()) })
+                );
+            //handler: HttpClientFactory.CreatePipeline(new HttpControllerDispatcher(config), new MyHttpControllerDispatcher(config)));
+            //handler: new MessageHandler(container.Resolve<IServiceBusiness>(), container.Resolve<IServiceLog>()));
+            //handler: HttpClientFactory.CreatePipeline(new HttpControllerDispatcher(config), new MessageHandler(container.Resolve<IServiceBusiness>(), container.Resolve<IServiceLog>())));
+
+            //config.MessageHandlers.Add(new SomeOtherHandler1());
         }
 
         private static void RegisterControllerActivator(IWindsorContainer container)

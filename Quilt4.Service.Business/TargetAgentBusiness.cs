@@ -50,10 +50,12 @@ namespace Quilt4.Service.Business
     public class TargetAgentBusiness : ITargetAgentBusiness, IDisposable
     {
         private readonly IRepository _repository;
+        private readonly IProjectRepository _projectRepository;
 
-        public TargetAgentBusiness(IRepository repository)
+        public TargetAgentBusiness(IRepository repository, IProjectRepository projectRepository)
         {
             _repository = repository;
+            _projectRepository = projectRepository;
         }
 
         public void Dispose()
@@ -62,7 +64,7 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<ITargetAgent> GetTargetAgents(Guid projectKey)
         {
-            var projectTargets = _repository.GetProjectTargets(projectKey).Where(x => x.Enabled).ToArray();
+            var projectTargets = _projectRepository.GetProjectTargets(projectKey).Where(x => x.Enabled).ToArray();
             foreach (var projectTarget in projectTargets)
             {
                 switch (projectTarget.TargetType)

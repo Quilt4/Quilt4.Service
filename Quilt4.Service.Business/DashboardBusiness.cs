@@ -4,18 +4,17 @@ using System.Linq;
 using Quilt4.Service.Entity;
 using Quilt4.Service.Interface.Business;
 using Quilt4.Service.Interface.Repository;
+using Quilt4.Service.MemoryRepository;
 
 namespace Quilt4.Service.Business
 {
     public class DashboardBusiness : IDashboardBusiness
     {
-        private readonly IRepository _repository;
-        private readonly IReadRepository _readRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public DashboardBusiness(IRepository repository, IReadRepository readRepository)
+        public DashboardBusiness(IProjectRepository projectRepository)
         {
-            _repository = repository;
-            _readRepository = readRepository;
+            _projectRepository = projectRepository;
         }
 
         public IEnumerable<DashboardPageProject> GetProjects(string userName)
@@ -26,7 +25,7 @@ namespace Quilt4.Service.Business
 
         public IEnumerable<ProjectInvitation> GetInvitations(string userName)
         {
-            return _repository.GetInvitations(userName);
+            return _projectRepository.GetInvitations(userName);
         }
     }
 }

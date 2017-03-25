@@ -19,8 +19,8 @@ namespace Quilt4.Service
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext<ApplicationUserManager>(() => ApplicationUserManager.Create(WebApiApplication.GetRepository()));
-            app.CreatePerOwinContext<ApplicationRoleManager>(() => ApplicationRoleManager.Create(WebApiApplication.GetRepository()));
+            app.CreatePerOwinContext<ApplicationUserManager>(() => ApplicationUserManager.Create(WebApiApplication.GetUserRepository(), WebApiApplication.GetSourceRepository()));
+            app.CreatePerOwinContext<ApplicationRoleManager>(() => ApplicationRoleManager.Create(WebApiApplication.GetUserRepository(), WebApiApplication.GetSourceRepository()));
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider

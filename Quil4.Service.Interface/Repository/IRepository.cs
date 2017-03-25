@@ -1,44 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
 using Quilt4.Service.Entity;
-using Quilt4.Service.Interface.Business;
 using Version = Quilt4.Service.Entity.Version;
 
 namespace Quilt4.Service.Interface.Repository
 {
-    public interface IRepository
+    public interface IConfigurationRepository
     {
-        //User
-        void CreateUser(User user, DateTime serverTime);
-        void UpdateUser(User user);
+        IEnumerable<Setting> GetSettings();
+        Setting GetSetting(string settingName);
+        void SetSetting(string settingName, string value);
+        void DeleteSettng(string settingName);
+        DatabaseInfo GetDatabaseInfo();
+    }
+
+    public interface IUserRepository
+    {
         User GetUserByUserKey(string userKey);
         User GetUserByUserName(string userName);
         User GetUserByEMail(string email);
         UserInfo GetUserInfo(string userName);
         IEnumerable<UserInfo> GetUsers();
         IEnumerable<Role> GetRolesByUser(string userName);
-        void AddUserToRole(string userName, string roleName);
-        void AddUserExtraInfo(string userName, string fullName);
-
-        //Role
-        void CreateRole(Role role);
         Role GetRole(string roleName);
 
-        //Project
+        void CreateUser(User user, DateTime serverTime);
+        void CreateRole(Role role);
+        void AddUserToRole(string userName, string roleName);
+
+        //TODO: Theese commands should be replayed from an event source
+        void UpdateUser(User user);
+        void AddUserExtraInfo(string userName, string fullName);
+    }
+
+    public interface ISourceRepository
+    {
+        void LogApiCall(Guid callKey, string sessionKey, Guid? projectKey, DateTime time, TimeSpan elapsed, string callerIp, string currentUserName, string requestType, string path, string request, string response, Guid? issueKey);
+        void RegisterCommand();
+    }
+
+    public interface IProjectRepository
+    {
         Guid? GetProjectKey(string projectApiKey);
         ProjectPageProject[] GetAllProjects();
         ProjectPageProject[] GetProjects(string userName);
         ProjectInvitation[] GetInvitations();
         ProjectInvitation[] GetInvitations(string userName);
-        void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
-        void UpdateProject(Guid projectKey, string name, string dashboardColor);
-        void DeleteProject(Guid projectKey);
-        void CreateProjectInvitation(Guid projectKey, string userName, string inviteCode, string userKey, string email, DateTime serverTime);
-        void DeleteProjectInvitation(Guid projectKey, string userName);
-        void AddProjectMember(string userName, Guid projectKey, string role);
         ProjectMember[] GetProjectUsers(Guid projectKey);
         ProjectMember[] GetProjectInvitation(Guid projectKey);
         IEnumerable<ProjectTarget> GetProjectTargets(Guid projectKey);
+
+        //void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
+        //void UpdateProject(Guid projectKey, string name, string dashboardColor);
+        //void DeleteProject(Guid projectKey);
+        //void CreateProjectInvitation(Guid projectKey, string userName, string inviteCode, string userKey, string email, DateTime serverTime);
+        //void DeleteProjectInvitation(Guid projectKey, string userName);
+        //void AddProjectMember(string userName, Guid projectKey, string role);
+    }
+
+    [Obsolete("Do not use this one!")]
+    public interface IRepository
+    {
+        //User
+        //void CreateUser(User user, DateTime serverTime);
+        //void UpdateUser(User user);
+        //User GetUserByUserKey(string userKey);
+        //User GetUserByUserName(string userName);
+        //User GetUserByEMail(string email);
+        //UserInfo GetUserInfo(string userName);
+        //IEnumerable<UserInfo> GetUsers();
+        //IEnumerable<Role> GetRolesByUser(string userName);
+        //void AddUserToRole(string userName, string roleName);
+        //void AddUserExtraInfo(string userName, string fullName);
+
+        //Role
+        //void CreateRole(Role role);
+        //Role GetRole(string roleName);
+
+        //Project
+        //Guid? GetProjectKey(string projectApiKey);
+        //ProjectPageProject[] GetAllProjects();
+        //ProjectPageProject[] GetProjects(string userName);
+        //ProjectInvitation[] GetInvitations();
+        //ProjectInvitation[] GetInvitations(string userName);
+        //void CreateProject(string userName, Guid projectKey, string name, DateTime createTime, string dashboardColor, string projectApiKey);
+        //void UpdateProject(Guid projectKey, string name, string dashboardColor);
+        //void DeleteProject(Guid projectKey);
+        //void CreateProjectInvitation(Guid projectKey, string userName, string inviteCode, string userKey, string email, DateTime serverTime);
+        //void DeleteProjectInvitation(Guid projectKey, string userName);
+        //void AddProjectMember(string userName, Guid projectKey, string role);
+        //ProjectMember[] GetProjectUsers(Guid projectKey);
+        //ProjectMember[] GetProjectInvitation(Guid projectKey);
+        //IEnumerable<ProjectTarget> GetProjectTargets(Guid projectKey);
 
         //Session
         Session GetSession(string sessionKey);
@@ -70,14 +123,5 @@ namespace Quilt4.Service.Interface.Repository
         IEnumerable<IssueType> GetIssueTypes(Guid versionKey);
         IEnumerable<RegisterIssueResponseEntity> GetIssues(Guid versionKey);
         RegisterIssueResponseEntity GetIssue(Guid issueKey);
-
-        //Setting
-        IEnumerable<Setting> GetSettings();
-        Setting GetSetting(string settingName);
-        void SetSetting(string settingName, string value);
-        void DeleteSettng(string settingName);
-
-        DatabaseInfo GetDatabaseInfo();
-        void LogApiCall(Guid callKey, string sessionKey, Guid? projectKey, DateTime time, TimeSpan elapsed, string callerIp, string currentUserName, string requestType, string path, string request, string response, Guid? issueKey);
     }
 }

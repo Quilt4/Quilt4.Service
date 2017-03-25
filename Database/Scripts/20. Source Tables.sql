@@ -1,0 +1,9 @@
+CREATE SCHEMA Source
+GO
+CREATE TABLE Source.Command
+(
+	CommandKey UNIQUEIDENTIFIER NOT NULL,
+	CreateTime datetime NOT NULL,
+	CONSTRAINT PK_User PRIMARY KEY CLUSTERED ( CommandKey ) 
+)
+GO

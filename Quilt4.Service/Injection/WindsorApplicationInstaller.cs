@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Quilt4.Service.MemoryRepository;
 using Quilt4Net.Core.Interfaces;
 
 namespace Quilt4.Service.Injection
@@ -19,10 +20,22 @@ namespace Quilt4.Service.Injection
 
             //Repository
             container.Register(
-                Classes.FromAssemblyNamed("Quilt4.Service.SqlRepository")
-                    .InNamespace("Quilt4.Service.SqlRepository")
+                Classes.FromAssemblyNamed("Quilt4.Service.MemoryRepository")
+                    .InNamespace("Quilt4.Service.MemoryRepository")
                     .WithService.DefaultInterfaces()
                     .LifestyleSingleton());
+
+            //container.Register(
+            //    Classes.FromAssemblyNamed("Quilt4.Service.SqlRepository")
+            //        .InNamespace("Quilt4.Service.SqlRepository")
+            //        .WithService.DefaultInterfaces()
+            //        .LifestyleSingleton());
+
+            //CommandQueue
+            container.Register(Classes.FromThisAssembly()
+                .InNamespace("Quilt4.Service.Command")
+                .WithService.DefaultInterfaces()
+                .LifestyleSingleton());
 
             //Business
             container.Register(

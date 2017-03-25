@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNet.Identity;
 using Quilt4.Service.Authentication;
 using Quilt4.Service.Interface.Repository;
+using Quilt4.Service.SqlRepository;
 
 namespace Quilt4.Service
 {
     public class ApplicationRoleManager : RoleManager<ApplicationRole>
     {
-        private ApplicationRoleManager(IRepository repository)
-            : base(new CustomRoleStore<ApplicationRole>(repository))
+        private ApplicationRoleManager(IUserRepository repository, ISourceRepository sourceRepository)
+            : base(new CustomRoleStore<ApplicationRole>(repository, sourceRepository))
         {
         }
 
-        public static ApplicationRoleManager Create(IRepository repository)
+        public static ApplicationRoleManager Create(IUserRepository repository, ISourceRepository sourceRepository)
         {
-            return new ApplicationRoleManager(repository);
+            return new ApplicationRoleManager(repository, sourceRepository);
         }
     }
 }

@@ -12,12 +12,14 @@ namespace Quilt4.Service
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        private readonly IRepository _repository;
+        private readonly IUserRepository _repository;
+        private readonly ISourceRepository _sourceRepository;
 
-        private ApplicationUserManager(IRepository repository)
-            : base(new CustomUserStore<ApplicationUser>(repository))
+        private ApplicationUserManager(IUserRepository repository, ISourceRepository sourceRepository)
+            : base(new CustomUserStore<ApplicationUser>(repository, sourceRepository))
         {
             _repository = repository;
+            _sourceRepository = sourceRepository;
             PasswordHasher = new OldSystemPasswordHasher();
         }
 
@@ -35,6 +37,8 @@ namespace Quilt4.Service
 
         public override async Task<IdentityResult> CreateAsync(ApplicationUser user)
         {
+            _sourceRepository.RegisterCommand();
+
             var response = await base.CreateAsync(user);
             if (response.Succeeded)
                 AssureAdministrator(user);
@@ -46,7 +50,7 @@ namespace Quilt4.Service
             var response = await base.CreateAsync(user, password);
             return response;
         }
-        
+
         private void AssureAdministrator(ApplicationUser user)
         {
             var cntStr = System.Configuration.ConfigurationManager.AppSettings["MakeFirstUsersAdmin"];
@@ -56,15 +60,15 @@ namespace Quilt4.Service
 
             if (_repository.GetUsers().Count() <= cnt)
             {
-                if ( _repository.GetRole(Constants.Administrators) == null )
+                if (_repository.GetRole(Constants.Administrators) == null)
                     _repository.CreateRole(new Role(Constants.Administrators));
                 _repository.AddUserToRole(user.UserName, Constants.Administrators);
             }
         }
 
-        public static ApplicationUserManager Create(IRepository repository)
+        public static ApplicationUserManager Create(IUserRepository repository, ISourceRepository sourceRepository)
         {
-            return new ApplicationUserManager(repository);
+            return new ApplicationUserManager(repository, sourceRepository);
         }
 
         public void AddExtraInfo(ApplicationUser user, RegisterViewModel model, string callerIp)

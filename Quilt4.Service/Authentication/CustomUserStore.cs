@@ -11,11 +11,13 @@ namespace Quilt4.Service.Authentication
     public class CustomUserStore<T>
         : IUserPasswordStore<T>, IUserRoleStore<T>, IUserStore<T>, IUserLockoutStore<T, string>, IUserTwoFactorStore<T, string>, IUserLoginStore<T, string>, IUserPhoneNumberStore<T, string> where T : ApplicationUser
     {
-        private readonly IRepository _repository;
+        private readonly IUserRepository _repository;
+        private readonly ISourceRepository _sourceRepository;
 
-        public CustomUserStore(IRepository repository)
+        public CustomUserStore(IUserRepository repository, ISourceRepository sourceRepository)
         {
             _repository = repository;
+            _sourceRepository = sourceRepository;
         }
 
         public void Dispose()
@@ -87,6 +89,8 @@ namespace Quilt4.Service.Authentication
 
         public async Task AddToRoleAsync(T user, string roleName)
         {
+            _sourceRepository.RegisterCommand();
+
             await Task.Run(() => _repository.AddUserToRole(user.UserName, roleName));
         }
 

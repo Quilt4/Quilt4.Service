@@ -195,6 +195,11 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //var client = new Quilt4Net.Quilt4NetClient(Quilt4Net.Singleton.Configuration.Instance);
+                //await client.Actions.User.CreateAsync(model.Username, model.EMail, model.FullName, model.Password);
+                //var r = await client.Actions.User.LoginAsync(model.Username, model.EMail);
+
                 var user = new ApplicationUser { UserName = model.Username, Email = model.EMail };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -202,9 +207,8 @@ namespace WebApplication1.Controllers
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
 
-                    var callerIp = System.Web.HttpContext.Current.Request.UserHostAddress;
-
-                    UserManager.AddExtraInfo(user, model, callerIp);
+                    //var callerIp = System.Web.HttpContext.Current.Request.UserHostAddress;
+                    //UserManager.AddExtraInfo(user, model, callerIp);
 
                     //TODO: Append full name as extra info
 

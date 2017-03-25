@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2806EE69-F5CB-4D21-87C1-EEA837B034AE}</ProjectGuid>
+    <ProjectGuid>{C7D91362-4478-4365-B955-626EC200B735}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Quilt4.Service.Entity</RootNamespace>
-    <AssemblyName>Quilt4.Service.Entity</AssemblyName>
+    <RootNamespace>Quilt4.Service.MemoryRepository</RootNamespace>
+    <AssemblyName>Quilt4.Service.MemoryRepository</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,43 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Build\AssemblyVersionInfo.cs">
-      <Link>Properties\AssemblyVersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="Application.cs" />
-    <Compile Include="ApplicationDataRequestEntity.cs" />
-    <Compile Include="DashboardPageProject.cs" />
-    <Compile Include="DatabaseInfo.cs" />
-    <Compile Include="IIssueRead.cs" />
-    <Compile Include="IssueRead.cs" />
-    <Compile Include="IssueType.cs" />
-    <Compile Include="IssueTypePageIssue.cs" />
-    <Compile Include="IssueTypePageIssueType.cs" />
-    <Compile Include="IssueTypeRequestEntity.cs" />
-    <Compile Include="MachineDataRequestEntity.cs" />
-    <Compile Include="Project.cs" />
-    <Compile Include="ProjectInvitation.cs" />
-    <Compile Include="ProjectMember.cs" />
-    <Compile Include="ProjectPageApplication.cs" />
-    <Compile Include="ProjectPageProject.cs" />
-    <Compile Include="ProjectPageVersion.cs" />
-    <Compile Include="ProjectTarget.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterIssueRequestEntity.cs" />
-    <Compile Include="RegisterIssueResponseEntity.cs" />
-    <Compile Include="RegisterSessionRequestEntity.cs" />
-    <Compile Include="RegisterSessionResponseEntity.cs" />
-    <Compile Include="Role.cs" />
-    <Compile Include="ServiceInfo.cs" />
-    <Compile Include="Session.cs" />
-    <Compile Include="SessionDetail.cs" />
-    <Compile Include="Setting.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="UserDataRequestEntity.cs" />
-    <Compile Include="UserInfo.cs" />
-    <Compile Include="Version.cs" />
-    <Compile Include="IssueTypeDetail.cs" />
-    <Compile Include="VersionDetail.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Quil4.Service.Interface\Quilt4.Service.Interface.csproj">
+      <Project>{f05fb9c6-6fe8-4483-a1e8-5e651b9c55f3}</Project>
+      <Name>Quilt4.Service.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quilt4.Service.Entity\Quilt4.Service.Entity.csproj">
+      <Project>{2806EE69-F5CB-4D21-87C1-EEA837B034AE}</Project>
+      <Name>Quilt4.Service.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,30 +9,34 @@ namespace Quilt4.Service.Business
 {
     public class InvitationBusiness : IInvitationBusiness
     {
-        private readonly IRepository _repository;
-        private readonly ISettingBusiness _settingBusiness;
+        private readonly IUserRepository _userRepository;
+        private readonly IProjectRepository _projectRepository;
+        //private readonly IRepository _repository;
+        //private readonly ISettingBusiness _settingBusiness;
         private readonly IEmailSender _emailSender;
 
-        public InvitationBusiness(IRepository repository, ISettingBusiness settingBusiness, IEmailSender emailSender)
+        public InvitationBusiness(IUserRepository userRepository, IProjectRepository projectRepository, IEmailSender emailSender) //IRepository repository, IUserRepository userRepository, ISettingBusiness settingBusiness, IEmailSender emailSender)
         {
-            _repository = repository;
-            _settingBusiness = settingBusiness;
+            _userRepository = userRepository;
+            _projectRepository = projectRepository;
+            //_repository = repository;
+            //_settingBusiness = settingBusiness;
             _emailSender = emailSender;
         }
 
         public IEnumerable<ProjectInvitation> GetUserInvitations(string userName)
         {
-            return _repository.GetInvitations(userName);
+            return _projectRepository.GetInvitations(userName);
         }
 
         public void Invite(string userName, Guid projectKey, string user)
         {
-            if (_repository.GetProjects(userName).All(x => x.ProjectKey != projectKey))
+            if (_projectRepository.GetProjects(userName).All(x => x.ProjectKey != projectKey))
                 throw new InvalidOperationException("The user doesn't have access to the provided project.");
 
-            var userEntity = _repository.GetUserByUserName(user) ?? _repository.GetUserByEMail(user);
+            var userEntity = _userRepository.GetUserByUserName(user) ?? _userRepository.GetUserByEMail(user);
 
-            var projectInvitations = _repository.GetInvitations().Where(x => x.ProjectKey == projectKey);
+            var projectInvitations = _projectRepository.GetInvitations().Where(x => x.ProjectKey == projectKey);
             if (projectInvitations.Any(x => user == x.UserEMail || (userEntity != null && userEntity.Username == x.UserName)))
                 throw new InvalidOperationException("There is already an invitation to this proect for the provided user.");
 
@@ -56,15 +60,17 @@ namespace Quilt4.Service.Business
 
             var inviteCode = RandomUtility.GetRandomString(12);
 
-            _repository.CreateProjectInvitation(projectKey, userName, inviteCode, userKey, email, DateTime.UtcNow);
+            throw new NotImplementedException();
+            //_repository.CreateProjectInvitation(projectKey, userName, inviteCode, userKey, email, DateTime.UtcNow);
         }
 
         public void Accept(string userName, string inviteCode)
         {
-            //TODO: Create a transaction scobe around theese lines.
-            var invitation = _repository.GetInvitations(userName).Single(x => x.InviteCode == inviteCode);
-            _repository.AddProjectMember(userName, invitation.ProjectKey, "User");
-            _repository.DeleteProjectInvitation(invitation.ProjectKey, userName);
+            throw new NotImplementedException();
+            ////TODO: Create a transaction scobe around theese lines.
+            //var invitation = _repository.GetInvitations(userName).Single(x => x.InviteCode == inviteCode);
+            //_repository.AddProjectMember(userName, invitation.ProjectKey, "User");
+            //_repository.DeleteProjectInvitation(invitation.ProjectKey, userName);
         }
     }
 }

@@ -51,6 +51,18 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Extensions.ExecutionContextScoping.3.3.2\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.WebApi, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.WebApi.3.3.2\lib\net45\SimpleInjector.Integration.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
@@ -78,32 +90,34 @@
     <Compile Include="..\Build\AssemblyVersionInfo.cs">
       <Link>Properties\AssemblyVersionInfo.cs</Link>
     </Compile>
-    <Compile Include="ApplicationBusiness.cs" />
+    <Compile Include="Legacy\ApplicationBusiness.cs" />
     <Compile Include="ActionController.cs" />
-    <Compile Include="Command\Class1.cs" />
-    <Compile Include="Converters\Converter.cs" />
-    <Compile Include="DashboardBusiness.cs" />
-    <Compile Include="EmailSender.cs" />
-    <Compile Include="GravatarHelper.cs" />
-    <Compile Include="HelperExtension.cs" />
-    <Compile Include="InvitationBusiness.cs" />
-    <Compile Include="IssueBusiness.cs" />
-    <Compile Include="IssueTypeBusiness.cs" />
-    <Compile Include="ProjectBusiness.cs" />
+    <Compile Include="Command\CommandQueue.cs" />
+    <Compile Include="Command\CommandRunner.cs" />
+    <Compile Include="Command\ICommandQueue.cs" />
+    <Compile Include="Legacy\Converters\Converter.cs" />
+    <Compile Include="Legacy\DashboardBusiness.cs" />
+    <Compile Include="Legacy\EmailSender.cs" />
+    <Compile Include="Legacy\GravatarHelper.cs" />
+    <Compile Include="Legacy\HelperExtension.cs" />
+    <Compile Include="Legacy\InvitationBusiness.cs" />
+    <Compile Include="Legacy\IssueBusiness.cs" />
+    <Compile Include="Legacy\IssueTypeBusiness.cs" />
+    <Compile Include="Legacy\ProjectBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomUtility.cs" />
-    <Compile Include="ServiceBusiness.cs" />
+    <Compile Include="Legacy\RandomUtility.cs" />
+    <Compile Include="Legacy\ServiceBusiness.cs" />
     <Compile Include="ServiceHost.cs" />
-    <Compile Include="SessionBusiness.cs" />
-    <Compile Include="SettingBusiness.cs" />
-    <Compile Include="ConstantSettingKey.cs" />
+    <Compile Include="Legacy\SessionBusiness.cs" />
+    <Compile Include="Legacy\SettingBusiness.cs" />
+    <Compile Include="Legacy\ConstantSettingKey.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="TargetAgentBusiness.cs" />
-    <Compile Include="UserAccessBusiness.cs" />
-    <Compile Include="UserBusiness.cs" />
-    <Compile Include="ValidationHelper.cs" />
-    <Compile Include="VersionBusiness.cs" />
-    <Compile Include="WriteBusiness.cs" />
+    <Compile Include="Legacy\TargetAgentBusiness.cs" />
+    <Compile Include="Legacy\UserAccessBusiness.cs" />
+    <Compile Include="Legacy\UserBusiness.cs" />
+    <Compile Include="Legacy\ValidationHelper.cs" />
+    <Compile Include="Legacy\VersionBusiness.cs" />
+    <Compile Include="Legacy\WriteBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

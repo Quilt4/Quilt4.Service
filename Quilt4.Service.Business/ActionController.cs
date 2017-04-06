@@ -20,20 +20,25 @@ namespace Quilt4.Service.Business
         }
 
         // GET api/demo/5 
-        public object Get(string handler, string data)
+        public object Get(string handler, string data = null)
         {
-            //TODO: Log
-            //TODO: Invoke a query handler for the provided object.
-            throw new NotImplementedException();
-            return "Hello, World!";
+            //TODO: Serialize data to a query of type IQuery.
+            //Execute and return response.
+            //The response should be returned as a SignalR stream. (Same as an event)
+            //throw new NotImplementedException();
+            Console.WriteLine("GET " + handler);
+
+            return null;
         }
 
         // POST api/demo 
         public void Post(string handler, [FromBody]object data)
         {
-            //TODO: Register to be replayed later
-            _commandQueue.Enqueue(new Tuple<string, object>(handler, data));
-            //TODO: Invoke a query handler for the provided object.
+            Console.WriteLine("POST " + handler);
+
+            //TODO: Serialize data to a command of type ICommand.
+            var command = new SomeCommand();
+            _commandQueue.Enqueue(command);
         }
 
         // PUT api/demo/5 

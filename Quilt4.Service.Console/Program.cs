@@ -2,7 +2,6 @@
 using Tharga.Toolkit.Console.Command;
 using Tharga.Toolkit.Console.Command.Base;
 using Quilt4.Service.Business;
-using Quilt4.Service.Business.Command;
 
 namespace Quilt4.Service.Console
 {
@@ -10,13 +9,7 @@ namespace Quilt4.Service.Console
     {
         static void Main(string[] args)
         {
-            //TODO: Set up a signal-R back to the caller
-
-            var commandQueue = new CommandQueue();
-            var cr = new CommandRunner(commandQueue);
-            cr.Run();
-
-            using (new ServiceHost())
+            using (var serviceHost = new ServiceHost())
             {
                 var rootCommand = new RootCommand(new ClientConsole());
                 rootCommand.RegisterCommand(new SourceCommand());
